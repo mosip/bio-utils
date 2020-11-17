@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 public class FingerDecoder {
 	private static final Logger LOGGER = LoggerFactory.getLogger(FingerDecoder.class);	
 	
-	 public static byte [] convertFaceISO19794_4_2011ToImage(byte [] isoData) throws IOException
+	 public static byte [] convertFingerISO19794_4_2011ToImage(byte [] isoData) throws IOException
 	 {
 		 ByteArrayInputStream bais = new ByteArrayInputStream(isoData);
 		 DataInputStream  inputStream = new DataInputStream  (bais);

@@ -1,0 +1,1 @@
+java -cp bioutils-0.0.1-SNAPSHOT.jar;lib\* org.mosip.bio.utils.test.BioUtilApplication "org.mosip.bio.utils.image.type.jp2000=0" "org.mosip.bio.utils.convert.iso.to.image=1" "mosip.mock.sbi.biometric.type.finger.folder.path=/BiometricInfo/Finger/" "org.mosip.bio.utils.biometric.type.file.iso=info_jp2.iso"  "mosip.mock.sbi.biometric.subtype.unknown=UNKNOWN"

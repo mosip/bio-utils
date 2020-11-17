@@ -1,9 +1,13 @@
 package org.mosip.iso;
 
 public class ApplicationConstant {
+	/** Image File Type */
+	public static String IMAGE_TYPE_JP2000 = "org.mosip.bio.utils.image.type.jp2000";
+	public static String IMAGE_TYPE_WSQ = "org.mosip.bio.utils.image.type.wsq";
+
 	/** File Conversion Type */
-	public static String MOSIP_CONVERT_ISO_TO_JP2000 = "org.mosip.bio.utils.convert.jp2000.to.iso";
-	public static String MOSIP_CONVERT_JP2000_TO_ISO = "org.mosip.bio.utils.convert.iso.to.jp2000";
+	public static String MOSIP_CONVERT_ISO_TO_IMAGE = "org.mosip.bio.utils.convert.image.to.iso";
+	public static String MOSIP_CONVERT_IMAGE_TO_ISO = "org.mosip.bio.utils.convert.iso.to.image";
 
 	/** Biometric Types Folder Path */
 	public static String MOSIP_BIOMETRIC_TYPE_FINGER = "mosip.mock.sbi.biometric.type.finger.folder.path";
@@ -26,6 +30,6 @@ public class ApplicationConstant {
     public static String BIO_SUB_TYPE_LEFT_LITTLE 	= "mosip.mock.sbi.biometric.subtype.left.little";
     
 	/** Face File Path */
-	public static String MOSIP_BIOMETRIC_TYPE_FILE_JP2000 = "org.mosip.bio.utils.biometric.type.file.jp2000";
+	public static String MOSIP_BIOMETRIC_TYPE_FILE_IMAGE = "org.mosip.bio.utils.biometric.type.file.image";
 	public static String MOSIP_BIOMETRIC_TYPE_FILE_ISO = "org.mosip.bio.utils.biometric.type.file.iso";
 }

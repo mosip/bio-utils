@@ -1,9 +1,7 @@
 package org.mosip.bio.utils.test;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -14,19 +12,25 @@ import java.util.Date;
 
 import javax.imageio.ImageIO;
 
+import org.jnbis.api.model.Bitmap;
+import org.jnbis.internal.WsqDecoder;
 import org.mosip.iso.ApplicationConstant;
+import org.mosip.iso.face.CrossReference;
+import org.mosip.iso.face.Expression;
+import org.mosip.iso.face.EyeColour;
 import org.mosip.iso.face.FaceCaptureDeviceTechnology;
 import org.mosip.iso.face.FaceCaptureDeviceType;
 import org.mosip.iso.face.FaceCaptureDeviceVendor;
 import org.mosip.iso.face.FaceCertificationFlag;
-import org.mosip.iso.face.CrossReference;
-import org.mosip.iso.face.Expression;
-import org.mosip.iso.face.EyeColour;
 import org.mosip.iso.face.FaceDecoder;
 import org.mosip.iso.face.FaceEncoder;
-import org.mosip.iso.face.FaceImageType;
-import org.mosip.iso.face.Features;
 import org.mosip.iso.face.FaceFormatIdentifier;
+import org.mosip.iso.face.FaceImageType;
+import org.mosip.iso.face.FaceQualityAlgorithmIdentifier;
+import org.mosip.iso.face.FaceQualityAlgorithmVendorIdentifier;
+import org.mosip.iso.face.FaceQualityBlock;
+import org.mosip.iso.face.FaceVersionNumber;
+import org.mosip.iso.face.Features;
 import org.mosip.iso.face.Gender;
 import org.mosip.iso.face.HairColour;
 import org.mosip.iso.face.HeightCodes;
@@ -56,11 +60,6 @@ import org.mosip.iso.finger.FingerQualityBlock;
 import org.mosip.iso.finger.FingerScaleUnitType;
 import org.mosip.iso.finger.FingerVersionNumber;
 import org.mosip.iso.finger.SegmentationBlock;
-import org.mosip.iso.face.FaceQualityAlgorithmIdentifier;
-import org.mosip.iso.face.FaceQualityAlgorithmVendorIdentifier;
-import org.mosip.iso.face.FaceQualityBlock;
-import org.mosip.iso.iris.IrisImageBitDepth;
-import org.mosip.iso.iris.IrisImageCompressionType;
 import org.mosip.iso.iris.EyeLabel;
 import org.mosip.iso.iris.ImageFormat;
 import org.mosip.iso.iris.ImageType;
@@ -71,12 +70,13 @@ import org.mosip.iso.iris.IrisCertificationFlag;
 import org.mosip.iso.iris.IrisDecoder;
 import org.mosip.iso.iris.IrisEncoder;
 import org.mosip.iso.iris.IrisFormatIdentifier;
+import org.mosip.iso.iris.IrisImageBitDepth;
+import org.mosip.iso.iris.IrisImageCompressionType;
 import org.mosip.iso.iris.IrisQualityAlgorithmIdentifier;
 import org.mosip.iso.iris.IrisQualityAlgorithmVendorIdentifier;
 import org.mosip.iso.iris.IrisQualityBlock;
 import org.mosip.iso.iris.IrisVersionNumber;
 import org.mosip.iso.iris.Orientation;
-import org.mosip.iso.face.FaceVersionNumber;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,21 +92,33 @@ public class BioUtilApplication
     {
 		if (args != null && args.length >= 2)
 		{
-			// Argument 0 should contain "org.mosip.bio.utils.convert.jp2000.to.iso/org.mosip.bio.utils.convert.iso.to.jp2000"
-			String convertTo = args[0];
-			LOGGER.info("main :: convertTo :: Argument [0] " + convertTo);
-			if (convertTo.contains(ApplicationConstant.MOSIP_CONVERT_JP2000_TO_ISO))//0
+			// Argument 0 should contain org.mosip.bio.utils.image.type.jp2000/org.mosip.bio.utils.image.type.wsq"
+			String imageType = args[0];
+			LOGGER.info("main :: imageType :: Argument [0] " + imageType);
+			if (imageType.contains(ApplicationConstant.IMAGE_TYPE_JP2000))//0
+			{
+				imageType = imageType.split("=") [1];
+			}
+			else if (imageType.contains(ApplicationConstant.IMAGE_TYPE_WSQ))//1
+			{
+				imageType = imageType.split("=") [1];
+			}
+
+			// Argument 1 should contain "org.mosip.bio.utils.convert.image.to.iso/org.mosip.bio.utils.convert.iso.to.image"
+			String convertTo = args[1];
+			LOGGER.info("main :: convertTo :: Argument [1] " + convertTo);
+			if (convertTo.contains(ApplicationConstant.MOSIP_CONVERT_IMAGE_TO_ISO))//0
 			{
 				convertTo = convertTo.split("=") [1];
 			}
-			else if (convertTo.contains(ApplicationConstant.MOSIP_CONVERT_ISO_TO_JP2000))//1
+			else if (convertTo.contains(ApplicationConstant.MOSIP_CONVERT_ISO_TO_IMAGE))//1
 			{
 				convertTo = convertTo.split("=") [1];
 			}
 			
-			// Argument 1 should contain "mosip.mock.sbi.biometric.type.finger.folder.path/mosip.mock.sbi.biometric.type.face.folder.path/mosip.mock.sbi.biometric.type.iris.folder.path"
-			String biometricFolderPath = args[1];
-			LOGGER.info("main :: biometricFolderPath :: Argument [1] " + biometricFolderPath);
+			// Argument 2 should contain "mosip.mock.sbi.biometric.type.finger.folder.path/mosip.mock.sbi.biometric.type.face.folder.path/mosip.mock.sbi.biometric.type.iris.folder.path"
+			String biometricFolderPath = args[2];
+			LOGGER.info("main :: biometricFolderPath :: Argument [2] " + biometricFolderPath);
 			if (biometricFolderPath.contains(ApplicationConstant.MOSIP_BIOMETRIC_TYPE_FINGER))
 			{
 				biometricFolderPath = biometricFolderPath.split("=")[1];
@@ -120,10 +132,10 @@ public class BioUtilApplication
 				biometricFolderPath = biometricFolderPath.split("=")[1];
 			}
 
-			// Argument 2 should contain "org.mosip.bio.utils.biometric.type.file.jp2000/org.mosip.bio.utils.biometric.type.file.iso"
-			String converionFile = args[2];
+			// Argument 3 should contain "org.mosip.bio.utils.biometric.type.file.image/org.mosip.bio.utils.biometric.type.file.iso"
+			String converionFile = args[3];
 			LOGGER.info("main :: converionFile :: Argument [2] " + converionFile);
-			if (converionFile.contains(ApplicationConstant.MOSIP_BIOMETRIC_TYPE_FILE_JP2000))
+			if (converionFile.contains(ApplicationConstant.MOSIP_BIOMETRIC_TYPE_FILE_IMAGE))
 			{
 				converionFile = converionFile.split("=")[1];
 			}
@@ -157,13 +169,13 @@ public class BioUtilApplication
 			
 			if (biometricFolderPath.contains("Face"))
 			{
-				doFaceConversion (convertTo, biometricFolderPath, converionFile); 
+				doFaceConversion (imageType, convertTo, biometricFolderPath, converionFile); 
 			}
 			else if (biometricFolderPath.contains("Iris"))
 			{
 				if (biometricSubType != null)
 				{
-					doIrisConversion (convertTo, biometricFolderPath, converionFile, biometricSubType); 
+					doIrisConversion (imageType, convertTo, biometricFolderPath, converionFile, biometricSubType); 
 				}
 				else
 				{
@@ -174,7 +186,7 @@ public class BioUtilApplication
 			{
 				if (biometricSubType != null)
 				{
-					doFingerConversion (convertTo, biometricFolderPath, converionFile, biometricSubType); 
+					doFingerConversion (imageType, convertTo, biometricFolderPath, converionFile, biometricSubType); 
 				}
 				else
 				{
@@ -184,9 +196,9 @@ public class BioUtilApplication
 		}
     }
     
-    public static void doFaceConversion (String convertTo, String biometricFolderPath, String converionFile)
+    public static void doFaceConversion (String inputImageType, String convertTo, String biometricFolderPath, String converionFile)
     {
-		LOGGER.info("doFaceConversion :: Started :: convertTo ::" + convertTo +  " :: biometricFolderPath :: " + biometricFolderPath + " :: converionFile :: " + converionFile);
+		LOGGER.info("doFaceConversion :: Started :: inputImageType ::" + inputImageType + " :: convertTo :: " + convertTo + "  :: biometricFolderPath :: " + biometricFolderPath + " :: converionFile :: " + converionFile);
 		InputStream imageInputStream = null;
     	FileOutputStream tmpOutputStream = null;
 		try {
@@ -311,9 +323,9 @@ public class BioUtilApplication
 		LOGGER.info("doFaceConversion :: Ended :: ");
     }
 
-    public static void doIrisConversion (String convertTo, String biometricFolderPath, String converionFile, String biometricSubType)
+    public static void doIrisConversion (String inputImageType, String convertTo, String biometricFolderPath, String converionFile, String biometricSubType)
     {
-		LOGGER.info("doIrisConversion :: Started :: convertTo ::" + convertTo +  " :: biometricFolderPath :: " + biometricFolderPath + " :: converionFile :: " + converionFile+ " :: biometricSubType :: " + biometricSubType);
+		LOGGER.info("doIrisConversion :: Started :: inputImageType :: " + inputImageType + " :: convertTo ::" + convertTo +  " :: biometricFolderPath :: " + biometricFolderPath + " :: converionFile :: " + converionFile+ " :: biometricSubType :: " + biometricSubType);
 		InputStream imageInputStream = null;
     	FileOutputStream tmpOutputStream = null;
 		try {
@@ -444,13 +456,13 @@ public class BioUtilApplication
 		LOGGER.info("doIrisConversion :: Ended :: ");
     }
 
-    public static void doFingerConversion (String convertTo, String biometricFolderPath, String converionFile, String biometricSubType)
+    public static void doFingerConversion (String inputImageType, String convertTo, String biometricFolderPath, String converionFile, String biometricSubType)
     {
-		LOGGER.info("doFingerConversion :: Started :: convertTo ::" + convertTo +  " :: biometricFolderPath :: " + biometricFolderPath + " :: converionFile :: " + converionFile+ " :: biometricSubType :: " + biometricSubType);
+		LOGGER.info("doFingerConversion :: Started :: inputImageType :: " + inputImageType + " :: convertTo ::" + convertTo +  " :: biometricFolderPath :: " + biometricFolderPath + " :: converionFile :: " + converionFile+ " :: biometricSubType :: " + biometricSubType);
 		InputStream imageInputStream = null;
     	FileOutputStream tmpOutputStream = null;
 		try {
-	    	if (Integer.parseInt(convertTo) == 0) //Convert JP2000 to Finger ISO/IEC 19794-4: 2011 
+	    	if (Integer.parseInt(convertTo) == 0) //Convert JP2000/WSQ to Finger ISO/IEC 19794-4: 2011 
 	    	{
 	    		String filePath = new File (".").getCanonicalPath ();
 	    		String fileName = filePath + biometricFolderPath + converionFile;
@@ -505,25 +517,51 @@ public class BioUtilApplication
 					int imageSpatialSamplingRateVertical = 500;
 					FingerImageBitDepth bitDepth = FingerImageBitDepth.BPP_08;
 					FingerImageCompressionType compressionType = FingerImageCompressionType.JPEG_2000_LOSS_LESS;
+					if (Integer.parseInt(inputImageType) == 0) //ApplicationConstant.IMAGE_TYPE_JP2000))
+						compressionType = FingerImageCompressionType.JPEG_2000_LOSS_LESS;
+					else if (Integer.parseInt(inputImageType) == 1) //ApplicationConstant.IMAGE_TYPE_WSQ))
+						compressionType = FingerImageCompressionType.WSQ;
+						
 					FingerImpressionType impressionType = FingerImpressionType.UNKNOWN;
-					int lineLengthHorizontal = 0x0126;
-					int lineLengthVertical = 0x021B;
+					int lineLengthHorizontal = 0;
+					int lineLengthVertical = 0;
 					
 					int noOfFingerPresent = (int)0x0001;
 					SegmentationBlock segmentationBlock = null;
 					AnnotationBlock annotationBlock = null;
 					CommentBlock commentBlock = null;
-
 					
+					byte[] imageData = Files.readAllBytes(Paths.get(fileName));
+					int imageWidth = 0;
+					int imageHeight = 0;
+
 					imageInputStream = new FileInputStream(initialFile);
-	    			BufferedImage buffImg  = ImageIO.read(imageInputStream);
+	    			BufferedImage buffImg = null;
+					if (Integer.parseInt(inputImageType) == 0) //ApplicationConstant.IMAGE_TYPE_JP2000))
+					{
+						buffImg = ImageIO.read(imageInputStream);
+						imageWidth = buffImg.getWidth();
+						imageHeight = buffImg.getHeight();
+
+						lineLengthHorizontal = imageWidth;// 0x0126;
+						lineLengthVertical = imageHeight;//0x021B;
+					}
+					else if (Integer.parseInt(inputImageType) == 1) //ApplicationConstant.IMAGE_TYPE_WSQ))
+					{
+						WsqDecoder decoder = new WsqDecoder ();
+						Bitmap bitmap = decoder.decode(imageData);
+						LOGGER.info("doFingerConversion :: bitmap ::" + bitmap);
+						System.out.println("bitmap = " + bitmap);
+						buffImg = convert(bitmap);
+						imageWidth = buffImg.getWidth();
+						imageHeight = buffImg.getHeight();
+
+						lineLengthHorizontal = imageWidth;
+						lineLengthVertical = imageHeight;
+					}					
 	    			if (buffImg != null)
-	    			{
-						int imageWidth = buffImg.getWidth();
-						int imageHeight = buffImg.getHeight();
-						byte[] imageData = Files.readAllBytes(Paths.get(fileName));
-						
-						LOGGER.info("doFaceConversion :: imageWidth ::" + imageWidth +  " :: imageHeight :: " + imageHeight + " :: Size :: " + imageData.length);
+	    			{						
+						LOGGER.info("doFingerConversion :: imageWidth ::" + imageWidth +  " :: imageHeight :: " + imageHeight + " :: Size :: " + imageData.length);
 		        		byte [] isoData = FingerEncoder.convertFingerImageToISO19794_4_2011 
 	        				(
 	        						formatIdentifier, versionNumber, certificationFlag, 
@@ -553,7 +591,7 @@ public class BioUtilApplication
 	    			}
 	    		}
 	    	}
-	    	else if (Integer.parseInt(convertTo) == 1) //Convert Finger ISO/IEC 19794-4: 2011 to JP2000
+	    	else if (Integer.parseInt(convertTo) == 1) //Convert Finger ISO/IEC 19794-4: 2011 to JP2000/WSQ
 	    	{
 	    		String filePath = new File (".").getCanonicalPath ();
 	    		String fileName = filePath + biometricFolderPath + converionFile;
@@ -562,12 +600,16 @@ public class BioUtilApplication
 	    		{
 		    		LOGGER.info("doFingerConversion :: fileName ::" + fileName);
 					byte[] isoData = Files.readAllBytes(Paths.get(fileName));
-					byte [] imageData = FingerDecoder.convertFaceISO19794_4_2011ToImage (isoData); 
+					byte [] imageData = FingerDecoder.convertFingerISO19794_4_2011ToImage (isoData); 
 					
 	        		if (imageData != null)
 	        		{
 	        			// Write bytes to tmp file.
-	        		    File tmpImageFile = new File(filePath + biometricFolderPath + converionFile + ".jp2");
+						if (Integer.parseInt(inputImageType) == 0) //ApplicationConstant.IMAGE_TYPE_JP2000))
+							fileName = filePath + biometricFolderPath + converionFile + ".jp2";
+						else if (Integer.parseInt(inputImageType) == 1) //ApplicationConstant.IMAGE_TYPE_WSQ))
+							fileName = filePath + biometricFolderPath + converionFile + ".wsq";
+	        		    File tmpImageFile = new File(fileName);
         		        tmpOutputStream = new FileOutputStream(tmpImageFile);
         		        tmpOutputStream.write(imageData);
 	        		}
@@ -590,4 +632,14 @@ public class BioUtilApplication
 		}
 		LOGGER.info("doFingerConversion :: Ended :: ");
     }
+    
+    private static BufferedImage convert(Bitmap bitmap) {
+		int width = bitmap.getWidth();
+		int height = bitmap.getHeight();
+		byte[] data = bitmap.getPixels();
+		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
+		WritableRaster raster = image.getRaster();
+		raster.setDataElements(0, 0, width, height, data);
+		return image;
+	}
 }
