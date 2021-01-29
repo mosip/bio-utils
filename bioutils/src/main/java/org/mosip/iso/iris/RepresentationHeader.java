@@ -112,8 +112,8 @@ public class RepresentationHeader extends AbstractImageInfo
 		setCaptureMilliSecond (inputStream.readUnsignedShort());
 
 		calendar.set(Calendar.YEAR, getCaptureYear());
-		calendar.set(Calendar.MONTH, getCaptureYear());
-		calendar.set(Calendar.DAY_OF_MONTH, getCaptureMonth());
+		calendar.set(Calendar.MONTH, getCaptureMonth() - 1);
+		calendar.set(Calendar.DAY_OF_MONTH, getCaptureDay());
 		calendar.set(Calendar.HOUR_OF_DAY, getCaptureHour());
 		calendar.set(Calendar.MINUTE, getCaptureMinute());
 		calendar.set(Calendar.SECOND, getCaptureSecond());
@@ -165,14 +165,14 @@ public class RepresentationHeader extends AbstractImageInfo
                 qualityBlockRecordLength += getQualityBlocks() [index].getRecordLength ();
         }
 
-        return (4 + 9 + 1 + 2 + 2 + 1 + qualityBlockRecordLength + 2 + 27); /* 4 + 9 + 1 + 2 + 2 + 1 + 5x + 2 + 27 (Table 4 — Iris representation header ISO/IEC 19794-5-2011) */
+        return (4 + 9 + 1 + 2 + 2 + 1 + qualityBlockRecordLength + 2 + 27); /* 4 + 9 + 1 + 2 + 2 + 1 + 5x + 2 + 27 (Table 4 ï¿½ Iris representation header ISO/IEC 19794-5-2011) */
     }
 
     public void writeObject (DataOutputStream outputStream) throws IOException
     {
         outputStream.writeInt (getRecordLength () + getRepresentationDataLength());                                             
         outputStream.writeShort (getCaptureYear());                                                            
-        outputStream.writeByte (getCaptureMonth());                                                          
+        outputStream.writeByte (getCaptureMonth() + 1);  
         outputStream.writeByte (getCaptureDay());                                                         
         outputStream.writeByte (getCaptureHour());
         outputStream.writeByte (getCaptureMinute());

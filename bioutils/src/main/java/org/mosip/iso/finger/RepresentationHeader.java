@@ -165,8 +165,8 @@ public class RepresentationHeader extends AbstractImageInfo
 		setCaptureMilliSecond (inputStream.readUnsignedShort());
 
 		calendar.set(Calendar.YEAR, getCaptureYear());
-		calendar.set(Calendar.MONTH, getCaptureYear());
-		calendar.set(Calendar.DAY_OF_MONTH, getCaptureMonth());
+		calendar.set(Calendar.MONTH, getCaptureMonth() - 1);
+		calendar.set(Calendar.DAY_OF_MONTH, getCaptureDay());
 		calendar.set(Calendar.HOUR_OF_DAY, getCaptureHour());
 		calendar.set(Calendar.MINUTE, getCaptureMinute());
 		calendar.set(Calendar.SECOND, getCaptureSecond());
@@ -279,7 +279,7 @@ public class RepresentationHeader extends AbstractImageInfo
         setLineLengthVertical (inputStream.readUnsignedShort());
     }
     
-    /* 4 + 9 + 1 + 2 + 2 + 1 + 5x + (1 + 3x) + 1 + 1 + 2 + 2 + 2 + 2 + 1 + 1 + 1 + 2 + 2 (Table 4 — Finger representation header ISO/IEC 19794-4-2011) */
+    /* 4 + 9 + 1 + 2 + 2 + 1 + 5x + (1 + 3x) + 1 + 1 + 2 + 2 + 2 + 2 + 1 + 1 + 1 + 2 + 2 (Table 4 ï¿½ Finger representation header ISO/IEC 19794-4-2011) */
     public int getRecordLength ()
     {
         int qualityBlockRecordLength = 0;
@@ -310,7 +310,7 @@ public class RepresentationHeader extends AbstractImageInfo
     {
         outputStream.writeInt (getRecordLength () + getRepresentationDataLength());   	// 4                                          
         outputStream.writeShort (getCaptureYear());                                   	// 4 + 2 = 6                         
-        outputStream.writeByte (getCaptureMonth());                                   	// 6 + 1 = 7
+        outputStream.writeByte (getCaptureMonth() + 1);                                   	// 6 + 1 = 7
         outputStream.writeByte (getCaptureDay());                                     	// 7 + 1 = 8                    
         outputStream.writeByte (getCaptureHour());										// 8 + 1 = 9
         outputStream.writeByte (getCaptureMinute());									// 9 + 1 = 10

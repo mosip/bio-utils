@@ -116,8 +116,8 @@ public class RepresentationHeader extends AbstractImageInfo
 		setCaptureMilliSecond (inputStream.readUnsignedShort());
 
 		calendar.set(Calendar.YEAR, getCaptureYear());
-		calendar.set(Calendar.MONTH, getCaptureYear());
-		calendar.set(Calendar.DAY_OF_MONTH, getCaptureMonth());
+		calendar.set(Calendar.MONTH, getCaptureMonth() - 1);
+		calendar.set(Calendar.DAY_OF_MONTH, getCaptureDay());
 		calendar.set(Calendar.HOUR_OF_DAY, getCaptureHour());
 		calendar.set(Calendar.MINUTE, getCaptureMinute());
 		calendar.set(Calendar.SECOND, getCaptureSecond());
@@ -172,13 +172,13 @@ public class RepresentationHeader extends AbstractImageInfo
     public void writeObject (DataOutputStream outputStream) throws IOException
     {
         outputStream.writeInt (getRecordLength () + getRepresentationDataLength());                                             
-        outputStream.writeShort (getCaptureYear());                                                            
-        outputStream.writeByte (getCaptureMonth());                                                          
-        outputStream.writeByte (getCaptureDay());                                                         
-        outputStream.writeByte (getCaptureHour());
-        outputStream.writeByte (getCaptureMinute());
-        outputStream.writeByte (getCaptureSecond());
-        outputStream.writeShort (getCaptureMilliSecond());
+        outputStream.writeShort (getCaptureYear()); //2                                                           
+        outputStream.writeByte (getCaptureMonth() + 1); //1     
+        outputStream.writeByte (getCaptureDay());   //1               
+        outputStream.writeByte (getCaptureHour());	//1
+        outputStream.writeByte (getCaptureMinute());//1	
+        outputStream.writeByte (getCaptureSecond());//1
+        outputStream.writeShort (getCaptureMilliSecond());//2
 
         outputStream.writeByte (getCaptureDeviceTechnologyIdentifier().value());	                        
         outputStream.writeShort (getCaptureDeviceVendorIdentifier().value());		                

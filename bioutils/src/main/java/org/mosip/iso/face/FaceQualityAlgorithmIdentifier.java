@@ -4,7 +4,7 @@ package org.mosip.iso.face;
 */
 public enum FaceQualityAlgorithmIdentifier {
 
-	ALGORITHM_IDENTIFIER(0x0000),
+	ALGORITHM_IDENTIFIER(0x0001),
 	ALGORITHM_IDENTIFIER_0103(0x0103);
 
 	private final int value;
