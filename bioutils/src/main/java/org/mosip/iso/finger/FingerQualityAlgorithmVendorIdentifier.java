@@ -24,8 +24,10 @@ public enum FingerQualityAlgorithmVendorIdentifier {
 			if (c.value == value) {
 				return c;
 			}
+			
 		}
-		throw new IllegalArgumentException(value + "");
+		return ALGORITHM_VENDOR_IDENTIFIER;
+		//throw new IllegalArgumentException(value + "");
 	}
 
 	@Override

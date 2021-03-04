@@ -25,7 +25,8 @@ public enum IrisCaptureDeviceVendor {
 				return c;
 			}
 		}
-		throw new IllegalArgumentException(value + "");
+		return UNSPECIFIED;
+		//throw new IllegalArgumentException(value + "");
 	}
 
 	@Override

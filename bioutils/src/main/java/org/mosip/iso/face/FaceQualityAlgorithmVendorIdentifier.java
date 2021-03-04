@@ -22,7 +22,8 @@ public enum FaceQualityAlgorithmVendorIdentifier {
 				return c;
 			}
 		}
-		throw new IllegalArgumentException(value + "");
+		return ALGORITHM_VENDOR_IDENTIFIER;
+		//throw new IllegalArgumentException(value + "");
 	}
 
 	@Override

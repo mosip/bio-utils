@@ -25,7 +25,8 @@ public enum FaceCaptureDeviceVendor {
 				return c;
 			}
 		}
-		throw new IllegalArgumentException(value + "");
+		return null;
+		//throw new IllegalArgumentException(value + "");
 	}
 
 	@Override

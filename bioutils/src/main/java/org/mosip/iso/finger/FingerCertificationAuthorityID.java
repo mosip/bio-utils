@@ -1,6 +1,6 @@
 package org.mosip.iso.finger;
 
-/** certification Flag '0', '0', 0x00. Table 1 — General record header of ISO/IEC 19794-4-2011. */
+/** certification Flag '0', '0', 0x00. Table 1 ï¿½ General record header of ISO/IEC 19794-4-2011. */
 //https://www.ibia.org/cbeff/iso/biometric-organizations
 public enum FingerCertificationAuthorityID {
 
@@ -22,7 +22,8 @@ public enum FingerCertificationAuthorityID {
 				return c;
 			}
 		}
-		throw new IllegalArgumentException(value + "");
+		return UNSPECIFIED;
+		//throw new IllegalArgumentException(value + "");
 	}
 
 	@Override

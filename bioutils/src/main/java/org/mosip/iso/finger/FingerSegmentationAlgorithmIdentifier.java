@@ -23,7 +23,8 @@ public enum FingerSegmentationAlgorithmIdentifier {
 				return c;
 			}
 		}
-		throw new IllegalArgumentException(value + "");
+		return ALGORITHM_IDENTIFIER;
+		//throw new IllegalArgumentException(value + "");
 	}
 
 	@Override
