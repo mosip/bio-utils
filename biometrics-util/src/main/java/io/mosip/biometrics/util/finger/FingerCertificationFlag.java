@@ -26,7 +26,8 @@ public enum FingerCertificationFlag {
 				return c;
 			}
 		}
-		throw new IllegalArgumentException(value + "");
+		return UNSPECIFIED;
+		//throw new IllegalArgumentException(value + "");
 	}
 
 	@Override

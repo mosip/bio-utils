@@ -13,16 +13,16 @@ public class CommonUtil {
     public static BufferedImage getBufferedImage(ConvertRequestDto convertRequestDto) throws Exception {
         BufferedImage bufferedImage = null;
         switch (convertRequestDto.getImageType()) {
-            case 0:
+            case 0://JP2000
                 bufferedImage = ImageIO.read(new ByteArrayInputStream(convertRequestDto.getInputBytes()));
                 break;
-            case 1:
+            case 1://WSQ
                 WsqDecoder decoder = new WsqDecoder ();
                 Bitmap bitmap = decoder.decode(convertRequestDto.getInputBytes());
                 bufferedImage = convert(bitmap);
                 break;
         }
-        throw new Exception("Invalid input data!");
+        return bufferedImage;
     }
 
     private static BufferedImage convert(Bitmap bitmap) {

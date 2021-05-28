@@ -25,7 +25,7 @@ public enum FaceCaptureDeviceVendor {
 				return c;
 			}
 		}
-		return null;
+		return UNSPECIFIED;
 		//throw new IllegalArgumentException(value + "");
 	}
 

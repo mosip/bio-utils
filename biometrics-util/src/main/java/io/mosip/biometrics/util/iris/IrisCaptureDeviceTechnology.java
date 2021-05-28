@@ -21,7 +21,8 @@ public enum IrisCaptureDeviceTechnology {
 				return c;
 			}
 		}
-		throw new IllegalArgumentException(value + "");
+		return UNSPECIFIED;
+		//throw new IllegalArgumentException(value + "");
 	}
 	
 	@Override

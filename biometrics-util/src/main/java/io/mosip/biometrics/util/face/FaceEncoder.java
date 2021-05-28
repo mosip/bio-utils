@@ -15,9 +15,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Date;
 
-public class FaceEncoder {
-	
-	 public static byte [] convertFaceImageToISO19794_5_2011 
+public class FaceEncoder {	
+	 private static byte [] convertFaceImageToISO19794_5_2011 
  		(
 			FaceFormatIdentifier formatIdentifier, FaceVersionNumber versionNumber,
 			FaceCertificationFlag certificationFlag, TemporalSequenceFlags temporalSemantics,
@@ -68,7 +67,7 @@ public class FaceEncoder {
 	      return data;
 	 }
 
-	public static byte [] convertFingerImageToISO(ConvertRequestDto convertRequestDto) throws Exception
+	public static byte [] convertFaceImageToISO(ConvertRequestDto convertRequestDto) throws Exception
 	{
 		switch (convertRequestDto.getVersion()) {
 			case "ISO19794_5_2011" :

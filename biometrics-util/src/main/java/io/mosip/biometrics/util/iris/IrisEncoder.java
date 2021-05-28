@@ -15,8 +15,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Date;
 
-public class IrisEncoder {
-	
+public class IrisEncoder {	
 	 private static byte [] convertIrisImageToISO19794_6_2011
  		(
 			IrisFormatIdentifier formatIdentifier, IrisVersionNumber versionNumber,

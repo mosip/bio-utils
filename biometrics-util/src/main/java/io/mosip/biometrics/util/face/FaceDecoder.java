@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 public class FaceDecoder {
 	private static final Logger LOGGER = LoggerFactory.getLogger(FaceDecoder.class);	
 	
-	 public static byte [] convertFaceISO19794_5_2011ToImage(byte [] isoData) throws IOException
+	 private static byte [] convertFaceISO19794_5_2011ToImage(byte [] isoData) throws IOException
 	 {
 		 try(ByteArrayInputStream bais = new ByteArrayInputStream(isoData);
 		 DataInputStream  inputStream = new DataInputStream  (bais);) {
