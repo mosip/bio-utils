@@ -36,7 +36,7 @@ public class FingerEncoder {
 			SegmentationBlock segmentationBlock, AnnotationBlock annotationBlock, CommentBlock commentBlock
 		) throws Exception
 	{	
-		 FingerBDIR irisBDIR = new FingerBDIR 
+		 FingerBDIR bdir = new FingerBDIR 
 			 (
 				 formatIdentifier, versionNumber,
 				 certificationFlag, sourceType, deviceVendor, deviceType,
@@ -53,7 +53,7 @@ public class FingerEncoder {
 
 		 try(ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	      DataOutputStream outputStream = new DataOutputStream (baos);) {
-			 irisBDIR.writeObject(outputStream);
+			 bdir.writeObject(outputStream);
 			 outputStream.flush();
 			 return baos.toByteArray();
 		 }

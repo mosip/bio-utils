@@ -57,7 +57,7 @@ public class IrisEncoder {
 	      return data;
 	 }
 
-	public static byte [] convertFingerImageToISO(ConvertRequestDto convertRequestDto) throws Exception
+	public static byte [] convertIrisImageToISO(ConvertRequestDto convertRequestDto) throws Exception
 	{
 		switch (convertRequestDto.getVersion()) {
 			case "ISO19794_6_2011" :
