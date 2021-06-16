@@ -1,4 +1,15 @@
- build-bio-utils-jars:
+name: Maven Package upon a push 
+
+on:
+  push:
+    branches:
+      - master
+      - 1.*
+      - develop
+  
+jobs:
+
+  build-bio-utils-jars:
 
     runs-on: ubuntu-latest
     steps:
@@ -67,7 +78,7 @@
         if: failure() # Pick up events even if the job fails or is canceled.
 
 
- build-biometric-utils:
+  build-biometric-utils:
 
     runs-on: ubuntu-latest
     steps:
