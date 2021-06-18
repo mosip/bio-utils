@@ -67,8 +67,8 @@ public class IrisDecoder {
 				IrisBDIR irisBDIR = getIrisBDIRISO19794_6_2011 (convertRequestDto.getInputBytes());
 				ImageFormat imageFormat = irisBDIR.getRepresentation().getRepresentationHeader().getImageInformation().getImageFormat();
 				switch (imageFormat) {
-					case MONO_JPEG2000:
-					case RGB_JPEG2000:
+					case MONO_JPEG2000_LOSS_LESS:
+					case RGB_JPEG2000_LOSS_LESS:
 						return CommonUtil.convertJP2ToJPEGBytes(irisBDIR.getRepresentation()
 								.getRepresentationData().getImageData().getImage());
 					default :
