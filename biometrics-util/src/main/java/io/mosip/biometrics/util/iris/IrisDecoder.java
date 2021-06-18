@@ -1,6 +1,7 @@
 package io.mosip.biometrics.util.iris;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 
@@ -9,6 +10,8 @@ import io.mosip.biometrics.util.finger.FingerBDIR;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.imageio.ImageIO;
 
 public class IrisDecoder {
 	private static final Logger LOGGER = LoggerFactory.getLogger(IrisDecoder.class);	
@@ -34,7 +37,14 @@ public class IrisDecoder {
 
 	private static byte [] convertIrisISO19794_6_2011ToImage(byte [] isoData) throws Exception
 	{
-		return getIrisBDIRISO19794_6_2011 (isoData).getRepresentation().getRepresentationData().getImageData().getImage();
+		ImageData imageData = getIrisBDIRISO19794_6_2011 (isoData).getRepresentation().getRepresentationData().getImageData();
+		try(ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+			ImageIO.write(ImageIO.read(new ByteArrayInputStream(imageData.getImage())), "jpg", baos);
+			return baos.toByteArray();
+		} catch (IOException e) {
+			LOGGER.error("Failed to get iris jpg image", e);
+		}
+		return imageData.getImage();
 	}
 
 	public static byte [] convertIrisISOToImage(ConvertRequestDto convertRequestDto) throws Exception

@@ -1,12 +1,15 @@
 package io.mosip.biometrics.util.finger;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 
 import io.mosip.biometrics.util.ConvertRequestDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.imageio.ImageIO;
 
 public class FingerDecoder {
 	private static final Logger LOGGER = LoggerFactory.getLogger(FingerDecoder.class);	
@@ -32,7 +35,14 @@ public class FingerDecoder {
 
 	private static byte [] convertFingerISO19794_4_2011ToImage(byte [] isoData) throws Exception
 	{
-		return getFingerBDIRISO19794_4_2011 (isoData).getRepresentation().getRepresentationBody().getImageData().getImage();
+		ImageData imageData = getFingerBDIRISO19794_4_2011 (isoData).getRepresentation().getRepresentationBody().getImageData();
+		try(ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+			ImageIO.write(ImageIO.read(new ByteArrayInputStream(imageData.getImage())), "jpg", baos);
+			return baos.toByteArray();
+		} catch (IOException e) {
+			LOGGER.error("Failed to get finger jpg image", e);
+		}
+		return imageData.getImage();
 	}
 
 	public static byte [] convertFingerISOToImage(ConvertRequestDto convertRequestDto) throws Exception
