@@ -1,10 +1,12 @@
 package io.mosip.biometrics.util.face;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import io.mosip.biometrics.util.CommonUtil;
 import io.mosip.biometrics.util.ConvertRequestDto;
 import io.mosip.biometrics.util.iris.IrisBDIR;
 
@@ -48,11 +50,32 @@ public class FaceDecoder {
 		return imageData.getImage();
 	}
 
-	public static byte [] convertFaceISOToImage(ConvertRequestDto convertRequestDto) throws Exception
+	public static BufferedImage convertFaceISOToBufferedImage(ConvertRequestDto convertRequestDto) throws Exception
 	{
 		switch (convertRequestDto.getVersion()) {
 			case "ISO19794_5_2011" :
-				return convertFaceISO19794_5_2011ToImage(convertRequestDto.getInputBytes());
+				FaceBDIR faceBDIR =  getFaceBDIRISO19794_5_2011 (convertRequestDto.getInputBytes());
+				return ImageIO.read(new ByteArrayInputStream(faceBDIR.getRepresentation()
+						.getRepresentationData().getImageData().getImage()));
+		}
+		throw new UnsupportedOperationException();
+	}
+
+	public static byte[] convertFaceISOToImageBytes(ConvertRequestDto convertRequestDto) throws Exception
+	{
+		switch (convertRequestDto.getVersion()) {
+			case "ISO19794_5_2011" :
+				FaceBDIR faceBDIR =  getFaceBDIRISO19794_5_2011 (convertRequestDto.getInputBytes());
+				ImageDataType imageDataType = faceBDIR.getRepresentation().getRepresentationHeader().getImageInformation().getImageDataType();
+				switch (imageDataType) {
+					case JPEG2000_LOSSY:
+					case JPEG2000_LOSS_LESS:
+						return CommonUtil.convertJP2ToJPEGBytes(faceBDIR.getRepresentation()
+								.getRepresentationData().getImageData().getImage());
+					default:
+						return faceBDIR.getRepresentation()
+								.getRepresentationData().getImageData().getImage();
+				}
 		}
 		throw new UnsupportedOperationException();
 	}

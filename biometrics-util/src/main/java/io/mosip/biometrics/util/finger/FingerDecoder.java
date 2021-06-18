@@ -1,10 +1,12 @@
 package io.mosip.biometrics.util.finger;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import io.mosip.biometrics.util.CommonUtil;
 import io.mosip.biometrics.util.ConvertRequestDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,23 +35,32 @@ public class FingerDecoder {
 		throw new UnsupportedOperationException();
 	}
 
-	private static byte [] convertFingerISO19794_4_2011ToImage(byte [] isoData) throws Exception
-	{
-		ImageData imageData = getFingerBDIRISO19794_4_2011 (isoData).getRepresentation().getRepresentationBody().getImageData();
-		try(ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-			ImageIO.write(ImageIO.read(new ByteArrayInputStream(imageData.getImage())), "jpg", baos);
-			return baos.toByteArray();
-		} catch (IOException e) {
-			LOGGER.error("Failed to get finger jpg image", e);
-		}
-		return imageData.getImage();
-	}
 
-	public static byte [] convertFingerISOToImage(ConvertRequestDto convertRequestDto) throws Exception
+	public static byte [] convertFingerISOToImageBytes(ConvertRequestDto convertRequestDto) throws Exception
 	{
 		switch (convertRequestDto.getVersion()) {
 			case "ISO19794_4_2011" :
-				return convertFingerISO19794_4_2011ToImage(convertRequestDto.getInputBytes());
+				FingerBDIR fingerBDIR = getFingerBDIRISO19794_4_2011 (convertRequestDto.getInputBytes());
+				FingerImageCompressionType fingerImageCompressionType = fingerBDIR.getRepresentation().getRepresentationHeader().getCompressionType();
+				switch (fingerImageCompressionType) {
+					case JPEG_2000_LOSSY:
+					case JPEG_2000_LOSS_LESS:
+						return CommonUtil.convertJP2ToJPEGBytes(fingerBDIR.getRepresentation().getRepresentationBody().getImageData().getImage());
+					default:
+						return fingerBDIR.getRepresentation().getRepresentationBody().getImageData().getImage();
+				}
+		}
+		throw new UnsupportedOperationException();
+	}
+
+	public static BufferedImage convertFingerISOToBufferedImage(ConvertRequestDto convertRequestDto) throws Exception
+	{
+		ImageData imageData = null;
+		switch (convertRequestDto.getVersion()) {
+			case "ISO19794_4_2011" :
+				imageData = getFingerBDIRISO19794_4_2011 (convertRequestDto.getInputBytes()).
+						getRepresentation().getRepresentationBody().getImageData();
+				return ImageIO.read(new ByteArrayInputStream(imageData.getImage()));
 		}
 		throw new UnsupportedOperationException();
 	}

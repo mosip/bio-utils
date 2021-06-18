@@ -197,11 +197,11 @@ public class BioUtilApplication
 					byte[] isoData = Files.readAllBytes(Paths.get(fileName));
 					requestDto.setInputBytes(isoData);
 					
-					byte [] imageData = FaceDecoder.convertFaceISOToImage (requestDto); 
+					byte [] imageData = FaceDecoder.convertFaceISOToImageBytes (requestDto);
 	        		if (imageData != null)
 	        		{
 	        			// Write bytes to tmp file.
-	        		    File tmpImageFile = new File(filePath + biometricFolderPath + converionFile + ".jp2");
+	        		    File tmpImageFile = new File(filePath + biometricFolderPath + converionFile + ".jpg");
         		        tmpOutputStream = new FileOutputStream(tmpImageFile);
         		        tmpOutputStream.write(imageData);
 	        		}
@@ -248,7 +248,7 @@ public class BioUtilApplication
 						requestDto.setBiometricSubType(biometricSubType);
 						requestDto.setInputBytes(imageData);
 						
-		        		byte [] isoData = IrisEncoder.convertFingerImageToISO (requestDto);
+		        		byte [] isoData = IrisEncoder.convertIrisImageToISO(requestDto);
 		        		if (isoData != null)
 		        		{
 		        			// Write bytes to tmp file.
@@ -273,12 +273,12 @@ public class BioUtilApplication
 		    		LOGGER.info("doIrisConversion :: fileName ::" + fileName);
 					byte[] isoData = Files.readAllBytes(Paths.get(fileName));
 					requestDto.setInputBytes(isoData);
-					byte [] imageData = IrisDecoder.convertIrisISOToImage (requestDto); 
+					byte [] imageData = IrisDecoder.convertIrisISOToImageBytes (requestDto);
 					
 	        		if (imageData != null)
 	        		{
 	        			// Write bytes to tmp file.
-	        		    File tmpImageFile = new File(filePath + biometricFolderPath + converionFile + ".jp2");
+	        		    File tmpImageFile = new File(filePath + biometricFolderPath + converionFile + ".jpg");
         		        tmpOutputStream = new FileOutputStream(tmpImageFile);
         		        tmpOutputStream.write(imageData);
 	        		}
@@ -352,12 +352,12 @@ public class BioUtilApplication
 					byte[] isoData = Files.readAllBytes(Paths.get(fileName));
 					requestDto.setInputBytes(isoData);
 					
-					byte [] imageData = FingerDecoder.convertFingerISOToImage (requestDto); 
+					byte [] imageData = FingerDecoder.convertFingerISOToImageBytes (requestDto);
 	        		if (imageData != null)
 	        		{
 	        			// Write bytes to tmp file.
 						if (Integer.parseInt(inputImageType) == 0) //ApplicationConstant.IMAGE_TYPE_JP2000))
-							fileName = filePath + biometricFolderPath + converionFile + ".jp2";
+							fileName = filePath + biometricFolderPath + converionFile + ".jpg";
 						else if (Integer.parseInt(inputImageType) == 1) //ApplicationConstant.IMAGE_TYPE_WSQ))
 							fileName = filePath + biometricFolderPath + converionFile + ".wsq";
 	        		    File tmpImageFile = new File(fileName);

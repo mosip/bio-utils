@@ -1,10 +1,12 @@
 package io.mosip.biometrics.util.iris;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import io.mosip.biometrics.util.CommonUtil;
 import io.mosip.biometrics.util.ConvertRequestDto;
 import io.mosip.biometrics.util.finger.FingerBDIR;
 
@@ -47,11 +49,32 @@ public class IrisDecoder {
 		return imageData.getImage();
 	}
 
-	public static byte [] convertIrisISOToImage(ConvertRequestDto convertRequestDto) throws Exception
+	public static BufferedImage convertIrisISOToBufferedImage(ConvertRequestDto convertRequestDto) throws Exception
 	{
 		switch (convertRequestDto.getVersion()) {
 			case "ISO19794_6_2011" :
-				return convertIrisISO19794_6_2011ToImage(convertRequestDto.getInputBytes());
+				IrisBDIR irisBDIR = getIrisBDIRISO19794_6_2011 (convertRequestDto.getInputBytes());
+				return ImageIO.read(new ByteArrayInputStream(irisBDIR.getRepresentation()
+						.getRepresentationData().getImageData().getImage()));
+		}
+		throw new UnsupportedOperationException();
+	}
+
+	public static byte [] convertIrisISOToImageBytes(ConvertRequestDto convertRequestDto) throws Exception
+	{
+		switch (convertRequestDto.getVersion()) {
+			case "ISO19794_6_2011" :
+				IrisBDIR irisBDIR = getIrisBDIRISO19794_6_2011 (convertRequestDto.getInputBytes());
+				ImageFormat imageFormat = irisBDIR.getRepresentation().getRepresentationHeader().getImageInformation().getImageFormat();
+				switch (imageFormat) {
+					case MONO_JPEG2000:
+					case RGB_JPEG2000:
+						return CommonUtil.convertJP2ToJPEGBytes(irisBDIR.getRepresentation()
+								.getRepresentationData().getImageData().getImage());
+					default :
+						return irisBDIR.getRepresentation()
+								.getRepresentationData().getImageData().getImage();
+				}
 		}
 		throw new UnsupportedOperationException();
 	}
