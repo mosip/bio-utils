@@ -73,7 +73,7 @@ public class IrisEncoder {
 
 				ImageType imageType = convertRequestDto.getPurpose().equalsIgnoreCase("AUTH") ? ImageType.CROPPED_AND_MASKED :
 						ImageType.CROPPED;
-				ImageFormat imageFormat = ImageFormat.MONO_JPEG_LOSS_LESS;//0A
+				ImageFormat imageFormat = ImageFormat.MONO_JPEG2000_LOSS_LESS;//0A
 				Orientation horizontalOrientation = Orientation.UNDEFINED;
 				Orientation verticalOrientation = Orientation.UNDEFINED;
 				IrisImageCompressionType compressionType = IrisImageCompressionType.UNDEFINED;
