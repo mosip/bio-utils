@@ -28,6 +28,12 @@ public class IrisDecoder {
 		}
 	}
 
+	/**
+	 *
+	 * @param convertRequestDto
+	 * @return
+	 * @throws Exception
+	 */
 	public static IrisBDIR getIrisBDIR(ConvertRequestDto convertRequestDto) throws Exception
 	{
 		switch (convertRequestDto.getVersion()) {
@@ -49,6 +55,13 @@ public class IrisDecoder {
 		return imageData.getImage();
 	}
 
+	/**
+	 * Convert Iris ISO to image bytes
+	 * supported versions : ISO19794_6_2011
+	 * @param convertRequestDto
+	 * @return
+	 * @throws Exception
+	 */
 	public static BufferedImage convertIrisISOToBufferedImage(ConvertRequestDto convertRequestDto) throws Exception
 	{
 		switch (convertRequestDto.getVersion()) {
@@ -60,6 +73,13 @@ public class IrisDecoder {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * Convert Iris ISO to buffered image
+	 * supported versions : ISO19794_6_2011
+	 * @param convertRequestDto
+	 * @return
+	 * @throws Exception
+	 */
 	public static byte [] convertIrisISOToImageBytes(ConvertRequestDto convertRequestDto) throws Exception
 	{
 		switch (convertRequestDto.getVersion()) {

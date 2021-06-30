@@ -59,6 +59,12 @@ public class FingerEncoder {
 		 }
 	 }
 
+	/**
+	 * Convert from Image to ISO
+	 * @param convertRequestDto
+	 * @return
+	 * @throws Exception
+	 */
 	public static byte [] convertFingerImageToISO(ConvertRequestDto convertRequestDto) throws Exception
 	{
 		switch (convertRequestDto.getVersion()) {

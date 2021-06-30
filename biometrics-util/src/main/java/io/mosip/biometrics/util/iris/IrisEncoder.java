@@ -57,6 +57,12 @@ public class IrisEncoder {
 	      return data;
 	 }
 
+	/**
+	 * Convert Image to ISO
+	 * @param convertRequestDto
+	 * @return
+	 * @throws Exception
+	 */
 	public static byte [] convertIrisImageToISO(ConvertRequestDto convertRequestDto) throws Exception
 	{
 		switch (convertRequestDto.getVersion()) {
