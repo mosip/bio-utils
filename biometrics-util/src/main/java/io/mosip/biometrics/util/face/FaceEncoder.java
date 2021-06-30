@@ -67,6 +67,12 @@ public class FaceEncoder {
 	      return data;
 	 }
 
+	/**
+	 * Convert Face image to ISO
+	 * @param convertRequestDto
+	 * @return
+	 * @throws Exception
+	 */
 	public static byte [] convertFaceImageToISO(ConvertRequestDto convertRequestDto) throws Exception
 	{
 		switch (convertRequestDto.getVersion()) {

@@ -28,6 +28,12 @@ public class FaceDecoder {
 		}
 	}
 
+	/**
+	 *
+	 * @param convertRequestDto
+	 * @return
+	 * @throws Exception
+	 */
 	public static FaceBDIR getFaceBDIR(ConvertRequestDto convertRequestDto) throws Exception
 	{
 		switch (convertRequestDto.getVersion()) {
@@ -50,6 +56,14 @@ public class FaceDecoder {
 		return imageData.getImage();
 	}
 
+	/**
+	 * Convert Face ISO to Buffered image
+	 * supported versions: ISO19794_5_2011
+	 * Note: JPEG_2000 will be returned as JPEG image
+	 * @param convertRequestDto
+	 * @return
+	 * @throws Exception
+	 */
 	public static BufferedImage convertFaceISOToBufferedImage(ConvertRequestDto convertRequestDto) throws Exception
 	{
 		switch (convertRequestDto.getVersion()) {
@@ -61,6 +75,14 @@ public class FaceDecoder {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * Convert Face ISO to Image bytes
+	 * supported versions: ISO19794_5_2011
+	 * Note: JPEG_2000 will be returned as JPEG image
+	 * @param convertRequestDto
+	 * @return
+	 * @throws Exception
+	 */
 	public static byte[] convertFaceISOToImageBytes(ConvertRequestDto convertRequestDto) throws Exception
 	{
 		switch (convertRequestDto.getVersion()) {

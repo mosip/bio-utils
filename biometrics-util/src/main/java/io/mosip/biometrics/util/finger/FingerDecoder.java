@@ -35,7 +35,14 @@ public class FingerDecoder {
 		throw new UnsupportedOperationException();
 	}
 
-
+	/**
+	 * Converts ISO to image bytes
+	 * supported ISO versions : ISO19794_4_2011
+	 * Note: JPEG_2000 will be returned as JPEG image
+	 * @param convertRequestDto
+	 * @return
+	 * @throws Exception
+	 */
 	public static byte [] convertFingerISOToImageBytes(ConvertRequestDto convertRequestDto) throws Exception
 	{
 		switch (convertRequestDto.getVersion()) {
@@ -53,6 +60,14 @@ public class FingerDecoder {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * Converts ISO to buffered image
+	 * supported ISO versions : ISO19794_4_2011
+	 * Note: JPEG_2000 will be returned as JPEG image
+	 * @param convertRequestDto
+	 * @return
+	 * @throws Exception
+	 */
 	public static BufferedImage convertFingerISOToBufferedImage(ConvertRequestDto convertRequestDto) throws Exception
 	{
 		ImageData imageData = null;
