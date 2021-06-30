@@ -8,6 +8,7 @@
   <version>1.1.5</version>
   <name>biometrics-util</name>
   <url>http://maven.apache.org</url>
+	<description>This utility is used to convert ISO to Image and Image to ISO</description>
 
   <properties>
         <maven.compiler.source>11</maven.compiler.source>
