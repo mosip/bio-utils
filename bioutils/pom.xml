@@ -11,14 +11,14 @@
   <groupId>io.mosip.bio.utils</groupId>
   <artifactId>bioutils</artifactId>
   <packaging>jar</packaging>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.2.0-prerel</version>
   <name>bioutils</name>
   <url>http://maven.apache.org</url>
   <dependencies>
   	<dependency>
 		<groupId>io.mosip.biometric.util</groupId>
 		<artifactId>biometrics-util</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.2.0-prerel</version>
 	</dependency>
 		
 	<dependency>
