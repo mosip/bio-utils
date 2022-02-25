@@ -19,8 +19,7 @@
 		<groupId>io.mosip.biometric.util</groupId>
 		<artifactId>biometrics-util</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-	</dependency>
-		
+	</dependency>		
 	<dependency>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-web</artifactId>
@@ -144,6 +143,15 @@
 									<includes><!-- what -->
 							          <include>application.properties</include>
 							          <include>run.sh</include>
+
+							          <include>run_convert_face_JP2000_JPEG.bat</include>
+							          <include>run_convert_face_JP2000_PNG.bat</include>
+							          <include>run_convert_iris_JP2000_JPEG.bat</include>
+							          <include>run_convert_iris_JP2000_PNG.bat</include>
+							          <include>run_convert_finger_JP2000_JPEG.bat</include>
+							          <include>run_convert_finger_JP2000_PNG.bat</include>
+							          <include>run_convert_finger_WSQ_JPEG.bat</include>
+							          <include>run_convert_finger_WSQ_PNG.bat</include>
 
 							          <include>run_decoder_face.bat</include>
 							          <include>run_encoder_face.bat</include>

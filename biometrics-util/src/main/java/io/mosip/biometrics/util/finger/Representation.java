@@ -41,10 +41,10 @@ public class Representation extends AbstractImageInfo {
     		byte [] image, 
     		SegmentationBlock segmentationBlock, 
     		AnnotationBlock annotationBlock, 
-    		CommentBlock commentBlock)
+    		CommentBlock[] commentBlocks)
     {
     	setCertificationFlag (certificationFlag);
-    	setRepresentationBody (new RepresentationBody (new ImageData (image), segmentationBlock, annotationBlock, commentBlock));
+    	setRepresentationBody (new RepresentationBody (new ImageData (image), segmentationBlock, annotationBlock, commentBlocks));
     	setRepresentationHeader (new RepresentationHeader (getRepresentationBody().getRecordLength (), captureDate, captureDeviceTechnologyIdentifier, 
     			captureDeviceVendorIdentifier, captureDeviceTypeIdentifier, qualityBlocks, certificationFlag, certificationBlocks, 
     			fingerPosition, representationNo, 
