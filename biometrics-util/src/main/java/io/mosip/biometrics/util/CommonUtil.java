@@ -1,17 +1,17 @@
 package io.mosip.biometrics.util;
 
-import io.mosip.biometrics.util.face.FaceDecoder;
-import org.jnbis.api.model.Bitmap;
-import org.jnbis.internal.WsqDecoder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import org.jnbis.api.model.Bitmap;
+import org.jnbis.internal.WsqDecoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CommonUtil {
 
