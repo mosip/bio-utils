@@ -51,4 +51,15 @@ public class CommonUtil {
         }
         return null;
     }
+    
+    public static byte[] convertJP2ToJPEGBytes(BufferedImage image) {
+    	
+        try(ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+        	ImageIO.write(image, "jpg", baos);
+            return baos.toByteArray();
+        } catch (IOException e) {
+            LOGGER.error("Failed to get jpg image", e);
+        }
+        return null;
+    }
 }
