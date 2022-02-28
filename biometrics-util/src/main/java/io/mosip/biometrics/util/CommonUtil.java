@@ -1,17 +1,17 @@
 package io.mosip.biometrics.util;
 
-import io.mosip.biometrics.util.face.FaceDecoder;
-import org.jnbis.api.model.Bitmap;
-import org.jnbis.internal.WsqDecoder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import org.jnbis.api.model.Bitmap;
+import org.jnbis.internal.WsqDecoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CommonUtil {
 
@@ -45,6 +45,17 @@ public class CommonUtil {
     public static byte[] convertJP2ToJPEGBytes(byte[] jp2000Bytes) {
         try(ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             ImageIO.write(ImageIO.read(new ByteArrayInputStream(jp2000Bytes)), "jpg", baos);
+            return baos.toByteArray();
+        } catch (IOException e) {
+            LOGGER.error("Failed to get jpg image", e);
+        }
+        return null;
+    }
+    
+    public static byte[] convertJP2ToJPEGBytes(BufferedImage image) {
+    	
+        try(ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+        	ImageIO.write(image, "jpg", baos);
             return baos.toByteArray();
         } catch (IOException e) {
             LOGGER.error("Failed to get jpg image", e);
