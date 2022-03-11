@@ -2,21 +2,14 @@ package io.mosip.biometrics.util.face;
 
 import io.mosip.biometrics.util.CommonUtil;
 import io.mosip.biometrics.util.ConvertRequestDto;
-import io.mosip.biometrics.util.finger.*;
-import org.jnbis.api.model.Bitmap;
-import org.jnbis.internal.WsqDecoder;
-
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.awt.image.WritableRaster;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Date;
 
 public class FaceEncoder {	
-	 private static byte [] convertFaceImageToISO19794_5_2011 
+	 public static byte [] convertFaceImageToISO19794_5_2011 
  		(
 			FaceFormatIdentifier formatIdentifier, FaceVersionNumber versionNumber,
 			FaceCertificationFlag certificationFlag, TemporalSequenceFlags temporalSemantics,

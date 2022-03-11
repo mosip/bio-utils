@@ -8,7 +8,6 @@ import java.nio.file.Paths;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.mosip.biometrics.util.test.ApplicationConstant;
 import io.mosip.biometrics.util.ConvertRequestDto;
 import io.mosip.biometrics.util.face.*;
 import io.mosip.biometrics.util.finger.*;

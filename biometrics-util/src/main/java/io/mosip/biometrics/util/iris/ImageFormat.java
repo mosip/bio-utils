@@ -3,7 +3,6 @@ package io.mosip.biometrics.util.iris;
 /** ImageFormat Table 4 of ISO/IEC 19794-6-2011. 
 */
 public enum ImageFormat {
-
 	MONO_RAW(0x0002), 
 	RGB_RAW(0x0004),
 	MONO_JPEG(0x0006), 

@@ -3,6 +3,9 @@ package io.mosip.biometrics.util.finger;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import io.mosip.biometrics.util.AbstractImageInfo;
 import org.slf4j.Logger;
@@ -15,14 +18,14 @@ public class RepresentationBody extends AbstractImageInfo
 	private ImageData imageData;
 	private SegmentationBlock segmentationBlock; 
 	private AnnotationBlock annotationBlock;
-	private CommentBlock commentBlock;
+	private CommentBlock[] commentBlocks;
 
-    public RepresentationBody (ImageData imageData, SegmentationBlock segmentationBlock, AnnotationBlock annotationBlock, CommentBlock commentBlock)
+    public RepresentationBody (ImageData imageData, SegmentationBlock segmentationBlock, AnnotationBlock annotationBlock, CommentBlock[] commentBlocks)
     {
     	setImageData (imageData);
     	setSegmentationBlock (segmentationBlock);
     	setAnnotationBlock (annotationBlock);
-    	setCommentBlock (commentBlock);
+    	setCommentBlocks (commentBlocks);
     }
 
     public RepresentationBody (DataInputStream inputStream) throws IOException
@@ -37,25 +40,40 @@ public class RepresentationBody extends AbstractImageInfo
     		if (inputStream.available() > 0)
     		{
         		int typeIdentificationCode = inputStream.readUnsignedShort();
-        		if (ExtendedDataBlockIdentificationCode.fromValue(typeIdentificationCode) == ExtendedDataBlockIdentificationCode.SEGMENTATION)
+        		if (typeIdentificationCode == ExtendedDataBlockIdentificationCode.SEGMENTATION)
         		{
         	    	setSegmentationBlock (new SegmentationBlock (inputStream));
         		}
-    		}
-    		if (inputStream.available() > 0)
-    		{
-        		int typeIdentificationCode = inputStream.readUnsignedShort();
-        		if (ExtendedDataBlockIdentificationCode.fromValue(typeIdentificationCode) == ExtendedDataBlockIdentificationCode.ANNOTATION)
+        		else if (typeIdentificationCode == ExtendedDataBlockIdentificationCode.ANNOTATION)
         		{
         			setAnnotationBlock (new AnnotationBlock (inputStream));
+        		}
+        		else if (typeIdentificationCode >= ExtendedDataBlockIdentificationCode.COMMENT_03 && 
+        				typeIdentificationCode <= ExtendedDataBlockIdentificationCode.COMMENT_FF)
+        		{
+        			readCommentBlocks(inputStream);
         		}
     		}
     		if (inputStream.available() > 0)
     		{
         		int typeIdentificationCode = inputStream.readUnsignedShort();
-        		if (ExtendedDataBlockIdentificationCode.fromValue(typeIdentificationCode) == ExtendedDataBlockIdentificationCode.COMMENT_03)
+        		if (typeIdentificationCode == ExtendedDataBlockIdentificationCode.ANNOTATION)
         		{
-        			setCommentBlock (new CommentBlock (inputStream));
+        			setAnnotationBlock (new AnnotationBlock (inputStream));
+        		}
+        		else if (typeIdentificationCode >= ExtendedDataBlockIdentificationCode.COMMENT_03 && 
+        				typeIdentificationCode <= ExtendedDataBlockIdentificationCode.COMMENT_FF)
+        		{
+        			readCommentBlocks(inputStream);
+        		}
+    		}
+    		if (inputStream.available() > 0)
+    		{
+        		int typeIdentificationCode = inputStream.readUnsignedShort();
+        		if (typeIdentificationCode >= ExtendedDataBlockIdentificationCode.COMMENT_03 && 
+        				typeIdentificationCode <= ExtendedDataBlockIdentificationCode.COMMENT_FF)
+        		{
+        			readCommentBlocks(inputStream);
         		}
     		}
     	}
@@ -65,12 +83,38 @@ public class RepresentationBody extends AbstractImageInfo
     	}
     }
 
+    private void readCommentBlocks(DataInputStream inputStream) throws IOException
+    {
+    	try
+    	{
+			List<CommentBlock> commentBlockList = new ArrayList<CommentBlock>();
+			int extendedDataBlockIdentificationCodeValue = ExtendedDataBlockIdentificationCode.COMMENT_03;
+    		while (inputStream.available() > 0)
+			{
+    			commentBlockList.add(new CommentBlock (inputStream, new ExtendedDataBlockIdentificationCode (extendedDataBlockIdentificationCodeValue)));
+    			extendedDataBlockIdentificationCodeValue++;
+			}
+    		if (commentBlockList.size() > 0)
+    			setCommentBlocks (commentBlockList.toArray(new CommentBlock[commentBlockList.size()]));
+    	}
+    	catch(Exception ex)
+    	{
+    		LOGGER.error("readCommentBlocks :: Error ::", ex);
+    	}
+    }
+    
     public int getRecordLength ()
     {
+    	int nCommentBlockLength = 0;
+    	if (getCommentBlocks() != null)
+    	{
+    		for (int index = 0; index < getCommentBlocks().length; index++)
+    			nCommentBlockLength += getCommentBlocks()[index].getRecordLength();
+    	}
         return getImageData().getRecordLength () + 
         		(getSegmentationBlock() != null ? getSegmentationBlock().getRecordLength () : 0) + 
         		(getAnnotationBlock() != null ? getAnnotationBlock().getRecordLength () : 0) + 
-        		(getCommentBlock() != null ? getCommentBlock().getRecordLength () : 0) ;
+        		(nCommentBlockLength) ;
     }
 
     public void writeObject (DataOutputStream outputStream) throws IOException
@@ -83,8 +127,11 @@ public class RepresentationBody extends AbstractImageInfo
     	if (getAnnotationBlock() != null)
     		getAnnotationBlock().writeObject (outputStream);
     	
-    	if (getCommentBlock() != null)
-    		getCommentBlock().writeObject (outputStream);
+    	if (getCommentBlocks() != null)
+    	{
+    		for (int index = 0; index < getCommentBlocks().length; index++)
+    			getCommentBlocks()[index].writeObject (outputStream);
+    	}
     	
         outputStream.flush ();
     }
@@ -114,17 +161,18 @@ public class RepresentationBody extends AbstractImageInfo
 		this.annotationBlock = annotationBlock;
 	}
 
-	public CommentBlock getCommentBlock() {
-		return commentBlock;
+	public CommentBlock[] getCommentBlocks() {
+		return commentBlocks;
 	}
 
-	public void setCommentBlock(CommentBlock commentBlock) {
-		this.commentBlock = commentBlock;
+	public void setCommentBlocks(CommentBlock[] commentBlocks) {
+		this.commentBlocks = commentBlocks;
 	}
 
 	@Override
 	public String toString() {
-		return "RepresentationBody [RecordLength=" + getRecordLength() + ", imageData=" + imageData + ", segmentationBlock=" + segmentationBlock
-				+ ", annotationBlock=" + annotationBlock + ", commentBlock=" + commentBlock + "]";
+		return "RepresentationBody [imageData=" + imageData + ", segmentationBlock=" + segmentationBlock
+				+ ", annotationBlock=" + annotationBlock + ", commentBlock=" + Arrays.toString(commentBlocks) + "]";
 	}
+
 }

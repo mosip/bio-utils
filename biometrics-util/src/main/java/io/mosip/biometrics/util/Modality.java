@@ -1,15 +1,13 @@
-package io.mosip.biometrics.util.iris;
+package io.mosip.biometrics.util;
 
-/** Eye Label, Table 4 of ISO/IEC 19794-6-2011. 
-*/
-public enum ImageType {
-	UNCROPPED(0x0001), 
-	VGA(0x0002), 
-	CROPPED(0x0003), 
-	CROPPED_AND_MASKED(0x0007);
+public enum Modality {
+	UnSpecified(0x0000), 
+	Finger(0x0001), 
+	Face(0x0002), 
+	Iris(0x0003);
 
 	private final int value;
-	ImageType(int value) {
+	Modality(int value) {
 		this.value = value;
 	}	
 	
@@ -17,8 +15,8 @@ public enum ImageType {
 		return this.value;
 	}
 
-	public static ImageType fromValue(int value) {
-		for (ImageType c : ImageType.values()) {
+	public static Modality fromValue(int value) {
+		for (Modality c : Modality.values()) {
 			if (c.value == value) {
 				return c;
 			}

@@ -20,12 +20,13 @@ public class AnnotationBlock extends ExtendedDataBlock
     	setNoOfAnnotationData (noOfAnnotationData);
     	setAnnotationData (annotationData);
     	
-    	setExtendedDataBlockIdentificationCode (ExtendedDataBlockIdentificationCode.ANNOTATION);
+    	setExtendedDataBlockIdentificationCode (new ExtendedDataBlockIdentificationCode(ExtendedDataBlockIdentificationCode.ANNOTATION));
     	setLengthOfExtendedDataBlock (getRecordLength ());
     }
     
     public AnnotationBlock (DataInputStream inputStream) throws IOException
 	{
+    	setExtendedDataBlockIdentificationCode (new ExtendedDataBlockIdentificationCode(ExtendedDataBlockIdentificationCode.ANNOTATION));
     	readObject(inputStream);
 	}
     
@@ -59,7 +60,7 @@ public class AnnotationBlock extends ExtendedDataBlock
 
     public void writeObject (DataOutputStream outputStream) throws IOException
     {
-        outputStream.writeShort (getExtendedDataBlockIdentificationCode().value()); 	/* 2 = 2 */
+        outputStream.writeShort (getExtendedDataBlockIdentificationCode().getvalue()); 	/* 2 = 2 */
         outputStream.writeShort (getLengthOfExtendedDataBlock());       				/* + 2 = 4 */
 
         outputStream.writeByte (getNoOfAnnotationData()); 							/* + 1 = 5 */
