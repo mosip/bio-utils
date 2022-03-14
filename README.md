@@ -18,7 +18,6 @@ Note: JPEG2000 will be converted to JPEG.
 ## Sample code
 
 To convert from ISO format to image:
-
 ```
 ConvertRequestDto convertRequestDto = new ConvertRequestDto();
 convertRequestDto.setVersion("ISO19794_4_2011");
@@ -42,4 +41,3 @@ convertRequestDto.setInputBytes(<ISO bytes>);
 byte[] image = FaceDecoder.convertFaceISOToImageBytes(convertRequestDto);
 BufferedImage image = FaceDecoder.convertFaceISOToBufferedImage(convertRequestDto);
 ```
-  
