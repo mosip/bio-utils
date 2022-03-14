@@ -39,15 +39,19 @@ public class CommonUtil {
                 bufferedImage = ImageIO.read(new ByteArrayInputStream(convertRequestDto.getInputBytes()));
                 break;
             case 1://WSQ
-                WsqDecoder decoder = new WsqDecoder ();
-                Bitmap bitmap = decoder.decode(convertRequestDto.getInputBytes());
-                bufferedImage = convert(bitmap);
+                bufferedImage = convertWSQToBufferedImage (convertRequestDto.getInputBytes());
                 break;
         }
         return bufferedImage;
     }
 
-    private static BufferedImage convert(Bitmap bitmap) {
+    public static BufferedImage convertWSQToBufferedImage(byte[] arrImage) {
+        WsqDecoder decoder = new WsqDecoder ();
+        Bitmap bitmap = decoder.decode(arrImage);
+        return convert(bitmap);
+    }
+
+    public static BufferedImage convert(Bitmap bitmap) {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         byte[] data = bitmap.getPixels();
@@ -67,7 +71,7 @@ public class CommonUtil {
         return null;
     }
 
-    public static byte[] convertJP2ToJPEGBytes(BufferedImage image) {
+    public static byte[] convertBufferedImageToJPEGBytes(BufferedImage image) {
     	
         try(ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
         	ImageIO.write(image, "jpg", baos);
@@ -88,7 +92,7 @@ public class CommonUtil {
         return null;
     }
     
-    public static byte[] convertJP2ToPNGBytes(BufferedImage image) {
+    public static byte[] convertBufferedImageToPNGBytes(BufferedImage image) {
     	
         try(ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
         	ImageIO.write(image, "png", baos);
@@ -276,9 +280,9 @@ public class CommonUtil {
 			Bitmap bitmap = decoder.decode(inImageData);
 			BufferedImage image = convert(bitmap);
 			if (imageType == ImageType.JPEG)
-				outImageData = convertJP2ToJPEGBytes(image);
+				outImageData = convertBufferedImageToJPEGBytes(image);
 			else if (imageType == ImageType.PNG)
-				outImageData = convertJP2ToPNGBytes(image);
+				outImageData = convertBufferedImageToPNGBytes(image);
 		}
 		if (imageType == ImageType.JPEG)
 			outCompressionType = FingerImageCompressionType.JPEG_LOSSY;
