@@ -41,3 +41,9 @@ byte[] image = FaceDecoder.convertFaceISOToImageBytes(convertRequestDto);
 BufferedImage image = FaceDecoder.convertFaceISOToBufferedImage(convertRequestDto);
 ```
   
+To convert base64UrlEncoded ISO biometeric(Face, Iris, Finger) image format to given imageType(JPEG, PNG) 
+and create new convert base64UrlEncoded ISO:
+
+```
+CommonUtil.convertISOImageType(String inIsoData, Modality modality, ImageType imageType) throws Exception
+```

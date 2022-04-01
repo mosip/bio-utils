@@ -3,7 +3,6 @@ package io.mosip.biometrics.util.iris;
 /** CompressionType in Iris image properties bit field, Table 4 of ISO/IEC 19794-6-2011. 
 */
 public enum IrisImageCompressionType {
-
 	UNDEFINED(0x0000), 
 	JPEG_LOSSLESS_OR_NONE(0x0001), 
 	JPEG_LOSSY(0x0002);

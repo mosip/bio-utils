@@ -19,7 +19,7 @@ import java.util.Date;
 public class FingerEncoder {
 	private static final Logger LOGGER = LoggerFactory.getLogger(FingerEncoder.class);
 
-	private static byte [] convertFingerImageToISO19794_4_2011
+	public static byte [] convertFingerImageToISO19794_4_2011
  		(
 			FingerFormatIdentifier formatIdentifier, FingerVersionNumber versionNumber,
 			FingerCertificationFlag certificationFlag, 
@@ -33,7 +33,7 @@ public class FingerEncoder {
 			FingerImageBitDepth bitDepth, FingerImageCompressionType compressionType,
 			FingerImpressionType impressionType, int lineLengthHorizontal, int lineLengthVertical,
 			int noOfFingerPresent, byte [] image, 
-			SegmentationBlock segmentationBlock, AnnotationBlock annotationBlock, CommentBlock commentBlock
+			SegmentationBlock segmentationBlock, AnnotationBlock annotationBlock, CommentBlock[] commentBlocks
 		) throws Exception
 	{	
 		 FingerBDIR bdir = new FingerBDIR 
@@ -48,7 +48,7 @@ public class FingerEncoder {
 				 bitDepth, compressionType,
 				 impressionType, lineLengthHorizontal, lineLengthVertical,
 				 noOfFingerPresent, image, 
-				 segmentationBlock, annotationBlock, commentBlock
+				 segmentationBlock, annotationBlock, commentBlocks
 			  );
 
 		 try(ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -97,24 +97,24 @@ public class FingerEncoder {
 				int noOfFingerPresent = (int)0x0001;
 				SegmentationBlock segmentationBlock = null;
 				AnnotationBlock annotationBlock = null;
-				CommentBlock commentBlock = null;
+				CommentBlock[] commentBlocks = null;
 
 				LOGGER.info("imageWidth :: {} :: imageHeight :: {} :: Size :: {}", lineLengthHorizontal, lineLengthVertical,
 						convertRequestDto.getInputBytes().length);
 				return convertFingerImageToISO19794_4_2011
-						(
-								formatIdentifier, versionNumber, certificationFlag,
-								sourceType, deviceVendor, deviceType,
-								captureDate, noOfRepresentations,
-								qualityBlocks, certificationBlocks,
-								fingerPosition, representationNo, scaleUnitType,
-								captureDeviceSpatialSamplingRateHorizontal, captureDeviceSpatialSamplingRateVertical,
-								imageSpatialSamplingRateHorizontal, imageSpatialSamplingRateVertical,
-								bitDepth, compressionType,
-								impressionType, lineLengthHorizontal, lineLengthVertical,
-								noOfFingerPresent, convertRequestDto.getInputBytes(),
-								segmentationBlock, annotationBlock, commentBlock
-						);
+					(
+						formatIdentifier, versionNumber, certificationFlag,
+						sourceType, deviceVendor, deviceType,
+						captureDate, noOfRepresentations,
+						qualityBlocks, certificationBlocks,
+						fingerPosition, representationNo, scaleUnitType,
+						captureDeviceSpatialSamplingRateHorizontal, captureDeviceSpatialSamplingRateVertical,
+						imageSpatialSamplingRateHorizontal, imageSpatialSamplingRateVertical,
+						bitDepth, compressionType,
+						impressionType, lineLengthHorizontal, lineLengthVertical,
+						noOfFingerPresent, convertRequestDto.getInputBytes(),
+						segmentationBlock, annotationBlock, commentBlocks
+					);
 		}
 		throw new UnsupportedOperationException();
 	}
@@ -148,5 +148,4 @@ public class FingerEncoder {
 				return FingerPosition.UNKNOWN;
 		}
 	}
-
 }

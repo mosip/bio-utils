@@ -13,13 +13,6 @@ public class CommentBlock extends ExtendedDataBlock
 
     private byte [] comment;
 
-    public CommentBlock (byte [] comment)
-    {
-    	setComment (comment);
-    	setExtendedDataBlockIdentificationCode (ExtendedDataBlockIdentificationCode.COMMENT_03);
-    	setLengthOfExtendedDataBlock (getRecordLength ());
-    }
-
     public CommentBlock (byte [] comment, ExtendedDataBlockIdentificationCode extendedDataBlockIdentificationCode)
     {
     	setComment (comment);
@@ -27,8 +20,9 @@ public class CommentBlock extends ExtendedDataBlock
     	setLengthOfExtendedDataBlock (getRecordLength ());
     }
 
-    public CommentBlock (DataInputStream inputStream) throws IOException
+    public CommentBlock (DataInputStream inputStream, ExtendedDataBlockIdentificationCode extendedDataBlockIdentificationCode) throws IOException
 	{
+    	setExtendedDataBlockIdentificationCode (extendedDataBlockIdentificationCode);
     	readObject(inputStream);
 	}
     
@@ -40,16 +34,17 @@ public class CommentBlock extends ExtendedDataBlock
 
 	public int getRecordLength ()
     {
-        return (2 + 2 +  (getComment() != null && getComment().length > 0 ? getComment().length : 0));
+        return (2 + 2 + (getComment() != null && getComment().length > 0 ? getComment().length : 0));
     }
 
     public void writeObject (DataOutputStream outputStream) throws IOException
     {
-        outputStream.writeShort (getExtendedDataBlockIdentificationCode().value()); 	/* 2 = 2 */
+        outputStream.writeShort (getExtendedDataBlockIdentificationCode().getvalue()); 	/* 2 = 2 */
         outputStream.writeShort (getLengthOfExtendedDataBlock());       				/* + 2 = 4 */
 
         if (getComment() != null && getComment().length > 0)
             outputStream.write (getComment(), 0, getComment().length); // 4 + Comment Length
+
         outputStream.flush ();
     }
 

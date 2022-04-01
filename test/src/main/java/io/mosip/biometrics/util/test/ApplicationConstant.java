@@ -4,6 +4,8 @@ public class ApplicationConstant {
 	/** Image File Type */
 	public static String IMAGE_TYPE_JP2000 = "io.mosip.biometrics.util.image.type.jp2000";
 	public static String IMAGE_TYPE_WSQ = "io.mosip.biometrics.util.image.type.wsq";
+	public static String IMAGE_TYPE_JPEG = "io.mosip.biometrics.util.image.type.jpeg";
+	public static String IMAGE_TYPE_PNG = "io.mosip.biometrics.util.image.type.png";
 
 	/** File Conversion Type */
 	public static String MOSIP_CONVERT_ISO_TO_IMAGE = "io.mosip.biometrics.util.convert.image.to.iso";

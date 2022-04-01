@@ -42,7 +42,7 @@ public class FingerBDIR extends AbstractImageInfo
 		FingerImageBitDepth bitDepth, FingerImageCompressionType compressionType,
 		FingerImpressionType impressionType, int lineLengthHorizontal, int lineLengthVertical,
 		int noOfFingerPresent, byte [] image, 
-		SegmentationBlock segmentationBlock, AnnotationBlock annotationBlock, CommentBlock commentBlock
+		SegmentationBlock segmentationBlock, AnnotationBlock annotationBlock, CommentBlock[] commentBlocks
 	)
 	{
     	setRepresentation (new Representation (captureDate, 
@@ -52,7 +52,7 @@ public class FingerBDIR extends AbstractImageInfo
         		captureDeviceSpatialSamplingRateHorizontal, captureDeviceSpatialSamplingRateVertical, 
         		imageSpatialSamplingRateHorizontal, imageSpatialSamplingRateVertical,
         		bitDepth, compressionType, impressionType, lineLengthHorizontal, lineLengthVertical,
-        		image, segmentationBlock, annotationBlock, commentBlock));
+        		image, segmentationBlock, annotationBlock, commentBlocks));
 	
     	int totalRepresentationLength = getRepresentation().getRecordLength ();
 	    setGeneralHeader (new GeneralHeader (formatIdentifier, versionNumber, totalRepresentationLength, noOfRepresentations, certificationFlag, noOfFingerPresent));

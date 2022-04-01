@@ -1,0 +1,1 @@
+java -cp bioutils-0.0.1-SNAPSHOT.jar;lib\* io.mosip.biometrics.util.test.BioUtilConvertApplication "io.mosip.biometrics.util.image.type.png=3" "mosip.mock.sbi.biometric.type.finger.folder.path=/BiometricInfo/Finger/" "mosip.mock.sbi.biometric.type.file.iso=info_jp2.iso" 
