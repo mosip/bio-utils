@@ -33,7 +33,7 @@ jobs:
     - name: Updating the Release URL in POM 
       run: |
           cd .github/workflows
-          sed -i 's/OSSRH_SNAPSHOT_URL/OSSRH_SNAPSHOT_URL/g' push_trigger.yml
+          sed -i 's/OSSRH_SNAPSHOT_URL/RELEASE_URL/g' push_trigger.yml
 
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3
