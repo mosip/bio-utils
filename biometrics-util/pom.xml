@@ -5,28 +5,28 @@
 	
   <groupId>io.mosip.biometric.util</groupId>
   <artifactId>biometrics-util</artifactId>
-  <version>1.2.1-SNAPSHOT</version>
+  <version>1.2.1-j17-SNAPSHOT</version>
   <name>biometrics-util</name>
   <url>http://maven.apache.org</url>
   <description>This utility is used to convert ISO to Image and Image to ISO</description>
 
   <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
   <dependencies>
 	<dependency>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-web</artifactId>
-		<version>2.0.2.RELEASE</version>
+		<version>2.7.0</version>
 		<scope>compile</scope>
 	</dependency>
 		
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
     
