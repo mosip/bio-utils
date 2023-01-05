@@ -12,8 +12,8 @@ public class FingerCertificationBlock extends AbstractImageInfo
 {
 	private static final Logger LOGGER = LoggerFactory.getLogger(FingerCertificationBlock.class);	
 
-    private FingerCertificationAuthorityID certificationAuthorityID;
-    private FingerCertificationSchemeIdentifier certificationSchemeIdentifier;
+    private int certificationAuthorityID;
+    private int certificationSchemeIdentifier;
 
     public FingerCertificationBlock ()
     {
@@ -21,7 +21,7 @@ public class FingerCertificationBlock extends AbstractImageInfo
     	setCertificationSchemeIdentifier (FingerCertificationSchemeIdentifier.UNSPECIFIED);
     }
     
-    public FingerCertificationBlock (FingerCertificationAuthorityID certificationAuthorityID, FingerCertificationSchemeIdentifier certificationSchemeIdentifier)
+    public FingerCertificationBlock (int certificationAuthorityID, int certificationSchemeIdentifier)
     {
     	setCertificationAuthorityID (certificationAuthorityID);
     	setCertificationSchemeIdentifier (certificationSchemeIdentifier);
@@ -32,11 +32,17 @@ public class FingerCertificationBlock extends AbstractImageInfo
     	readObject(inputStream);
 	}
     
+    public FingerCertificationBlock (DataInputStream inputStream, boolean onlyImageInformation) throws IOException
+	{
+    	readObject(inputStream, onlyImageInformation);
+	}
+    
+	@Override
     protected void readObject(DataInputStream inputStream) throws IOException {     	
 		int certificationAuthorityID = inputStream.readUnsignedShort();
 		try
 		{		
-        	setCertificationAuthorityID (FingerCertificationAuthorityID.fromValue (certificationAuthorityID));
+        	setCertificationAuthorityID (certificationAuthorityID);
 		}
 		catch(Exception ex)
 		{
@@ -46,47 +52,55 @@ public class FingerCertificationBlock extends AbstractImageInfo
 		int certificationSchemeIdentifier = inputStream.readUnsignedByte();
 		try
 		{		
-    		setCertificationSchemeIdentifier (FingerCertificationSchemeIdentifier.fromValue (certificationSchemeIdentifier));
+    		setCertificationSchemeIdentifier (certificationSchemeIdentifier);
 		}
 		catch(Exception ex)
 		{
 			LOGGER.error("setCertificationSchemeIdentifier :: Not Defined :: certificationSchemeIdentifier :: " + Integer.toHexString (certificationSchemeIdentifier));
 		}
     }
+	@Override
+	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
+		// SKIP	
+		inputStream.skip(3);
+	}
     
     /*  ((255 * 3)) (Table 2 � Finger image representation header record  ISO/IEC 19794-4-2011) */
-    public int getRecordLength ()
+	@Override
+    public long getRecordLength ()
     {
         return (2 + 1); 
     }
 
+	@Override
     public void writeObject (DataOutputStream outputStream) throws IOException
     {
-		outputStream.writeShort (getCertificationAuthorityID().value());     /* + 2 = 2 */
-		outputStream.writeByte (getCertificationSchemeIdentifier().value()); /* + 1 = 3 */
+		outputStream.writeShort (getCertificationAuthorityID());     /* + 2 = 2 */
+		outputStream.writeByte (getCertificationSchemeIdentifier()); /* + 1 = 3 */
         outputStream.flush ();
     }
     	
-	public FingerCertificationAuthorityID getCertificationAuthorityID() {
+	public int getCertificationAuthorityID() {
 		return certificationAuthorityID;
 	}
 
-	public void setCertificationAuthorityID(FingerCertificationAuthorityID certificationAuthorityID) {
+	public void setCertificationAuthorityID(int certificationAuthorityID) {
 		this.certificationAuthorityID = certificationAuthorityID;
 	}
 
-	public FingerCertificationSchemeIdentifier getCertificationSchemeIdentifier() {
+	public int getCertificationSchemeIdentifier() {
 		return certificationSchemeIdentifier;
 	}
 
-	public void setCertificationSchemeIdentifier(FingerCertificationSchemeIdentifier certificationSchemeIdentifier) {
+	public void setCertificationSchemeIdentifier(int certificationSchemeIdentifier) {
 		this.certificationSchemeIdentifier = certificationSchemeIdentifier;
 	}
 
 	@Override
 	public String toString() {
 		return "\nFingerCertificationBlock [RecordLength=" + getRecordLength () 
-				+ ", certificationAuthorityID=" + certificationAuthorityID
-				+ ", certificationSchemeIdentifier=" + certificationSchemeIdentifier + "]\n";
+				+ ", certificationAuthorityID=" + Integer.toHexString (certificationAuthorityID)
+				+ ", certificationSchemeIdentifier=" + Integer.toHexString (certificationSchemeIdentifier) + "]\n";
 	}
+
 }

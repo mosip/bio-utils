@@ -11,157 +11,152 @@ import io.mosip.biometrics.util.AbstractImageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RepresentationHeader extends AbstractImageInfo
-{
-	private static final Logger LOGGER = LoggerFactory.getLogger(RepresentationHeader.class);	
-   
-    private int representationDataLength;
-    private int representationLength;
+public class RepresentationHeader extends AbstractImageInfo {
+	private static final Logger LOGGER = LoggerFactory.getLogger(RepresentationHeader.class);
 
-    private Date captureDateTime;
-    private int captureYear;
-    private int captureMonth;
-    private int captureDay;
-    private int captureHour;
-    private int captureMinute;
-    private int captureSecond;
-    private int captureMilliSecond;
+	private long representationDataLength;
+	private long representationLength;
 
-    private FingerCaptureDeviceTechnology captureDeviceTechnologyIdentifier;
-    private FingerCaptureDeviceVendor captureDeviceVendorIdentifier;
-    private FingerCaptureDeviceType captureDeviceTypeIdentifier;
+	private Date captureDateTime;
+	private int captureYear;
+	private int captureMonth;
+	private int captureDay;
+	private int captureHour;
+	private int captureMinute;
+	private int captureSecond;
+	private int captureMilliSecond;
 
-    private int noOfQualityBlocks;
-    private FingerQualityBlock[] qualityBlocks;
-    private FingerCertificationFlag certificationFlag;
-    private int noOfCertificationBlocks;
-    private FingerCertificationBlock[] certificationBlocks;
+	private int captureDeviceTechnologyIdentifier;
+	private int captureDeviceVendorIdentifier;
+	private int captureDeviceTypeIdentifier;
 
-    private FingerPosition fingerPosition;
-    private int representationNo;
-    private FingerScaleUnitType scaleUnits;
-    private int captureDeviceSpatialSamplingRateHorizontal;
-    private int captureDeviceSpatialSamplingRateVertical;
-    private int imageSpatialSamplingRateHorizontal;
-    private int imageSpatialSamplingRateVertical;
-    private FingerImageBitDepth bitDepth;
-    private FingerImageCompressionType compressionType;
-    private FingerImpressionType impressionType;
-    private int lineLengthHorizontal;
-    private int lineLengthVertical;
-    
-    public RepresentationHeader (int representationDataLength, Date captureDate,
-		FingerQualityBlock [] qualityBlocks, 
-		FingerCertificationFlag certificationFlag, FingerCertificationBlock[] certificationBlocks, 
-		FingerPosition fingerPosition, int representationNo, 
-		FingerScaleUnitType scaleUnitType)
-    {
-        setRepresentationDataLength (representationDataLength);
-        setCaptureDateTime (captureDate);
-        
-        Calendar calendar = Calendar.getInstance();
+	private int noOfQualityBlocks;
+	private FingerQualityBlock[] qualityBlocks;
+	private int certificationFlag;
+	private int noOfCertificationBlocks;
+	private FingerCertificationBlock[] certificationBlocks;
+
+	private int fingerPosition;
+	private int representationNo;
+	private int scaleUnits;
+	private int captureDeviceSpatialSamplingRateHorizontal;
+	private int captureDeviceSpatialSamplingRateVertical;
+	private int imageSpatialSamplingRateHorizontal;
+	private int imageSpatialSamplingRateVertical;
+	private int bitDepth;
+	private int compressionType;
+	private int impressionType;
+	private int lineLengthHorizontal;
+	private int lineLengthVertical;
+
+	public RepresentationHeader(long representationDataLength, Date captureDate, FingerQualityBlock[] qualityBlocks,
+			int certificationFlag, FingerCertificationBlock[] certificationBlocks, int fingerPosition,
+			int representationNo, int scaleUnitType) {
+		setRepresentationDataLength(representationDataLength);
+		setCaptureDateTime(captureDate);
+
+		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(captureDate);
-		setCaptureYear (calendar.get(Calendar.YEAR));
-		setCaptureMonth (calendar.get(Calendar.MONTH));
-		setCaptureDay (calendar.get(Calendar.DAY_OF_MONTH));
-		setCaptureHour (calendar.get(Calendar.HOUR_OF_DAY));
-		setCaptureMinute (calendar.get(Calendar.MINUTE));
-		setCaptureSecond (calendar.get(Calendar.SECOND));
-		setCaptureMilliSecond (calendar.get(Calendar.MILLISECOND));
+		setCaptureYear(calendar.get(Calendar.YEAR));
+		setCaptureMonth(calendar.get(Calendar.MONTH));
+		setCaptureDay(calendar.get(Calendar.DAY_OF_MONTH));
+		setCaptureHour(calendar.get(Calendar.HOUR_OF_DAY));
+		setCaptureMinute(calendar.get(Calendar.MINUTE));
+		setCaptureSecond(calendar.get(Calendar.SECOND));
+		setCaptureMilliSecond(calendar.get(Calendar.MILLISECOND));
 
-        setCaptureDeviceTechnologyIdentifier (FingerCaptureDeviceTechnology.UNSPECIFIED);
-        setCaptureDeviceVendorIdentifier (FingerCaptureDeviceVendor.UNSPECIFIED);
-        setCaptureDeviceTypeIdentifier (FingerCaptureDeviceType.UNSPECIFIED);
+		setCaptureDeviceTechnologyIdentifier(FingerCaptureDeviceTechnology.UNSPECIFIED);
+		setCaptureDeviceVendorIdentifier(FingerCaptureDeviceVendor.UNSPECIFIED);
+		setCaptureDeviceTypeIdentifier(FingerCaptureDeviceType.UNSPECIFIED);
 
-        setNoOfQualityBlocks (qualityBlocks.length);
-        setQualityBlocks (qualityBlocks);
-        setCertificationFlag (certificationFlag);
-        setNoOfCertificationBlocks (certificationBlocks.length);
-        setCertificationBlocks (certificationBlocks);
+		setNoOfQualityBlocks(qualityBlocks.length);
+		setQualityBlocks(qualityBlocks);
+		setCertificationFlag(certificationFlag);
+		setNoOfCertificationBlocks(certificationBlocks.length);
+		setCertificationBlocks(certificationBlocks);
 
-        setFingerPosition (fingerPosition);
-        setRepresentationNo (representationNo);
-        setScaleUnits (scaleUnitType);
-        setCaptureDeviceSpatialSamplingRateHorizontal (0);
-        setCaptureDeviceSpatialSamplingRateVertical (0);
-        setImageSpatialSamplingRateHorizontal (0);
-        setImageSpatialSamplingRateVertical (0);
-        setBitDepth (FingerImageBitDepth.BPP_08);
-        setCompressionType (FingerImageCompressionType.JPEG_2000_LOSS_LESS);
-        setImpressionType (FingerImpressionType.UNKNOWN);
-        setLineLengthHorizontal (0);
-        setLineLengthVertical (0);
-    }
-
-    public RepresentationHeader (int representationDataLength, Date captureDate, 
-		FingerCaptureDeviceTechnology captureDeviceTechnologyIdentifier, 
-		FingerCaptureDeviceVendor captureDeviceVendorIdentifier, 
-		FingerCaptureDeviceType captureDeviceTypeIdentifier,
-		FingerQualityBlock [] qualityBlocks, 
-		FingerCertificationFlag certificationFlag, FingerCertificationBlock[] certificationBlocks, 
-		FingerPosition fingerPosition, int representationNo, 
-		FingerScaleUnitType scaleUnitType, 
-		int captureDeviceSpatialSamplingRateHorizontal, int captureDeviceSpatialSamplingRateVertical, 
-		int imageSpatialSamplingRateHorizontal, int imageSpatialSamplingRateVertical,
-		FingerImageBitDepth bitDepth, FingerImageCompressionType compressionType,
-		FingerImpressionType impressionType, int lineLengthHorizontal, int lineLengthVertical
-    		)
-    {
-        setRepresentationDataLength (representationDataLength);
-        setCaptureDateTime (captureDate);
-        
-        Calendar calendar = Calendar.getInstance();
-		calendar.setTime(captureDate);
-		setCaptureYear (calendar.get(Calendar.YEAR));
-		setCaptureMonth (calendar.get(Calendar.MONTH));
-		setCaptureDay (calendar.get(Calendar.DAY_OF_MONTH));
-		setCaptureHour (calendar.get(Calendar.HOUR_OF_DAY));
-		setCaptureMinute (calendar.get(Calendar.MINUTE));
-		setCaptureSecond (calendar.get(Calendar.SECOND));
-		setCaptureMilliSecond (calendar.get(Calendar.MILLISECOND));
-
-        setCaptureDeviceTechnologyIdentifier (FingerCaptureDeviceTechnology.UNSPECIFIED);
-        setCaptureDeviceVendorIdentifier (FingerCaptureDeviceVendor.UNSPECIFIED);
-        setCaptureDeviceTypeIdentifier (FingerCaptureDeviceType.UNSPECIFIED);
-
-        setNoOfQualityBlocks ((qualityBlocks != null && qualityBlocks.length > 0) ? qualityBlocks.length : 0);
-        setQualityBlocks (qualityBlocks);
-        setCertificationFlag (certificationFlag);
-        setNoOfCertificationBlocks ((certificationBlocks != null && certificationBlocks.length > 0) ? certificationBlocks.length : 0);
-        setCertificationBlocks (certificationBlocks);
-
-        setFingerPosition (fingerPosition);
-        setRepresentationNo (representationNo);
-        setScaleUnits (scaleUnitType);
-        setCaptureDeviceSpatialSamplingRateHorizontal (captureDeviceSpatialSamplingRateHorizontal);
-        setCaptureDeviceSpatialSamplingRateVertical (captureDeviceSpatialSamplingRateVertical);
-        setImageSpatialSamplingRateHorizontal (imageSpatialSamplingRateHorizontal);
-        setImageSpatialSamplingRateVertical (imageSpatialSamplingRateVertical);
-        setBitDepth (bitDepth);
-        setCompressionType (compressionType);
-        setImpressionType (impressionType);
-        setLineLengthHorizontal (lineLengthHorizontal);
-        setLineLengthVertical (lineLengthVertical);
+		setFingerPosition(fingerPosition);
+		setRepresentationNo(representationNo);
+		setScaleUnits(scaleUnitType);
+		setCaptureDeviceSpatialSamplingRateHorizontal(0);
+		setCaptureDeviceSpatialSamplingRateVertical(0);
+		setImageSpatialSamplingRateHorizontal(0);
+		setImageSpatialSamplingRateVertical(0);
+		setBitDepth(FingerImageBitDepth.BPP_08);
+		setCompressionType(FingerImageCompressionType.JPEG_2000_LOSS_LESS);
+		setImpressionType(FingerImpressionType.UNKNOWN);
+		setLineLengthHorizontal(0);
+		setLineLengthVertical(0);
 	}
 
-    public RepresentationHeader (DataInputStream inputStream, FingerCertificationFlag certificationFlag) throws IOException
-	{
-        setCertificationFlag (certificationFlag);
-    	readObject(inputStream);
-	}
-    
-    protected void readObject(DataInputStream inputStream) throws IOException {    
-    	setRepresentationDataLength ((int)(inputStream.readInt() & 0xFFFFFFFFL));
+	public RepresentationHeader(long representationDataLength, Date captureDate, int captureDeviceTechnologyIdentifier,
+			int captureDeviceVendorIdentifier, int captureDeviceTypeIdentifier, FingerQualityBlock[] qualityBlocks,
+			int certificationFlag, FingerCertificationBlock[] certificationBlocks, int fingerPosition,
+			int representationNo, int scaleUnitType, int captureDeviceSpatialSamplingRateHorizontal,
+			int captureDeviceSpatialSamplingRateVertical, int imageSpatialSamplingRateHorizontal,
+			int imageSpatialSamplingRateVertical, int bitDepth, int compressionType, int impressionType,
+			int lineLengthHorizontal, int lineLengthVertical) {
+		setRepresentationDataLength(representationDataLength);
+		setCaptureDateTime(captureDate);
 
-        Calendar calendar = Calendar.getInstance();
-		calendar.setTime(new Date ());
-		setCaptureYear (inputStream.readUnsignedShort());
-		setCaptureMonth (inputStream.readUnsignedByte());
-		setCaptureDay (inputStream.readUnsignedByte());
-		setCaptureHour (inputStream.readUnsignedByte());
-		setCaptureMinute (inputStream.readUnsignedByte());
-		setCaptureSecond (inputStream.readUnsignedByte());
-		setCaptureMilliSecond (inputStream.readUnsignedShort());
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(captureDate);
+		setCaptureYear(calendar.get(Calendar.YEAR));
+		setCaptureMonth(calendar.get(Calendar.MONTH));
+		setCaptureDay(calendar.get(Calendar.DAY_OF_MONTH));
+		setCaptureHour(calendar.get(Calendar.HOUR_OF_DAY));
+		setCaptureMinute(calendar.get(Calendar.MINUTE));
+		setCaptureSecond(calendar.get(Calendar.SECOND));
+		setCaptureMilliSecond(calendar.get(Calendar.MILLISECOND));
+
+		setCaptureDeviceTechnologyIdentifier(captureDeviceTechnologyIdentifier);
+		setCaptureDeviceVendorIdentifier(captureDeviceVendorIdentifier);
+		setCaptureDeviceTypeIdentifier(captureDeviceTypeIdentifier);
+
+		setNoOfQualityBlocks(((qualityBlocks != null && qualityBlocks.length > 0) ? qualityBlocks.length : 0));
+		setQualityBlocks(qualityBlocks);
+		setCertificationFlag(certificationFlag);
+		setNoOfCertificationBlocks(
+				((certificationBlocks != null && certificationBlocks.length > 0) ? certificationBlocks.length : 0));
+		setCertificationBlocks(certificationBlocks);
+
+		setFingerPosition(fingerPosition);
+		setRepresentationNo(representationNo);
+		setScaleUnits(scaleUnitType);
+		setCaptureDeviceSpatialSamplingRateHorizontal(captureDeviceSpatialSamplingRateHorizontal);
+		setCaptureDeviceSpatialSamplingRateVertical(captureDeviceSpatialSamplingRateVertical);
+		setImageSpatialSamplingRateHorizontal(imageSpatialSamplingRateHorizontal);
+		setImageSpatialSamplingRateVertical(imageSpatialSamplingRateVertical);
+		setBitDepth(bitDepth);
+		setCompressionType(compressionType);
+		setImpressionType(impressionType);
+		setLineLengthHorizontal(lineLengthHorizontal);
+		setLineLengthVertical(lineLengthVertical);
+	}
+
+	public RepresentationHeader(DataInputStream inputStream, int certificationFlag) throws IOException {
+		setCertificationFlag(certificationFlag);
+		readObject(inputStream);
+	}
+
+	public RepresentationHeader(DataInputStream inputStream, int certificationFlag, boolean onlyImageInformation) throws IOException {
+		setCertificationFlag(certificationFlag);
+		readObject(inputStream, onlyImageInformation);
+	}
+
+	@Override
+	protected void readObject(DataInputStream inputStream) throws IOException {
+		setRepresentationDataLength((inputStream.readInt() & 0xFFFFFFFFL));
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		setCaptureYear(inputStream.readUnsignedShort());
+		setCaptureMonth(inputStream.readUnsignedByte());
+		setCaptureDay(inputStream.readUnsignedByte());
+		setCaptureHour(inputStream.readUnsignedByte());
+		setCaptureMinute(inputStream.readUnsignedByte());
+		setCaptureSecond(inputStream.readUnsignedByte());
+		setCaptureMilliSecond(inputStream.readUnsignedShort());
 
 		calendar.set(Calendar.YEAR, getCaptureYear());
 		calendar.set(Calendar.MONTH, getCaptureMonth() - 1);
@@ -170,210 +165,227 @@ public class RepresentationHeader extends AbstractImageInfo
 		calendar.set(Calendar.MINUTE, getCaptureMinute());
 		calendar.set(Calendar.SECOND, getCaptureSecond());
 		calendar.set(Calendar.MILLISECOND, getCaptureMilliSecond());
-		setCaptureDateTime (calendar.getTime());
+		setCaptureDateTime(calendar.getTime());
 
-		setCaptureDeviceTechnologyIdentifier (FingerCaptureDeviceTechnology.fromValue(inputStream.readUnsignedByte()));
+		setCaptureDeviceTechnologyIdentifier(inputStream.readUnsignedByte());
 		int captureDeviceVendorIdentifier = inputStream.readUnsignedShort();
-		try
-		{			
-	        setCaptureDeviceVendorIdentifier (FingerCaptureDeviceVendor.fromValue(captureDeviceVendorIdentifier));
-		}
-		catch(Exception ex)
-		{
-			LOGGER.error("setCaptureDeviceVendorIdentifier :: Not Defined :: captureDeviceVendorIdentifier :: " + Integer.toHexString(captureDeviceVendorIdentifier));
+		try {
+			setCaptureDeviceVendorIdentifier(captureDeviceVendorIdentifier);
+		} catch (Exception ex) {
+			LOGGER.error("setCaptureDeviceVendorIdentifier :: Not Defined :: captureDeviceVendorIdentifier :: "
+					+ Integer.toHexString(captureDeviceVendorIdentifier));
 		}
 
 		int captureDeviceTypeIdentifier = inputStream.readUnsignedShort();
-		try
-		{			
-			setCaptureDeviceTypeIdentifier (FingerCaptureDeviceType.fromValue(captureDeviceTypeIdentifier));
-		}
-		catch(Exception ex)
-		{
-			LOGGER.error("setCaptureDeviceTypeIdentifier :: Not Defined :: captureDeviceTypeIdentifier :: " + Integer.toHexString (captureDeviceTypeIdentifier));
+		try {
+			setCaptureDeviceTypeIdentifier(captureDeviceTypeIdentifier);
+		} catch (Exception ex) {
+			LOGGER.error("setCaptureDeviceTypeIdentifier :: Not Defined :: captureDeviceTypeIdentifier :: "
+					+ Integer.toHexString(captureDeviceTypeIdentifier));
 		}
 
-        setNoOfQualityBlocks (inputStream.readUnsignedByte());
-        FingerQualityBlock [] qualityBlock = new FingerQualityBlock[getNoOfQualityBlocks ()];
-        if (getNoOfQualityBlocks () > 0)
-        {
-            for (int index=0;index < getNoOfQualityBlocks (); index++)
-            {        	
-            	qualityBlock [index] = new FingerQualityBlock (inputStream);        	
-            }
-        }
-        setQualityBlocks (qualityBlock);
-        
-        if (getCertificationFlag () == FingerCertificationFlag.ONE)
-        {
-            setNoOfCertificationBlocks (inputStream.readUnsignedByte());
-            FingerCertificationBlock[] certificationBlocks = new FingerCertificationBlock[getNoOfCertificationBlocks ()];
-            if (getNoOfCertificationBlocks () > 0)
-            {
-                for (int index=0;index < getNoOfCertificationBlocks (); index++)
-                {        	
-                	certificationBlocks [index] = new FingerCertificationBlock (inputStream);        	
-                }
-            }
-            setCertificationBlocks (certificationBlocks);
-        }
-
-        int fingerPosition = inputStream.readUnsignedByte();
-		try
-		{		
-	        setFingerPosition (FingerPosition.fromValue(fingerPosition));
+		setNoOfQualityBlocks(inputStream.readUnsignedByte());
+		FingerQualityBlock[] qualityBlock = new FingerQualityBlock[getNoOfQualityBlocks()];
+		if (getNoOfQualityBlocks() > 0) {
+			for (int index = 0; index < getNoOfQualityBlocks(); index++) {
+				qualityBlock[index] = new FingerQualityBlock(inputStream);
+			}
 		}
-		catch(Exception ex)
-		{
-			LOGGER.error("setFingerPosition :: Not Defined :: fingerPosition :: " + Integer.toHexString (fingerPosition));
+		setQualityBlocks(qualityBlock);
+
+		if (getCertificationFlag() == FingerCertificationFlag.ONE) {
+			setNoOfCertificationBlocks(inputStream.readUnsignedByte());
+			FingerCertificationBlock[] certificationBlocks = new FingerCertificationBlock[getNoOfCertificationBlocks()];
+			if (getNoOfCertificationBlocks() > 0) {
+				for (int index = 0; index < getNoOfCertificationBlocks(); index++) {
+					certificationBlocks[index] = new FingerCertificationBlock(inputStream);
+				}
+			}
+			setCertificationBlocks(certificationBlocks);
+		}
+
+		int fingerPosition = inputStream.readUnsignedByte();
+		try {
+			setFingerPosition(fingerPosition);
+		} catch (Exception ex) {
+			LOGGER.error(
+					"setFingerPosition :: Not Defined :: fingerPosition :: " + Integer.toHexString(fingerPosition));
+		}
+
+		setRepresentationNo(inputStream.readUnsignedByte());
+
+		int scaleUnits = inputStream.readUnsignedByte();
+		try {
+			setScaleUnits(scaleUnits);
+		} catch (Exception ex) {
+			LOGGER.error("setScaleUnits :: Not Defined :: scaleUnits :: " + Integer.toHexString(scaleUnits));
+		}
+		setCaptureDeviceSpatialSamplingRateHorizontal(inputStream.readUnsignedShort());
+		setCaptureDeviceSpatialSamplingRateVertical(inputStream.readUnsignedShort());
+		setImageSpatialSamplingRateHorizontal(inputStream.readUnsignedShort());
+		setImageSpatialSamplingRateVertical(inputStream.readUnsignedShort());
+
+		int bitDepth = inputStream.readUnsignedByte();
+		try {
+			setBitDepth(bitDepth);
+		} catch (Exception ex) {
+			LOGGER.error("setBitDepth :: Not Defined :: bitDepth :: " + Integer.toHexString(bitDepth));
+		}
+
+		int compressionType = inputStream.readUnsignedByte();
+		try {
+			setCompressionType(compressionType);
+		} catch (Exception ex) {
+			LOGGER.error(
+					"setCompressionType :: Not Defined :: compressionType :: " + Integer.toHexString(compressionType));
+		}
+
+		int impressionType = inputStream.readUnsignedByte();
+		try {
+			setImpressionType(impressionType);
+		} catch (Exception ex) {
+			LOGGER.error(
+					"setImpressionType :: Not Defined :: impressionType :: " + Integer.toHexString(impressionType));
+		}
+
+		setLineLengthHorizontal(inputStream.readUnsignedShort());
+		setLineLengthVertical(inputStream.readUnsignedShort());
+	}
+
+	@Override
+	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
+		// 4(RepresentationDataLength) + 9(Datetime) + 1(DeviceTechnologyIdentifier) + 2(DeviceVendorIdentifier) + 2 (DeviceTypeIdentifier)
+		inputStream.skipBytes(18);
+
+		setNoOfQualityBlocks(inputStream.readUnsignedByte());
+		inputStream.skipBytes(getNoOfQualityBlocks() * 5);
+
+		if (getCertificationFlag() == FingerCertificationFlag.ONE) {
+			setNoOfCertificationBlocks(inputStream.readUnsignedByte());
+			inputStream.skipBytes(getNoOfCertificationBlocks() * 3);
 		}
 		
-        setRepresentationNo (inputStream.readUnsignedByte());
-
-        int scaleUnits = inputStream.readUnsignedByte();
-		try
-		{		
-	        setScaleUnits (FingerScaleUnitType.fromValue(scaleUnits));
+		int fingerPosition = inputStream.readUnsignedByte();
+		try {
+			setFingerPosition(fingerPosition);
+		} catch (Exception ex) {
+			LOGGER.error(
+					"setFingerPosition :: Not Defined :: fingerPosition :: " + Integer.toHexString(fingerPosition));
 		}
-		catch(Exception ex)
+
+		// 1(RepresentationNo) + 1(scaleUnits) + 2(DeviceSpatialSamplingRateHorizontal) + 2(CaptureDeviceSpatialSamplingRateVertical)
+		// + 2(ImageSpatialSamplingRateHorizontal) + 2(ImageSpatialSamplingRateVertical)		
+		inputStream.skipBytes(10);
+		
+		int bitDepth = inputStream.readUnsignedByte();
+		try {
+			setBitDepth(bitDepth);
+		} catch (Exception ex) {
+			LOGGER.error("setBitDepth :: Not Defined :: bitDepth :: " + Integer.toHexString(bitDepth));
+		}
+
+		int compressionType = inputStream.readUnsignedByte();
+		try {
+			setCompressionType(compressionType);
+		} catch (Exception ex) {
+			LOGGER.error(
+					"setCompressionType :: Not Defined :: compressionType :: " + Integer.toHexString(compressionType));
+		}
+
+		// 1(impressionType) + 2(LineLengthHorizontal) + 2(LineLengthVertical)
+		inputStream.skipBytes(5);
+	}
+
+	/*
+	 * 4 + 9 + 1 + 2 + 2 + 1 + 5x + (1 + 3x) + 1 + 1 + 2 + 2 + 2 + 2 + 1 + 1 + 1 + 2
+	 * + 2 (Table 4 Finger representation header ISO/IEC 19794-4-2011)
+	 */
+	@Override
+	public long getRecordLength() {
+		long qualityBlockRecordLength = 0;
+		if (getQualityBlocks() != null && getQualityBlocks().length > 0) {
+			for (int index = 0; index < getQualityBlocks().length; index++)
+				qualityBlockRecordLength += getQualityBlocks()[index].getRecordLength();
+		}
+
+		long certificationBlockRecordLength = 0;
+		if (getCertificationFlag() == FingerCertificationFlag.ONE) {
+			certificationBlockRecordLength = 1;
+			if (getCertificationBlocks() != null && getCertificationBlocks().length > 0) {
+				for (int index = 0; index < getCertificationBlocks().length; index++)
+					certificationBlockRecordLength += getCertificationBlocks()[index].getRecordLength();
+			}
+		}
+
+		return (4 + 9 + 1 + 2 + 2 + 1 + qualityBlockRecordLength // (5x)
+				+ certificationBlockRecordLength // (1 + 3x)
+				+ 1 + 1 + 1 + 2 + 2 + 2 + 2 + 1 + 1 + 1 + 2 + 2);
+	}
+
+	@Override
+	public void writeObject(DataOutputStream outputStream) throws IOException {
+		outputStream.writeInt((int) (getRecordLength() + getRepresentationDataLength())); // 4
+		outputStream.writeShort(getCaptureYear()); // 4 + 2 = 6
+		outputStream.writeByte(getCaptureMonth() + 1); // 6 + 1 = 7
+		outputStream.writeByte(getCaptureDay()); // 7 + 1 = 8
+		outputStream.writeByte(getCaptureHour()); // 8 + 1 = 9
+		outputStream.writeByte(getCaptureMinute()); // 9 + 1 = 10
+		outputStream.writeByte(getCaptureSecond()); // 10 + 1 = 11
+		outputStream.writeShort(getCaptureMilliSecond()); // 11 + 2 = 13
+
+		outputStream.writeByte(getCaptureDeviceTechnologyIdentifier()); // 13 + 1 = 14
+		outputStream.writeShort(getCaptureDeviceVendorIdentifier()); // 14 + 2 = 16
+		outputStream.writeShort(getCaptureDeviceTypeIdentifier()); // 16 + 2 = 18
+
+		outputStream.writeByte(getNoOfQualityBlocks()); // 18 + 1 = 19
+		if (getQualityBlocks() != null) // 19 + 5XBlocks = 24
 		{
-			LOGGER.error("setScaleUnits :: Not Defined :: scaleUnits :: " + Integer.toHexString (scaleUnits));
+			for (int index = 0; index < getQualityBlocks().length; index++) {
+				getQualityBlocks()[index].writeObject(outputStream);
+			}
 		}
-        setCaptureDeviceSpatialSamplingRateHorizontal (inputStream.readUnsignedShort());
-        setCaptureDeviceSpatialSamplingRateVertical (inputStream.readUnsignedShort());
-        setImageSpatialSamplingRateHorizontal (inputStream.readUnsignedShort());
-        setImageSpatialSamplingRateVertical (inputStream.readUnsignedShort());
-
-        int bitDepth = inputStream.readUnsignedByte();
-		try
-		{		
-	        setBitDepth (FingerImageBitDepth.fromValue(bitDepth));
-		}
-		catch(Exception ex)
-		{
-			LOGGER.error("setBitDepth :: Not Defined :: bitDepth :: " + Integer.toHexString (bitDepth));
-		}
-
-        int compressionType = inputStream.readUnsignedByte();
-		try
-		{		
-			setCompressionType (FingerImageCompressionType.fromValue(compressionType));
-		}
-		catch(Exception ex)
-		{
-			LOGGER.error("setCompressionType :: Not Defined :: compressionType :: " + Integer.toHexString (compressionType));
-		}
-
-        int impressionType = inputStream.readUnsignedByte();
-		try
-		{		
-			setImpressionType (FingerImpressionType.fromValue(impressionType));
-		}
-		catch(Exception ex)
-		{
-			LOGGER.error("setImpressionType :: Not Defined :: impressionType :: " + Integer.toHexString (impressionType));
-		}
-
-		setLineLengthHorizontal (inputStream.readUnsignedShort());
-        setLineLengthVertical (inputStream.readUnsignedShort());
-    }
-    
-    /* 4 + 9 + 1 + 2 + 2 + 1 + 5x + (1 + 3x) + 1 + 1 + 2 + 2 + 2 + 2 + 1 + 1 + 1 + 2 + 2 (Table 4 � Finger representation header ISO/IEC 19794-4-2011) */
-    public int getRecordLength ()
-    {
-        int qualityBlockRecordLength = 0;
-        if (getQualityBlocks() != null && getQualityBlocks().length > 0)
-        {
-            for (int index = 0; index < getQualityBlocks().length; index++)
-                qualityBlockRecordLength += getQualityBlocks() [index].getRecordLength ();
-        }
-
-        int certificationBlockRecordLength = 0;
-        if (getCertificationFlag () == FingerCertificationFlag.ONE)
-        {
-        	certificationBlockRecordLength = 1;
-	        if (getCertificationBlocks() != null && getCertificationBlocks().length > 0)
-	        {
-	            for (int index = 0; index < getCertificationBlocks().length; index++)
-	            	certificationBlockRecordLength += getCertificationBlocks() [index].getRecordLength ();
-	        }
-        }
-
-        return (4 + 9 + 1 + 2 + 2 + 1 
-			+ qualityBlockRecordLength //(5x)
-			+ certificationBlockRecordLength //(1 + 3x)
-			+ 1 + 1 + 1 + 2 + 2 + 2 + 2 + 1 + 1 + 1 + 2 + 2); 
-    }
-
-    public void writeObject (DataOutputStream outputStream) throws IOException
-    {
-        outputStream.writeInt (getRecordLength () + getRepresentationDataLength());   	// 4                                          
-        outputStream.writeShort (getCaptureYear());                                   	// 4 + 2 = 6                         
-        outputStream.writeByte (getCaptureMonth() + 1);                                   	// 6 + 1 = 7
-        outputStream.writeByte (getCaptureDay());                                     	// 7 + 1 = 8                    
-        outputStream.writeByte (getCaptureHour());										// 8 + 1 = 9
-        outputStream.writeByte (getCaptureMinute());									// 9 + 1 = 10
-        outputStream.writeByte (getCaptureSecond());									// 10 + 1 = 11
-        outputStream.writeShort (getCaptureMilliSecond());								// 11 + 2 = 13
-
-        outputStream.writeByte (getCaptureDeviceTechnologyIdentifier().value());	    // 13 + 1 = 14                    
-        outputStream.writeShort (getCaptureDeviceVendorIdentifier().value());		    // 14 + 2 = 16            
-        outputStream.writeShort (getCaptureDeviceTypeIdentifier().value());				// 16 + 2 = 18
-
-        outputStream.writeByte (getNoOfQualityBlocks());								// 18 + 1 = 19
-        if (getQualityBlocks() != null)													// 19 + 5XBlocks = 24
-        {
-            for (int index = 0; index < getQualityBlocks().length; index++)
-            {
-            	getQualityBlocks() [index].writeObject (outputStream);
-            }
-        }
-        if (getCertificationFlag () == FingerCertificationFlag.ONE)
-        {
-	        if (getCertificationBlocks() != null && getCertificationBlocks().length > 0)
-	        {
-	            outputStream.writeByte (getNoOfCertificationBlocks());					// 24 + 1 = 25
-	            for (int index = 0; index < getCertificationBlocks().length; index++)	// 25 + 3X = 28
-	            {
-	            	getCertificationBlocks() [index].writeObject (outputStream);
-	            }
-	        }
-	        else
-	        {
+		if (getCertificationFlag() == FingerCertificationFlag.ONE) {
+			if (getCertificationBlocks() != null && getCertificationBlocks().length > 0) {
+				outputStream.writeByte(getNoOfCertificationBlocks()); // 24 + 1 = 25
+				for (int index = 0; index < getCertificationBlocks().length; index++) // 25 + 3X = 28
+				{
+					getCertificationBlocks()[index].writeObject(outputStream);
+				}
+			} else {
 				LOGGER.error("getCertificationBlocks :: Not Defined ::  If FingerCertificationFlag.ONE :: ");
-	        }
-        }
-        outputStream.writeByte (getFingerPosition().value());							// 28 + 1 = 29
-        outputStream.writeByte (getRepresentationNo());									// 29 + 1 = 30
-        outputStream.writeByte (getScaleUnits().value());								// 30 + 1 = 31
-        outputStream.writeShort (getCaptureDeviceSpatialSamplingRateHorizontal());		// 31 + 2 = 33
-        outputStream.writeShort (getCaptureDeviceSpatialSamplingRateVertical());		// 33 + 2 = 35
-        outputStream.writeShort (getImageSpatialSamplingRateHorizontal());				// 35 + 2 = 37
-        outputStream.writeShort (getImageSpatialSamplingRateVertical());				// 37 + 2 = 39
-        outputStream.writeByte (getBitDepth().value());									// 39 + 1 = 40
-        outputStream.writeByte (getCompressionType().value());							// 40 + 1 = 41
-        outputStream.writeByte (getImpressionType().value());							// 41 + 1 = 42
-        outputStream.writeShort (getLineLengthHorizontal());							// 42 + 2 = 44
-        outputStream.writeShort (getLineLengthVertical());								// 44 + 2 = 46
-        outputStream.flush ();
-    }
+			}
+		}
+		outputStream.writeByte(getFingerPosition()); // 28 + 1 = 29
+		outputStream.writeByte(getRepresentationNo()); // 29 + 1 = 30
+		outputStream.writeByte(getScaleUnits()); // 30 + 1 = 31
+		outputStream.writeShort(getCaptureDeviceSpatialSamplingRateHorizontal()); // 31 + 2 = 33
+		outputStream.writeShort(getCaptureDeviceSpatialSamplingRateVertical()); // 33 + 2 = 35
+		outputStream.writeShort(getImageSpatialSamplingRateHorizontal()); // 35 + 2 = 37
+		outputStream.writeShort(getImageSpatialSamplingRateVertical()); // 37 + 2 = 39
+		outputStream.writeByte(getBitDepth()); // 39 + 1 = 40
+		outputStream.writeByte(getCompressionType()); // 40 + 1 = 41
+		outputStream.writeByte(getImpressionType()); // 41 + 1 = 42
+		outputStream.writeShort(getLineLengthHorizontal()); // 42 + 2 = 44
+		outputStream.writeShort(getLineLengthVertical()); // 44 + 2 = 46
+		outputStream.flush();
+	}
 
-	public int getRepresentationDataLength() {
+	public long getRepresentationDataLength() {
 		return representationDataLength;
 	}
 
-	public void setRepresentationDataLength(int representationDataLength) {
+	public void setRepresentationDataLength(long representationDataLength) {
 		this.representationDataLength = representationDataLength;
 	}
 
-	public int getRepresentationLength() {
+	public long getRepresentationLength() {
 		return representationLength;
 	}
 
-	public void setRepresentationLength(int representationLength) {
+	public void setRepresentationLength(long representationLength) {
 		this.representationLength = representationLength;
 	}
-	
+
 	public Date getCaptureDateTime() {
 		return captureDateTime;
 	}
@@ -438,27 +450,27 @@ public class RepresentationHeader extends AbstractImageInfo
 		this.captureMilliSecond = captureMilliSecond;
 	}
 
-	public FingerCaptureDeviceTechnology getCaptureDeviceTechnologyIdentifier() {
+	public int getCaptureDeviceTechnologyIdentifier() {
 		return captureDeviceTechnologyIdentifier;
 	}
 
-	public void setCaptureDeviceTechnologyIdentifier(FingerCaptureDeviceTechnology captureDeviceTechnologyIdentifier) {
+	public void setCaptureDeviceTechnologyIdentifier(int captureDeviceTechnologyIdentifier) {
 		this.captureDeviceTechnologyIdentifier = captureDeviceTechnologyIdentifier;
 	}
 
-	public FingerCaptureDeviceVendor getCaptureDeviceVendorIdentifier() {
+	public int getCaptureDeviceVendorIdentifier() {
 		return captureDeviceVendorIdentifier;
 	}
 
-	public void setCaptureDeviceVendorIdentifier(FingerCaptureDeviceVendor captureDeviceVendorIdentifier) {
+	public void setCaptureDeviceVendorIdentifier(int captureDeviceVendorIdentifier) {
 		this.captureDeviceVendorIdentifier = captureDeviceVendorIdentifier;
 	}
 
-	public FingerCaptureDeviceType getCaptureDeviceTypeIdentifier() {
+	public int getCaptureDeviceTypeIdentifier() {
 		return captureDeviceTypeIdentifier;
 	}
 
-	public void setCaptureDeviceTypeIdentifier(FingerCaptureDeviceType captureDeviceTypeIdentifier) {
+	public void setCaptureDeviceTypeIdentifier(int captureDeviceTypeIdentifier) {
 		this.captureDeviceTypeIdentifier = captureDeviceTypeIdentifier;
 	}
 
@@ -477,12 +489,12 @@ public class RepresentationHeader extends AbstractImageInfo
 	public void setQualityBlocks(FingerQualityBlock[] qualityBlocks) {
 		this.qualityBlocks = qualityBlocks;
 	}
-	
-	public FingerCertificationFlag getCertificationFlag() {
+
+	public int getCertificationFlag() {
 		return certificationFlag;
 	}
 
-	public void setCertificationFlag(FingerCertificationFlag certificationFlag) {
+	public void setCertificationFlag(int certificationFlag) {
 		this.certificationFlag = certificationFlag;
 	}
 
@@ -501,12 +513,12 @@ public class RepresentationHeader extends AbstractImageInfo
 	public void setCertificationBlocks(FingerCertificationBlock[] certificationBlocks) {
 		this.certificationBlocks = certificationBlocks;
 	}
-	
-	public FingerPosition getFingerPosition() {
+
+	public int getFingerPosition() {
 		return fingerPosition;
 	}
 
-	public void setFingerPosition(FingerPosition fingerPosition) {
+	public void setFingerPosition(int fingerPosition) {
 		this.fingerPosition = fingerPosition;
 	}
 
@@ -517,12 +529,12 @@ public class RepresentationHeader extends AbstractImageInfo
 	public void setRepresentationNo(int representationNo) {
 		this.representationNo = representationNo;
 	}
-	
-	public FingerScaleUnitType getScaleUnits() {
+
+	public int getScaleUnits() {
 		return scaleUnits;
 	}
 
-	public void setScaleUnits(FingerScaleUnitType scaleUnits) {
+	public void setScaleUnits(int scaleUnits) {
 		this.scaleUnits = scaleUnits;
 	}
 
@@ -558,27 +570,27 @@ public class RepresentationHeader extends AbstractImageInfo
 		this.imageSpatialSamplingRateVertical = imageSpatialSamplingRateVertical;
 	}
 
-	public FingerImageBitDepth getBitDepth() {
+	public int getBitDepth() {
 		return bitDepth;
 	}
 
-	public void setBitDepth(FingerImageBitDepth bitDepth) {
+	public void setBitDepth(int bitDepth) {
 		this.bitDepth = bitDepth;
 	}
 
-	public FingerImageCompressionType getCompressionType() {
+	public int getCompressionType() {
 		return compressionType;
 	}
 
-	public void setCompressionType(FingerImageCompressionType compressionType) {
+	public void setCompressionType(int compressionType) {
 		this.compressionType = compressionType;
 	}
 
-	public FingerImpressionType getImpressionType() {
+	public int getImpressionType() {
 		return impressionType;
 	}
 
-	public void setImpressionType(FingerImpressionType impressionType) {
+	public void setImpressionType(int impressionType) {
 		this.impressionType = impressionType;
 	}
 
@@ -600,21 +612,28 @@ public class RepresentationHeader extends AbstractImageInfo
 
 	@Override
 	public String toString() {
-		return "\nRepresentationHeader [RecordLength=" + getRecordLength() 
-				+ ", representationDataLength=" + representationDataLength 
-				+ ", representationLength=" + representationLength + ", captureDateTime=" + captureDateTime + ", captureYear=" + captureYear
-				+ ", captureMonth=" + captureMonth + ", captureDay=" + captureDay + ", captureHour=" + captureHour
-				+ ", captureMinute=" + captureMinute + ", captureSecond=" + captureSecond + ", captureMilliSecond="
-				+ captureMilliSecond + ", captureDeviceTechnologyIdentifier=" + captureDeviceTechnologyIdentifier
-				+ ", captureDeviceVendorIdentifier=" + captureDeviceVendorIdentifier + ", captureDeviceTypeIdentifier=" + captureDeviceTypeIdentifier 
-				+ ", noOfQualityBlocks=" + noOfQualityBlocks + ", qualityBlocks=" + Arrays.toString(qualityBlocks) 
-				+ ", certificationFlag=" + certificationFlag + ", noOfCertificationBlocks=" + noOfCertificationBlocks + ", certificationBlocks=" + Arrays.toString(certificationBlocks) + ", fingerPosition=" + fingerPosition
-				+ ", representationNo=" + representationNo + ", scaleUnits=" + scaleUnits
-				+ ", captureDeviceSpatialSamplingRateHorizontal=" + captureDeviceSpatialSamplingRateHorizontal
-				+ ", captureDeviceSpatialSamplingRateVertical=" + captureDeviceSpatialSamplingRateVertical
-				+ ", imageSpatialSamplingRateHorizontal=" + imageSpatialSamplingRateHorizontal
-				+ ", imageSpatialSamplingRateVertical=" + imageSpatialSamplingRateVertical + ", bitDepth=" + bitDepth
-				+ ", compressionType=" + compressionType + ", impressionType=" + impressionType
-				+ ", lineLengthHorizontal=" + Integer.toHexString (lineLengthHorizontal) + ", lineLengthVertical=" + Integer.toHexString (lineLengthVertical) + "]\n";
+		return "\nRepresentationHeader [RecordLength=" + getRecordLength() + ", representationDataLength="
+				+ representationDataLength + ", representationLength=" + representationLength + ", captureDateTime="
+				+ captureDateTime + ", captureYear=" + captureYear + ", captureMonth=" + captureMonth + ", captureDay="
+				+ captureDay + ", captureHour=" + captureHour + ", captureMinute=" + captureMinute + ", captureSecond="
+				+ captureSecond + ", captureMilliSecond=" + captureMilliSecond + ", captureDeviceTechnologyIdentifier="
+				+ Integer.toHexString(captureDeviceTechnologyIdentifier) + ", captureDeviceVendorIdentifier="
+				+ Integer.toHexString(captureDeviceVendorIdentifier) + ", captureDeviceTypeIdentifier="
+				+ Integer.toHexString(captureDeviceTypeIdentifier) + ", noOfQualityBlocks="
+				+ Integer.toHexString(noOfQualityBlocks) + ", qualityBlocks=" + Arrays.toString(qualityBlocks)
+				+ ", certificationFlag=" + Integer.toHexString(certificationFlag) + ", noOfCertificationBlocks="
+				+ Integer.toHexString(noOfCertificationBlocks) + ", certificationBlocks="
+				+ Arrays.toString(certificationBlocks) + ", fingerPosition=" + fingerPosition + ", representationNo="
+				+ Integer.toHexString(representationNo) + ", scaleUnits=" + scaleUnits
+				+ ", captureDeviceSpatialSamplingRateHorizontal="
+				+ Integer.toHexString(captureDeviceSpatialSamplingRateHorizontal)
+				+ ", captureDeviceSpatialSamplingRateVertical="
+				+ Integer.toHexString(captureDeviceSpatialSamplingRateVertical)
+				+ ", imageSpatialSamplingRateHorizontal=" + Integer.toHexString(imageSpatialSamplingRateHorizontal)
+				+ ", imageSpatialSamplingRateVertical=" + Integer.toHexString(imageSpatialSamplingRateVertical)
+				+ ", bitDepth=" + Integer.toHexString(bitDepth) + ", compressionType="
+				+ Integer.toHexString(compressionType) + ", impressionType=" + Integer.toHexString(impressionType)
+				+ ", lineLengthHorizontal=" + Integer.toHexString(lineLengthHorizontal) + ", lineLengthVertical="
+				+ Integer.toHexString(lineLengthVertical) + "]\n";
 	}
 }

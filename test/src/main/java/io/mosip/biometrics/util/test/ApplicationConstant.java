@@ -38,4 +38,11 @@ public class ApplicationConstant {
 	/** Purpose */
 	public static String MOSIP_PURPOSE_AUTH = "io.mosip.biometrics.util.purpose.auth";
 	public static String MOSIP_PURPOSE_REGISTRATION = "io.mosip.biometrics.util.purpose.registration";
+
+	/** Auth Decoder Information */
+	public static String MOSIP_TRANSACTION_ID = "mosip.mock.sbi.biometric.transaction.id";
+	public static String MOSIP_TIME_STAMP = "mosip.mock.sbi.biometric.time.stamp";
+	public static String MOSIP_THUMB_PRINT = "mosip.mock.sbi.biometric.thumb.print";
+	public static String MOSIP_SESSION_KEY = "mosip.mock.sbi.biometric.session.key";
+	public static String MOSIP_KEY_SPLITTER = "#KEY_SPLITTER#";
 }

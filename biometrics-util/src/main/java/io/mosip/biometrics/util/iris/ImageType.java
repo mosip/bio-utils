@@ -1,33 +1,33 @@
 package io.mosip.biometrics.util.iris;
 
-/** Eye Label, Table 4 of ISO/IEC 19794-6-2011. 
-*/
-public enum ImageType {
-	UNCROPPED(0x0001), 
-	VGA(0x0002), 
-	CROPPED(0x0003), 
-	CROPPED_AND_MASKED(0x0007);
+/**
+ * ImageType, Table 4 of ISO/IEC 19794-6-2011.
+ */
+public class ImageType {
+	public static final int UNCROPPED = 0x01;
+	public static final int VGA = 0x02;
+	public static final int CROPPED = 0x03;
+	public static final int CROPPED_AND_MASKED = 0x07;
 
-	private final int value;
-	ImageType(int value) {
+	private int value;
+
+	public ImageType(int value) {
 		this.value = value;
-	}	
-	
+	}
+
 	public int value() {
 		return this.value;
 	}
 
-	public static ImageType fromValue(int value) {
-		for (ImageType c : ImageType.values()) {
-			if (c.value == value) {
-				return c;
-			}
-		}
-		throw new IllegalArgumentException(value + "");
+	public static int fromValue(int value) {
+		if (value >= UNCROPPED && value <= CROPPED_AND_MASKED)
+			return value;
+		throw new IllegalArgumentException(
+				"ImageType value can be between (0x01 and 0x07), set value is wrong [" + value + "]");
 	}
 
 	@Override
 	public String toString() {
-		return super.toString() + "(" + Integer.toHexString (value) + ")";
+		return super.toString() + "(" + Integer.toHexString(value) + ")";
 	}
 }

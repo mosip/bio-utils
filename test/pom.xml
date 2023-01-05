@@ -11,7 +11,7 @@
   <groupId>io.mosip.bio.utils</groupId>
   <artifactId>bioutils</artifactId>
   <packaging>jar</packaging>
-  <version>1.2.0.1-SNAPSHOT</version>
+  <version>1.2.1-SNAPSHOT</version>
   <name>bioutils</name>
   <url>http://maven.apache.org</url>
   <dependencies>
@@ -78,7 +78,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>org.mosip.bio.utils.test.BioUtilApplication</mainClass>
+							<mainClass>io.mosip.biometrics.util.test.BioUtilApplication.class</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -153,15 +153,24 @@
 							          <include>run_convert_finger_WSQ_JPEG.bat</include>
 							          <include>run_convert_finger_WSQ_PNG.bat</include>
 
+							          <include>run_encoder_face_auth.bat</include>
+							          <include>run_encoder_face_registration.bat</include>
 							          <include>run_decoder_face.bat</include>
-							          <include>run_encoder_face.bat</include>
-							          <include>run_decoder_iris.bat</include>
-							          <include>run_encoder_iris.bat</include>
-							          <include>run_decoder_finger_jp2000.bat</include>
-							          <include>run_encoder_finger_jp2000.bat</include>
-							          <include>run_decoder_finger_wsq.bat</include>
-							          <include>run_encoder_finger_wsq.bat</include>
 
+							          <include>run_encoder_iris_auth.bat</include>
+							          <include>run_encoder_iris_registration.bat</include>
+							          <include>run_decoder_iris.bat</include>
+
+							          <include>run_encoder_finger_jp2000_registration.bat</include>
+							          <include>run_encoder_finger_jp2000_auth.bat</include>
+							          <include>run_encoder_finger_wsq_auth.bat</include>
+							          <include>run_decoder_finger_jp2000.bat</include>
+							          <include>run_decoder_finger_wsq.bat</include>
+
+							          <include>run_decoder_jp2000.bat</include>
+							          
+							          <include>run_bio_auth_decoder.bat</include>
+							          
 							       </includes>
 								</resource>
 							</resources>

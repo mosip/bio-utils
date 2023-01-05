@@ -11,108 +11,107 @@ import io.mosip.biometrics.util.AbstractImageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RepresentationHeader extends AbstractImageInfo
-{
-	private static final Logger LOGGER = LoggerFactory.getLogger(RepresentationHeader.class);	
-   
-    private int representationDataLength;
-    private int representationLength;
+public class RepresentationHeader extends AbstractImageInfo {
+	private static final Logger LOGGER = LoggerFactory.getLogger(RepresentationHeader.class);
 
-    private Date captureDateTime;
-    private int captureYear;
-    private int captureMonth;
-    private int captureDay;
-    private int captureHour;
-    private int captureMinute;
-    private int captureSecond;
-    private int captureMilliSecond;
+	private long representationDataLength;
+	private long representationLength;
 
-    private FaceCaptureDeviceTechnology captureDeviceTechnologyIdentifier;
-    private FaceCaptureDeviceVendor captureDeviceVendorIdentifier;
-    private FaceCaptureDeviceType captureDeviceTypeIdentifier;
+	private Date captureDateTime;
+	private int captureYear;
+	private int captureMonth;
+	private int captureDay;
+	private int captureHour;
+	private int captureMinute;
+	private int captureSecond;
+	private int captureMilliSecond;
 
-    private int noOfQualityBlocks;
-    private FaceQualityBlock[] qualityBlocks;
-    private FacialInformation facialInformation;
-    private LandmarkPoints [] landmarkPoints;
-    private ImageInformation imageInformation;
+	private int captureDeviceTechnologyIdentifier;
+	private int captureDeviceVendorIdentifier;
+	private int captureDeviceTypeIdentifier;
 
-    public RepresentationHeader (int representationDataLength, Date captureDate,
-        FaceQualityBlock [] qualityBlocks, FacialInformation facialInformation, LandmarkPoints [] landmarkPoints, 
-        ImageInformation imageInformation)
-    {
-        setRepresentationDataLength (representationDataLength);
-        setCaptureDateTime (captureDate);
-        
-        Calendar calendar = Calendar.getInstance();
+	private int noOfQualityBlocks;
+	private FaceQualityBlock[] qualityBlocks;
+	private FacialInformation facialInformation;
+	private LandmarkPoints[] landmarkPoints;
+	private ImageInformation imageInformation;
+
+	public RepresentationHeader(long representationDataLength, Date captureDate, FaceQualityBlock[] qualityBlocks,
+			FacialInformation facialInformation, LandmarkPoints[] landmarkPoints, ImageInformation imageInformation) {
+		setRepresentationDataLength(representationDataLength);
+		setCaptureDateTime(captureDate);
+
+		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(captureDate);
-		setCaptureYear (calendar.get(Calendar.YEAR));
-		setCaptureMonth (calendar.get(Calendar.MONTH));
-		setCaptureDay (calendar.get(Calendar.DAY_OF_MONTH));
-		setCaptureHour (calendar.get(Calendar.HOUR_OF_DAY));
-		setCaptureMinute (calendar.get(Calendar.MINUTE));
-		setCaptureSecond (calendar.get(Calendar.SECOND));
-		setCaptureMilliSecond (calendar.get(Calendar.MILLISECOND));
+		setCaptureYear(calendar.get(Calendar.YEAR));
+		setCaptureMonth(calendar.get(Calendar.MONTH));
+		setCaptureDay(calendar.get(Calendar.DAY_OF_MONTH));
+		setCaptureHour(calendar.get(Calendar.HOUR_OF_DAY));
+		setCaptureMinute(calendar.get(Calendar.MINUTE));
+		setCaptureSecond(calendar.get(Calendar.SECOND));
+		setCaptureMilliSecond(calendar.get(Calendar.MILLISECOND));
 
-        setCaptureDeviceTechnologyIdentifier (FaceCaptureDeviceTechnology.UNSPECIFIED);
-        setCaptureDeviceVendorIdentifier (FaceCaptureDeviceVendor.UNSPECIFIED);
-        setCaptureDeviceTypeIdentifier (FaceCaptureDeviceType.UNSPECIFIED);
+		setCaptureDeviceTechnologyIdentifier(FaceCaptureDeviceTechnology.UNSPECIFIED);
+		setCaptureDeviceVendorIdentifier(FaceCaptureDeviceVendor.UNSPECIFIED);
+		setCaptureDeviceTypeIdentifier(FaceCaptureDeviceType.UNSPECIFIED);
 
-        setNoOfQualityBlocks (qualityBlocks.length);
-        setQualityBlocks (qualityBlocks);
-        setFacialInformation (facialInformation);
-        setLandmarkPoints (landmarkPoints);
-        setImageInformation (imageInformation);
-    }
-
-    public RepresentationHeader (int representationDataLength, Date captureDate, 
-    		FaceCaptureDeviceTechnology captureDeviceTechnologyIdentifier, 
-    		FaceCaptureDeviceVendor captureDeviceVendorIdentifier, 
-    		FaceCaptureDeviceType captureDeviceTypeIdentifier,
-    		FaceQualityBlock [] qualityBlocks, FacialInformation facialInformation, 
-    		LandmarkPoints [] landmarkPoints, ImageInformation imageInformation)
-    {
-        setRepresentationDataLength (representationDataLength);
-        setCaptureDateTime (captureDate);
-
-        Calendar calendar = Calendar.getInstance();
-		calendar.setTime(captureDate);
-		setCaptureYear (calendar.get(Calendar.YEAR));
-		setCaptureMonth (calendar.get(Calendar.MONTH));
-		setCaptureDay (calendar.get(Calendar.DAY_OF_MONTH));
-		setCaptureHour (calendar.get(Calendar.HOUR_OF_DAY));
-		setCaptureMinute (calendar.get(Calendar.MINUTE));
-		setCaptureSecond (calendar.get(Calendar.SECOND));
-		setCaptureMilliSecond (calendar.get(Calendar.MILLISECOND));
-
-        setCaptureDeviceTechnologyIdentifier (captureDeviceTechnologyIdentifier);
-        setCaptureDeviceVendorIdentifier (captureDeviceVendorIdentifier);
-        setCaptureDeviceTypeIdentifier (captureDeviceTypeIdentifier);
-
-        setNoOfQualityBlocks (qualityBlocks.length);
-        setQualityBlocks (qualityBlocks);
-        setFacialInformation (facialInformation);
-        setLandmarkPoints (landmarkPoints);
-        setImageInformation (imageInformation);
-    }
-
-    public RepresentationHeader (DataInputStream inputStream) throws IOException
-	{
-    	readObject(inputStream);
+		setNoOfQualityBlocks(qualityBlocks.length);
+		setQualityBlocks(qualityBlocks);
+		setFacialInformation(facialInformation);
+		setLandmarkPoints(landmarkPoints);
+		setImageInformation(imageInformation);
+		setRepresentationLength(getRecordLength() + getRepresentationDataLength());
 	}
-    
-    protected void readObject(DataInputStream inputStream) throws IOException {    
-    	setRepresentationDataLength ((int)(inputStream.readInt() & 0xFFFFFFFFL));
 
-        Calendar calendar = Calendar.getInstance();
-		calendar.setTime(new Date ());
-		setCaptureYear (inputStream.readUnsignedShort());
-		setCaptureMonth (inputStream.readUnsignedByte());
-		setCaptureDay (inputStream.readUnsignedByte());
-		setCaptureHour (inputStream.readUnsignedByte());
-		setCaptureMinute (inputStream.readUnsignedByte());
-		setCaptureSecond (inputStream.readUnsignedByte());
-		setCaptureMilliSecond (inputStream.readUnsignedShort());
+	public RepresentationHeader(long representationDataLength, Date captureDate, int captureDeviceTechnologyIdentifier,
+			int captureDeviceVendorIdentifier, int captureDeviceTypeIdentifier, FaceQualityBlock[] qualityBlocks,
+			FacialInformation facialInformation, LandmarkPoints[] landmarkPoints, ImageInformation imageInformation) {
+		setRepresentationDataLength(representationDataLength);
+		setCaptureDateTime(captureDate);
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(captureDate);
+		setCaptureYear(calendar.get(Calendar.YEAR));
+		setCaptureMonth(calendar.get(Calendar.MONTH));
+		setCaptureDay(calendar.get(Calendar.DAY_OF_MONTH));
+		setCaptureHour(calendar.get(Calendar.HOUR_OF_DAY));
+		setCaptureMinute(calendar.get(Calendar.MINUTE));
+		setCaptureSecond(calendar.get(Calendar.SECOND));
+		setCaptureMilliSecond(calendar.get(Calendar.MILLISECOND));
+
+		setCaptureDeviceTechnologyIdentifier(captureDeviceTechnologyIdentifier);
+		setCaptureDeviceVendorIdentifier(captureDeviceVendorIdentifier);
+		setCaptureDeviceTypeIdentifier(captureDeviceTypeIdentifier);
+
+		setNoOfQualityBlocks(qualityBlocks.length);
+		setQualityBlocks(qualityBlocks);
+		setFacialInformation(facialInformation);
+		setLandmarkPoints(landmarkPoints);
+		setImageInformation(imageInformation);
+		setRepresentationLength(getRecordLength() + getRepresentationDataLength());
+	}
+
+	public RepresentationHeader(DataInputStream inputStream) throws IOException {
+		readObject(inputStream);
+	}
+
+	public RepresentationHeader(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
+		readObject(inputStream, onlyImageInformation);
+	}
+
+	@Override
+	protected void readObject(DataInputStream inputStream) throws IOException {
+		setRepresentationLength((inputStream.readInt() & 0xFFFFFFFFL));
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		setCaptureYear(inputStream.readUnsignedShort());
+		setCaptureMonth(inputStream.readUnsignedByte());
+		setCaptureDay(inputStream.readUnsignedByte());
+		setCaptureHour(inputStream.readUnsignedByte());
+		setCaptureMinute(inputStream.readUnsignedByte());
+		setCaptureSecond(inputStream.readUnsignedByte());
+		setCaptureMilliSecond(inputStream.readUnsignedShort());
 
 		calendar.set(Calendar.YEAR, getCaptureYear());
 		calendar.set(Calendar.MONTH, getCaptureMonth() - 1);
@@ -121,108 +120,116 @@ public class RepresentationHeader extends AbstractImageInfo
 		calendar.set(Calendar.MINUTE, getCaptureMinute());
 		calendar.set(Calendar.SECOND, getCaptureSecond());
 		calendar.set(Calendar.MILLISECOND, getCaptureMilliSecond());
-		setCaptureDateTime (calendar.getTime());
+		setCaptureDateTime(calendar.getTime());
 
-		setCaptureDeviceTechnologyIdentifier (FaceCaptureDeviceTechnology.fromValue(inputStream.readUnsignedByte()));
-        setCaptureDeviceVendorIdentifier (FaceCaptureDeviceVendor.fromValue(inputStream.readUnsignedShort()));
-        setCaptureDeviceTypeIdentifier (FaceCaptureDeviceType.fromValue(inputStream.readUnsignedShort()));
+		setCaptureDeviceTechnologyIdentifier(inputStream.readUnsignedByte());
+		setCaptureDeviceVendorIdentifier(inputStream.readUnsignedShort());
+		setCaptureDeviceTypeIdentifier(inputStream.readUnsignedShort());
 
-        setNoOfQualityBlocks (inputStream.readUnsignedByte());
-        FaceQualityBlock [] qualityBlock = new FaceQualityBlock[getNoOfQualityBlocks ()];
-        for (int index=0;index < getNoOfQualityBlocks (); index++)
-        {        	
-        	qualityBlock [index] = new FaceQualityBlock (inputStream);        	
-        }
-        setQualityBlocks (qualityBlock);
-        
-        setFacialInformation (new FacialInformation (inputStream));
-        int noOfLandMarkPoints = getFacialInformation().getNoOfLandMarkPoints();
-        if (noOfLandMarkPoints > 0)
-        {
-            LandmarkPoints [] landmarkPoints = new LandmarkPoints[noOfLandMarkPoints];
-            for (int index=0;index < noOfLandMarkPoints; index++)
-            {        	
-            	landmarkPoints [index] = new LandmarkPoints (inputStream);        	
-            }
-            setLandmarkPoints (landmarkPoints);
-        }
-        
-        setImageInformation (new ImageInformation (inputStream));
-    }
-    
-    public int getRecordLength ()
-    {
-        int qualityBlockRecordLength = 0;
-        if (getQualityBlocks() != null && getQualityBlocks().length > 0)
-        {
-            for (int index = 0; index < getQualityBlocks().length; index++)
-                qualityBlockRecordLength += getQualityBlocks() [index].getRecordLength ();
-        }
+		setNoOfQualityBlocks(inputStream.readUnsignedByte());
+		FaceQualityBlock[] qualityBlock = new FaceQualityBlock[getNoOfQualityBlocks()];
+		for (int index = 0; index < getNoOfQualityBlocks(); index++) {
+			qualityBlock[index] = new FaceQualityBlock(inputStream);
+		}
+		setQualityBlocks(qualityBlock);
 
-        int landMarkRecordLength = 0;
-        if (getLandmarkPoints() != null && getLandmarkPoints().length > 0)
-        {
-            for (int index=0; index < getLandmarkPoints().length; index++)
-                landMarkRecordLength += getLandmarkPoints() [index].getRecordLength ();
-        }
-        return (4 + 9 + 1 + 2 + 2 + 1 + qualityBlockRecordLength + 17 + landMarkRecordLength + 11); /* 4 + 9 + 1 + 2 + 2 + 1 + 5x + 17 + 8x + 11 (table 2 ISO/IEC 19794-5) */
-    }
+		setFacialInformation(new FacialInformation(inputStream));
+		int noOfLandMarkPoints = getFacialInformation().getNoOfLandMarkPoints();
+		if (noOfLandMarkPoints > 0) {
+			LandmarkPoints[] landmarkPoints = new LandmarkPoints[noOfLandMarkPoints];
+			for (int index = 0; index < noOfLandMarkPoints; index++) {
+				landmarkPoints[index] = new LandmarkPoints(inputStream);
+			}
+			setLandmarkPoints(landmarkPoints);
+		}
 
-    public void writeObject (DataOutputStream outputStream) throws IOException
-    {
-        outputStream.writeInt (getRecordLength () + getRepresentationDataLength());                                             
-        outputStream.writeShort (getCaptureYear()); //2                                                           
-        outputStream.writeByte (getCaptureMonth() + 1); //1     
-        outputStream.writeByte (getCaptureDay());   //1               
-        outputStream.writeByte (getCaptureHour());	//1
-        outputStream.writeByte (getCaptureMinute());//1	
-        outputStream.writeByte (getCaptureSecond());//1
-        outputStream.writeShort (getCaptureMilliSecond());//2
+		setImageInformation(new ImageInformation(inputStream));
+		setRepresentationDataLength(getRepresentationLength() - getRecordLength());
+	}
 
-        outputStream.writeByte (getCaptureDeviceTechnologyIdentifier().value());	                        
-        outputStream.writeShort (getCaptureDeviceVendorIdentifier().value());		                
-        outputStream.writeShort (getCaptureDeviceTypeIdentifier().value());
+	@Override
+	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
+		// 4(RepresentationLength) + 4(RepresentationLength) + 9(Datetime) + 1(DeviceTechnologyIdentifier) + 2(DeviceVendorIdentifier) + 2 (DeviceTypeIdentifier)
+		inputStream.skipBytes(18);
 
-        outputStream.writeByte (getNoOfQualityBlocks());
-        if (getQualityBlocks() != null)
-        {
-            for (int index = 0; index < getQualityBlocks().length; index++)
-            {
-            	getQualityBlocks() [index].writeObject (outputStream);
-            }
-        }
+		setNoOfQualityBlocks(inputStream.readUnsignedByte());
+		inputStream.skipBytes(getNoOfQualityBlocks() * 5);
 
-        getFacialInformation().writeObject (outputStream);
+		setFacialInformation(new FacialInformation(inputStream, onlyImageInformation));
 
-        if (getLandmarkPoints() != null)
-        {
-            for (int index = 0; index < getLandmarkPoints().length; index++)
-            {
-            	getLandmarkPoints() [index].writeObject (outputStream);
-            }
-        }
+		inputStream.skipBytes(getFacialInformation().getNoOfLandMarkPoints() * 8);
 
-        getImageInformation().writeObject (outputStream);
+		setImageInformation(new ImageInformation(inputStream, onlyImageInformation));
+	}
 
-        outputStream.flush ();
-    }
+	@Override
+	public long getRecordLength() {
+		int qualityBlockRecordLength = 0;
+		if (getQualityBlocks() != null && getQualityBlocks().length > 0) {
+			for (int index = 0; index < getQualityBlocks().length; index++)
+				qualityBlockRecordLength += getQualityBlocks()[index].getRecordLength();
+		}
 
-	public int getRepresentationDataLength() {
+		int landMarkRecordLength = 0;
+		if (getLandmarkPoints() != null && getLandmarkPoints().length > 0) {
+			for (int index = 0; index < getLandmarkPoints().length; index++)
+				landMarkRecordLength += getLandmarkPoints()[index].getRecordLength();
+		}
+		return (4 + 9 + 1 + 2 + 2 + 1 + qualityBlockRecordLength + 17 + landMarkRecordLength
+				+ 11); /* 4 + 9 + 1 + 2 + 2 + 1 + 5x + 17 + 8x + 11 (table 2 ISO/IEC 19794-5) */
+	}
+
+	@Override
+	public void writeObject(DataOutputStream outputStream) throws IOException {
+		outputStream.writeInt((int) getRepresentationLength());
+		outputStream.writeShort(getCaptureYear()); // 2
+		outputStream.writeByte(getCaptureMonth() + 1); // 1
+		outputStream.writeByte(getCaptureDay()); // 1
+		outputStream.writeByte(getCaptureHour()); // 1
+		outputStream.writeByte(getCaptureMinute());// 1
+		outputStream.writeByte(getCaptureSecond());// 1
+		outputStream.writeShort(getCaptureMilliSecond());// 2
+
+		outputStream.writeByte(getCaptureDeviceTechnologyIdentifier());
+		outputStream.writeShort(getCaptureDeviceVendorIdentifier());
+		outputStream.writeShort(getCaptureDeviceTypeIdentifier());
+
+		outputStream.writeByte(getNoOfQualityBlocks());
+		if (getQualityBlocks() != null) {
+			for (int index = 0; index < getQualityBlocks().length; index++) {
+				getQualityBlocks()[index].writeObject(outputStream);
+			}
+		}
+
+		getFacialInformation().writeObject(outputStream);
+
+		if (getLandmarkPoints() != null) {
+			for (int index = 0; index < getLandmarkPoints().length; index++) {
+				getLandmarkPoints()[index].writeObject(outputStream);
+			}
+		}
+
+		getImageInformation().writeObject(outputStream);
+
+		outputStream.flush();
+	}
+
+	public long getRepresentationDataLength() {
 		return representationDataLength;
 	}
 
-	public void setRepresentationDataLength(int representationDataLength) {
+	public void setRepresentationDataLength(long representationDataLength) {
 		this.representationDataLength = representationDataLength;
 	}
 
-	public int getRepresentationLength() {
+	public long getRepresentationLength() {
 		return representationLength;
 	}
 
-	public void setRepresentationLength(int representationLength) {
+	public void setRepresentationLength(long representationLength) {
 		this.representationLength = representationLength;
 	}
-	
+
 	public Date getCaptureDateTime() {
 		return captureDateTime;
 	}
@@ -287,27 +294,27 @@ public class RepresentationHeader extends AbstractImageInfo
 		this.captureMilliSecond = captureMilliSecond;
 	}
 
-	public FaceCaptureDeviceTechnology getCaptureDeviceTechnologyIdentifier() {
+	public int getCaptureDeviceTechnologyIdentifier() {
 		return captureDeviceTechnologyIdentifier;
 	}
 
-	public void setCaptureDeviceTechnologyIdentifier(FaceCaptureDeviceTechnology captureDeviceTechnologyIdentifier) {
+	public void setCaptureDeviceTechnologyIdentifier(int captureDeviceTechnologyIdentifier) {
 		this.captureDeviceTechnologyIdentifier = captureDeviceTechnologyIdentifier;
 	}
 
-	public FaceCaptureDeviceVendor getCaptureDeviceVendorIdentifier() {
+	public int getCaptureDeviceVendorIdentifier() {
 		return captureDeviceVendorIdentifier;
 	}
 
-	public void setCaptureDeviceVendorIdentifier(FaceCaptureDeviceVendor captureDeviceVendorIdentifier) {
+	public void setCaptureDeviceVendorIdentifier(int captureDeviceVendorIdentifier) {
 		this.captureDeviceVendorIdentifier = captureDeviceVendorIdentifier;
 	}
 
-	public FaceCaptureDeviceType getCaptureDeviceTypeIdentifier() {
+	public int getCaptureDeviceTypeIdentifier() {
 		return captureDeviceTypeIdentifier;
 	}
 
-	public void setCaptureDeviceTypeIdentifier(FaceCaptureDeviceType captureDeviceTypeIdentifier) {
+	public void setCaptureDeviceTypeIdentifier(int captureDeviceTypeIdentifier) {
 		this.captureDeviceTypeIdentifier = captureDeviceTypeIdentifier;
 	}
 
@@ -353,14 +360,19 @@ public class RepresentationHeader extends AbstractImageInfo
 
 	@Override
 	public String toString() {
-		return "\nRepresentationHeader [RepresentationHeaderLength=" + getRecordLength () + ", representationDataLength=" + representationDataLength + ", representationLength="
-				+ representationLength + ", captureDateTime=" + captureDateTime + ", captureYear=" + captureYear
-				+ ", captureMonth=" + captureMonth + ", captureDay=" + captureDay + ", captureHour=" + captureHour
-				+ ", captureMinute=" + captureMinute + ", captureSecond=" + captureSecond + ", captureMilliSecond="
-				+ captureMilliSecond + ", captureDeviceTechnologyIdentifier=" + captureDeviceTechnologyIdentifier
-				+ ", captureDeviceVendorIdentifier=" + captureDeviceVendorIdentifier + ", captureDeviceTypeIdentifier="
-				+ captureDeviceTypeIdentifier + ", noOfQualityBlocks=" + noOfQualityBlocks + ", qualityBlocks="
-				+ Arrays.toString(qualityBlocks) + ", facialInformation=" + facialInformation + ", landmarkPoints="
-				+ Arrays.toString(landmarkPoints) + ", imageInformation=" + imageInformation + "]\n";
-	}    	
+		return "\nRepresentationHeader [RepresentationHeaderLength=" + getRecordLength() + ", representationDataLength="
+				+ Long.toHexString(representationDataLength) + ", representationLength="
+				+ Long.toHexString(representationLength) + ", captureDateTime=" + captureDateTime + ", captureYear="
+				+ Integer.toHexString(captureYear) + ", captureMonth=" + Integer.toHexString(captureMonth)
+				+ ", captureDay=" + Integer.toHexString(captureDay) + ", captureHour="
+				+ Integer.toHexString(captureHour) + ", captureMinute=" + Integer.toHexString(captureMinute)
+				+ ", captureSecond=" + Integer.toHexString(captureSecond) + ", captureMilliSecond="
+				+ Integer.toHexString(captureMilliSecond) + ", captureDeviceTechnologyIdentifier="
+				+ Integer.toHexString(captureDeviceTechnologyIdentifier) + ", captureDeviceVendorIdentifier="
+				+ Integer.toHexString(captureDeviceVendorIdentifier) + ", captureDeviceTypeIdentifier="
+				+ Integer.toHexString(captureDeviceTypeIdentifier) + ", noOfQualityBlocks="
+				+ Integer.toHexString(noOfQualityBlocks) + ", qualityBlocks=" + Arrays.toString(qualityBlocks)
+				+ ", facialInformation=" + facialInformation + ", landmarkPoints=" + Arrays.toString(landmarkPoints)
+				+ ", imageInformation=" + imageInformation + "]\n";
+	}
 }

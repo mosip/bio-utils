@@ -1,33 +1,33 @@
 package io.mosip.biometrics.util.iris;
 
-/** Constant for horizontal and veritical orientation, based on Table 2 in Section 5.5 in ISO 19794-6. 
-*/
-public enum Orientation {
+/**
+ * Constant for horizontal and veritical orientation, based on Table 2 in
+ * Section 5.5 in ISO 19794-6.
+ */
+public class Orientation {
+	public static final int UNDEFINED = 0x00;
+	public static final int BASE = 0x01;
+	public static final int FLIPPED = 0x02;
 
-	UNDEFINED(0x0000), 
-	BASE(0x0001),
-	FLIPPED(0x0002);
+	private int value;
 
-	private final int value;
-	Orientation(int value) {
+	public Orientation(int value) {
 		this.value = value;
-	}	
-	
+	}
+
 	public int value() {
 		return this.value;
 	}
 
-	public static Orientation fromValue(int value) {
-		for (Orientation c : Orientation.values()) {
-			if (c.value == value) {
-				return c;
-			}
-		}
-		throw new IllegalArgumentException(value + "");
+	public static int fromValue(int value) {
+		if (value >= UNDEFINED && value <= FLIPPED)
+			return value;
+		throw new IllegalArgumentException(
+				"Orientation value can be between (0x00 and 0x02), set value is wrong [" + value + "]");
 	}
 
 	@Override
 	public String toString() {
-		return super.toString() + "(" + Integer.toHexString (value) + ")";
+		return super.toString() + "(" + Integer.toHexString(value) + ")";
 	}
 }
