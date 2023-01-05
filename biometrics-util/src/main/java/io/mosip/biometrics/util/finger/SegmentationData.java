@@ -76,7 +76,7 @@ public class SegmentationData extends AbstractImageInfo {
 		inputStream.skip(1);
 	}
 	/*
-	 * (1 + 1 + 1 + (NoOfCoordinates * 4) + 1 ) (Table 12 � Segmentation data
+	 * (1 + 1 + 1 + (NoOfCoordinates * 4) + 1 ) (Table 12 Segmentation data
 	 * ISO/IEC 19794-4-2011)
 	 */
 	@Override

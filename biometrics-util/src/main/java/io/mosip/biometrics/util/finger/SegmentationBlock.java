@@ -115,7 +115,7 @@ public class SegmentationBlock extends ExtendedDataBlock {
 		// Skip as base calling class 		
 	}
 
-	/* 2 + 2 + 1 + 1 (Table 12 � Segmentation data ISO/IEC 19794-4-2011) */
+	/* 2 + 2 + 1 + 1 (Table 12 Segmentation data ISO/IEC 19794-4-2011) */
 	public long getRecordLength() {
 		long recordLength = 0;
 		if (getNoOfSegmentationData() > 0) {

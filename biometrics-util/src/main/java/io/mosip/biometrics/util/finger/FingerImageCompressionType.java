@@ -1,7 +1,7 @@
 package io.mosip.biometrics.util.finger;
 
 /**
- * CompressionType Table 9 � Compression algorithm codes of ISO/IEC
+ * CompressionType Table 9 Compression algorithm codes of ISO/IEC
  * 19794-4-2011.
  */
 public class FingerImageCompressionType {

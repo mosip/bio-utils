@@ -65,7 +65,7 @@ public class FingerCertificationBlock extends AbstractImageInfo
 		inputStream.skip(3);
 	}
     
-    /*  ((255 * 3)) (Table 2 � Finger image representation header record  ISO/IEC 19794-4-2011) */
+    /*  ((255 * 3)) (Table 2 Finger image representation header record  ISO/IEC 19794-4-2011) */
 	@Override
     public long getRecordLength ()
     {

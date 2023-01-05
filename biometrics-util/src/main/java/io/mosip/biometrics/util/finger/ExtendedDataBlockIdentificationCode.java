@@ -1,7 +1,7 @@
 package io.mosip.biometrics.util.finger;
 
 /**
- * Finger Device Technology Identifier, 0x00. Table 4 � Capture device
+ * Finger Device Technology Identifier, 0x00. Table 4 Capture device
  * technology of ISO/IEC 19794-4-2011.
  */
 public class ExtendedDataBlockIdentificationCode {

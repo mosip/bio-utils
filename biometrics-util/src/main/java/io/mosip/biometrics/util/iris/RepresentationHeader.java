@@ -176,7 +176,7 @@ public class RepresentationHeader extends AbstractImageInfo {
 
 		return (4 + 9 + 1 + 2 + 2 + 1 + qualityBlockRecordLength + 2
 				+ 27); /*
-						 * 4 + 9 + 1 + 2 + 2 + 1 + 5x + 2 + 27 (Table 4 � Iris representation header
+						 * 4 + 9 + 1 + 2 + 2 + 1 + 5x + 2 + 27 (Table 4 Iris representation header
 						 * ISO/IEC 19794-5-2011)
 						 */
 	}

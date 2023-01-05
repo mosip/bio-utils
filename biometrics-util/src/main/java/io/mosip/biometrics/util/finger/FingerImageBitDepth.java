@@ -8,11 +8,11 @@ package io.mosip.biometrics.util.finger;
  * grayscale; a depth of 8 provides 256 levels of gray. For grayscale data, the
  * minimum value that can be assigned to a "black" pixel shall be zero. The
  * maximum value that can be assigned to a "white" pixel shall be the grayscale
- * value with all of its bits of precision set to "1". However, the “blackest"
+ * value with all of its bits of precision set to "1". However, the blackest"
  * pixel in an image may have a value greater than "0" and the "whitest" pixel
  * may have a value less than its maximum value. For example, the range of
  * values for a "white" pixel with 5 bits of precision shall be 31 or less. The
- * range of values for a “white” pixel using 8 bits of precision shall be 255 or
+ * range of values for a white pixel using 8 bits of precision shall be 255 or
  * less. The bit-depth may range from 1 to 16 bits.
  */
 public class FingerImageBitDepth {

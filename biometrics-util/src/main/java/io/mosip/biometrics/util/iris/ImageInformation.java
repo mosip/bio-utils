@@ -194,7 +194,7 @@ public class ImageInformation extends AbstractImageInfo {
 	@Override
 	public long getRecordLength() {
 		return 27; /*
-					 * 1 + 1 + 1 + 1 + 2 + 2 + 1 + 2 + 2 + 2 + 2 + 2 + 2 + 2 + 2 + 2 (Table 4 �
+					 * 1 + 1 + 1 + 1 + 2 + 2 + 1 + 2 + 2 + 2 + 2 + 2 + 2 + 2 + 2 + 2 (Table 4
 					 * Iris representation header ISO/IEC 19794-6-2011)
 					 */
 	}
