@@ -10,73 +10,75 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Representation extends AbstractImageInfo {
-	private static final Logger LOGGER = LoggerFactory.getLogger(Representation.class);	
+	private static final Logger LOGGER = LoggerFactory.getLogger(Representation.class);
 
 	private RepresentationHeader representationHeader;
-    private RepresentationBody representationBody;
-    private FingerCertificationFlag certificationFlag;
+	private RepresentationBody representationBody;
+	private int certificationFlag;
 
-    public Representation (Date captureDate, FingerQualityBlock [] qualityBlocks, 
-    		FingerCertificationFlag certificationFlag, FingerCertificationBlock[] certificationBlocks, 
-    		FingerPosition fingerPosition, int representationNo, 
-    		FingerScaleUnitType scaleUnitType,  byte [] image)
-    {
-    	setCertificationFlag (certificationFlag);
-    	setRepresentationBody (new RepresentationBody (new ImageData (image), null, null, null));
-    	setRepresentationHeader (new RepresentationHeader (getRepresentationBody().getRecordLength (), captureDate, qualityBlocks, certificationFlag, certificationBlocks, fingerPosition, representationNo, scaleUnitType));
-    }
-
-    public Representation (Date captureDate, 
-    		FingerCaptureDeviceTechnology captureDeviceTechnologyIdentifier, 
-    		FingerCaptureDeviceVendor captureDeviceVendorIdentifier, 
-    		FingerCaptureDeviceType captureDeviceTypeIdentifier,
-    		FingerQualityBlock [] qualityBlocks, 
-    		FingerCertificationFlag certificationFlag, FingerCertificationBlock[] certificationBlocks, 
-    		FingerPosition fingerPosition, int representationNo, 
-    		FingerScaleUnitType scaleUnitType, 
-    		int captureDeviceSpatialSamplingRateHorizontal, int captureDeviceSpatialSamplingRateVertical, 
-    		int imageSpatialSamplingRateHorizontal, int imageSpatialSamplingRateVertical,
-    		FingerImageBitDepth bitDepth, FingerImageCompressionType compressionType,
-    		FingerImpressionType impressionType, int lineLengthHorizontal, int lineLengthVertical,
-    		byte [] image, 
-    		SegmentationBlock segmentationBlock, 
-    		AnnotationBlock annotationBlock, 
-    		CommentBlock[] commentBlocks)
-    {
-    	setCertificationFlag (certificationFlag);
-    	setRepresentationBody (new RepresentationBody (new ImageData (image), segmentationBlock, annotationBlock, commentBlocks));
-    	setRepresentationHeader (new RepresentationHeader (getRepresentationBody().getRecordLength (), captureDate, captureDeviceTechnologyIdentifier, 
-    			captureDeviceVendorIdentifier, captureDeviceTypeIdentifier, qualityBlocks, certificationFlag, certificationBlocks, 
-    			fingerPosition, representationNo, 
-    			scaleUnitType, captureDeviceSpatialSamplingRateHorizontal, captureDeviceSpatialSamplingRateVertical, 
-    			imageSpatialSamplingRateHorizontal, imageSpatialSamplingRateVertical,
-    			bitDepth, compressionType, impressionType, lineLengthHorizontal, lineLengthVertical));
-    	
-        LOGGER.info (this.toString());
-    }
-    
-    public Representation (DataInputStream inputStream, FingerCertificationFlag certificationFlag) throws IOException
-	{
-    	setCertificationFlag (certificationFlag);
-    	readObject(inputStream);
+	public Representation(Date captureDate, FingerQualityBlock[] qualityBlocks, int certificationFlag,
+			FingerCertificationBlock[] certificationBlocks, int fingerPosition, int representationNo, int scaleUnitType,
+			byte[] image) {
+		setCertificationFlag(certificationFlag);
+		setRepresentationBody(new RepresentationBody(new ImageData(image), null, null, null));
+		setRepresentationHeader(
+				new RepresentationHeader(getRepresentationBody().getRecordLength(), captureDate, qualityBlocks,
+						certificationFlag, certificationBlocks, fingerPosition, representationNo, scaleUnitType));
 	}
-    
-    protected void readObject(DataInputStream inputStream) throws IOException {    	
-    	setRepresentationHeader (new RepresentationHeader (inputStream, getCertificationFlag ()));
-    	setRepresentationBody (new RepresentationBody (inputStream));
-    }
-    
-    public int getRecordLength ()
-    {
-        return getRepresentationHeader().getRecordLength () + getRepresentationBody().getRecordLength ();
-    }
 
-    public void writeObject (DataOutputStream outputStream) throws IOException
-    {
-    	getRepresentationHeader().writeObject (outputStream);
-    	getRepresentationBody().writeObject (outputStream);
-        outputStream.flush ();
-    }
+	public Representation(Date captureDate, int captureDeviceTechnologyIdentifier, int captureDeviceVendorIdentifier,
+			int captureDeviceTypeIdentifier, FingerQualityBlock[] qualityBlocks, int certificationFlag,
+			FingerCertificationBlock[] certificationBlocks, int fingerPosition, int representationNo, int scaleUnitType,
+			int captureDeviceSpatialSamplingRateHorizontal, int captureDeviceSpatialSamplingRateVertical,
+			int imageSpatialSamplingRateHorizontal, int imageSpatialSamplingRateVertical, int bitDepth,
+			int compressionType, int impressionType, int lineLengthHorizontal, int lineLengthVertical, byte[] image,
+			SegmentationBlock segmentationBlock, AnnotationBlock annotationBlock, CommentBlock[] commentBlocks) {
+		setCertificationFlag(certificationFlag);
+		setRepresentationBody(
+				new RepresentationBody(new ImageData(image), segmentationBlock, annotationBlock, commentBlocks));
+		setRepresentationHeader(new RepresentationHeader(getRepresentationBody().getRecordLength(), captureDate,
+				captureDeviceTechnologyIdentifier, captureDeviceVendorIdentifier, captureDeviceTypeIdentifier,
+				qualityBlocks, certificationFlag, certificationBlocks, fingerPosition, representationNo, scaleUnitType,
+				captureDeviceSpatialSamplingRateHorizontal, captureDeviceSpatialSamplingRateVertical,
+				imageSpatialSamplingRateHorizontal, imageSpatialSamplingRateVertical, bitDepth, compressionType,
+				impressionType, lineLengthHorizontal, lineLengthVertical));
+
+		//LOGGER.info(this.toString());
+	}
+
+	public Representation(DataInputStream inputStream, int certificationFlag) throws IOException {
+		setCertificationFlag(certificationFlag);
+		readObject(inputStream);
+	}
+
+	public Representation(DataInputStream inputStream, int certificationFlag, boolean onlyImageInformation) throws IOException {
+		setCertificationFlag(certificationFlag);
+		readObject(inputStream, onlyImageInformation);
+	}
+
+	@Override
+	protected void readObject(DataInputStream inputStream) throws IOException {
+		setRepresentationHeader(new RepresentationHeader(inputStream, getCertificationFlag()));
+		setRepresentationBody(new RepresentationBody(inputStream));
+	}
+
+	@Override
+	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
+		setRepresentationHeader(new RepresentationHeader(inputStream, getCertificationFlag(), onlyImageInformation));
+		setRepresentationBody(new RepresentationBody(inputStream, onlyImageInformation));
+	}
+
+	@Override
+	public long getRecordLength() {
+		return getRepresentationHeader().getRecordLength() + getRepresentationBody().getRecordLength();
+	}
+
+	@Override
+	public void writeObject(DataOutputStream outputStream) throws IOException {
+		getRepresentationHeader().writeObject(outputStream);
+		getRepresentationBody().writeObject(outputStream);
+		outputStream.flush();
+	}
 
 	public RepresentationHeader getRepresentationHeader() {
 		return representationHeader;
@@ -94,17 +96,17 @@ public class Representation extends AbstractImageInfo {
 		this.representationBody = representationBody;
 	}
 
-	public FingerCertificationFlag getCertificationFlag() {
+	public int getCertificationFlag() {
 		return certificationFlag;
 	}
 
-	public void setCertificationFlag(FingerCertificationFlag certificationFlag) {
+	public void setCertificationFlag(int certificationFlag) {
 		this.certificationFlag = certificationFlag;
 	}
 
 	@Override
 	public String toString() {
-		return "\nRepresentation [RepresentationRecordLength=" + getRecordLength () + ", representationHeader=" + representationHeader + ", representationData="
-				+ representationBody + "]\n";
+		return "\nRepresentation [RepresentationRecordLength=" + getRecordLength() + ", representationHeader="
+				+ representationHeader + ", representationData=" + representationBody + "]\n";
 	}
 }

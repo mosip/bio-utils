@@ -8,113 +8,133 @@ import io.mosip.biometrics.util.AbstractImageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class GeneralHeader extends AbstractImageInfo
-{
-	private static final Logger LOGGER = LoggerFactory.getLogger(GeneralHeader.class);	
+public class GeneralHeader extends AbstractImageInfo {
+	private static final Logger LOGGER = LoggerFactory.getLogger(GeneralHeader.class);
 
-    private IrisFormatIdentifier formatIdentifier;
-    private IrisVersionNumber versionNumber;
-    private int totalRepresentationLength;
-    private int noOfRepresentations;
-    private IrisCertificationFlag certificationFlag;
-    private int noOfEyesPresent;
+	private long formatIdentifier;
+	private long versionNumber;
+	private long totalRepresentationLength;
+	private int noOfRepresentations;
+	private int certificationFlag;
+	private int noOfEyesPresent;
 
-    public GeneralHeader (int totalRepresentationLength, int noOfRepresentations, int noOfEyesPresent)
-    {
-    	setFormatIdentifier (IrisFormatIdentifier.FORMAT_IIR);
-    	setVersionNumber (IrisVersionNumber.VERSION_020);
-    	setTotalRepresentationLength (totalRepresentationLength);
-    	setNoOfRepresentations (noOfRepresentations);
-    	setCertificationFlag (IrisCertificationFlag.UNSPECIFIED);
-    	setNoOfEyesPresent (noOfEyesPresent);
-    }
-    
-    public GeneralHeader 
-    	(
-			IrisFormatIdentifier formatIdentifier, IrisVersionNumber versionNumber, 
-			int totalRepresentationLength, int noOfRepresentations, 
-			IrisCertificationFlag certificationFlag, int noOfEyesPresent
-		)
-    {
-    	setFormatIdentifier (formatIdentifier);
-    	setVersionNumber (versionNumber);
-    	setTotalRepresentationLength (totalRepresentationLength);
-    	setNoOfRepresentations (noOfRepresentations);
-    	setCertificationFlag (certificationFlag);
-    	setNoOfEyesPresent (noOfEyesPresent);
-    }
-
-    public GeneralHeader (DataInputStream inputStream) throws IOException
-	{
-    	readObject(inputStream);
+	public GeneralHeader(long totalRepresentationLength, int noOfRepresentations, int noOfEyesPresent) {
+		setFormatIdentifier(IrisFormatIdentifier.FORMAT_IIR);
+		setVersionNumber(IrisVersionNumber.VERSION_020);
+		setTotalRepresentationLength(totalRepresentationLength);
+		setNoOfRepresentations(noOfRepresentations);
+		setCertificationFlag(IrisCertificationFlag.UNSPECIFIED);
+		setNoOfEyesPresent(noOfEyesPresent);
 	}
-    
-    protected void readObject(DataInputStream inputStream) throws IOException {    
-    	setFormatIdentifier (IrisFormatIdentifier.fromValue((int)(inputStream.readInt()& 0xFFFFFFFFL)));
-    	setVersionNumber (IrisVersionNumber.fromValue((int)(inputStream.readInt()& 0xFFFFFFFFL)));
-    	setTotalRepresentationLength ((int)((inputStream.readInt() & 0xFFFFFFFFL) - getRecordLength ()));
-    	setNoOfRepresentations (inputStream.readUnsignedShort());
-    	setCertificationFlag (IrisCertificationFlag.fromValue(inputStream.readUnsignedByte()));
-    	setNoOfEyesPresent (inputStream.readUnsignedByte());
-    }
-    
-    public int getRecordLength ()
-    {
-        return 16; /* 4 + 4 + 4 + 2 + 1 + 1 (table 3 ISO/IEC 19794-6-2011) */
-    }
 
-    protected void writeObject (DataOutputStream outputStream) throws IOException
-    {
-        outputStream.writeInt (getFormatIdentifier().value());							/* 4 */
-        outputStream.writeInt (getVersionNumber().value());                             /* + 4 = 8 */
-        outputStream.writeInt ((int)(getRecordLength () + getTotalRepresentationLength ()));  	/* + 4 = 12 */
-        outputStream.writeShort (getNoOfRepresentations() );                           	/* + 2 = 14 */
-        outputStream.writeByte (getCertificationFlag().value());                        /* + 1 = 15 */
-        outputStream.writeByte (getNoOfEyesPresent());                       			/* + 1 = 16 */
-        outputStream.flush ();
-    }
-    
-	public IrisFormatIdentifier getFormatIdentifier() {
+	public GeneralHeader(long formatIdentifier, long versionNumber,
+			long totalRepresentationLength, int noOfRepresentations, int certificationFlag, int noOfEyesPresent) {
+		setFormatIdentifier(formatIdentifier);
+		setVersionNumber(versionNumber);
+		setTotalRepresentationLength(totalRepresentationLength);
+		setNoOfRepresentations(noOfRepresentations);
+		setCertificationFlag(certificationFlag);
+		setNoOfEyesPresent(noOfEyesPresent);
+	}
+
+	public GeneralHeader(DataInputStream inputStream) throws IOException {
+		readObject(inputStream);
+	}
+
+	public GeneralHeader(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
+		readObject(inputStream, onlyImageInformation);
+	}
+
+	@Override
+	protected void readObject(DataInputStream inputStream) throws IOException {
+		setFormatIdentifier((inputStream.readInt() & 0xFFFFFFFFL));
+		setVersionNumber((inputStream.readInt() & 0xFFFFFFFFL));
+		setTotalRepresentationLength(((inputStream.readInt() & 0xFFFFFFFFL) - getRecordLength()));
+		setNoOfRepresentations(inputStream.readUnsignedShort());
+		setCertificationFlag(inputStream.readUnsignedByte());
+		setNoOfEyesPresent(inputStream.readUnsignedByte());
+	}
+
+	@Override
+	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
+		// 4(FormatIdentifier) + 4(VersionNumber)
+		inputStream.skip(8);
+		setTotalRepresentationLength(((inputStream.readInt() & 0xFFFFFFFFL) - getRecordLength()));
+		setNoOfRepresentations(inputStream.readUnsignedShort());
+		// 1(CertificationFlag) + 1(NoOfEyesPresent)
+		inputStream.skip(2);
+	}
+
+	@Override
+	public long getRecordLength() {
+		return 16; /* 4 + 4 + 4 + 2 + 1 + 1 (table 3 ISO/IEC 19794-6-2011) */
+	}
+
+	@Override
+	protected void writeObject(DataOutputStream outputStream) throws IOException {
+		outputStream.writeInt((int) getFormatIdentifier()); /* 4 */
+		outputStream.writeInt((int) getVersionNumber()); /* + 4 = 8 */
+		outputStream.writeInt((int) (getRecordLength() + getTotalRepresentationLength()));/* + 4 = 12 */
+		outputStream.writeShort(getNoOfRepresentations()); /* + 2 = 14 */
+		outputStream.writeByte(getCertificationFlag()); /* + 1 = 15 */
+		outputStream.writeByte(getNoOfEyesPresent()); /* + 1 = 16 */
+		outputStream.flush();
+	}
+
+	public long getFormatIdentifier() {
 		return formatIdentifier;
 	}
-	public void setFormatIdentifier(IrisFormatIdentifier formatIdentifier) {
+
+	public void setFormatIdentifier(long formatIdentifier) {
 		this.formatIdentifier = formatIdentifier;
 	}
-	public IrisVersionNumber getVersionNumber() {
+
+	public long getVersionNumber() {
 		return versionNumber;
 	}
-	public void setVersionNumber(IrisVersionNumber versionNumber) {
+
+	public void setVersionNumber(long versionNumber) {
 		this.versionNumber = versionNumber;
 	}
-	public int getTotalRepresentationLength() {
+
+	public long getTotalRepresentationLength() {
 		return totalRepresentationLength;
 	}
-	public void setTotalRepresentationLength(int totalRepresentationLength) {
+
+	public void setTotalRepresentationLength(long totalRepresentationLength) {
 		this.totalRepresentationLength = totalRepresentationLength;
 	}
+
 	public int getNoOfRepresentations() {
 		return noOfRepresentations;
 	}
+
 	public void setNoOfRepresentations(int noOfRepresentations) {
 		this.noOfRepresentations = noOfRepresentations;
 	}
-	public IrisCertificationFlag getCertificationFlag() {
+
+	public int getCertificationFlag() {
 		return certificationFlag;
 	}
-	public void setCertificationFlag(IrisCertificationFlag certificationFlag) {
+
+	public void setCertificationFlag(int certificationFlag) {
 		this.certificationFlag = certificationFlag;
 	}
+
 	public int getNoOfEyesPresent() {
 		return noOfEyesPresent;
 	}
+
 	public void setNoOfEyesPresent(int noOfEyesPresent) {
 		this.noOfEyesPresent = noOfEyesPresent;
 	}
 
 	@Override
 	public String toString() {
-		return "\nIrisGeneralHeader [GeneralHeaderRecordLength=" + getRecordLength () + ", formatIdentifier=" + formatIdentifier + ", versionNumber=" + versionNumber
-				+ ", totalRepresentationLength=" + totalRepresentationLength + ", noOfRepresentations=" + noOfRepresentations
-				+ ", certificationFlag=" + certificationFlag + ", noOfEyesPresent=" + noOfEyesPresent + "]\n";
-	}	
+		return "\nIrisGeneralHeader [GeneralHeaderRecordLength=" + getRecordLength() + ", formatIdentifier="
+				+ (formatIdentifier) + ", versionNumber=" + (versionNumber) + ", totalRepresentationLength="
+				+ totalRepresentationLength + ", noOfRepresentations=" + Integer.toHexString(noOfRepresentations)
+				+ ", certificationFlag=" + Integer.toHexString(certificationFlag) + ", noOfEyesPresent="
+				+ Integer.toHexString(noOfEyesPresent) + "]\n";
+	}
 }

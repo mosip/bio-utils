@@ -7,46 +7,54 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CommentBlock extends ExtendedDataBlock
-{
-	private static final Logger LOGGER = LoggerFactory.getLogger(CommentBlock.class);	
+public class CommentBlock extends ExtendedDataBlock {
+	private static final Logger LOGGER = LoggerFactory.getLogger(CommentBlock.class);
 
-    private byte [] comment;
+	private byte[] comment;
 
-    public CommentBlock (byte [] comment, ExtendedDataBlockIdentificationCode extendedDataBlockIdentificationCode)
-    {
-    	setComment (comment);
-    	setExtendedDataBlockIdentificationCode (extendedDataBlockIdentificationCode);
-    	setLengthOfExtendedDataBlock (getRecordLength ());
-    }
-
-    public CommentBlock (DataInputStream inputStream, ExtendedDataBlockIdentificationCode extendedDataBlockIdentificationCode) throws IOException
-	{
-    	setExtendedDataBlockIdentificationCode (extendedDataBlockIdentificationCode);
-    	readObject(inputStream);
+	public CommentBlock(byte[] comment, short extendedDataBlockIdentificationCode) {
+		setComment(comment);
+		setExtendedDataBlockIdentificationCode(extendedDataBlockIdentificationCode);
+		setLengthOfExtendedDataBlock((int) getRecordLength());
 	}
-    
-    protected void readObject(DataInputStream inputStream) throws IOException {
-    	setLengthOfExtendedDataBlock (inputStream.readUnsignedShort()); /* 2 */
-    	setComment (new byte[getLengthOfExtendedDataBlock() - 4]);
-    	inputStream.readFully(getComment());    	
-    }
 
-	public int getRecordLength ()
-    {
-        return (2 + 2 + (getComment() != null && getComment().length > 0 ? getComment().length : 0));
-    }
+	public CommentBlock(DataInputStream inputStream, int extendedDataBlockIdentificationCode) throws IOException {
+		setExtendedDataBlockIdentificationCode(extendedDataBlockIdentificationCode);
+		readObject(inputStream);
+	}
 
-    public void writeObject (DataOutputStream outputStream) throws IOException
-    {
-        outputStream.writeShort (getExtendedDataBlockIdentificationCode().getvalue()); 	/* 2 = 2 */
-        outputStream.writeShort (getLengthOfExtendedDataBlock());       				/* + 2 = 4 */
+	public CommentBlock(DataInputStream inputStream, int extendedDataBlockIdentificationCode, boolean onlyImageInformation) throws IOException {
+		setExtendedDataBlockIdentificationCode(extendedDataBlockIdentificationCode);
+		readObject(inputStream, onlyImageInformation);
+	}
 
-        if (getComment() != null && getComment().length > 0)
-            outputStream.write (getComment(), 0, getComment().length); // 4 + Comment Length
+	@Override
+	protected void readObject(DataInputStream inputStream) throws IOException {
+		setLengthOfExtendedDataBlock(inputStream.readUnsignedShort()); /* 2 */
+		setComment(new byte[getLengthOfExtendedDataBlock() - 4]);
+		inputStream.readFully(getComment());
+	}
 
-        outputStream.flush ();
-    }
+	@Override
+	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
+		// SKIP as calling class		
+	}
+
+	@Override
+	public long getRecordLength() {
+		return (2 + 2 + (getComment() != null && getComment().length > 0 ? getComment().length : 0));
+	}
+
+	@Override
+	public void writeObject(DataOutputStream outputStream) throws IOException {
+		outputStream.writeShort(getExtendedDataBlockIdentificationCode()); /* 2 = 2 */
+		outputStream.writeShort(getLengthOfExtendedDataBlock()); /* + 2 = 4 */
+
+		if (getComment() != null && getComment().length > 0)
+			outputStream.write(getComment(), 0, getComment().length); // 4 + Comment Length
+
+		outputStream.flush();
+	}
 
 	public byte[] getComment() {
 		return comment;
@@ -59,10 +67,9 @@ public class CommentBlock extends ExtendedDataBlock
 	@Override
 	public String toString() {
 		super.toString();
-		
-		return "\nCommentBlock [RecordLength=" + getRecordLength () 
-			+ ", CommentLength=" + getComment ().length 
-			+ ", Comment=" + (getComment () != null && getComment ().length > 0 ? new String (getComment ()) : "") 
-			+ "]\n";
-	}    	
+
+		return "\nCommentBlock [RecordLength=" + getRecordLength() + ", CommentLength=" + getComment().length
+				+ ", Comment=" + (getComment() != null && getComment().length > 0 ? new String(getComment()) : "")
+				+ "]\n";
+	}
 }

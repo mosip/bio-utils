@@ -9,125 +9,132 @@ import io.mosip.biometrics.util.AbstractImageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FacialInformation extends AbstractImageInfo
-{
-	private static final Logger LOGGER = LoggerFactory.getLogger(FacialInformation.class);	
+public class FacialInformation extends AbstractImageInfo {
+	private static final Logger LOGGER = LoggerFactory.getLogger(FacialInformation.class);
 
 	/** Indexes into poseAngle array. */
 	private static final int YAW = 0, PITCH = 1, ROLL = 2;
-	
-    private int noOfLandMarkPoints;
-    private Gender gender;
-    private EyeColour eyeColor;
-    private HairColour hairColor;
-    private HeightCodes subjectHeight;
-    private Features featuresMask;
-    private Expression expressionMask;
-    private int [] poseAngle = new int [3];
-    private int [] poseAngleUncertainty = new int [3];
 
-    public FacialInformation (int noOfLandMarkPoints, int [] poseAngle, int [] poseAngleUncertainty)
-    {
-    	setNoOfLandMarkPoints (noOfLandMarkPoints);
-        setGender (Gender.UNSPECIFIED);
-        setEyeColor (EyeColour.UNSPECIFIED);
-        setHairColor (HairColour.UNSPECIFIED);
-        setSubjectHeight (HeightCodes.UNSPECIFIED);
-        setFeaturesMask (Features.FEATURES_ARE_SPECIFIED);
-        setExpressionMask (Expression.UNSPECIFIED);
+	private int noOfLandMarkPoints;
+	private int gender;
+	private int eyeColor;
+	private int hairColor;
+	private int subjectHeight;
+	private int featuresMask;
+	private int expressionMask;
+	private int[] poseAngle = new int[3];
+	private int[] poseAngleUncertainty = new int[3];
 
-        setPoseAngle (new int [3]);
-        System.arraycopy(poseAngle, 0, poseAngle, 0, 3);
+	public FacialInformation(int noOfLandMarkPoints, int[] poseAngle, int[] poseAngleUncertainty) {
+		setNoOfLandMarkPoints(noOfLandMarkPoints);
+		setGender(Gender.UNSPECIFIED);
+		setEyeColor(EyeColour.UNSPECIFIED);
+		setHairColor(HairColour.UNSPECIFIED);
+		setSubjectHeight(HeightCodes.UNSPECIFIED);
+		setFeaturesMask(Features.FEATURES_ARE_SPECIFIED);
+		setExpressionMask(0);
 
-        setPoseAngleUncertainty (new int [3]);
-        System.arraycopy(poseAngleUncertainty, 0, poseAngleUncertainty, 0, 3);
-    }
+		setPoseAngle(new int[3]);
+		System.arraycopy(poseAngle, 0, poseAngle, 0, 3);
 
-    public FacialInformation (int noOflandMarkPoints, Gender gender, EyeColour eyeColor, 
-    		HairColour hairColor, HeightCodes subjectHeight, Features propertyMask, Expression expressionMask, 
-    		int [] poseAngle, int [] poseAngleUncertainty)
-    {
-    	setNoOfLandMarkPoints (noOflandMarkPoints);
-        setGender (gender);
-        setEyeColor (eyeColor);
-        setHairColor (hairColor);
-        setSubjectHeight (subjectHeight);
-        setFeaturesMask (propertyMask);
-        setExpressionMask (expressionMask);
-
-        setPoseAngle (new int [3]);
-        System.arraycopy(poseAngle, 0, poseAngle, 0, 3);
-
-        setPoseAngleUncertainty (new int [3]);
-        System.arraycopy(poseAngleUncertainty, 0, poseAngleUncertainty, 0, 3);
-    }
-    
-    public FacialInformation (DataInputStream inputStream) throws IOException
-	{
-    	readObject(inputStream);
+		setPoseAngleUncertainty(new int[3]);
+		System.arraycopy(poseAngleUncertainty, 0, poseAngleUncertainty, 0, 3);
 	}
-    
-    protected void readObject(DataInputStream inputStream) throws IOException {
-    	/* Facial Information Block (20), see ISO 19794-5-2011 5.5 */
-    	setNoOfLandMarkPoints (inputStream.readUnsignedShort());
-        setGender (Gender.fromValue(inputStream.readUnsignedByte()));
-        setEyeColor (EyeColour.fromValue(inputStream.readUnsignedByte()));
-        setHairColor (HairColour.fromValue(inputStream.readUnsignedByte()));
-        setSubjectHeight (HeightCodes.fromValue(inputStream.readUnsignedByte()));
-        int featureMask = inputStream.readUnsignedByte(); 
-		featureMask = (featureMask << 16) | inputStream.readUnsignedShort(); 
-		
-        setFeaturesMask (Features.fromValue(featureMask));
-        setExpressionMask (Expression.fromValue(inputStream.readUnsignedShort()));
-        
-        poseAngle = new int[3];
-		int by = inputStream.readUnsignedByte(); 
-		poseAngle[YAW] = by; 
-		int bp = inputStream.readUnsignedByte(); 
-		poseAngle[PITCH] = bp; 
-		int br = inputStream.readUnsignedByte(); 
-		poseAngle[ROLL] = br; 
-		setPoseAngle (poseAngle);
-        
+
+	public FacialInformation(int noOflandMarkPoints, int gender, int eyeColor, int hairColor, int subjectHeight,
+			int propertyMask, int expressionMask, int[] poseAngle, int[] poseAngleUncertainty) {
+		setNoOfLandMarkPoints(noOflandMarkPoints);
+		setGender(gender);
+		setEyeColor(eyeColor);
+		setHairColor(hairColor);
+		setSubjectHeight(subjectHeight);
+		setFeaturesMask(propertyMask);
+		setExpressionMask(expressionMask);
+
+		setPoseAngle(new int[3]);
+		System.arraycopy(poseAngle, 0, poseAngle, 0, 3);
+
+		setPoseAngleUncertainty(new int[3]);
+		System.arraycopy(poseAngleUncertainty, 0, poseAngleUncertainty, 0, 3);
+	}
+
+	public FacialInformation(DataInputStream inputStream) throws IOException {
+		readObject(inputStream);
+	}
+
+	public FacialInformation(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
+		readObject(inputStream, onlyImageInformation);
+	}
+
+	@Override
+	protected void readObject(DataInputStream inputStream) throws IOException {
+		/* Facial Information Block (20), see ISO 19794-5-2011 5.5 */
+		setNoOfLandMarkPoints(inputStream.readUnsignedShort());
+		setGender(inputStream.readUnsignedByte());
+		setEyeColor(inputStream.readUnsignedByte());
+		setHairColor(inputStream.readUnsignedByte());
+		setSubjectHeight(inputStream.readUnsignedByte());
+		int featureMask = inputStream.readUnsignedByte();
+		featureMask = (featureMask << 16) | inputStream.readUnsignedShort();
+
+		setFeaturesMask(Features.fromValue(featureMask));
+		setExpressionMask(inputStream.readUnsignedShort());
+
+		poseAngle = new int[3];
+		int by = inputStream.readUnsignedByte();
+		poseAngle[YAW] = by;
+		int bp = inputStream.readUnsignedByte();
+		poseAngle[PITCH] = bp;
+		int br = inputStream.readUnsignedByte();
+		poseAngle[ROLL] = br;
+		setPoseAngle(poseAngle);
+
 		poseAngleUncertainty = new int[3];
-		poseAngleUncertainty[YAW] = inputStream.readUnsignedByte(); 
-		poseAngleUncertainty[PITCH] = inputStream.readUnsignedByte(); 
-		poseAngleUncertainty[ROLL] = inputStream.readUnsignedByte(); 
-		setPoseAngleUncertainty (poseAngleUncertainty);
-    }
-    
-    public int getRecordLength ()
-    {
-        return 17; /* 2 + 1 + 1 + 1 + 1 + 3 + 2 + 3 + 3 (table 2 ISO/IEC 19794-5) */
-    }
+		poseAngleUncertainty[YAW] = inputStream.readUnsignedByte();
+		poseAngleUncertainty[PITCH] = inputStream.readUnsignedByte();
+		poseAngleUncertainty[ROLL] = inputStream.readUnsignedByte();
+		setPoseAngleUncertainty(poseAngleUncertainty);
+	}
 
-    public void writeObject (DataOutputStream outputStream) throws IOException
-    {
-        outputStream.writeShort (getNoOfLandMarkPoints());								/* 2 */
-        outputStream.writeByte (getGender().value());									/* + 1 = 3 */
-        outputStream.writeByte (getEyeColor().value());                                 /* + 1 = 4 */
-        outputStream.writeByte (getHairColor().value());                                /* + 1 = 5 */
-        outputStream.writeByte (getSubjectHeight().value());                            /* + 1 = 6 */
+	@Override
+	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
+		setNoOfLandMarkPoints(inputStream.readUnsignedShort());
+		// 1(gender) + 1(EyeColor) + 1(HairColor) + 1(SubjectHeight) 
+		// + 3(featureMask) + 2(ExpressionMask) + 3(poseAngle) + 3(poseAngleUncertainty)
+		inputStream.skip(15);
+	}
 
-        outputStream.writeByte ((byte)((getFeaturesMask().value() & 0xFF0000L) >> 16));	/* + 1 = 7 */
-        outputStream.writeByte ((byte)((getFeaturesMask().value() & 0x00FF00L) >> 8));	/* + 1 = 8 */
-        outputStream.writeByte ((byte)(getFeaturesMask().value() & 0x0000FFL));			/* + 1 = 9 */
+	@Override
+	public long getRecordLength() {
+		return 17; /* 2 + 1 + 1 + 1 + 1 + 3 + 2 + 3 + 3 (table 2 ISO/IEC 19794-5) */
+	}
 
-        outputStream.writeShort (getExpressionMask().value());							/* + 2 = 11 */
+	@Override
+	public void writeObject(DataOutputStream outputStream) throws IOException {
+		outputStream.writeShort(getNoOfLandMarkPoints()); /* 2 */
+		outputStream.writeByte(getGender()); /* + 1 = 3 */
+		outputStream.writeByte(getEyeColor()); /* + 1 = 4 */
+		outputStream.writeByte(getHairColor()); /* + 1 = 5 */
+		outputStream.writeByte(getSubjectHeight()); /* + 1 = 6 */
 
-        for (int i = 0; i < 3; i++)
-        {                                   /* + 3 = 14 */
-            int b = poseAngle [i];
-            outputStream.writeByte (b);
-        }
+		outputStream.writeByte((byte) ((getFeaturesMask() & 0xFF0000L) >> 16)); /* + 1 = 7 */
+		outputStream.writeByte((byte) ((getFeaturesMask() & 0x00FF00L) >> 8)); /* + 1 = 8 */
+		outputStream.writeByte((byte) (getFeaturesMask() & 0x0000FFL)); /* + 1 = 9 */
 
-        for (int i = 0; i < 3; i++)  /* + 3 = 17 */
-        {                                 
-            outputStream.writeByte (poseAngleUncertainty [i]);
-        }
+		outputStream.writeShort(getExpressionMask()); /* + 2 = 11 */
 
-        outputStream.flush ();
-    }
+		for (int i = 0; i < 3; i++) { /* + 3 = 14 */
+			int b = poseAngle[i];
+			outputStream.writeByte(b);
+		}
+
+		for (int i = 0; i < 3; i++) /* + 3 = 17 */
+		{
+			outputStream.writeByte(poseAngleUncertainty[i]);
+		}
+
+		outputStream.flush();
+	}
 
 	public int getNoOfLandMarkPoints() {
 		return noOfLandMarkPoints;
@@ -137,51 +144,51 @@ public class FacialInformation extends AbstractImageInfo
 		this.noOfLandMarkPoints = noOfLandMarkPoints;
 	}
 
-	public Gender getGender() {
+	public int getGender() {
 		return gender;
 	}
 
-	public void setGender(Gender gender) {
+	public void setGender(int gender) {
 		this.gender = gender;
 	}
 
-	public EyeColour getEyeColor() {
+	public int getEyeColor() {
 		return eyeColor;
 	}
 
-	public void setEyeColor(EyeColour eyeColor) {
+	public void setEyeColor(int eyeColor) {
 		this.eyeColor = eyeColor;
 	}
 
-	public HairColour getHairColor() {
+	public int getHairColor() {
 		return hairColor;
 	}
 
-	public void setHairColor(HairColour hairColor) {
+	public void setHairColor(int hairColor) {
 		this.hairColor = hairColor;
 	}
 
-	public HeightCodes getSubjectHeight() {
+	public int getSubjectHeight() {
 		return subjectHeight;
 	}
 
-	public void setSubjectHeight(HeightCodes subjectHeight) {
+	public void setSubjectHeight(int subjectHeight) {
 		this.subjectHeight = subjectHeight;
 	}
 
-	public Features getFeaturesMask() {
+	public int getFeaturesMask() {
 		return featuresMask;
 	}
 
-	public void setFeaturesMask(Features featuresMask) {
+	public void setFeaturesMask(int featuresMask) {
 		this.featuresMask = featuresMask;
 	}
 
-	public Expression getExpressionMask() {
+	public int getExpressionMask() {
 		return expressionMask;
 	}
 
-	public void setExpressionMask(Expression expressionMask) {
+	public void setExpressionMask(int expressionMask) {
 		this.expressionMask = expressionMask;
 	}
 
@@ -203,9 +210,13 @@ public class FacialInformation extends AbstractImageInfo
 
 	@Override
 	public String toString() {
-		return "\nFacialInformation [FacialInformationRecordLength=" + getRecordLength () + ", noOfLandMarkPoints=" + noOfLandMarkPoints + ", gender=" + gender + ", eyeColor="
-				+ eyeColor + ", hairColor=" + hairColor + ", subjectHeight=" + subjectHeight + ", featuresMask="
-				+ featuresMask + ", expressionMask=" + expressionMask + ", poseAngle=" + Arrays.toString(poseAngle)
-				+ ", poseAngleUncertainty=" + Arrays.toString(poseAngleUncertainty) + "]\n";
+		return "\nFacialInformation [FacialInformationRecordLength=" + getRecordLength() + ", noOfLandMarkPoints="
+				+ noOfLandMarkPoints + ", gender=" + Integer.toHexString(gender) + ", eyeColor="
+				+ Integer.toHexString(eyeColor) + ", hairColor=" + Integer.toHexString(hairColor) + ", subjectHeight="
+				+ Integer.toHexString(subjectHeight) + ", featuresMask=" + Integer.toHexString(featuresMask)
+				+ ", expressionMask=" + Integer.toHexString(expressionMask) + ", poseAngle="
+				+ Arrays.toString(poseAngle) + ", poseAngleUncertainty=" + Arrays.toString(poseAngleUncertainty)
+				+ "]\n";
 	}
+
 }

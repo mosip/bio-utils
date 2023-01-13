@@ -20,7 +20,8 @@ To convert from ISO format to image:
 ```
 ConvertRequestDto convertRequestDto = new ConvertRequestDto();
 convertRequestDto.setVersion("ISO19794_4_2011");
-convertRequestDto.setInputBytes(<ISO bytes>);  
+convertRequestDto.setInputBytes(<ISO bytes>); 
+convertRequestDto.setCompressionRatio(95);//For JPEG, it can be a quality from 0 to 100 (the higher is the better). Default value is 95.
 byte[] image = FingerDecoder.convertFingerISOToImageBytes(convertRequestDto);
 BufferedImage image = FingerDecoder.convertFingerISOToBufferedImage(convertRequestDto);
 ```
@@ -29,6 +30,7 @@ BufferedImage image = FingerDecoder.convertFingerISOToBufferedImage(convertReque
 ConvertRequestDto convertRequestDto = new ConvertRequestDto();
 convertRequestDto.setVersion("ISO19794_6_2011");
 convertRequestDto.setInputBytes(<ISO bytes>);
+convertRequestDto.setCompressionRatio(95);//For JPEG, it can be a quality from 0 to 100 (the higher is the better). Default value is 95.
 byte[] image = IrisDecoder.convertIrisISOToImageBytes(convertRequestDto);
 BufferedImage image = IrisDecoder.convertIrisISOToBufferedImage(convertRequestDto);
 ```
@@ -37,6 +39,7 @@ BufferedImage image = IrisDecoder.convertIrisISOToBufferedImage(convertRequestDt
 ConvertRequestDto convertRequestDto = new ConvertRequestDto();
 convertRequestDto.setVersion("ISO19794_5_2011");
 convertRequestDto.setInputBytes(<ISO bytes>);
+convertRequestDto.setCompressionRatio(95);//For JPEG, it can be a quality from 0 to 100 (the higher is the better). Default value is 95.
 byte[] image = FaceDecoder.convertFaceISOToImageBytes(convertRequestDto);
 BufferedImage image = FaceDecoder.convertFaceISOToBufferedImage(convertRequestDto);
 ```

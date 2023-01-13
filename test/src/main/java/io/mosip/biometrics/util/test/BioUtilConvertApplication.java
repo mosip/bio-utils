@@ -2,7 +2,6 @@ package io.mosip.biometrics.util.test;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -10,12 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.mosip.biometrics.util.CommonUtil;
-import io.mosip.biometrics.util.ConvertRequestDto;
 import io.mosip.biometrics.util.ImageType;
 import io.mosip.biometrics.util.Modality;
-import io.mosip.biometrics.util.face.*;
-import io.mosip.biometrics.util.finger.*;
-import io.mosip.biometrics.util.iris.*;
 
 /**
  * BioUtilConvertApplication
@@ -29,7 +24,7 @@ public class BioUtilConvertApplication
     {
 		if (args != null && args.length >= 2)
 		{
-			// Argument 0 should contain io.mosip.biometrics.util.image.type.jp2000/io.mosip.biometrics.util.image.type.wsq"
+			// Argument 0 should contain io.mosip.biometrics.util.image.type.jpeg/io.mosip.biometrics.util.image.type.png"
 			ImageType imageType = ImageType.JPEG;
 			String imageTypeFileName = "";
 			String conversionImageType = args[0];
