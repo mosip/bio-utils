@@ -202,14 +202,14 @@ public class FingerISOStandardsValidator extends ISOStandardsValidator {
 
 	public boolean isValidScanSpatialSamplingRateHorizontal(int scanSpatialSamplingRateHorizontal) {
 		// 500 pixels to 1000 pixels
-		if (scanSpatialSamplingRateHorizontal >= 0x01F4 && scanSpatialSamplingRateHorizontal <= 0x03E8)
+		if (scanSpatialSamplingRateHorizontal >= 0x0000 && scanSpatialSamplingRateHorizontal <= 0xFFFF)
 			return true;
 		return false;
 	}
 
 	public boolean isValidScanSpatialSamplingRateVertical(int scanSpatialSamplingRateVertical) {
 		// 500 pixels to 1000 pixels
-		if (scanSpatialSamplingRateVertical >= 0x01F4 && scanSpatialSamplingRateVertical <= 0x03E8)
+		if (scanSpatialSamplingRateVertical >= 0x0000 && scanSpatialSamplingRateVertical <= 0xFFFF)
 			return true;
 		return false;
 	}
@@ -217,7 +217,7 @@ public class FingerISOStandardsValidator extends ISOStandardsValidator {
 	public boolean isValidImageSpatialSamplingRateHorizontal(int scanSpatialSamplingRateHorizontal,
 			int imageSpatialSamplingRateHorizontal) {
 		// 500 pixels to 1000 pixels
-		if ((imageSpatialSamplingRateHorizontal >= 0x01F4 && imageSpatialSamplingRateHorizontal <= 0x03E8)
+		if ((imageSpatialSamplingRateHorizontal >= 0x0000 && imageSpatialSamplingRateHorizontal <= 0xFFFF)
 				&& (imageSpatialSamplingRateHorizontal <= scanSpatialSamplingRateHorizontal))
 			return true;
 		return false;
@@ -225,7 +225,7 @@ public class FingerISOStandardsValidator extends ISOStandardsValidator {
 
 	public boolean isValidImageSpatialSamplingRateVertical(int scanSpatialSamplingRateVertical, int imageSpatialSamplingRateVertical) {
 		// 500 pixels to 1000 pixels
-		if ((imageSpatialSamplingRateVertical >= 0x01F4 && imageSpatialSamplingRateVertical <= 0x03E8)
+		if ((imageSpatialSamplingRateVertical >= 0x0000 && imageSpatialSamplingRateVertical <= 0xFFFF)
 			&& (imageSpatialSamplingRateVertical <= scanSpatialSamplingRateVertical))
 			return true;
 		return false;
