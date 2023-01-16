@@ -45,7 +45,7 @@ public class FaceISOStandardsValidator extends ISOStandardsValidator {
 	}
 
 	public boolean isValidNoOfRepresentations(int noOfRepresentations) {
-		if (noOfRepresentations >= 0x0001 && noOfRepresentations <= 0xFFFF)
+		if (noOfRepresentations == 0x0001)
 			return true;
 		return false;
 	}
