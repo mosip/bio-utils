@@ -127,7 +127,7 @@ public class IrisISOStandardsValidator extends ISOStandardsValidator {
 	}
 
 	public boolean isValidNoOfRepresentation(int noOfRepresentation) {
-		if (noOfRepresentation >= 0x0001 && noOfRepresentation <= 0xFFFF)
+		if (noOfRepresentation == 0x0001)
 			return true;
 		return false;
 	}
