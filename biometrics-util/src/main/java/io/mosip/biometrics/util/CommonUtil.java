@@ -83,7 +83,7 @@ public class CommonUtil {
 	public static byte[] convertJP2ToJPEGUsingOpenCV(byte[] jp2000Bytes, int compressionRatio) {
 		try {
 			Mat src = Imgcodecs.imdecode(new MatOfByte(jp2000Bytes), Imgcodecs.IMREAD_UNCHANGED);
-			MatOfInt map = new MatOfInt(Imgcodecs.IMWRITE_JPEG2000_COMPRESSION_X1000, compressionRatio);
+			MatOfInt map = new MatOfInt(Imgcodecs.IMWRITE_JPEG_QUALITY, compressionRatio);
 
 			MatOfByte mem = new MatOfByte();
 			Imgcodecs.imencode(".jpeg", src, mem, map);
