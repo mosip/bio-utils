@@ -143,7 +143,7 @@ public class CommonUtil {
 	public static byte[] convertJP2ToJP2UsingOpenCV(byte[] jp2000Bytes, int compressionRatio) {
 		try {
 			Mat src = Imgcodecs.imdecode(new MatOfByte(jp2000Bytes), Imgcodecs.IMREAD_UNCHANGED);
-			MatOfInt map = new MatOfInt(Imgcodecs.IMWRITE_PNG_COMPRESSION, compressionRatio);
+			MatOfInt map = new MatOfInt(Imgcodecs.IMWRITE_JPEG2000_COMPRESSION_X1000, compressionRatio);
 
 			MatOfByte mem = new MatOfByte();
 			Imgcodecs.imencode(".jp2", src, mem, map);
@@ -154,6 +154,20 @@ public class CommonUtil {
 		return null;
 	}
 
+	public static byte[] convertJPEGToJP2UsingOpenCV(byte[] jpegBytes, int compressionRatio) {
+		try {
+			Mat src = Imgcodecs.imdecode(new MatOfByte(jpegBytes), Imgcodecs.IMREAD_UNCHANGED);
+			MatOfInt map = new MatOfInt(Imgcodecs.IMWRITE_JPEG2000_COMPRESSION_X1000, compressionRatio);
+
+			MatOfByte mem = new MatOfByte();
+			Imgcodecs.imencode(".jp2", src, mem, map);
+			return mem.toArray();
+		} catch (Exception e) {
+			LOGGER.error("convertJPEGToJP2UsingOpenCV>>Failed to get jp2 image", e);
+		}
+		return null;
+	}
+	
 	public static byte[] convertJP2ToWEBPUsingOpenCV(byte[] jp2000Bytes, int compressionRatio) {
 		try {
 			Mat src = Imgcodecs.imdecode(new MatOfByte(jp2000Bytes), Imgcodecs.IMREAD_UNCHANGED);
