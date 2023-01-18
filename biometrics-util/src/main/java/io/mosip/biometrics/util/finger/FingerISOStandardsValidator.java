@@ -201,31 +201,31 @@ public class FingerISOStandardsValidator extends ISOStandardsValidator {
 	}
 
 	public boolean isValidScanSpatialSamplingRateHorizontal(int scanSpatialSamplingRateHorizontal) {
-		// 500 pixels to 1000 pixels
-		if (scanSpatialSamplingRateHorizontal >= 0x01F4 && scanSpatialSamplingRateHorizontal <= 0x03E8)
+		// 490 pixels to 1010 pixels
+		if (scanSpatialSamplingRateHorizontal >= 0x01EA && scanSpatialSamplingRateHorizontal <= 0x03F2)
 			return true;
 		return false;
 	}
 
 	public boolean isValidScanSpatialSamplingRateVertical(int scanSpatialSamplingRateVertical) {
-		// 500 pixels to 1000 pixels
-		if (scanSpatialSamplingRateVertical >= 0x01F4 && scanSpatialSamplingRateVertical <= 0x03E8)
+		// 490 pixels to 1010 pixels
+		if (scanSpatialSamplingRateVertical >= 0x01EA && scanSpatialSamplingRateVertical <= 0x03F2)
 			return true;
 		return false;
 	}
 
 	public boolean isValidImageSpatialSamplingRateHorizontal(int scanSpatialSamplingRateHorizontal,
 			int imageSpatialSamplingRateHorizontal) {
-		// 500 pixels to 1000 pixels
-		if ((imageSpatialSamplingRateHorizontal >= 0x01F4 && imageSpatialSamplingRateHorizontal <= 0x03E8)
+		// 490 pixels to 1010 pixels
+		if ((imageSpatialSamplingRateHorizontal >= 0x01EA && imageSpatialSamplingRateHorizontal <= 0x03F2)
 				&& (imageSpatialSamplingRateHorizontal <= scanSpatialSamplingRateHorizontal))
 			return true;
 		return false;
 	}
 
 	public boolean isValidImageSpatialSamplingRateVertical(int scanSpatialSamplingRateVertical, int imageSpatialSamplingRateVertical) {
-		// 500 pixels to 1000 pixels
-		if ((imageSpatialSamplingRateVertical >= 0x01F4 && imageSpatialSamplingRateVertical <= 0x03E8)
+		// 490 pixels to 1010 pixels
+		if ((imageSpatialSamplingRateVertical >= 0x01EA && imageSpatialSamplingRateVertical <= 0x03F2)
 			&& (imageSpatialSamplingRateVertical <= scanSpatialSamplingRateVertical))
 			return true;
 		return false;
