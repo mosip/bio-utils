@@ -10,6 +10,31 @@ import java.io.DataInputStream;
 public abstract class ISOStandardsValidator {
 	public boolean isValidCaptureDateTime(int year, int month, int day, int hour, int minute, int second,
 			int milliSecond) {
+		/*
+		 * If date/time is not provided, all bytes should be set to 0xff. Individual
+		 * date/time fields can be also set to 0xff or 0xffff, indicating that this
+		 * component of the date/time is not provided. In that case, all fields
+		 * describing higher resolution date/time components should be also set to
+		 * 0xff/0xffff. This allows implementations to omit milliseconds or to provide
+		 * only date without time.
+		 */
+		if (year == 0xFFFF && month == 0xFF && day == 0xFF && hour == 0xFF && minute == 0xFF && second == 0xFF
+				&& milliSecond == 0xFFFF)
+			return true;
+
+		if (year == 0xFFFF && month == 0xFF && day == 0xFF)
+			if (hour >= 0x00 && hour <= 0x17)
+				if (minute >= 0x00 && minute <= 0x3B)
+					if (second >= 0x00 && second <= 0x3B)
+						if (milliSecond >= 0x00 && milliSecond <= 0x03E7)
+							return true;
+
+		if (year >= 0x01 && year <= 0xFFFF)
+			if (month >= 0x01 && month <= 0x0C)
+				if (day >= 0x01 && day <= 0x1F)
+					if (hour == 0xFF && minute == 0xFF && second == 0xFF && milliSecond == 0xFFFF)
+						return true;
+
 		if (year >= 0x01 && year <= 0xFFFF)
 			if (month >= 0x01 && month <= 0x0C)
 				if (day >= 0x01 && day <= 0x1F)
@@ -51,11 +76,11 @@ public abstract class ISOStandardsValidator {
 		DataInputStream ins = new DataInputStream(new BufferedInputStream(new ByteArrayInputStream(imageData)));
 		try {
 			// Make sure that the first 12 bytes is the JP2_SIGNATURE_BOX
-            // or if not that the first 2 bytes is the SOC marker
+			// or if not that the first 2 bytes is the SOC marker
 			while (true) {
-				if(ins.readInt() == 0x0000000c ||
-						ins.readInt() == 0x6a703268 ||
-								ins.readInt() == 0x0d0a870a){ // a JP2 file
+				if (ins.readInt() == 0x0000000c || ins.readInt() == 0x6a703268 || ins.readInt() == 0x0d0a870a) { // a
+																													// JP2
+																													// file
 					isValid = true;
 					break;
 				}
@@ -83,7 +108,7 @@ public abstract class ISOStandardsValidator {
 	}
 
 	public boolean isValidImageDataLength(byte[] imageData, long imageDataLength) {
-		if (imageData != null && imageData.length == (int)imageDataLength)
+		if (imageData != null && imageData.length == (int) imageDataLength)
 			return true;
 		return false;
 	}
