@@ -4,29 +4,25 @@ import io.mosip.biometrics.util.AbstractImageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class ExtendedDataBlock extends AbstractImageInfo
-{
-	private static final Logger LOGGER = LoggerFactory.getLogger(ExtendedDataBlock.class);	
+public abstract class ExtendedDataBlock extends AbstractImageInfo {
+	private static final Logger LOGGER = LoggerFactory.getLogger(ExtendedDataBlock.class);
 
-    private ExtendedDataBlockIdentificationCode extendedDataBlockIdentificationCode;
+	private int extendedDataBlockIdentificationCode;
 	private int lengthOfExtendedDataBlock;
-    
-    public ExtendedDataBlock ()
-    {
-    }
 
-    public ExtendedDataBlock (ExtendedDataBlockIdentificationCode extendedDataBlockIdentificationCode, int lengthOfExtendedDataBlock)
-    {
-    	setExtendedDataBlockIdentificationCode (extendedDataBlockIdentificationCode);
-    	setLengthOfExtendedDataBlock (lengthOfExtendedDataBlock);
-    }
-    
-	public ExtendedDataBlockIdentificationCode getExtendedDataBlockIdentificationCode() {
+	public ExtendedDataBlock() {
+	}
+
+	public ExtendedDataBlock(int extendedDataBlockIdentificationCode, int lengthOfExtendedDataBlock) {
+		setExtendedDataBlockIdentificationCode(extendedDataBlockIdentificationCode);
+		setLengthOfExtendedDataBlock(lengthOfExtendedDataBlock);
+	}
+
+	public int getExtendedDataBlockIdentificationCode() {
 		return extendedDataBlockIdentificationCode;
 	}
 
-	public void setExtendedDataBlockIdentificationCode(
-			ExtendedDataBlockIdentificationCode extendedDataBlockIdentificationCode) {
+	public void setExtendedDataBlockIdentificationCode(int extendedDataBlockIdentificationCode) {
 		this.extendedDataBlockIdentificationCode = extendedDataBlockIdentificationCode;
 	}
 
@@ -40,7 +36,8 @@ public abstract class ExtendedDataBlock extends AbstractImageInfo
 
 	@Override
 	public String toString() {
-		return "\nExtendedDataBlock [extendedDataBlockIdentificationCode=" + extendedDataBlockIdentificationCode
-				+ ", lengthOfExtendedDataBlock=" + lengthOfExtendedDataBlock + "]\n";
-	}	
+		return "\nExtendedDataBlock [extendedDataBlockIdentificationCode="
+				+ Integer.toHexString(extendedDataBlockIdentificationCode) + ", lengthOfExtendedDataBlock="
+				+ lengthOfExtendedDataBlock + "]\n";
+	}
 }

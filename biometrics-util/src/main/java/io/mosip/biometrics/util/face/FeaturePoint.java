@@ -5,7 +5,6 @@ package io.mosip.biometrics.util.face;
  * 
  */
 public class FeaturePoint {
-
 	private int type;
 	private int majorCode;
 	private int minorCode;
@@ -15,14 +14,13 @@ public class FeaturePoint {
 	/**
 	 * Constructs a new feature point.
 	 * 
-	 * @param type feature point type
+	 * @param type      feature point type
 	 * @param majorCode major code
 	 * @param minorCode minor code
-	 * @param x X-coordinate
-	 * @param y Y-coordinate
+	 * @param x         X-coordinate
+	 * @param y         Y-coordinate
 	 */
-	public FeaturePoint(int type, int majorCode, int minorCode,
-			int x, int y) {
+	public FeaturePoint(int type, int majorCode, int minorCode, int x, int y) {
 		this.type = type;
 		this.majorCode = majorCode;
 		this.minorCode = minorCode;
@@ -35,11 +33,11 @@ public class FeaturePoint {
 	 * 
 	 * @param type feature point type
 	 * @param code combined major and minor code
-	 * @param x X-coordinate
-	 * @param y Y-coordinate
+	 * @param x    X-coordinate
+	 * @param y    Y-coordinate
 	 */
-	FeaturePoint(int type, byte code, int x, int y) {
-		this(type, (int)((code & 0xF0) >> 4), (int)(code & 0x0F), x ,y);
+	FeaturePoint(int type, int code, int x, int y) {
+		this(type, ((code & 0xF0) >> 4), (code & 0x0F), x, y);
 	}
 
 	/**
@@ -96,11 +94,19 @@ public class FeaturePoint {
 	 */
 	public String toString() {
 		StringBuffer out = new StringBuffer();
-		out.append("( point: "); out.append(getMajorCode()); out.append("."); out.append(getMinorCode());
+		out.append("( point: ");
+		out.append(getMajorCode());
+		out.append(".");
+		out.append(getMinorCode());
 		out.append(", ");
-		out.append("type: "); out.append(Integer.toHexString(type)); out.append(", ");
-		out.append("("); out.append(x); out.append(", ");
-		out.append(y); out.append(")");
+		out.append("type: ");
+		out.append(Integer.toHexString(type));
+		out.append(", ");
+		out.append("(");
+		out.append(x);
+		out.append(", ");
+		out.append(y);
+		out.append(")");
 		out.append(")");
 		return out.toString();
 	}

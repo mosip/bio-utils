@@ -8,97 +8,107 @@ import io.mosip.biometrics.util.AbstractImageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LandmarkPoints extends AbstractImageInfo 
-{
-	private static final Logger LOGGER = LoggerFactory.getLogger(LandmarkPoints.class);	
+public class LandmarkPoints extends AbstractImageInfo {
+	private static final Logger LOGGER = LoggerFactory.getLogger(LandmarkPoints.class);
 
-    private byte landmarkPointType;
-    private byte landmarkPointCode;
-    private short xCoordinate;
-    private short yCoordinate;
-    private short zCoordinate;
+	private int landmarkPointType;
+	private int landmarkPointCode;
+	private int xCoordinate;
+	private int yCoordinate;
+	private int zCoordinate;
 
-    public LandmarkPoints (byte landmarkPointType, byte landmarkPointCode, short xCoordinate, short yCoordinate, short zCoordinate)
-    {
-        setLandmarkPointType (landmarkPointType);
-        setLandmarkPointCode (landmarkPointCode);
-        setxCoordinate (xCoordinate);
-        setyCoordinate (yCoordinate);
-        setzCoordinate (zCoordinate);
-    }
-
-    public LandmarkPoints (DataInputStream inputStream) throws IOException
-	{
-    	readObject(inputStream);
+	public LandmarkPoints(int landmarkPointType, int landmarkPointCode, int xCoordinate, int yCoordinate,
+			int zCoordinate) {
+		setLandmarkPointType(landmarkPointType);
+		setLandmarkPointCode(landmarkPointCode);
+		setXCoordinate(xCoordinate);
+		setYCoordinate(yCoordinate);
+		setZCoordinate(zCoordinate);
 	}
-    
-    protected void readObject(DataInputStream inputStream) throws IOException {   
-    	setLandmarkPointType ((byte)inputStream.readUnsignedByte());
-        setLandmarkPointCode ((byte)inputStream.readUnsignedByte());
-        setxCoordinate ((short)inputStream.readUnsignedShort());
-        setyCoordinate ((short)inputStream.readUnsignedShort());
-        setzCoordinate ((short)inputStream.readUnsignedShort());
-    }
 
-    public int getRecordLength ()
-    {
-        return 1 + 1 + 2 + 2 + 2;//8
-    }
+	public LandmarkPoints(DataInputStream inputStream) throws IOException {
+		readObject(inputStream);
+	}
 
-    public void writeObject (DataOutputStream outputStream) throws IOException
-    {
-        outputStream.writeByte (getLandmarkPointType()); // 1 bytes
-        outputStream.writeByte (getLandmarkPointCode()); // 1 bytes
-        outputStream.writeShort (getxCoordinate());// 2 bytes
-        outputStream.writeShort (getyCoordinate());// 2 bytes
-        outputStream.writeShort (getzCoordinate());// 2 bytes
-        outputStream.flush ();
-    }
+	public LandmarkPoints(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
+		readObject(inputStream, onlyImageInformation);
+	}
 
-	public byte getLandmarkPointType() {
+	@Override
+	protected void readObject(DataInputStream inputStream) throws IOException {
+		setLandmarkPointType(inputStream.readUnsignedByte());
+		setLandmarkPointCode(inputStream.readUnsignedByte());
+		setXCoordinate(inputStream.readUnsignedShort());
+		setYCoordinate(inputStream.readUnsignedShort());
+		setZCoordinate(inputStream.readUnsignedShort());
+	}
+
+	@Override
+	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
+		inputStream.skip(8);
+	}
+
+	@Override
+	public long getRecordLength() {
+		return 1 + 1 + 2 + 2 + 2;// 8
+	}
+
+	@Override
+	public void writeObject(DataOutputStream outputStream) throws IOException {
+		outputStream.writeByte(getLandmarkPointType()); // 1 bytes
+		outputStream.writeByte(getLandmarkPointCode()); // 1 bytes
+		outputStream.writeShort(getXCoordinate());// 2 bytes
+		outputStream.writeShort(getYCoordinate());// 2 bytes
+		outputStream.writeShort(getZCoordinate());// 2 bytes
+		outputStream.flush();
+	}
+
+	public int getLandmarkPointType() {
 		return landmarkPointType;
 	}
 
-	public void setLandmarkPointType(byte landmarkPointType) {
+	public void setLandmarkPointType(int landmarkPointType) {
 		this.landmarkPointType = landmarkPointType;
 	}
 
-	public byte getLandmarkPointCode() {
+	public int getLandmarkPointCode() {
 		return landmarkPointCode;
 	}
 
-	public void setLandmarkPointCode(byte landmarkPointCode) {
+	public void setLandmarkPointCode(int landmarkPointCode) {
 		this.landmarkPointCode = landmarkPointCode;
 	}
 
-	public short getxCoordinate() {
+	public int getXCoordinate() {
 		return xCoordinate;
 	}
 
-	public void setxCoordinate(short xCoordinate) {
+	public void setXCoordinate(int xCoordinate) {
 		this.xCoordinate = xCoordinate;
 	}
 
-	public short getyCoordinate() {
+	public int getYCoordinate() {
 		return yCoordinate;
 	}
 
-	public void setyCoordinate(short yCoordinate) {
+	public void setYCoordinate(int yCoordinate) {
 		this.yCoordinate = yCoordinate;
 	}
 
-	public short getzCoordinate() {
+	public int getZCoordinate() {
 		return zCoordinate;
 	}
 
-	public void setzCoordinate(short zCoordinate) {
+	public void setZCoordinate(int zCoordinate) {
 		this.zCoordinate = zCoordinate;
 	}
 
 	@Override
 	public String toString() {
-		return "\nLandmarkPoints [LandmarkPointRecordLength=" + getRecordLength () + ", landmarkPointType=" + landmarkPointType + ", landmarkPointCode=" + landmarkPointCode
-				+ ", xCoordinate=" + xCoordinate + ", yCoordinate=" + yCoordinate + ", zCoordinate=" + zCoordinate
-				+ "]\n";
-	}    	
+		return "\nLandmarkPoints [LandmarkPointRecordLength=" + getRecordLength() + ", landmarkPointType="
+				+ Integer.toHexString(landmarkPointType) + ", landmarkPointCode="
+				+ Integer.toHexString(landmarkPointCode) + ", xCoordinate=" + Integer.toHexString(xCoordinate)
+				+ ", yCoordinate=" + Integer.toHexString(yCoordinate) + ", zCoordinate="
+				+ Integer.toHexString(zCoordinate) + "]\n";
+	}
 }

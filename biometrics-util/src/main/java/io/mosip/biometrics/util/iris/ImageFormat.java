@@ -1,37 +1,37 @@
 package io.mosip.biometrics.util.iris;
 
-/** ImageFormat Table 4 of ISO/IEC 19794-6-2011. 
-*/
-public enum ImageFormat {
-	MONO_RAW(0x0002), 
-	RGB_RAW(0x0004),
-	MONO_JPEG(0x0006), 
-	RGB_JPEG(0x0008), 
-	MONO_JPEG2000_LOSS_LESS(0x000A),
-	RGB_JPEG2000_LOSS_LESS(0x000C),
-	MONO_PNG(0x000E),
-	RGB_PNG(0x0010);
+/**
+ * ImageFormat Table 4 of ISO/IEC 19794-6-2011.
+ */
+public class ImageFormat {
+	public static final int MONO_RAW = 0x02;
+	public static final int RGB_RAW = 0x04;
+	public static final int MONO_JPEG = 0x06;
+	public static final int RGB_JPEG = 0x08;
+	public static final int MONO_JPEG2000 = 0x0A;
+	public static final int RGB_JPEG2000 = 0x0C;
+	public static final int MONO_PNG = 0x0E;
+	public static final int RGB_PNG = 0x10;
 
-	private final int value;
-	ImageFormat(int value) {
+	private int value;
+
+	public ImageFormat(int value) {
 		this.value = value;
-	}	
-	
+	}
+
 	public int value() {
 		return this.value;
 	}
 
-	public static ImageFormat fromValue(int value) {
-		for (ImageFormat c : ImageFormat.values()) {
-			if (c.value == value) {
-				return c;
-			}
-		}
-		throw new IllegalArgumentException(value + "");
+	public static int fromValue(int value) {
+		if (value >= MONO_RAW && value <= RGB_PNG)
+			return value;
+		throw new IllegalArgumentException(
+				"ImageFormat value can be between (0x02 and 0x10), set value is wrong [" + value + "]");
 	}
 
 	@Override
 	public String toString() {
-		return super.toString() + "(" + Integer.toHexString (value) + ")";
+		return super.toString() + "(" + Integer.toHexString(value) + ")";
 	}
 }

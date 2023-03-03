@@ -1,36 +1,39 @@
 package io.mosip.biometrics.util.face;
 
 /** Face Image Type Table 16 of ISO/IEC 19794-5-2011. */
-public enum FaceImageType {
+public class FaceImageType {
+	public static final int BASIC = 0x00;
+	public static final int FULL_FRONTAL = 0x01;
+	public static final int TOKEN_FRONTAL = 0x02;
+	public static final int POST_PROCESSED_FRONTAL = 0x03;
+	public static final int RESERVED_004 = 0x04;
+	public static final int RESERVED_127 = 0x7F;
+	public static final int BASIC_3D = 0x80;
+	public static final int FULL_FRONTAL_3D = 0x81;
+	public static final int TOKEN_FRONTAL_3D = 0x82;
+	public static final int RESERVED_131 = 0x83;
+	public static final int RESERVED_255 = 0xFF;
 
-	BASIC(0x0000), 
-	FULL_FRONTAL(0x0001), 
-	TOKEN_FRONTAL(0x0002), 
-	POST_PROCESSED_FRONTAL(0x0003),
-	BASIC_3D(0x0080), 
-	FULL_FRONTAL_3D(0x0081), 
-	TOKEN_FRONTAL_3D(0x0082);
+	private int value;
 
-	private final int value;
-	FaceImageType(int value) {
+	public FaceImageType(int value) {
 		this.value = value;
-	}	
-	
+	}
+
 	public int value() {
 		return this.value;
 	}
 
-	public static FaceImageType fromValue(int value) {
-		for (FaceImageType c : FaceImageType.values()) {
-			if (c.value == value) {
-				return c;
-			}
-		}
-		throw new IllegalArgumentException(value + "");
+	public static int fromValue(int value) {
+		if ((value >= BASIC && value <= POST_PROCESSED_FRONTAL) || (value >= BASIC_3D && value <= TOKEN_FRONTAL_3D))
+			return value;
+		throw new IllegalArgumentException(
+				"FaceImageType value can be between (0x00 and 0x03) or (0x80 and 0x82), set value is wrong [" + value
+						+ "]");
 	}
 
 	@Override
 	public String toString() {
-		return super.toString() + "(" + Integer.toHexString (value) + ")";
+		return super.toString() + "(" + Integer.toHexString(value & 0xFF) + ")";
 	}
 }
