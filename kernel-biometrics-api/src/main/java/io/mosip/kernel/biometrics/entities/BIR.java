@@ -1,7 +1,9 @@
 package io.mosip.kernel.biometrics.entities;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -11,10 +13,9 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import com.fasterxml.jackson.databind.deser.std.MapEntryDeserializer;
+
 import io.mosip.kernel.core.cbeffutil.common.Base64Adapter;
-import io.mosip.kernel.core.cbeffutil.jaxbclasses.BIRType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -27,8 +28,8 @@ import lombok.NoArgsConstructor;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "BIRType", propOrder = { "version", "cbeffversion", "birInfo", "bdbInfo",  "bdb",
-		"sb" ,"birs","sbInfo","others"})
+@XmlType(name = "BIRType", propOrder = { "version", "cbeffversion", "birInfo", "bdbInfo", "sbInfo", "birs", "bdb",
+"sb", "others"})
 @XmlRootElement(name = "BIR")
 @Data
 @NoArgsConstructor
