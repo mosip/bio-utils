@@ -117,6 +117,7 @@ jobs:
       - name: Publish the maven package
         run: |
           cd biometrics-util && mvn deploy -DskipTests -DaltDeploymentRepository=ossrh::default::${{ secrets.OSSRH_SNAPSHOT_URL }} -s $GITHUB_WORKSPACE/settings.xml -f pom.xml
+          cd kernel-biometrics-api && mvn deploy -DskipTests -DaltDeploymentRepository=ossrh::default::${{ secrets.OSSRH_SNAPSHOT_URL }} -s $GITHUB_WORKSPACE/settings.xml -f pom.xml
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
           GPG_TTY: $(tty)
@@ -175,11 +176,17 @@ jobs:
         run: |
           cd biometrics-util
           mvn -B package -s $GITHUB_WORKSPACE/settings.xml --file pom.xml
+          cd kernel-biometrics-api
+          mvn -B package -s $GITHUB_WORKSPACE/settings.xml --file pom.xml
+
 
       - name: Analyze with SonarCloud
         run: |
           cd biometrics-util
           mvn -B -Dgpg.skip verify sonar:sonar -Dsonar.projectKey=mosip_biometrics-util -Dsonar.organization=${{ secrets.ORG_KEY }} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+          cd kernel-biometrics-api
+          mvn -B -Dgpg.skip verify sonar:sonar -Dsonar.projectKey=mosip_kernel-biometrics-api -Dsonar.organization=${{ secrets.ORG_KEY }} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
