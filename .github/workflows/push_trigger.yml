@@ -124,16 +124,13 @@ jobs:
       - name: Publish the maven package biometics-util
         run: |
           cd biometrics-util && mvn deploy -DskipTests -DaltDeploymentRepository=ossrh::default::${{ secrets.OSSRH_SNAPSHOT_URL }} -s $GITHUB_WORKSPACE/settings.xml -f pom.xml
-        env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-          GPG_TTY: $(tty)
-
-      - name: Publish the maven package kernel-biometrics-api
-        run: |     
+          cd ..
           cd kernel-biometrics-api && mvn deploy -DskipTests -DaltDeploymentRepository=ossrh::default::${{ secrets.OSSRH_SNAPSHOT_URL }} -s $GITHUB_WORKSPACE/settings.xml -f pom.xml
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
           GPG_TTY: $(tty)
+
+
 
       - uses: 8398a7/action-slack@v3
         with:
@@ -189,6 +186,7 @@ jobs:
         run: |
           cd biometrics-util
           mvn -B package -s $GITHUB_WORKSPACE/settings.xml --file pom.xml
+          cd ..
           cd kernel-biometrics-api
           mvn -B package -s $GITHUB_WORKSPACE/settings.xml --file pom.xml
 
