@@ -1,4 +1,4 @@
-name: Maven Package upon a push 
+name: Maven Package upon a push
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - master
       - 1.*
       - develop
-  
+
 jobs:
 
   build_biometrics_util:
