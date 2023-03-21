@@ -6,6 +6,7 @@ package io.mosip.kernel.biometrics.entities;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -19,6 +20,7 @@ import javax.xml.bind.annotation.XmlType;
  *
  */
 @Data
+@NoArgsConstructor
 @JsonDeserialize(builder = SBInfo.SBInfoBuilder.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SBInfoType", propOrder = { "format" })
