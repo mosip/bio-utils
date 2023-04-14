@@ -6,7 +6,7 @@ on:
       - master
       - 1.*
       - develop
-      - release-*
+      - release-1*
 
 jobs:
 
