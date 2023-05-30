@@ -1,8 +1,5 @@
 package io.mosip.biometrics.util;
 
-import org.jnbis.api.model.Bitmap;
-import org.jnbis.internal.WsqDecoder;
-
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -46,21 +43,68 @@ public abstract class ISOStandardsValidator {
 		return false;
 	}
 
-	public boolean isValidImageData(String purpose, Modality modality, byte[] inImageData) throws Exception {
+	public boolean isValidImageData(String purpose, Modality modality, ImageDecoderRequestDto decoderRequestDto)
+			throws Exception {
 		switch (Purposes.fromCode(purpose)) {
 		case AUTH:
-			if (isJP2000(inImageData) || isWSQ(inImageData)) {
+			if (isJP2000(true, decoderRequestDto) || isWSQ(true, decoderRequestDto)) {
 				return true;
 			}
 			break;
 		case REGISTRATION:
-			if (isJP2000(inImageData)) {
+			if (isJP2000(false, decoderRequestDto)) {
 				return true;
 			}
 			break;
 		}
 
 		return false;
+	}
+
+	public int getBioDataType(String purpose, Modality modality, byte[] inImageData) throws Exception {
+		switch (modality) {
+		case Finger:
+		case Iris:
+		case Face:
+			switch (Purposes.fromCode(purpose)) {
+			case AUTH:
+				if (isJP2000(inImageData)) {
+					return ImageType.JPEG2000.value();
+				}
+				if (isWSQ(inImageData)) {
+					return ImageType.WSQ.value();
+				}
+				break;
+			case REGISTRATION:
+				if (isJP2000(inImageData)) {
+					return ImageType.JPEG2000.value();
+				}
+				break;
+			}
+			break;
+		case UnSpecified:
+			break;
+		}
+
+		return -1;
+	}
+
+	public boolean isJP2000(boolean isAuth, ImageDecoderRequestDto decoderRequestDto) throws Exception {
+		boolean isValid = false;
+
+		if (isAuth && decoderRequestDto.getImageType().equals("JP2000"))
+			isValid = true;
+		else if (!isAuth && decoderRequestDto.getImageType().equals("JP2000"))
+			isValid = true;
+		return isValid;
+	}
+
+	public boolean isWSQ(boolean isAuth, ImageDecoderRequestDto decoderRequestDto) throws Exception {
+		boolean isValid = false;
+
+		if (isAuth && decoderRequestDto.getImageType().equals("WSQ"))
+			isValid = true;
+		return isValid;
 	}
 
 	/**
@@ -78,9 +122,8 @@ public abstract class ISOStandardsValidator {
 			// Make sure that the first 12 bytes is the JP2_SIGNATURE_BOX
 			// or if not that the first 2 bytes is the SOC marker
 			while (true) {
-				if (ins.readInt() == 0x0000000c || ins.readInt() == 0x6a703268 || ins.readInt() == 0x0d0a870a) { // a
-																													// JP2
-																													// file
+				// a JP2 file
+				if (ins.readInt() == 0x0000000c || ins.readInt() == 0x6a703268 || ins.readInt() == 0x0d0a870a) {
 					isValid = true;
 					break;
 				}
@@ -93,23 +136,155 @@ public abstract class ISOStandardsValidator {
 	}
 
 	public boolean isWSQ(byte[] imageData) throws Exception {
-
+		boolean isValid = false;
+		DataInputStream ins = new DataInputStream(new BufferedInputStream(new ByteArrayInputStream(imageData)));
 		try {
-			WsqDecoder decoder = new WsqDecoder();
-			Bitmap bitmap = decoder.decode(imageData);
-			if (bitmap != null && bitmap.getPixels() != null && bitmap.getPixels().length > 0) {
-				return true;
-			} else {
-				return false;
-
+			while (true) {
+				// a wsq file WSQ Marker Definitions
+				// SOI_WSQ = 0xffa0;
+				if (ins.readUnsignedShort() == 0xffa0) {
+					isValid = true;
+					break;
+				}
+				break;
 			}
 		} finally {
+			ins.close();
 		}
+		return isValid;
 	}
 
 	public boolean isValidImageDataLength(byte[] imageData, long imageDataLength) {
 		if (imageData != null && imageData.length == (int) imageDataLength)
 			return true;
+
 		return false;
+	}
+
+	public boolean isValidImageCompressionRatio(String purpose, Modality modality, ImageDecoderRequestDto decoderRequestDto)
+			throws Exception {
+		switch (Purposes.fromCode(purpose)) {
+		case AUTH:
+			String ratio = decoderRequestDto.getImageCompressionRatio();
+			if (ratio != null && !ratio.isBlank() && !ratio.isEmpty()) {
+				String[] arrRatio = ratio.split(":");
+				if (arrRatio != null && arrRatio.length > 0) {
+					// Up to 15:1
+					if (Float.parseFloat(arrRatio[0].trim()) > 0.0f && Float.parseFloat(arrRatio[0].trim()) <= 15.0f)
+						return true;
+				}
+			}
+			break;
+		case REGISTRATION:
+			return true;
+		}
+
+		return false;
+	}
+
+	public boolean isValidImageAspectRatio(String purpose, Modality modality, ImageDecoderRequestDto decoderRequestDto)
+			throws Exception {
+		switch (Purposes.fromCode(purpose)) {
+		case AUTH:
+			String ratio = decoderRequestDto.getImageAspectRatio();
+			if (ratio != null && !ratio.isBlank() && !ratio.isEmpty()) {
+				String[] arrRatio = ratio.split(":");
+				if (arrRatio != null && arrRatio.length > 0) {
+					// Up to 1:1
+					if (Float.parseFloat(arrRatio[0].trim()) == 1.0f)
+						return true;
+				}
+			}
+			break;
+		case REGISTRATION:
+			return true;
+		}
+
+		return false;
+	}
+
+	// GRAY[8 bit] and RGB[24 bit]
+	public boolean isValidImageColorSpace(String purpose, Modality modality, ImageDecoderRequestDto decoderRequestDto)
+			throws Exception {
+		String colorSpace = decoderRequestDto.getImageColorSpace();
+		switch (Purposes.fromCode(purpose)) {
+		case AUTH:
+			switch (modality) {
+			case Finger:
+				if (!colorSpace.equalsIgnoreCase("GRAY"))
+					return false;
+				break;
+			case Iris:
+				if (!colorSpace.equalsIgnoreCase("GRAY"))
+					return false;
+				break;
+			case Face:
+				if (!colorSpace.equalsIgnoreCase("RGB"))
+					return false;
+				break;
+			default:
+				break;
+			}
+			break;
+		case REGISTRATION:
+			switch (modality) {
+			case Finger:
+				if (!colorSpace.equalsIgnoreCase("GRAY"))
+					return false;
+				break;
+			case Iris:
+				if (!colorSpace.equalsIgnoreCase("GRAY"))
+					return false;
+				break;
+			case Face:
+				if (!colorSpace.equalsIgnoreCase("RGB"))
+					return false;
+				break;
+			default:
+				break;
+			}
+			break;
+		}
+
+		return true;
+	}
+
+	// HorizontalDPI [490 to 1010 DPI] and VerticalDPI [490 to 1010 DPI] 
+	public boolean isValidImageDPI(String purpose, Modality modality, ImageDecoderRequestDto decoderRequestDto)
+			throws Exception {
+		int horizontalDPI = decoderRequestDto.getHorizontalDPI();
+		int verticalDPI = decoderRequestDto.getVerticalDPI();
+		switch (Purposes.fromCode(purpose)) {
+		case AUTH:
+			switch (modality) {
+			case Finger:
+				if (!(horizontalDPI >= 490 && horizontalDPI <= 1010) || !(verticalDPI >= 490 && verticalDPI <= 1010))
+					return false;
+				break;
+			case Iris:
+				return true;
+			case Face:
+				return true;
+			default:
+				break;
+			}
+			break;
+		case REGISTRATION:
+			switch (modality) {
+			case Finger:
+				if (!(horizontalDPI >= 490 && horizontalDPI <= 1010) || !(verticalDPI >= 490 && verticalDPI <= 1010))
+					return false;
+				break;
+			case Iris:
+				return true;
+			case Face:
+				return true;
+			default:
+				break;
+			}
+			break;
+		}
+
+		return true;
 	}
 }

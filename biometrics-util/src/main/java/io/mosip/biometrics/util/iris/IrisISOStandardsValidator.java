@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.mosip.biometrics.util.ISOStandardsValidator;
+import io.mosip.biometrics.util.ImageDecoderRequestDto;
 import io.mosip.biometrics.util.Purposes;
 
 public class IrisISOStandardsValidator extends ISOStandardsValidator {
@@ -201,15 +202,20 @@ public class IrisISOStandardsValidator extends ISOStandardsValidator {
 		return false;
 	}
 
-	public boolean isValidImageCompressionType(String purpose, int compressionType) {
+	public boolean isValidImageCompressionType(String purpose, int compressionType, ImageDecoderRequestDto decoderRequestDto) {
 		try {
 			switch (Purposes.fromCode(purpose)) {
 			case AUTH:
 				if (compressionType == IrisImageCompressionType.JPEG_LOSSY)
-					return true;
+					//checking lossy from imagedata
+					if (!decoderRequestDto.isLossless())
+						return true;
+				break;
 			case REGISTRATION:
 				if (compressionType == IrisImageCompressionType.JPEG_LOSSLESS_OR_NONE)
-					return true;
+					//checking lossless from imagedata
+					if (decoderRequestDto.isLossless())
+						return true;
 				break;
 			}
 		} catch (Exception e) {
@@ -219,31 +225,34 @@ public class IrisISOStandardsValidator extends ISOStandardsValidator {
 		return false;
 	}
 
-	public boolean isValidImageWidth(String purpose, byte[] imageData, int imageWidth) {
+	public boolean isValidImageWidth(String purpose, int imageWidth, ImageDecoderRequestDto decoderRequestDto) {
 		if (imageWidth >= 0x0001 && imageWidth <= 0xFFFF)
 		{
 			// need to check width in image also
-			return true;
+			if (imageWidth == decoderRequestDto.getWidth())
+				return true;			
 		}
-		return false;
+		return false;	
 	}
 
-	public boolean isValidImageHeight(String purpose, byte[] imageData, int imageHeight) {
+	public boolean isValidImageHeight(String purpose, int imageHeight, ImageDecoderRequestDto decoderRequestDto) {
 		if (imageHeight >= 0x0001 && imageHeight <= 0xFFFF)
 		{
 			// need to check height in image also
-			return true;
+			if (imageHeight == decoderRequestDto.getHeight())
+				return true;			
 		}
-		return false;
+		return false;	
 	}
 
-	public boolean isValidBitDepth(byte[] imageData, int bitDepth) {
+	public boolean isValidBitDepth(int bitDepth, ImageDecoderRequestDto decoderRequestDto) {
 		if (bitDepth == IrisImageBitDepth.BPP_08)
 		{
-			// need to check bit depth in image also
-			return true;
+			// need to check depth in image also
+			if (decoderRequestDto.getDepth() == 8) // gray scale 8 bit depth
+				return true;			
 		}
-		return false;
+		return false;	
 	}
 
 	public boolean isValidRange(int range) {

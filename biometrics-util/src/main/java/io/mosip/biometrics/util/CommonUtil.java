@@ -38,6 +38,12 @@ public class CommonUtil {
 	static {
 		// load OpenCV library
 		nu.pattern.OpenCV.loadShared();
+		/**
+         * In Java >= 12 it is no longer possible to use addLibraryPath, which modifies the
+         * ClassLoader's static usr_paths field. There does not seem to be any way around this
+         * so we fall back to loadLocally() and return.
+         */
+		//nu.pattern.OpenCV.loadLocally();
 		System.loadLibrary(org.opencv.core.Core.NATIVE_LIBRARY_NAME);
 	}
 
