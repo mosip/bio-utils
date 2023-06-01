@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.mosip.biometrics.util.ISOStandardsValidator;
+import io.mosip.biometrics.util.ImageDecoderRequestDto;
 import io.mosip.biometrics.util.Purposes;
 
 public class FaceISOStandardsValidator extends ISOStandardsValidator {
@@ -232,7 +233,7 @@ public class FaceISOStandardsValidator extends ISOStandardsValidator {
 		return false;
 	}
 
-	public boolean isValidImageCompressionType(String purpose, int compressionType) {
+	public boolean isValidImageCompressionType(String purpose, int compressionType, ImageDecoderRequestDto decoderRequestDto) {
 		try {
 			switch (Purposes.fromCode(purpose)) {
 			case AUTH:
@@ -251,20 +252,24 @@ public class FaceISOStandardsValidator extends ISOStandardsValidator {
 		return false;
 	}
 
-	public boolean isValidImageWidth(String purpose, byte[] imageData, int imageWidth) {
+	public boolean isValidImageWidth(String purpose, int imageWidth, ImageDecoderRequestDto decoderRequestDto) {
 		if (imageWidth >= 0x0001 && imageWidth <= 0xFFFF)
-			return true;
-
-		// need to check width in image also
-		return true;
+		{
+			// need to check width in image also
+			if (decoderRequestDto.getWidth() == imageWidth)
+				return true;			
+		}
+		return false;
 	}
 
-	public boolean isValidImageHeight(String purpose, byte[] imageData, int imageHeight) {
+	public boolean isValidImageHeight(String purpose, int imageHeight, ImageDecoderRequestDto decoderRequestDto) {
 		if (imageHeight >= 0x0001 && imageHeight <= 0xFFFF)
-			return true;
-
-		// need to check height in image also
-		return true;
+		{
+			// need to check height in image also
+			if (decoderRequestDto.getHeight() == imageHeight)
+				return true;			
+		}
+		return false;
 	}
 
 	public boolean isValidSpatialSamplingRateLevel(int spatialSamplingRateLevel) {
@@ -287,11 +292,13 @@ public class FaceISOStandardsValidator extends ISOStandardsValidator {
 		return false;
 	}
 
-	public boolean isValidImageColourSpace(String purpose, byte[] imageData, int imageColourSpace) {
+	public boolean isValidImageColourSpace(String purpose, int imageColourSpace, ImageDecoderRequestDto decoderRequestDto) {
 		if (imageColourSpace == ImageColourSpace.BIT_24_RGB)
 			return true;
 
 		// need to check height in image also
+		if (decoderRequestDto.getImageColorSpace().equalsIgnoreCase("RGB"))
+			return true;
 		return false;
 	}
 }
