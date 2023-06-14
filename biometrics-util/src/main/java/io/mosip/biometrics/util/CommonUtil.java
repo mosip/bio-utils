@@ -9,6 +9,10 @@ import org.opencv.imgcodecs.Imgcodecs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
@@ -17,6 +21,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Base64.Encoder;
 
 import io.mosip.biometrics.util.face.FaceBDIR;
@@ -31,6 +37,9 @@ import io.mosip.biometrics.util.iris.ImageFormat;
 import io.mosip.biometrics.util.iris.IrisBDIR;
 import io.mosip.biometrics.util.iris.IrisDecoder;
 import io.mosip.biometrics.util.iris.IrisEncoder;
+import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstant;
+import io.mosip.biometrics.util.nist.parser.v2011.dto.BiometricInformationExchange;
+import io.mosip.biometrics.util.nist.parser.v2011.helper.NamespaceXmlFactory;
 
 public class CommonUtil {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CommonUtil.class);
@@ -349,7 +358,62 @@ public class CommonUtil {
 
 		return encodeToURLSafeBase64(outIsoData);
 	}
+	
+	/*
+	 * requestDto inputBytes base64urldecoded
+	 */
+	public static BiometricInformationExchange nistParser(NistRequestDto requestDto) throws Exception {
+		return getXmlMapper (getNamespaceXmlFactory()).readValue(requestDto.getInputBytes(), BiometricInformationExchange.class);
+	}
+	
+	/*
+	 * src should be base64urlencoded
+	 */
+	public static BiometricInformationExchange nistParser(String src) throws Exception {
+		byte[] dataBytes = decodeURLSafeBase64(src);
+		NistRequestDto requestDto = new NistRequestDto();
+		requestDto.setInputBytes(dataBytes);
+		
+		return nistParser(requestDto);
+	}
 
+	/*
+	 * src NISTBiometricInformationExchangePackage
+	 * output : xml string
+	 */
+	public static String nistXml(BiometricInformationExchange nistRecord) throws Exception {
+		return getXmlMapper(getNamespaceXmlFactory()).writeValueAsString(nistRecord);
+	}
+
+	public static XmlMapper getXmlMapper(NamespaceXmlFactory xmlFactory)
+	{
+		XmlMapper xmlMapper = new XmlMapper(getNamespaceXmlFactory ());
+		xmlMapper.configure( ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true );
+		xmlMapper.setSerializationInclusion(Include.NON_EMPTY); 
+		
+		return xmlMapper;
+	}
+	
+	public static NamespaceXmlFactory getNamespaceXmlFactory()
+	{
+		String defaultNamespace = XmlnsNameSpaceConstant.NAMESPACE_URL_ITL;
+        Map<String, String> otherNamespaces =  new HashMap<String, String>();
+        otherNamespaces.put(XmlnsNameSpaceConstant.NAMESPACE_S, XmlnsNameSpaceConstant.NAMESPACE_URL_S);
+        otherNamespaces.put(XmlnsNameSpaceConstant.NAMESPACE_I, XmlnsNameSpaceConstant.NAMESPACE_URL_I);
+        otherNamespaces.put(XmlnsNameSpaceConstant.NAMESPACE_ITL, XmlnsNameSpaceConstant.NAMESPACE_URL_ITL);
+        otherNamespaces.put(XmlnsNameSpaceConstant.NAMESPACE_BIOM, XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM);
+        otherNamespaces.put(XmlnsNameSpaceConstant.NAMESPACE_NC, XmlnsNameSpaceConstant.NAMESPACE_URL_NC);
+        otherNamespaces.put(XmlnsNameSpaceConstant.NAMESPACE_NIEM_XSD, XmlnsNameSpaceConstant.NAMESPACE_URL_NIEM_XSD);
+        otherNamespaces.put(XmlnsNameSpaceConstant.NAMESPACE_ISO_3166, XmlnsNameSpaceConstant.NAMESPACE_URL_ISO_3166);
+        otherNamespaces.put(XmlnsNameSpaceConstant.NAMESPACE_ISO_639_3, XmlnsNameSpaceConstant.NAMESPACE_URL_ISO_639_3);
+        otherNamespaces.put(XmlnsNameSpaceConstant.NAMESPACE_GENC, XmlnsNameSpaceConstant.NAMESPACE_URL_GENC);
+        otherNamespaces.put(XmlnsNameSpaceConstant.NAMESPACE_FBI, XmlnsNameSpaceConstant.NAMESPACE_URL_FBI);
+        otherNamespaces.put(XmlnsNameSpaceConstant.NAMESPACE_XSI, XmlnsNameSpaceConstant.NAMESPACE_URL_XSI);
+        otherNamespaces.put(XmlnsNameSpaceConstant.NAMESPACE_INT_I, XmlnsNameSpaceConstant.NAMESPACE_URL_INT_I);
+        
+        return new NamespaceXmlFactory(defaultNamespace, otherNamespaces);
+	}
+	
 	private static Encoder urlSafeEncoder;
 
 	static {

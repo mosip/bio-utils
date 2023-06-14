@@ -15,6 +15,7 @@ public class ApplicationConstant {
 	public static String MOSIP_BIOMETRIC_TYPE_FINGER = "mosip.mock.sbi.biometric.type.finger.folder.path";
 	public static String MOSIP_BIOMETRIC_TYPE_FACE = "mosip.mock.sbi.biometric.type.face.folder.path";
 	public static String MOSIP_BIOMETRIC_TYPE_IRIS = "mosip.mock.sbi.biometric.type.iris.folder.path";
+	public static String MOSIP_BIOMETRIC_TYPE_NIST = "mosip.mock.sbi.biometric.type.nist.folder.path";
 
 	/** Biometric Sub Types Name values */
     public static String BIO_SUB_TYPE_UNKNOWN 		= "mosip.mock.sbi.biometric.subtype.unknown";		// Do not known left or right iris
