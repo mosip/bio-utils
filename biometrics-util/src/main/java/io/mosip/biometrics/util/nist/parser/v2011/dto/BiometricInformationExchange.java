@@ -15,32 +15,33 @@ import lombok.Data;
 @JacksonXmlRootElement(localName = "itl:NISTBiometricInformationExchangePackage")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BiometricInformationExchange implements Serializable {    
-    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_S, localName = "s")
+    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_S, localName = XmlnsNameSpaceConstant.NAMESPACE_S)
     private String xmlnsS = XmlnsNameSpaceConstant.NAMESPACE_URL_S;
-    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_I, localName = "i")
+    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_I, localName = XmlnsNameSpaceConstant.NAMESPACE_I)
     private String xmlnsI = XmlnsNameSpaceConstant.NAMESPACE_URL_I;
-    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_ITL, localName = "itl")
+    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_ITL, localName = XmlnsNameSpaceConstant.NAMESPACE_ITL)
     private String xmlnsITL = XmlnsNameSpaceConstant.NAMESPACE_URL_ITL;
-    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "biom")
+    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = XmlnsNameSpaceConstant.NAMESPACE_BIOM)
     private String xmlnsBiom = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM;
-    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_NC, localName = "nc")
+    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_NC, localName = XmlnsNameSpaceConstant.NAMESPACE_NC)
     private String xmlnsNc = XmlnsNameSpaceConstant.NAMESPACE_URL_NC;
-    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_NIEM_XSD, localName = "niem-xsd")
+    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_NIEM_XSD, localName = XmlnsNameSpaceConstant.NAMESPACE_NIEM_XSD)
     private String xmlnsNiemXSD = XmlnsNameSpaceConstant.NAMESPACE_URL_NIEM_XSD;
-    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_ISO_3166, localName = "iso_3166")
+    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_ISO_3166, localName = XmlnsNameSpaceConstant.NAMESPACE_ISO_3166)
     private String xmlnsISO3166 = XmlnsNameSpaceConstant.NAMESPACE_URL_ISO_3166;
-    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_ISO_639_3, localName = "iso_639-3")
+    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_ISO_639_3, localName = XmlnsNameSpaceConstant.NAMESPACE_ISO_639_3)
     private String xmlnsISO6393 = XmlnsNameSpaceConstant.NAMESPACE_URL_ISO_639_3;
-    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_GENC, localName = "genc")
+    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_GENC, localName = XmlnsNameSpaceConstant.NAMESPACE_GENC)
     private String xmlnsGenc = XmlnsNameSpaceConstant.NAMESPACE_URL_GENC;
-    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_FBI, localName = "fbi")
+    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_FBI, localName = XmlnsNameSpaceConstant.NAMESPACE_FBI)
     private String xmlnsFbi = XmlnsNameSpaceConstant.NAMESPACE_URL_FBI;
-    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_INT_I, localName = "int-i")
+    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_INT_I, localName = XmlnsNameSpaceConstant.NAMESPACE_INT_I)
     private String xmlnsInti = XmlnsNameSpaceConstant.NAMESPACE_URL_INT_I;
-    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_XSI, localName = "xsi")
-    private String xmlnsXsi = XmlnsNameSpaceConstant.NAMESPACE_URL_XSI;
-    
-    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_XSI, localName = "schemaLocation")
+    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_RENAPO, localName = XmlnsNameSpaceConstant.NAMESPACE_RENAPO)
+    private String xmlnsRenapo = XmlnsNameSpaceConstant.NAMESPACE_URL_RENAPO;
+    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_XSI, localName = XmlnsNameSpaceConstant.NAMESPACE_XSI)
+    private String xmlnsXsi = XmlnsNameSpaceConstant.NAMESPACE_URL_XSI;    
+    @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_XSI, localName = XmlnsNameSpaceConstant.NAMESPACE_XSI_SCHEMA_LOCATION)
     private String xsiSchemaLocation = XmlnsNameSpaceConstant.NAMESPACE_URL_XSI_SCHEMA_LOCATION;
 	
     /*

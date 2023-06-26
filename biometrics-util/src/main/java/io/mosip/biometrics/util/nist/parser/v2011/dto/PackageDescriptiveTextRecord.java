@@ -13,5 +13,5 @@ public class PackageDescriptiveTextRecord extends BiometricDataRecord implements
 	 *  <!-- User Defined Fields 2.003 999 -->
 	 */
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_ITL, localName = "UserDefinedDescriptiveDetail")
-    private UserDefinedDescriptiveDetail userDefinedDescDetail;
+    private UserDefinedDescriptiveDetailRenapo userDefinedDescDetail;
 }

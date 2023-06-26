@@ -13,6 +13,8 @@ public class XmlnsNameSpaceConstant {
 	public static final String NAMESPACE_FBI = "fbi";
 	public static final String NAMESPACE_XSI = "xsi";
 	public static final String NAMESPACE_INT_I = "int-i";
+	public static final String NAMESPACE_RENAPO = "renapo";
+	public static final String NAMESPACE_XSI_SCHEMA_LOCATION = "schemaLocation";
 
 	public static final String NAMESPACE_URL_S = "http://niem.gov/niem/structures/2.0";
 	public static final String NAMESPACE_URL_I = "http://niem.gov/niem/appinfo/2.0";
@@ -26,6 +28,7 @@ public class XmlnsNameSpaceConstant {
 	public static final String NAMESPACE_URL_FBI = "http://niem.gov/niem/fbi/2.0";
 	public static final String NAMESPACE_URL_XSI = "http://www.w3.org/2001/XMLSchema-instance";
 	public static final String NAMESPACE_URL_INT_I = "http://interpol.gov/int-i/1.0";
+	public static final String NAMESPACE_URL_RENAPO = "http://www.renapo.gob.mx/NIST/XML/DatosPersona";
 	
 	public static final String NAMESPACE_URL_XSI_SCHEMA_LOCATION = "http://interpol.gov/int-i/1.0../XMLschemas/int-i/1.0/int-i.xsd";
 }
