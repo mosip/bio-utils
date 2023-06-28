@@ -410,6 +410,7 @@ public class CommonUtil {
         otherNamespaces.put(XmlnsNameSpaceConstant.NAMESPACE_FBI, XmlnsNameSpaceConstant.NAMESPACE_URL_FBI);
         otherNamespaces.put(XmlnsNameSpaceConstant.NAMESPACE_XSI, XmlnsNameSpaceConstant.NAMESPACE_URL_XSI);
         otherNamespaces.put(XmlnsNameSpaceConstant.NAMESPACE_INT_I, XmlnsNameSpaceConstant.NAMESPACE_URL_INT_I);
+        //otherNamespaces.put(XmlnsNameSpaceConstant.NAMESPACE_RENAPO, XmlnsNameSpaceConstant.NAMESPACE_URL_RENAPO);
         
         return new NamespaceXmlFactory(defaultNamespace, otherNamespaces);
 	}

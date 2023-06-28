@@ -7,6 +7,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import io.mosip.biometrics.util.nist.parser.v2011.constant.ColorSpaces;
+import io.mosip.biometrics.util.nist.parser.v2011.constant.IrisEyePositionCodes;
 import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstant;
 import lombok.Data;
 
@@ -54,10 +55,10 @@ public class IrisImage implements Serializable {
     private int imgVertPixelDensity;
     
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "IrisEyePositionCode")
-    private int irisEyePosCode;
+    private IrisEyePositionCodes irisEyePosCode;
     
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "IrisEyeRotationAngleText")
-    private String irisEyeRotationAngle;
+    private String irisEyeRotAngle;
     
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "IrisEyeRotationUncertaintyValueText")
     private String irisEyeRotUncertainty;
