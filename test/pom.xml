@@ -18,7 +18,7 @@
   	<dependency>
 		<groupId>io.mosip.biometric.util</groupId>
 		<artifactId>biometrics-util</artifactId>
-		<version>1.2.0.1-B1</version>
+		<version>1.2.0.1-SNAPSHOT</version>
 	</dependency>		
 	<dependency>
 		<groupId>org.springframework.boot</groupId>
