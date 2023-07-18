@@ -11,7 +11,7 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * PHFI = PhysicalFeatureImage
  * PHF = PhysicalFeature
  */
@@ -37,7 +37,7 @@ public class PhysicalFeatureImage implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "ImageHorizontalPixelDensityValue")
     private int imgHoriPixelDensity;
     
-    /*
+    /**
      * <!-- 10.024 SQS -->
      * <!-- 0..9 -->
      */
@@ -60,7 +60,7 @@ public class PhysicalFeatureImage implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "ImageDistortion")
     private ImageDistortion imgd;        
     
-    /*
+    /**
      * <!-- 0..9 -->
      * <!--Used for Physical Features Only-->
      */
@@ -77,7 +77,7 @@ public class PhysicalFeatureImage implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "PhysicalFeatureReferenceIdentification")
     private Identification phfRefId;
 
-    /*
+    /**
     * <!-- 10.032 3DF -->
     * <!--0..88-->
     */
@@ -85,7 +85,7 @@ public class PhysicalFeatureImage implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<FIFeaturePoint> fi3DFeaturePointList;
 
-    /*
+    /**
      * <!-- 10.044 ITX -->
      * <!-- 0..18 -->
      */
@@ -96,7 +96,7 @@ public class PhysicalFeatureImage implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "SubjectExistentialDetails")
     private SubjectExistentialDetails subed;
 
-    /*
+    /**
      * <!-- 10.048 PID -->
      * <!-- 0..* -->
      */

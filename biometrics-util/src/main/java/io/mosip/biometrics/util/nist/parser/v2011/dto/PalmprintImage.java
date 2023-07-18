@@ -8,7 +8,7 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * PPI = PalmprintImage
  */
 public class PalmprintImage implements Serializable {

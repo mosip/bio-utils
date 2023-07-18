@@ -46,4 +46,15 @@ public class ApplicationConstant {
 	public static String MOSIP_THUMB_PRINT = "mosip.mock.sbi.biometric.thumb.print";
 	public static String MOSIP_SESSION_KEY = "mosip.mock.sbi.biometric.session.key";
 	public static String MOSIP_KEY_SPLITTER = "#KEY_SPLITTER#";
+
+	/** BQAT Details */
+	public static String BQAT_SERVER_IPADDRESS = "bqat.server.ipaddress";
+	public static String BQAT_SERVER_PORT = "bqat.server.port";
+	public static String BQAT_SERVER_PATH = "bqat.server.path";
+	public static String BQAT_CONTENT_TYPE = "bqat.content.type";
+	public static String BQAT_CONTENT_CHARSET = "bqat.content.charset";
+	public static String BQAT_JSONKEY_FINGER_QUALITY_SCORE = "bqat.jsonkey.finger.quality.score";
+	public static String BQAT_JSONKEY_IRIS_QUALITY_SCORE = "bqat.jsonkey.iris.quality.score";
+	public static String BQAT_JSONKEY_FACE_QUALITY_SCORE = "bqat.jsonkey.face.quality.score";
+	public static String BQAT_JSON_RESULTS = "bqat.json.results";
 }

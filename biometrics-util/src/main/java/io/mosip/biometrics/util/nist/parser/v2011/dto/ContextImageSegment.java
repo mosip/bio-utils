@@ -20,7 +20,7 @@ public class ContextImageSegment implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "PositionPolygonVertexQuantity")
     private int posPolygVertQuantity;
 
-    /*
+    /**
     <!-- 0..99 -->
     */
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "PositionPolygonVertex")

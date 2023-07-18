@@ -10,11 +10,11 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * SI = SignatureImage
  */
 public class SIVectorRepresentation implements Serializable {
-	/*
+	/**
 	 *  <!-- 2..* -->
      *  <!-- Each occurrence of this element represents a single vector in the list, as specified in the description of Field 8.008: Signature image data / DATA. -->
 	 */

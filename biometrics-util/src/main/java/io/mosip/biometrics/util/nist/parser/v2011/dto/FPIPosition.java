@@ -10,11 +10,11 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * FPI = FingerprintImage
  */
 public class FPIPosition implements Serializable {
-	/* 
+	/**
 	<!-- 1..6 -->
 	*/ 
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "FingerPositionCode")

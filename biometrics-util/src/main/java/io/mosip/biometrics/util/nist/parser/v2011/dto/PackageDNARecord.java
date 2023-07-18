@@ -14,7 +14,7 @@ public class PackageDNARecord extends BiometricDataRecord implements Serializabl
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "Type2CrossReferenceIdentification")
     private Identification t2crId;
    
-    /*
+    /**
      * <!-- 18.902	ANN -->
      * <!-- 0..* -->
      */
@@ -22,7 +22,7 @@ public class PackageDNARecord extends BiometricDataRecord implements Serializabl
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<ProcessAnnotation> prosannList;
     
-    /*
+    /**
      * <!-- 18.995	ASC -->
      * <!-- 0..255 -->
      */

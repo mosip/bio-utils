@@ -10,7 +10,7 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * TCS = TransactionContentSummary
  */
 public class TransactionContentSummary implements Serializable {
@@ -20,7 +20,7 @@ public class TransactionContentSummary implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "ContentRecordQuantity")
     private int contRecQuantity;
     
-    /*
+    /**
      * <!-- 1..* -->
      */
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "ContentRecordSummary")

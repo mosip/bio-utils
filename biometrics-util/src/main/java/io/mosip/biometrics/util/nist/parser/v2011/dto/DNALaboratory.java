@@ -25,7 +25,7 @@ public class DNALaboratory implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "DNALaboratoryCategoryCode")
     private LaboratoryCategoryCodes dnaLabCatCode;
     
-    /*
+    /**
     <!-- ACC -->
     <!--0..6-->
     */

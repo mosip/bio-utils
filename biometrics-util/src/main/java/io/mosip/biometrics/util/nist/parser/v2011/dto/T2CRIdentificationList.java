@@ -10,11 +10,11 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * T2CR = Type2CrossReference
  */
 public class T2CRIdentificationList implements Serializable {
-	/*
+	/**
 	 * <!-- 0..98 -->
 	 */
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "Type2CrossReferenceIdentification")

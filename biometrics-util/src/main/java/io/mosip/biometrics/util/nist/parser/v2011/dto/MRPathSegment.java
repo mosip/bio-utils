@@ -10,11 +10,11 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * MR = MinutiaeRidge
  */
 public class MRPathSegment implements Serializable {
-	/* 
+	/**
 	<!--2..99-->
 	*/
 	@JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "ImageSegmentVertex")

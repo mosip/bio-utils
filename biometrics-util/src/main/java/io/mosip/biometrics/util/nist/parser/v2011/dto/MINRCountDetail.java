@@ -10,13 +10,13 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * MINR = MinutiaeRidge
  */
 public class MINRCountDetail implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "INCITSRidgeCountAlgorithmCode")
     private int incitsRidgeCountAlgCode;
-    /*
+    /**
      * <!-- 1..7992 -->
      */
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "MinutiaeRidgeCountItem")

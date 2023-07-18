@@ -9,21 +9,21 @@ import lombok.Data;
 
 @Data
 public class OcclusionOpacityCodes {
-	/*
+	/**
 	 * There is no detail in the area of the occlusion.
 	 */
 	public static final String TOTAL = "T";
-	/*
+	/**
 	 * The occlusion contains interfering texture such as eyelashes, hair or
 	 * reflection.
 	 */
 	public static final String INTERFERENCE = "I";
-	/*
+	/**
 	 * There is detail in the area of the occlusion that is lighter than the rest of
 	 * the face or iris.
 	 */
 	public static final String PARTIAL_LIGHT = "L";
-	/*
+	/**
 	 * There is detail in the area of the occlusion that is darker than the rest of
 	 * the face or iris.
 	 */

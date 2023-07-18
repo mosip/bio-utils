@@ -11,10 +11,10 @@ import lombok.Data;
 
 @Data
 public class VocalCollisionIdentifierList implements Serializable {
-	/*
+	/**
 	 * <!--1..600000-->
 	 */
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "SegmentIdentifier")
     @JacksonXmlElementWrapper(useWrapping=false)
-    private List<Integer> siList;
+    private List<Integer> segIdList;
 }

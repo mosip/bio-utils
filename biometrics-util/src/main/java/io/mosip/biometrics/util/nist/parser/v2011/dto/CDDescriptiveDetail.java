@@ -7,7 +7,7 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * CD = CustomDefined
  */
 public class CDDescriptiveDetail implements Serializable {

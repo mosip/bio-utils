@@ -53,7 +53,7 @@ public class FingerImpressionImage implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "FingerprintImageMajorCasePrint")
     private FPIMajorCasePrint fpiMajorCasePrint;
     
-    /*
+    /**
     <!-- 14.018 AMP -->
     <!--0..5-->
     */
@@ -61,7 +61,7 @@ public class FingerImpressionImage implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<FPIFingerMissing> fpiFingerMissingList;
     
-    /*
+    /**
     <!-- 14.021 SEG -->
     <!--0..5-->
     */
@@ -69,7 +69,7 @@ public class FingerImpressionImage implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<FPISegmentPositionSquare> fpiSegPosSquareList;
     
-    /*
+    /**
     <!-- 14.022 NQM -->
     <!--0..5-->
     */
@@ -77,7 +77,7 @@ public class FingerImpressionImage implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<FPINISTQuality> fpiImgNISTQualityList;
     
-    /*
+    /**
     <!-- 14.023 SQM -->
     <!--0..5-->
     */
@@ -85,7 +85,7 @@ public class FingerImpressionImage implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<ImageQuality> fpiImgSegQualities;
     
-    /*
+    /**
     <!-- 14.024 FQM -->
     <!--0..5-->
     */
@@ -93,7 +93,7 @@ public class FingerImpressionImage implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<ImageQuality> fpiImgQualityList;
     
-    /*
+    /**
     <!-- 14.025 ASEG -->
     <!--0..5-->
     */

@@ -29,7 +29,7 @@ public class MinutiaDetail implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "MinutiaCategoryCode")
     private String minutiaCatCode;
     
-    /*
+    /**
      * <!-- 0..* -->
      */
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "MinutiaRidgeCount")

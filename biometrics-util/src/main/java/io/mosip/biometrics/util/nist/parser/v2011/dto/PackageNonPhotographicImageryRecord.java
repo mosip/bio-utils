@@ -14,7 +14,7 @@ public class PackageNonPhotographicImageryRecord extends BiometricDataRecord imp
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "Type2CrossReferenceIdentification")
     private Identification t2crId;
     
-    /*
+    /**
      * <!-- 22.902	ANN -->
      * <!-- 0..* -->
      */
@@ -22,7 +22,7 @@ public class PackageNonPhotographicImageryRecord extends BiometricDataRecord imp
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<ProcessAnnotation> prosannList;
     
-    /*
+    /**
      * <!-- 22.995	ASC -->
      * <!-- 0..255 -->
      */
@@ -33,7 +33,7 @@ public class PackageNonPhotographicImageryRecord extends BiometricDataRecord imp
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "ImageHashValue")
     private String imgHash;
   
-    /*
+    /**
      * <!-- 22.997 SOR -->
      * <!-- 0..255 -->
      */

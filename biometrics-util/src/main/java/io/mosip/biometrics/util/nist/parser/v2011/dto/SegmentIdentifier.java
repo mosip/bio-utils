@@ -8,8 +8,8 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
- * SI = SegmentIdentifier
+/**
+ * SEGID = SegmentIdentifier
  */
 public class SegmentIdentifier implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "SegmentIdentifier")

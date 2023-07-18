@@ -10,7 +10,7 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * FOR = Forensic
  * DENT = Dental
  */
@@ -33,7 +33,7 @@ public class FORDentalOralDetail implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "TransmittalDentalEncodingSystemInformation")
     private DentalEncodingSystemInfo transmittalDentEncSysInfo;
     
-    /*
+    /**
     <!-- 12.009 HDD -->
     <!-- 0..* -->
     */
@@ -41,7 +41,7 @@ public class FORDentalOralDetail implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<DentalHistoryDataDetail> dentHistDataDetailList;
     
-    /*
+    /**
     <!-- 12.010 TDD -->
     <!-- 0..* -->
     */
@@ -49,7 +49,7 @@ public class FORDentalOralDetail implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<ToothDataDetail> toothDataDetailList;
     
-    /*
+    /**
     <!-- 12.011 -->
     <!-- 0..* -->
     */
@@ -57,7 +57,7 @@ public class FORDentalOralDetail implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<MouthDataDetail> mouthDataDetailList;
     
-    /*
+    /**
     <!-- 12.012 -->
     <!-- 0..* -->
     */

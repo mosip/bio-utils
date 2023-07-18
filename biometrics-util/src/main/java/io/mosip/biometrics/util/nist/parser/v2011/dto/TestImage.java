@@ -39,7 +39,7 @@ public class TestImage implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "ImageHorizontalPixelDensityValue")
     private int imgHoriPixelDensity;
     
-    /*
+    /**
      * <!-- 16.024	UQS -->
      * <!-- 0..9 -->
      */

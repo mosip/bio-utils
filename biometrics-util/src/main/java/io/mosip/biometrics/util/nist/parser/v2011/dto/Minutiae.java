@@ -14,7 +14,7 @@ public class Minutiae implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_ITL, localName = "MinutiaeNISTStandard")
     private MinutiaeNISTStandard minutiaeNISTStandard;
 
-    /*
+    /**
      * <!-- 9.008 CRP -->
      * <!-- 0..* -->
      */
@@ -22,7 +22,7 @@ public class Minutiae implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<CoreLocation> minutiaeFingerCorePosList;
 
-    /*
+    /**
      *  <!-- 9.009 DLT -->
      *  <!-- 0..* -->
      */
@@ -30,7 +30,7 @@ public class Minutiae implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<CoreLocation> minutiaeFingerDeltaPosList;
 
-    /*
+    /**
      *  <!-- 9.007FPC -->
      *  <!-- 0..* -->
      */

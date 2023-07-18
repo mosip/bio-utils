@@ -21,7 +21,7 @@ public class RecordingSettingDetail implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "RecordingSourceCountryISO3166Alpha2Code")
 	private String recSrcCountryISO3166Alpha2Code;
 
-    /*
+    /**
     <!--Used for 3-character representations of ISO 3166-1.-->
     <!--<biom:RecordingSourceCountryISO3166Alpha3Code/>
          <!-\- CSC -\-> <!-\- 0..1 -\-><!-\-Used for numeric representations of ISO 3166-1.-\->

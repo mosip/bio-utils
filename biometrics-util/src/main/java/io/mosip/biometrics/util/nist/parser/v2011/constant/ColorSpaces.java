@@ -9,12 +9,30 @@ import lombok.Data;
 
 @Data
 public class ColorSpaces {
-	public static final String UNK = "UNK";// Undefined
-	public static final String GRAY = "GRAY";// Grayscale (monochrome)
-	public static final String RGB = "RGB";// Undetermined color space for an RGB image
-	public static final String SRGB = "SRGB";// sRGB (IEC 61966-2-1)
-	public static final String YCC = "YCC";// YCbCr (legacy)
-	public static final String SYCC = "SYCC";// YCbCr (JPEG 2000 compressed)
+	/**
+	 * Undefined
+	 */
+	public static final String UNK = "UNK";
+	/**
+	 * Grayscale (monochrome)
+	 */
+	public static final String GRAY = "GRAY";
+	/**
+	 * Undetermined color space for an RGB image
+	 */
+	public static final String RGB = "RGB";
+	/**
+	 * sRGB (IEC 61966-2-1)
+	 */
+	public static final String SRGB = "SRGB";
+	/**
+	 * YCbCr (legacy)
+	 */
+	public static final String YCC = "YCC";
+	/**
+	 * YCbCr (JPEG 2000 compressed)
+	 */
+	public static final String SYCC = "SYCC";
 
 	public static final String[] arrValues = new String[] { UNK, GRAY, RGB, SRGB, YCC, SYCC };
 

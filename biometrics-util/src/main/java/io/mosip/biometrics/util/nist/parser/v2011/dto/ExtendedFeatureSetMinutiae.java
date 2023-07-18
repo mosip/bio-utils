@@ -11,7 +11,7 @@ import lombok.Data;
 
 @Data
 public class ExtendedFeatureSetMinutiae implements Serializable {
-    /*
+    /**
     <!-- 9.303 FSP -->
     <!-- 0..9 -->
     */
@@ -25,7 +25,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "FingerprintImageFingerprintOrientation")
     private FPIFingerprintOrientation fpImgFpOrientation;    
     
-    /*
+    /**
     <!-- 9.302 FPP -->
     <!--1..20-->
     <!-- Although each individual friction ridge element allowed here is optional, at least one of these MUST appear: 
@@ -53,7 +53,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<MinutiaeFingerLocation> minutiaeFingLocList;
 
-    /*
+    /**
     <!-- 9.307 PAT -->
     <!--0..7-->
     <!-- This field shall only be used for fingerprints, and shall be omitted for other friction ridge impressions. -->
@@ -77,7 +77,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "FrictionRidgeImageLateralReversalCode")
     private String fricRidgeImgLatRevCode;
     
-    /*
+    /**
     <!-- 9.316 FQM -->
     <!-- 0..9 -->
     */
@@ -91,7 +91,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "MinutiaeNoCoresPresentIndicator")
     private Boolean minutiaeNoCoresPresInd;
     
-    /*
+    /**
     <!-- 9.320 COR -->
     <!-- 0..* -->
     */
@@ -102,7 +102,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "MinutiaeNoDeltasPresentIndicator")
     private Boolean minutiaeNoDeltasPresInd;
     
-    /*
+    /**
     <!-- 9.321 DEL -->
     <!-- 0..* -->
     */
@@ -110,7 +110,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<MinutiaeDelta> minutiaeDeltaList;    
     
-    /*
+    /**
     <!-- 9.322 CDR -->
     <!-- 0..* -->
     */
@@ -118,7 +118,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<MINRCountCoreToDelta> minrCountCoreToDeltaList;
 
-    /*
+    /**
     <!-- 9.323 CPR -->
     <!--0..3-->
     */
@@ -129,7 +129,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "MinutiaeNoDistinctiveFeaturesPresentIndicator")
     private Boolean minutiaeNoDistFeatPresInd;
     
-    /*
+    /**
     <!-- 9.324 DIS -->
     <!-- 0..99 -->
     */
@@ -140,7 +140,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "MinutiaeNoMinutiaePresentIndicator")
     private Boolean minutiaeNoMinutiaePresentInd;
     
-    /*
+    /**
     <!-- 9.331 MIN -->
     <!-- 0..999 -->
     */
@@ -151,7 +151,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "EFSRidgeCountAlgorithmCode")
     private String efsRidgeCountAlgCode;
     
-    /*
+    /**
     <!-- 9.333 MRC -->
     <!-- 0..* -->
     */
@@ -159,7 +159,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<EFSRidgeCountItem> eFSRidgeCountItemList;
 
-    /*
+    /**
     <!-- 9.335 RCC -->
     <!-- 0..7992 -->
     */
@@ -170,7 +170,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "MinutiaeNoDotsPresentIndicator")
     private Boolean minutiaeNoDotsPresentIndicator;
     
-    /*
+    /**
     <!-- 9.346 NDOT -->
     <!-- 0..1 -->
     */
@@ -181,7 +181,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "MinutiaeNoIncipientRidgesPresentIndicator")
     private Boolean minutiaeNoIncipientRidgesPresInd;
     
-    /*
+    /**
     <!-- 9.345 POR -->
     <!-- 0..9999-->
     */
@@ -189,7 +189,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<MinutiaLocationPoint> minutiaePoreList;
     
-    /*
+    /**
     <!-- 9.350 MFD -->
     <!-- 0..99 -->
     */
@@ -200,7 +200,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "MinutiaeCommentText")
     private String minutiaeCommentText;
     
-    /*
+    /**
     <!-- 9.352 LPM -->
     <!-- 0..9 -->
     */
@@ -211,7 +211,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "MinutiaeValueAssessment")
     private MinutiaeValueAssessment minutiaeValueAssessment;
     
-    /*
+    /**
     <!-- 9.354 EOF -->
     <!--0..4-->
     */
@@ -219,7 +219,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<MinutiaeFraudEvidence> minfreList;
     
-    /*
+    /**
     <!-- 9.355 LSB -->
     <!--0..3-->
     */
@@ -227,7 +227,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<MinutiaeLatentSubstrate> minlsList;
     
-    /*
+    /**
     <!-- 9.356 LMT -->
     <!--0..3-->
     */
@@ -235,7 +235,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<MinutiaeLatentMatrix> minlmList;
     
-    /*
+    /**
     <!-- 9.357 LQI -->
     <!-- 0..* -->
     */
@@ -243,7 +243,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<MinutiaeLocalQualityIssues> minlqIssueList;
     
-    /*
+    /**
     <!-- 9.360 AOC -->
     <!-- 0..* -->
     */
@@ -251,7 +251,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<FRIAreaOfCorrespondence> friAOCList;
     
-    /*
+    /**
     <!-- 9.341 INR -->
     <!-- 0..999 -->
     */
@@ -262,7 +262,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "MinutiaeNoCreasesPresentIndicator")
     private Boolean minutiaeNoCreasesPresentInd;
     
-    /*
+    /**
     <!-- 9.342 CLD -->
     <!-- 0..999 -->
     */
@@ -273,7 +273,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "MinutiaeNoRidgeEdgeFeaturesPresentIndicator")
     private Boolean minutiaeNoRidgeEdgeFeatPresInd;
     
-    /*
+    /**
     <!-- 9.343 REF -->
     <!-- 0..999-->
     */
@@ -284,7 +284,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "MinutiaeNoPoresPresentIndicator")
     private Boolean minutiaeNoPoresPresentInd;
     
-    /*
+    /**
     <!-- 9.361 CPF -->
     <!-- 0..* -->
     */
@@ -292,7 +292,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<MINFCorrespondence> minutiaeFeatCorrList;
     
-    /*
+    /**
     <!-- 9.362 ECD -->
     <!-- 0..* -->
     */
@@ -300,7 +300,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<MINEXComparisonDetermination> minutiaeExamComparDeterList;
     
-    /*
+    /**
     <!-- 9.363 RRC -->
     <!-- 0..* -->
     */
@@ -314,7 +314,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "MinutiaeImageRidgePathRepresentation")
     private MIRPathRepresentation mirPathRep;
     
-    /*
+    /**
     <!-- 9.380 TPL -->
     <!-- 0..999 -->
     */
@@ -322,7 +322,7 @@ public class ExtendedFeatureSetMinutiae implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<EFSTemporaryLine> efsTempLineList;
     
-    /*
+    /**
     <!-- 9.381 FCC -->
     <!-- 0..999 -->
     */

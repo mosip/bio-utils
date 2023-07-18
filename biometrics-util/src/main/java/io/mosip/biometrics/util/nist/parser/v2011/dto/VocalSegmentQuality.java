@@ -13,7 +13,7 @@ import lombok.Data;
 public class VocalSegmentQuality implements Serializable  {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "SegmentIdentifierList")
     @JacksonXmlElementWrapper(useWrapping=false)
-    private List<SegmentIdentifier> siList;
+    private List<SegmentIdentifier> segIdList;
     
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "QualityValue")
     private int quality;

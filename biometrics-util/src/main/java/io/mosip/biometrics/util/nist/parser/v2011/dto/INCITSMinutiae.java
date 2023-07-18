@@ -29,7 +29,7 @@ public class INCITSMinutiae implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "FingerViewNumeric")
     private int fingerViewNum;
 
-    /*
+    /**
     <!-- 9.135 FQD -->
     <!--1..9-->
     */
@@ -40,7 +40,7 @@ public class INCITSMinutiae implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "MinutiaeQuantity")
     private int minutiaeQuantity;
 
-    /*
+    /**
     <!-- 9.137 FMD -->
     <!--1..9999-->
     */
@@ -51,7 +51,7 @@ public class INCITSMinutiae implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "MinutiaeRidgeCountDetail")
     private MINRCountDetail minrCountDetail;
     
-    /*
+    /**
     <!-- 9.139 CIN -->
     <!-- 0..9 -->
     */
@@ -59,7 +59,7 @@ public class INCITSMinutiae implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<CoreLocation> fppCoreLocList;
 
-    /*
+    /**
     <!-- 9.140 DIN -->
     <!-- 0..9 -->
     */

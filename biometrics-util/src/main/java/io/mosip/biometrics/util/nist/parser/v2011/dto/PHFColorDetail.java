@@ -10,14 +10,14 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * PHF = PhysicalFeature
  */
 public class PHFColorDetail implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "PhysicalFeaturePrimaryColorCode")
     private String phfPrimaryColorCode;
     
-    /*
+    /**
      * <!-- TC2, TC3, TC4, TC5, TC6 -->
      * <!--0..5-->
      * <!--Repeat this element as necessary to represent TC2, TC3, TC4, TC5 and TC6.-->

@@ -22,7 +22,7 @@ public class IrisImageOcclusion implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "ImageFeatureVertexQuantity")
     private int imgFeatVertexQuantity;
     
-    /*
+    /**
      * <!--3..99-->
      */
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "ImageFeatureVertex")

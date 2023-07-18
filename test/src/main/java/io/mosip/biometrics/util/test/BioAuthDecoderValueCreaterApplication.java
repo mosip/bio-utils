@@ -24,56 +24,60 @@ public class BioAuthDecoderValueCreaterApplication
     {
 		if (args != null && args.length >= 6)
 		{
-			// Argument 0 should contain io.mosip.biometrics.util.image.type.jp2000/io.mosip.biometrics.util.image.type.wsq"
-			String imageType = args[0];
-			LOGGER.info("main :: imageType :: Argument [0] " + imageType);
-			if (imageType.contains(ApplicationConstant.IMAGE_TYPE_JP2000))//0
+			// Argument 0 should contain "mosip.mock.sbi.biometric.transaction.id"
+			String transactionId = args[0];
+			LOGGER.info("main :: MOSIP_TRANSACTION_ID :: Argument [0] " + transactionId);
+			if (transactionId.contains(ApplicationConstant.MOSIP_TRANSACTION_ID))
 			{
-				imageType = imageType.split("=") [1];
+				transactionId = transactionId.split("=")[1];
 			}
 			else 
 			{
 				System.exit(-1);
 			}
 
-			// Argument 1 should contain "mosip.mock.sbi.biometric.transaction.id"
-			String transactionId = args[1];
-			LOGGER.info("main :: MOSIP_TRANSACTION_ID :: Argument [1] " + transactionId);
-			if (transactionId.contains(ApplicationConstant.MOSIP_TRANSACTION_ID))
-			{
-				transactionId = transactionId.split("=")[1];
-			}
-
-			// Argument 2 should contain "mosip.mock.sbi.biometric.time.stamp"
-			String timeStamp = args[2];
-			LOGGER.info("main :: MOSIP_TIME_STAMP :: Argument [2] " + timeStamp);
+			// Argument 1 should contain "mosip.mock.sbi.biometric.time.stamp"
+			String timeStamp = args[1];
+			LOGGER.info("main :: MOSIP_TIME_STAMP :: Argument [1] " + timeStamp);
 			if (timeStamp.contains(ApplicationConstant.MOSIP_TIME_STAMP))
 			{
 				timeStamp = timeStamp.split("=")[1];
 			}
+			else 
+			{
+				System.exit(-1);
+			}
 
-			// Argument 3 should contain "mosip.mock.sbi.biometric.thumb.print"
-			String thumbPrint = args[3];
-			LOGGER.info("main :: MOSIP_THUMB_PRINT :: Argument [3] " + thumbPrint);
+			// Argument 2 should contain "mosip.mock.sbi.biometric.thumb.print"
+			String thumbPrint = args[2];
+			LOGGER.info("main :: MOSIP_THUMB_PRINT :: Argument [2] " + thumbPrint);
 			if (thumbPrint.contains(ApplicationConstant.MOSIP_THUMB_PRINT))
 			{
 				thumbPrint = thumbPrint.split("=")[1];
 			}
+			else 
+			{
+				System.exit(-1);
+			}
 
-			// Argument 4 should contain "mosip.mock.sbi.biometric.session.key"
-			String sessionKey = args[4];
-			LOGGER.info("main :: MOSIP_SESSION_KEY :: Argument [4] " + sessionKey);
+			// Argument 3 should contain "mosip.mock.sbi.biometric.session.key"
+			String sessionKey = args[3];
+			LOGGER.info("main :: MOSIP_SESSION_KEY :: Argument [3] " + sessionKey);
 			if (sessionKey.contains(ApplicationConstant.MOSIP_SESSION_KEY))
 			{
 				sessionKey = sessionKey.split("=")[1];
+			}
+			else 
+			{
+				System.exit(-1);
 			}
 
 			String keySplitter = ApplicationConstant.MOSIP_KEY_SPLITTER;
 			LOGGER.info("main :: MOSIP_KEY_SPLITTER " + keySplitter);
 
-			// Argument 5 should contain "mosip.mock.sbi.biometric.type.finger.folder.path/mosip.mock.sbi.biometric.type.face.folder.path/mosip.mock.sbi.biometric.type.iris.folder.path"
-			String biometricFolderPath = args[5];
-			LOGGER.info("main :: biometricFolderPath :: Argument [5] " + biometricFolderPath);
+			// Argument 4 should contain "mosip.mock.sbi.biometric.type.finger.folder.path/mosip.mock.sbi.biometric.type.face.folder.path/mosip.mock.sbi.biometric.type.iris.folder.path"
+			String biometricFolderPath = args[4];
+			LOGGER.info("main :: biometricFolderPath :: Argument [4] " + biometricFolderPath);
 			if (biometricFolderPath.contains(ApplicationConstant.MOSIP_BIOMETRIC_TYPE_FINGER))
 			{
 				biometricFolderPath = biometricFolderPath.split("=")[1];
@@ -87,22 +91,22 @@ public class BioAuthDecoderValueCreaterApplication
 				biometricFolderPath = biometricFolderPath.split("=")[1];
 			}
 
-			// Argument 6 should contain "mosip.mock.sbi.biometric.type.file.iso"
-			String decodeFile = args[6];
-			LOGGER.info("main :: converionFile :: Argument [6] " + decodeFile);
+			// Argument 5 should contain "mosip.mock.sbi.biometric.type.file.iso"
+			String decodeFile = args[5];
+			LOGGER.info("main :: converionFile :: Argument [5] " + decodeFile);
 			if (decodeFile.contains(ApplicationConstant.MOSIP_BIOMETRIC_TYPE_FILE_ISO))
 			{
 				decodeFile = decodeFile.split("=")[1];
 			}
 			
-			doBioAuthDecodeValueCreator(imageType, biometricFolderPath, decodeFile, timeStamp, transactionId, thumbPrint, sessionKey, keySplitter); 
+			doBioAuthDecodeValueCreator(biometricFolderPath, decodeFile, timeStamp, transactionId, thumbPrint, sessionKey, keySplitter); 
 		}
     }
     
-    public static void doBioAuthDecodeValueCreator (String inputImageType, String biometricFolderPath, String decodeFile, 
+    public static void doBioAuthDecodeValueCreator (String biometricFolderPath, String decodeFile, 
     		String timestamp, String transactionId, String thumbprint, String sessionKey, String keySplitter)
     {
-		LOGGER.info("doBioAuthDecodeValueCreator :: Started :: inputImageType ::" + inputImageType + "  :: biometricFolderPath :: " + biometricFolderPath + " :: decodeFile :: " + decodeFile);
+		LOGGER.info("doBioAuthDecodeValueCreator :: Started :: biometricFolderPath :: " + biometricFolderPath + " :: decodeFile :: " + decodeFile);
 		try {
     		String filePath = new File (".").getCanonicalPath ();
     		String fileName = filePath + biometricFolderPath + decodeFile;

@@ -22,11 +22,14 @@
 		<spring.boot.version>2.0.2.RELEASE</spring.boot.version>
 		<openpnp-opencv.version>4.5.3-4</openpnp-opencv.version>
 		<lombok.version>1.18.24</lombok.version>
-		<kernel.version>1.2.1-SNAPSHOT</kernel.version>
+		<kernel.core.version>1.2.0.1-B1</kernel.core.version>
 		<fasterxml.jackson.version>2.15.0</fasterxml.jackson.version>
 		<hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
 
 		<biometrics-util.version>1.2.0.1-B2-SNAPSHOT</biometrics-util.version>
+		<!-- fasterxml jackson-->
+		<com.fasterxml.jackson.version>2.15.0</com.fasterxml.jackson.version>
+        <okhttp.version>2.7.5</okhttp.version>
 	</properties>
 	
 	<dependencies>
@@ -38,6 +41,36 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.mosip.kernel</groupId>
+			<artifactId>kernel-core</artifactId>
+			<version>${kernel.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.squareup.okhttp</groupId>
+			<artifactId>okhttp</artifactId>
+			<version>${okhttp.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${com.fasterxml.jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${com.fasterxml.jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${com.fasterxml.jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-csv</artifactId>
+			<version>${com.fasterxml.jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -166,6 +199,7 @@
 										<include>run_bio_auth_decoder.bat</include>
 										
 										<include>run_nist_file_reader.bat</include>
+										<include>run_nist_data_quality_analyser.bat</include>
 										
 									</includes>
 								</resource>

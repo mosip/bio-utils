@@ -37,7 +37,7 @@ public class IrisImage implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "ImageHorizontalPixelDensityValue")
     private int imgHoriPixelDensity;
     
-    /*
+    /**
      *  <!-- 17.024	IQS -->
      *  <!-- 0..9 -->
      */
@@ -96,7 +96,7 @@ public class IrisImage implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "IrisImageIrisLowerEyelidBoundary")
     private IrisImageBoundary irisImgLowerEyelidBoundary;
     
-    /*
+    /**
      *  <!-- 17.037	NEO -->
      *  <!-- 0..* -->
      */

@@ -11,7 +11,7 @@ import lombok.Data;
 
 @Data
 public class SegmentGeographicalLocation implements Serializable {
-    /*
+    /**
     <!-- 1..600000 -->
     */
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "SegmentIdentifierList")

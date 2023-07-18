@@ -10,7 +10,7 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * CXT = context
  */
 public class ContextVideo implements Serializable {
@@ -20,7 +20,7 @@ public class ContextVideo implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "BiometricCaptureDetail")
     private ContextImageCaptureDetail imgCapDetail;
     
-    /*
+    /**
     <!-- 21.016 SEG -->
     <!-- 0..99 -->
     */
@@ -28,7 +28,7 @@ public class ContextVideo implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<ContextVideoImageSegment> imgSegList;
     
-    /*
+    /**
  	<!-- 21.019 TIX -->
     <!-- 1..99 -->
     */

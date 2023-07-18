@@ -10,17 +10,17 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * SP = SegmentProcessing
- * SI = segmentIdentifier
+ * SEGID = segmentIdentifier
  */
 public class SPPriorityInfo implements Serializable {
-	/*
+	/**
 	 * <!--1..600000-->
 	 */
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "SegmentIdentifierList")
     @JacksonXmlElementWrapper(useWrapping=false)
-    private List<SegmentIdentifier> siLists;
+    private List<SegmentIdentifier> segIdList;
     
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "ProcessingPriorityValue")
     private int processingPriority;

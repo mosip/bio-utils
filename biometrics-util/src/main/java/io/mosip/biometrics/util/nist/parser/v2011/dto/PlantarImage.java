@@ -10,7 +10,7 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * PLIS = PlantarImageSegment
  * PLI = PlantarImage
  */
@@ -51,7 +51,7 @@ public class PlantarImage implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "PlantarPositionCode")
     private int plantarPosCode;
     
-    /*
+    /**
      * <!-- 19.018 AMP -->
      * <!--0..8-->
      */
@@ -59,7 +59,7 @@ public class PlantarImage implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<PLIMissingArea> pliMissingAreaList;
     
-    /*
+    /**
      * <!-- 19.024 FQM -->
      * <!-- 0..9 -->
      */
@@ -67,7 +67,7 @@ public class PlantarImage implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<ImageQuality> pliQualityList;
     
-    /*
+    /**
      * <!-- 19.019 FSP -->
      * <!--0..5-->
      */

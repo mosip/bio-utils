@@ -36,7 +36,7 @@ public class FaceImage implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "ImageHorizontalPixelDensityValue")
     private PixelDensityValues imgHoriPixelDensity;    
     
-    /*
+    /**
      * <!-- 10.024 SQS -->
      * <!-- 0..9 -->
      */
@@ -65,7 +65,7 @@ public class FaceImage implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "FaceImageAcquisitionProfileCode")
     private SubjectAcquisitionProfileCodes fiAcqProfCode;
     
-    /*
+    /**
      * <!-- 10.022 PXS -->
      * <!-- 0..9 -->
      * <!-- For legacy use only. -->
@@ -74,7 +74,7 @@ public class FaceImage implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<FIAttribute> fiAttrList;
 
-    /*
+    /**
      * <!-- 10.026 SXS -->
      * <!--0..50-->
      * <!--Use this element when the value is explicitly specified in Table 63 of ANSI/NIST-ITL 1-2011 Update:2013, Subject facial description codes, or is a physical characteristic from Annex D-->
@@ -83,7 +83,7 @@ public class FaceImage implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)    
     private List<String> fiDescrCodeList;
     
-    /*
+    /**
      * <!-- 10.026 SXS -->
      * <!--0..50-->
      * <!--  Use this element when the value is unformatted text (identified as "Other characteristics" in Table 63 of ANSI/NIST- ITL 1-2011 Update:2013, Subject facial description codes). -->
@@ -95,7 +95,7 @@ public class FaceImage implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "FaceImageEyeColorAttributeCode")
     private String faceImgEyeColorAttributeCode;
     
-    /*
+    /**
     <!-- 10.029 FFP -->
     <!--0..88-->
     */
@@ -103,7 +103,7 @@ public class FaceImage implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<FIFeaturePoint> fiFeaPointList;
     
-    /*
+    /**
      * <!-- 10.028 SHC -->
      * <!--0..2-->
      */
@@ -126,7 +126,7 @@ public class FaceImage implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "FaceImageBoundary")
     private FPISegmentPositionPolygon fiBoundary;
     
-    /*
+    /**
      * <!-- 10.019 LAF -->
      * <!--0..3-->
      */
@@ -137,7 +137,7 @@ public class FaceImage implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "FaceImageFeaturePointTierCode")
     private int fiFeaturePointTierCode;    
     
-    /*
+    /**
     <!-- 10.032 3DF -->
     <!--0..88-->
     */
@@ -145,7 +145,7 @@ public class FaceImage implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)    
     private List<FIFeaturePoint> fi3DFeaPointList;
     
-    /*
+    /**
     <!-- 10.033 FEC -->
     <!-- 0..12 -->
     */
@@ -153,7 +153,7 @@ public class FaceImage implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<FPISegmentPositionPolygon> fiContourList;
     
-    /*
+    /**
     <!-- 10.045 OCC -->
     <!-- 0..16 -->
     */

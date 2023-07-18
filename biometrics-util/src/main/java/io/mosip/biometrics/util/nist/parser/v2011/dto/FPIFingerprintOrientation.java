@@ -8,7 +8,7 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * FPI = FingerprintImage
  */
 public class FPIFingerprintOrientation implements Serializable {

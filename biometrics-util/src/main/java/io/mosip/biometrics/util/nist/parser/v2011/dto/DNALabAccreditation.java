@@ -16,7 +16,7 @@ public class DNALabAccreditation implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "DNALaboratoryAccreditationLevelCode")
     private LaboratoryAccreditationLevelCodes dnaLabAccredLevelCode;
     
-    /*
+    /**
     <!-- ACC -->
     <!--0..4-->
     */

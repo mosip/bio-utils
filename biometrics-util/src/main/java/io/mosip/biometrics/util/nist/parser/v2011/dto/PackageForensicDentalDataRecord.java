@@ -20,7 +20,7 @@ public class PackageForensicDentalDataRecord extends BiometricDataRecord impleme
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "Type22CrossReferenceIdentification")
     private Identification t22crId;
     
-    /*
+    /**
      *  <!-- 12.902	ANN -->
      *  <!-- 0..* -->
      */
@@ -28,7 +28,7 @@ public class PackageForensicDentalDataRecord extends BiometricDataRecord impleme
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<ProcessAnnotation> prosannList;
     
-    /*
+    /**
      * <!-- 12.995	ASC -->
      * <!-- 0..255 -->
      */

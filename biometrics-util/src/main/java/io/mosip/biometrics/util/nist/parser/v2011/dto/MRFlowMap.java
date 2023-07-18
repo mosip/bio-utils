@@ -10,7 +10,7 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * MR = MinutiaeRidge
  */
 public class MRFlowMap implements Serializable {
@@ -20,7 +20,7 @@ public class MRFlowMap implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "MinutiaeRidgeFlowMapFormatCode")
     private String mrFlowMapFormatCode;
     
-    /*
+    /**
     <!-- 9.310 RFM -->
     <!--1..*-->
     */

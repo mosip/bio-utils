@@ -17,7 +17,7 @@ public class ContextImage implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "ImageCaptureDetail")
     private ContextImageCaptureDetail imgCapDetail;
     
-    /*
+    /**
     <!-- 21.016 SEG -->
     <!-- 0..99 -->
     */

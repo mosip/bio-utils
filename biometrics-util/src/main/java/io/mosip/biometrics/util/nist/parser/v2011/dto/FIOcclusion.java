@@ -12,7 +12,7 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * FI = FaceImage
  */
 public class FIOcclusion implements Serializable {

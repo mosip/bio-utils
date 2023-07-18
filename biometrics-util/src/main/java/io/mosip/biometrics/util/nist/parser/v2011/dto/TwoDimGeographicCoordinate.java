@@ -9,7 +9,7 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * TwoDim =TwoDimensional
  */
 public class TwoDimGeographicCoordinate implements Serializable {    

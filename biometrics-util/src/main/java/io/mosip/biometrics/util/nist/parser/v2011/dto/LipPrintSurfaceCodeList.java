@@ -11,7 +11,7 @@ import lombok.Data;
 
 @Data
 public class LipPrintSurfaceCodeList implements Serializable {
-	/*
+	/**
 	* <!--1..3-->
 	*/
 	@JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "LipPrintSurfaceCode")

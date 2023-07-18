@@ -10,7 +10,7 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown=true)
-/*
+/**
  * MISC = Miscellaneous
  */
 public class MiscellaneousIdentificationID extends Identification implements Serializable {

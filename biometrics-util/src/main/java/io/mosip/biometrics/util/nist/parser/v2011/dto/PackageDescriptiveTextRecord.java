@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 public class PackageDescriptiveTextRecord extends BiometricDataRecord implements Serializable {
-	/*
+	/**
 	 *  <!-- User Defined Fields 2.003 999 -->
 	 */
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_ITL, localName = "UserDefinedDescriptiveDetail")

@@ -44,7 +44,7 @@ public class BiometricInformationExchange implements Serializable {
     @JacksonXmlProperty(isAttribute = true, namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_XSI, localName = XmlnsNameSpaceConstant.NAMESPACE_XSI_SCHEMA_LOCATION)
     private String xsiSchemaLocation = XmlnsNameSpaceConstant.NAMESPACE_URL_XSI_SCHEMA_LOCATION;
 	
-    /*
+    /**
     <!--******************************************************************-->
     <!--Type-1 Record (Header Record)                                     -->
     <!--******************************************************************-->
@@ -52,7 +52,8 @@ public class BiometricInformationExchange implements Serializable {
     */
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_ITL, localName = "PackageInformationRecord")
     private PackageInformationRecord informationRecord;
-    /*
+
+    /**
     <!--******************************************************************-->
     <!--Type-2 Record (User Defined Descriptive Text Record)              -->
     <!--******************************************************************-->
@@ -62,7 +63,7 @@ public class BiometricInformationExchange implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<PackageDescriptiveTextRecord> descriptiveTextRecordList;
 
-    /*
+    /**
     <!--******************************************************************-->
     <!--Type-4 Record (High Resolution Grayscale Fingerprint Image Record)-->
     <!--******************************************************************-->
@@ -72,7 +73,7 @@ public class BiometricInformationExchange implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<PackageHighResolutionGrayscaleImageRecord> highResolutionGrayscaleImageRecordList;
 
-    /*
+    /**
     <!--******************************************************************-->
     <!--Type-7 Record (User Defined Image Record)						  -->
     <!--******************************************************************-->
@@ -92,7 +93,7 @@ public class BiometricInformationExchange implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<PackageSignatureImageRecord> signatureImageRecordList;
     
-    /*
+    /**
     <!--******************************************************************-->
     <!--Type-9 Record (Legacy Fingerprint Minutiae Record)			      -->
     <!--******************************************************************-->
@@ -102,7 +103,7 @@ public class BiometricInformationExchange implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<PackageMinutiaeRecord> minutiaeRecordList;
     
-    /*
+    /**
     <!-- ***************************************************************************************** -->
     <!--    RECORD TYPE 10     Facial Image Record                                                 -->
     <!-- ***************************************************************************************** -->
@@ -112,7 +113,7 @@ public class BiometricInformationExchange implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<PackageNonPhotographicImageryRecord> facialAndSMTImageRecordList;
     
-    /*
+    /**
     <!-- ***************************************************************************************** -->
     <!-- RECORD TYPE 11     Voice Record                                                           -->
     <!-- ***************************************************************************************** -->
@@ -122,7 +123,7 @@ public class BiometricInformationExchange implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<PackageVoiceDataRecord> voiceDataRecordList;
     
-    /*
+    /**
     <!-- ***************************************************************************************** -->
     <!-- RECORD TYPE 12     Dental Record                                                          -->
     <!-- ***************************************************************************************** -->
@@ -132,7 +133,7 @@ public class BiometricInformationExchange implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<PackageForensicDentalDataRecord> forensicDentalDataRecordList;
     
-    /*
+    /**
  	<!-- ***************************************************************************************** -->
     <!-- RECORD TYPE 13     Latent Friction Ridge Record                                           -->
     <!-- ***************************************************************************************** -->
@@ -142,7 +143,7 @@ public class BiometricInformationExchange implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<PackageCBEFFBiometricDataRecord> latentImageRecordList;
 
-    /*
+    /**
     <!-- ***************************************************************************************** -->
     <!-- RECORD TYPE 14     Friction Ridge Record                                                  -->
     <!-- ***************************************************************************************** -->
@@ -152,7 +153,7 @@ public class BiometricInformationExchange implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<PackageCBEFFBiometricDataRecord> fingerprintImageRecordList;
 
-    /*
+    /**
     <!-- ***************************************************************************************** -->
     <!-- RECORD TYPE 15     Palm Record                                                            -->
     <!-- ***************************************************************************************** -->
@@ -162,7 +163,7 @@ public class BiometricInformationExchange implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<PackageCBEFFBiometricDataRecord> palmprintImageRecordList;
 
-    /*
+    /**
     <!-- ***************************************************************************************** -->
     <!-- RECORD TYPE 16     Test Record                                                            -->
     <!-- ***************************************************************************************** -->
@@ -172,7 +173,7 @@ public class BiometricInformationExchange implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<PackageCBEFFBiometricDataRecord> userDefinedTestingImageRecordList;
 
-    /*
+    /**
     <!-- ***************************************************************************************** -->
     <!-- RECORD TYPE 17     Iris Record                                                            -->
     <!-- ***************************************************************************************** -->
@@ -182,7 +183,7 @@ public class BiometricInformationExchange implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<PackageCBEFFBiometricDataRecord> irisImageRecordList;
 
-    /*
+    /**
     <!-- ***************************************************************************************** -->
     <!-- RECORD TYPE 18      DNA Record                                                            -->
     <!-- ***************************************************************************************** -->
@@ -192,7 +193,7 @@ public class BiometricInformationExchange implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<PackageDNARecord> dNARecordList;
 
-    /*
+    /**
     <!-- ***************************************************************************************** -->
     <!-- RECORD TYPE 19      Plantar Record                                                        -->
     <!-- ***************************************************************************************** -->
@@ -202,7 +203,7 @@ public class BiometricInformationExchange implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<PackageCBEFFBiometricDataRecord> plantarImageRecordList;
 
-    /*
+    /**
     <!-- ***************************************************************************************** -->
     <!-- RECORD TYPE 20      Source Representation Record with Image                               -->
     <!-- ***************************************************************************************** -->
@@ -212,7 +213,7 @@ public class BiometricInformationExchange implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<PackageSourceRepresentationRecord> sourceRepresentationRecordList;
 
-    /*
+    /**
     <!-- ***************************************************************************************** -->
     <!-- RECORD TYPE 21      Associated Context Record with Video                                  -->
     <!-- ***************************************************************************************** -->
@@ -222,7 +223,7 @@ public class BiometricInformationExchange implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<PackageAssociatedContextRecord> associatedContextRecordList;
 
-    /*
+    /**
     <!-- ***************************************************************************************** -->
     <!-- RECORD TYPE 22      Non Photographic Imagery Record                                       -->
     <!-- ***************************************************************************************** -->
@@ -232,7 +233,7 @@ public class BiometricInformationExchange implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<PackageNonPhotographicImageryRecord> nonPhotographicImageryRecordList;
 
-    /*
+    /**
     <!-- ***************************************************************************************** -->
     <!-- RECORD TYPE 98      Information Assurance Record                                          -->
     <!-- ***************************************************************************************** -->
@@ -242,7 +243,7 @@ public class BiometricInformationExchange implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<PackageInformationAssuranceRecord> informationAssuranceRecordList;
 
-    /*
+    /**
     <!-- ***************************************************************************************** -->
     <!-- RECORD TYPE 99      CBEFF Biometric Data Record                                           -->
     <!-- ***************************************************************************************** -->

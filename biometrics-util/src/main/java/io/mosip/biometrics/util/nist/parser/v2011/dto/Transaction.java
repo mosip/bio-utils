@@ -10,7 +10,7 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * TRANS = Transaction
  */
 public class Transaction implements Serializable {
@@ -35,7 +35,7 @@ public class Transaction implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "TransactionDomain")
     private TransactionDomain transDomain;
     
-    /*
+    /**
      *  <!--APS 1.016, Optional -->
      *  <!-- 0..99 -->
      */

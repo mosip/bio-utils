@@ -10,9 +10,9 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
- * SS = SegmentSpeaker
- * SI = segmentIdentifier
+/**
+ * SEGS = SegmentSpeaker
+ * SEGID = segmentIdentifier
  */
 public class SSCharacteristicsInfo implements Serializable {
 	/*
@@ -20,7 +20,7 @@ public class SSCharacteristicsInfo implements Serializable {
 	*/
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "SegmentIdentifierList")
     @JacksonXmlElementWrapper(useWrapping=false)
-    private List<SegmentIdentifier> siList;
+    private List<SegmentIdentifier> segIdList;
     
     /*
      * <!-- 0..9999 -->

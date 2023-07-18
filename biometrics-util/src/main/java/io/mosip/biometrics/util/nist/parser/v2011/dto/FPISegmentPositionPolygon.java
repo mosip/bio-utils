@@ -10,7 +10,7 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * FPI = FingerprintImage
  */
 public class FPISegmentPositionPolygon implements Serializable {
@@ -20,7 +20,7 @@ public class FPISegmentPositionPolygon implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "PositionPolygonVertexQuantity")
     private int posPolyVertexQuantity;
 
-    /*
+    /**
     <!--3..99-->
     */
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "PositionPolygonVertex")

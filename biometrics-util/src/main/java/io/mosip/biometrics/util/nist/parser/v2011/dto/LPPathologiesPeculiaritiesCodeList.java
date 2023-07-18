@@ -10,11 +10,11 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * LP - LipPrint
  */
 public class LPPathologiesPeculiaritiesCodeList implements Serializable {
-	/*
+	/**
 	 * <!-- 1..13 -->
 	 */
 	@JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "LipPrintPathologiesPeculiaritiesCode")

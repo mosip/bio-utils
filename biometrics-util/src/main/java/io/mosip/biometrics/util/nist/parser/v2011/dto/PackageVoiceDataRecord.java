@@ -11,7 +11,7 @@ import lombok.Data;
 
 @Data
 public class PackageVoiceDataRecord extends BiometricDataRecord implements Serializable {
-	/*
+	/**
 	 * <!-- 11.902	ANN -->
      * <!-- 0..* -->
 	 */
@@ -19,7 +19,7 @@ public class PackageVoiceDataRecord extends BiometricDataRecord implements Seria
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<ProcessAnnotation> prosannList;
     
-    /*
+    /**
      * <!-- 11.995	ASC -->
      * <!-- 0..255 -->
      */
@@ -30,7 +30,7 @@ public class PackageVoiceDataRecord extends BiometricDataRecord implements Seria
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "DigitalAudioRecordHashValue")
     private String dataHash;
     
-    /*
+    /**
      * <!--10.997 SOR -->
      * <!-- 0..255 -->
      */

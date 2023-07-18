@@ -30,7 +30,7 @@ public class FingerPositionCodes {
 	public static final int UNKNOWN_FRICTION_RIDGE = 18;
 	public static final int EJI_OR_TIP = 19;
 
-	/*
+	/**
 	 * 2-Finger Combinations
 	 */
 	public static final int RIGHT_INDEX_AND_MIDDLE = 40;
@@ -41,20 +41,21 @@ public class FingerPositionCodes {
 	public static final int LEFT_RING_AND_LITTLE = 45;
 	public static final int RIGHT_INDEX_AND_LEFT_INDEX = 46;
 
-	/*
+	/**
 	 * 3-Finger Combinations
 	 */
 	public static final int RIGHT_INDEX_AND_MIDDLE_AND_RING = 47;
 	public static final int RIGHT_MIDDLE_AND_RING_AND_LITTLE = 48;
 	public static final int LEFT_INDEX_AND_MIDDLE_AND_RING = 49;
 	public static final int LEFT_MIDDLE_AND_RING_AND_LITTLE = 50;
-	/*
+	
+	/**
 	 * 4-Finger Combinations
 	 */
 	public static final int FINGERTIPS_FOUR_FINGERS_SIMULTANEOUSLY_NO_THUMB_RIGHT_HAND_PLAIN = 51;
 	public static final int FINGERTIPS_FOUR_FINGERS_SIMULTANEOUSLY_NO_THUMB_LEFT_HAND_PLAIN = 52;
 
-	/*
+	/**
 	 * 5-Finger Combinations
 	 */
 	public static final int FINGERTIPS_FOUR_FINGERS_AND_THUMB_SIMULTANEOUSLY_RIGHT_HAND_PLAIN = 53;

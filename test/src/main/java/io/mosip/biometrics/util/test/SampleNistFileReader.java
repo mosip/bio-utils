@@ -1,6 +1,7 @@
 package io.mosip.biometrics.util.test;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
 
@@ -21,7 +22,7 @@ public class SampleNistFileReader{
 	public static void main(String[] args) {
 		if (args != null && args.length >= 1) {
 			// Argument 1 should contain
-			// "mosip.mock.sbi.biometric.type.finger.folder.path/mosip.mock.sbi.biometric.type.face.folder.path/mosip.mock.sbi.biometric.type.iris.folder.path"
+			// "mosip.mock.sbi.biometric.type.nist.folder.path"
 			String biometricFolderPath = args[0];
 			LOGGER.info("main :: biometricFolderPath :: Argument [0] " + biometricFolderPath);
 			if (biometricFolderPath.contains(ApplicationConstant.MOSIP_BIOMETRIC_TYPE_NIST)) {
@@ -41,7 +42,11 @@ public class SampleNistFileReader{
 			String fileFolder = filePath + biometricFolderPath;
 			File[] fileList = null;
 			try {
-				fileList = (new File(fileFolder)).listFiles();
+				fileList = (new File(fileFolder)).listFiles(new FilenameFilter() {
+				    public boolean accept(File dir, String name) {
+				        return name.toLowerCase().endsWith(".xml");
+				    }
+				});
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

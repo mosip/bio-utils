@@ -11,7 +11,7 @@ import lombok.Data;
 
 @Data
 public class PackageCBEFFBiometricDataRecord extends BiometricDataRecord implements Serializable {
-	/*
+	/**
 	 * <!-- 11.902	ANN -->
      * <!-- 0..* -->
 	 */
@@ -19,7 +19,7 @@ public class PackageCBEFFBiometricDataRecord extends BiometricDataRecord impleme
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<ProcessAnnotation> prosannList;
     
-    /*
+    /**
      * <!-- 11.995	ASC -->
      * <!-- 0..255 -->
      */
@@ -30,7 +30,7 @@ public class PackageCBEFFBiometricDataRecord extends BiometricDataRecord impleme
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "ImageHashValue")
     private String imgHash;
     
-    /*
+    /**
      * <!-- 11.997 SOR -->
      * <!-- 0..255 -->
      */
@@ -62,7 +62,7 @@ public class PackageCBEFFBiometricDataRecord extends BiometricDataRecord impleme
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_ITL, localName = "FingerprintImage")
     private FingerImpressionImage fingerprintImage;
 
-    /*
+    /**
      * <!-- 15.021 SEG -->
      * <!-- 0..17 -->
      */

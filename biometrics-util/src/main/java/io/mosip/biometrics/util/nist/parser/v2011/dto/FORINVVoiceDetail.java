@@ -10,12 +10,12 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * FORINV =  ForensicInvestigatory
  * FOR = Forensic
  */
 public class FORINVVoiceDetail implements Serializable {
-    /*
+    /**
     <!-- 11.032 SGEO -->
     <!--0..600000-->
     */
@@ -62,7 +62,7 @@ public class FORINVVoiceDetail implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "RedactionInformation")
     private Information redInfo;
     
-    /*
+    /**
     <!-- 11.022 RDD -->
     <!--0..600000-->
     */
@@ -73,7 +73,7 @@ public class FORINVVoiceDetail implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "DiscontinuityInformation")
     private Information discontinuityInfo;
     
-    /*
+    /**
     <!-- 11.024 DSD -->
     <!--0..600000-->
     */
@@ -84,7 +84,7 @@ public class FORINVVoiceDetail implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "VocalContentInformation")
     private Information vocalContInfo;
     
-    /*
+    /**
     <!-- 11.026 VCD -->
     <!--0..600000-->
     */
@@ -95,7 +95,7 @@ public class FORINVVoiceDetail implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "OtherContentInformation")
     private Information otherContentInfo;
     
-    /*
+    /**
     <!-- 11.028 OCD -->
     <!--0..600000-->
     */
@@ -103,7 +103,7 @@ public class FORINVVoiceDetail implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<ContentDiaryInfo> contentDiaryInfoList;
     
-    /*
+    /**
     <!-- 11.033 SQV -->
     <!-- 0..9 -->
     */
@@ -114,7 +114,7 @@ public class FORINVVoiceDetail implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "VocalCollisionIdentifierList")
     private VocalCollisionIdentifierList vocalCollisionIdList;
     
-    /*
+    /**
     <!-- 11.035 PPY -->
     <!-- 0..9 -->
     */
@@ -122,7 +122,7 @@ public class FORINVVoiceDetail implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<SPPriorityInfo> segProcPriorityInfoList;
     
-    /*
+    /**
     <!-- 11.036 VSCT -->
     <!-- 0..600000-->
     */
@@ -130,7 +130,7 @@ public class FORINVVoiceDetail implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<SegmentContentInfo> sciList;
 
-    /*
+    /**
     <!-- 11.037 SCC -->
     <!-- 0..600000-->
     */
@@ -138,7 +138,7 @@ public class FORINVVoiceDetail implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<SSCharacteristicsInfo> ssCharInfoList;
     
-    /*
+    /**
     <!-- 11.037 SCC -->
     <!-- 0..600000-->
     */

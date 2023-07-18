@@ -8,7 +8,7 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * MINLS = MinutiaeLatentSubstrate
  */
 public class MinutiaeLatentSubstrate implements Serializable {

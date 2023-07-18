@@ -35,7 +35,7 @@ public class DNASample implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "DNASampleOrigin")
     private DNASampleOrigin dnaSamOrigin;    
     
-    /*
+    /**
     <!-- 18.011 STI -->
     <!--1..5-->
 	*/
@@ -52,7 +52,7 @@ public class DNASample implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "DNAProfile")
     private DNAProfile dnaPro;    
     
-    /*
+    /**
     <!-- 18.016 STR -->
     <!-- 0..* -->
 	*/
@@ -63,7 +63,7 @@ public class DNASample implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "DNAMitochondrialData")
     private DNAMitochondrialData dnaMitochondrialData;
     
-    /*
+    /**
     <!-- 18.019 EPD -->
     <!-- 0..* -->
 	*/
@@ -71,7 +71,7 @@ public class DNASample implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<DNAElectropherogram> dnaElectropherogramList;
     
-    /*
+    /**
     <!-- 18.023 EPL -->
     <!-- 0..* -->
 	*/
@@ -82,7 +82,7 @@ public class DNASample implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "DNAGenotypeDistributionCode")
     private int dnaGenotypeDistCode;
     
-    /*
+    /**
     <!-- 18.021 GAP -->
     <!-- 0..* -->
 	*/

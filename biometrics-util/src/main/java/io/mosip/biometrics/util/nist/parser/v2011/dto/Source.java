@@ -17,7 +17,7 @@ public class Source implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "BiometricCaptureDetail")
     private CBEFFImageCaptureDetail imgCapDetail;    
     
-    /*
+    /**
     <!-- 20.019 TIX -->
     <!--0..99 -->
     */
@@ -25,7 +25,7 @@ public class Source implements Serializable {
     @JacksonXmlElementWrapper(useWrapping = false)
     private List<TimeSegment> tsist;
 
-    /*
+    /**
     <!-- 20.016 SEG -->
     <!-- 0..99 -->
     */

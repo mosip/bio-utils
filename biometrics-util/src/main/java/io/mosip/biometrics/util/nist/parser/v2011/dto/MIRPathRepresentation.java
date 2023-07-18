@@ -10,11 +10,11 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * MIR = MinutiaeImageRidge
  */
 public class MIRPathRepresentation implements Serializable {
-	/*
+	/**
 	<!--1..*-->
 	*/
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "MinutiaeRidgePathSegment")

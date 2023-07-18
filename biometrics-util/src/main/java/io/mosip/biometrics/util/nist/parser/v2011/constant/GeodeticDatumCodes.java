@@ -31,7 +31,9 @@ public class GeodeticDatumCodes {
 	public static final String WGS66 = "WGS66";// WGS-66
 	public static final String WGS72 = "WGS72";// WGS-72
 	public static final String WGS84 = "WGS84";// WGS-84 / NAD-83
-	// <entry up to 6 characters> Other
+	/**
+	 *  <entry up to 6 characters> Other
+	 */
 
 	public static final String[] arrValues = new String[] { AIRY, AUST, BES, BESN, CLK66, CLK80, CLK80, EVER, FIS60,
 			FIS68, GRS67, HELM, HOUG, INT, KRAS, AIRYM, EVERM, FIS60M, SA69, WGS60, WGS66, WGS72, WGS84 };

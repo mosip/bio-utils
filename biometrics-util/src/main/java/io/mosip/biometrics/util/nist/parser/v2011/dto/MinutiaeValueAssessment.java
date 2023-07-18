@@ -8,7 +8,7 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * MINVA = MinutiaeValueAssessment
  */
 public class MinutiaeValueAssessment implements Serializable {

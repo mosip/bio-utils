@@ -11,7 +11,7 @@ import lombok.Data;
 
 @Data
 public class MinutiaeNISTStandard implements Serializable {
-	/*
+	/**
 	* <!-- 9.012 MRC -->
     * <!-- 1..*-->
 	*/

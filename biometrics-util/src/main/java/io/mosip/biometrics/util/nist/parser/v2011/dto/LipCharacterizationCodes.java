@@ -11,7 +11,7 @@ import lombok.Data;
 
 @Data
 public class LipCharacterizationCodes implements Serializable {
-	/*
+	/**
 	<!--1..5-->
 	*/
 	@JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "LipCharacterizationCode")

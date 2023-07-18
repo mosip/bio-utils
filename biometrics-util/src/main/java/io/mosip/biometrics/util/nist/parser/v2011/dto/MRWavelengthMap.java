@@ -10,7 +10,7 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * MR = MinutiaeRidge
  */
 public class MRWavelengthMap implements Serializable {
@@ -20,7 +20,7 @@ public class MRWavelengthMap implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "MinutiaeRidgeWavelengthMapFormatCode")
     private String mrWavelengthMapFormatCode;
     
-    /*
+    /**
     <!-- 9.310 RFM -->
     <!--1..*-->
     */

@@ -10,7 +10,7 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * FRE = FrictionRidge
  * FREI = FrictionRidgeImage
  */
@@ -48,7 +48,7 @@ public class FrictionRidgeImage implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "FingerprintImageImpressionCaptureCategoryCode")
     private int fpImgImprCapCatCode;
     
-    /*
+    /**
     <!-- 13.013 FGP -->
     <!--1..6-->
     */
@@ -56,7 +56,7 @@ public class FrictionRidgeImage implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<Integer> frePositionCodeList;
     
-    /*
+    /**
     <!--<!-\- FGP -\-> <!-\-1..6-\->
     Note: This element has been DEPRECATED
     <biom:PalmPositionCode>	

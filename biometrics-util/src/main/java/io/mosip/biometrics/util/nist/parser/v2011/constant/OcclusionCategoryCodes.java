@@ -9,27 +9,27 @@ import lombok.Data;
 
 @Data
 public class OcclusionCategoryCodes {
-	/*
+	/**
 	 * Eyelashes or reflections of eyelashes (iris only)
 	 */
 	public static final String LASHES = "L";
-	/*
+	/**
 	 * Hair, hat, veil, burka, or other head covering (face only)
 	 */
 	public static final String HEAD_COVERING = "H";
-	/*
+	/**
 	 * Specularity, reflection of light
 	 */
 	public static final String SPECULAR = "S";
-	/*
+	/**
 	 * Shadow cast
 	 */
 	public static final String SHADOW = "C";
-	/*
+	/**
 	 * Reflection of an object
 	 */
 	public static final String REFLECTION = "R";
-	/*
+	/**
 	 * Any other occlusion, such as eyeglass frames blocking the image
 	 */
 	public static final String OTHER = "O";

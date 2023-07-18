@@ -11,7 +11,7 @@ import lombok.Data;
 
 @Data
 public class ImageSegmentPolygon implements Serializable {
-	/*
+	/**
 	<!-- 3..99-->
 	*/
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "ImageSegmentVertex")

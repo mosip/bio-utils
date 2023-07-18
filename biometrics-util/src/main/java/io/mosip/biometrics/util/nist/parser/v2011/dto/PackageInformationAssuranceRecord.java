@@ -23,7 +23,7 @@ public class PackageInformationAssuranceRecord extends BiometricDataRecord imple
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "AssuranceDateTime")
     private AssuranceDateTime assuranceDateTime;
     
-    /*
+    /**
      *  <!-- 98.900	ALF -->
      *  <!-- 0..* -->
      */

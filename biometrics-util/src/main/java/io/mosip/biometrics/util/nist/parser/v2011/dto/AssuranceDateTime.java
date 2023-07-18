@@ -13,7 +13,7 @@ import io.mosip.biometrics.util.nist.parser.v2011.helper.LocalDateTimeSerializer
 import lombok.Data;
 
 @Data
-/*
+/**
  * ASNCE = Assurance
  */
 public class AssuranceDateTime implements Serializable {

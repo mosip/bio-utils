@@ -42,7 +42,7 @@ public class SourceImage implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "ImageVerticalPixelDensityValue")
     private int imgVertPixelDensity;
     
-    /*
+    /**
      * <!-- 20.016 SEG -->
      * <!-- 0..99 -->
      */

@@ -10,7 +10,7 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown=true)
-/*
+/**
  * NAT = National
  * NATPI = NationalPersonIdentification
  */

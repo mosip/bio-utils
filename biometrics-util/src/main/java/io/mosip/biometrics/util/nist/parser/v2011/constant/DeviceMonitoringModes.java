@@ -9,15 +9,25 @@ import lombok.Data;
 
 @Data
 public class DeviceMonitoringModes {
-	// Operator physically controls the subject to acquire the biometric sample
+	/**
+	 *  Operator physically controls the subject to acquire the biometric sample
+	 */
 	public static final String CONTROLLED = "CONTROLLED";
-	// Person available to provide assistance to subject submitting the biometric
+	/**
+	 *  Person available to provide assistance to subject submitting the biometric
+	 */
 	public static final String ASSISTED = "ASSISTED";
-	// Person present to observe operation of the device but provides no assistance
+	/**
+	 *  Person present to observe operation of the device but provides no assistance
+	 */
 	public static final String OBSERVED = "OBSERVED";
-	// No one is present to observe or provide assistance
+	/**
+	 *  No one is present to observe or provide assistance
+	 */
 	public static final String UNATTENDED = "UNATTENDED";
-	// No information is known
+	/**
+	 *  No information is known
+	 */
 	public static final String UNKNOWN = "UNKNOWN";
 
 	public static final String[] arrValues = new String[] { CONTROLLED, ASSISTED, OBSERVED, UNATTENDED, UNKNOWN };

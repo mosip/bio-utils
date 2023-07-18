@@ -10,11 +10,11 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/*
+/**
  * FPI = FingerprintImage
  */
 public class FPIMajorCasePrint implements Serializable {
-    /*
+    /**
     <!-- 13.014	SPD - PDF -->
     <!-- 0..9 -->
     */
@@ -22,7 +22,7 @@ public class FPIMajorCasePrint implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<Integer> fingerPosCodeList;
 
-    /*
+    /**
     <!-- FIC -->
     <!-- 0..9 -->
     */
@@ -30,7 +30,7 @@ public class FPIMajorCasePrint implements Serializable {
     @JacksonXmlElementWrapper(useWrapping=false)
     private List<String> majorCasePrintCodeList;
     
-    /*
+    /**
     <!-- 13.015	PPC -->
     <!-- 0..12 -->
     */
