@@ -1,74 +1,108 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.0.2.RELEASE</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<relativePath />
+		<!-- lookup parent from repository -->
 	</parent>
+	<groupId>io.mosip.bio.utils</groupId>
+	<artifactId>bioutils</artifactId>
+	<packaging>jar</packaging>
+	<version>1.2.1-SNAPSHOT</version>
+	<name>bioutils</name>
+	<url>http://maven.apache.org</url>
 	
-  <groupId>io.mosip.bio.utils</groupId>
-  <artifactId>bioutils</artifactId>
-  <packaging>jar</packaging>
-  <version>1.2.1-SNAPSHOT</version>
-  <name>bioutils</name>
-  <url>http://maven.apache.org</url>
-  <dependencies>
-  	<dependency>
-		<groupId>io.mosip.biometric.util</groupId>
-		<artifactId>biometrics-util</artifactId>
-		<version>1.2.0.1-B1-SNAPSHOT</version>
-	</dependency>		
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-web</artifactId>
-	</dependency>
-		
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-    
-	<dependency>
-		<groupId>org.apache.commons</groupId>
-		<artifactId>commons-lang3</artifactId>
-		<version>3.10</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
-	<dependency>
-	    <groupId>com.google.protobuf</groupId>
-	    <artifactId>protobuf-java</artifactId>
-	    <version>3.13.0</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/com.github.jai-imageio/jai-imageio-jpeg2000 -->
-	<dependency>
-	    <groupId>com.github.jai-imageio</groupId>
-	    <artifactId>jai-imageio-jpeg2000</artifactId>
-	    <version>1.3.0</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/com.github.mhshams/jnbis -->
-	<dependency>
-	    <groupId>com.github.mhshams</groupId>
-	    <artifactId>jnbis</artifactId>
-	    <version>2.0.2</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
-	<dependency>
-	    <groupId>com.fasterxml.jackson.core</groupId>
-	    <artifactId>jackson-databind</artifactId>
-	    <version>2.5.4</version>
-	</dependency>
-	<dependency>
-          <groupId>org.projectlombok</groupId>
-          <artifactId>lombok</artifactId>
-          <version>RELEASE</version>
-          <scope>compile</scope>
-      </dependency>			
-  </dependencies>
-  	<build>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring.boot.version>2.0.2.RELEASE</spring.boot.version>
+		<openpnp-opencv.version>4.5.3-4</openpnp-opencv.version>
+		<lombok.version>1.18.24</lombok.version>
+		<kernel.core.version>1.2.0.1-B1</kernel.core.version>
+		<fasterxml.jackson.version>2.15.0</fasterxml.jackson.version>
+		<hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
+
+		<biometrics-util.version>1.2.0.1-B2-SNAPSHOT</biometrics-util.version>
+		<!-- fasterxml jackson-->
+		<com.fasterxml.jackson.version>2.15.0</com.fasterxml.jackson.version>
+        <okhttp.version>2.7.5</okhttp.version>
+	</properties>
+	
+	<dependencies>
+		<dependency>
+			<groupId>io.mosip.biometric.util</groupId>
+			<artifactId>biometrics-util</artifactId>
+			<version>${biometrics-util.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.mosip.kernel</groupId>
+			<artifactId>kernel-core</artifactId>
+			<version>${kernel.core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.squareup.okhttp</groupId>
+			<artifactId>okhttp</artifactId>
+			<version>${okhttp.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${com.fasterxml.jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${com.fasterxml.jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${com.fasterxml.jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-csv</artifactId>
+			<version>${com.fasterxml.jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.10</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
+		<dependency>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId>
+			<version>3.13.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.github.jai-imageio/jai-imageio-jpeg2000 -->
+		<dependency>
+			<groupId>com.github.jai-imageio</groupId>
+			<artifactId>jai-imageio-jpeg2000</artifactId>
+			<version>1.3.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.github.mhshams/jnbis -->
+		<dependency>
+			<groupId>com.github.mhshams</groupId>
+			<artifactId>jnbis</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+	</dependencies>
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -83,7 +117,6 @@
 					</archive>
 				</configuration>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
@@ -106,7 +139,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>3.0.1</version>
@@ -140,38 +172,36 @@
 								<resource>
 									<directory>${basedir}</directory>
 									<filtering>true</filtering>
-									<includes><!-- what -->
-							          <include>application.properties</include>
-							          <include>run.sh</include>
-
-							          <include>run_convert_face_JP2000_JPEG.bat</include>
-							          <include>run_convert_face_JP2000_PNG.bat</include>
-							          <include>run_convert_iris_JP2000_JPEG.bat</include>
-							          <include>run_convert_iris_JP2000_PNG.bat</include>
-							          <include>run_convert_finger_JP2000_JPEG.bat</include>
-							          <include>run_convert_finger_JP2000_PNG.bat</include>
-							          <include>run_convert_finger_WSQ_JPEG.bat</include>
-							          <include>run_convert_finger_WSQ_PNG.bat</include>
-
-							          <include>run_encoder_face_auth.bat</include>
-							          <include>run_encoder_face_registration.bat</include>
-							          <include>run_decoder_face.bat</include>
-
-							          <include>run_encoder_iris_auth.bat</include>
-							          <include>run_encoder_iris_registration.bat</include>
-							          <include>run_decoder_iris.bat</include>
-
-							          <include>run_encoder_finger_jp2000_registration.bat</include>
-							          <include>run_encoder_finger_jp2000_auth.bat</include>
-							          <include>run_encoder_finger_wsq_auth.bat</include>
-							          <include>run_decoder_finger_jp2000.bat</include>
-							          <include>run_decoder_finger_wsq.bat</include>
-
-							          <include>run_decoder_jp2000.bat</include>
-							          
-							          <include>run_bio_auth_decoder.bat</include>
-							          
-							       </includes>
+									<includes>
+										<!-- what -->
+										<include>application.properties</include>
+										<include>run.sh</include>
+										<include>run_convert_face_JP2000_JPEG.bat</include>
+										<include>run_convert_face_JP2000_PNG.bat</include>
+										<include>run_convert_iris_JP2000_JPEG.bat</include>
+										<include>run_convert_iris_JP2000_PNG.bat</include>
+										<include>run_convert_finger_JP2000_JPEG.bat</include>
+										<include>run_convert_finger_JP2000_PNG.bat</include>
+										<include>run_convert_finger_WSQ_JPEG.bat</include>
+										<include>run_convert_finger_WSQ_PNG.bat</include>
+										<include>run_encoder_face_auth.bat</include>
+										<include>run_encoder_face_registration.bat</include>
+										<include>run_decoder_face.bat</include>
+										<include>run_encoder_iris_auth.bat</include>
+										<include>run_encoder_iris_registration.bat</include>
+										<include>run_decoder_iris.bat</include>
+										<include>run_encoder_finger_jp2000_registration.bat</include>
+										<include>run_encoder_finger_jp2000_auth.bat</include>
+										<include>run_encoder_finger_wsq_auth.bat</include>
+										<include>run_decoder_finger_jp2000.bat</include>
+										<include>run_decoder_finger_wsq.bat</include>
+										<include>run_decoder_jp2000.bat</include>
+										<include>run_bio_auth_decoder.bat</include>
+										
+										<include>run_nist_file_reader.bat</include>
+										<include>run_nist_data_quality_analyser.bat</include>
+										
+									</includes>
 								</resource>
 							</resources>
 						</configuration>
@@ -180,5 +210,4 @@
 			</plugin>
 		</plugins>
 	</build>
-  
 </project>
