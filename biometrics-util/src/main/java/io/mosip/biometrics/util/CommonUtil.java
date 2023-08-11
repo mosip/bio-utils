@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 
@@ -369,7 +370,7 @@ public class CommonUtil {
 	/*
 	 * src should be base64urlencoded
 	 */
-	public static BiometricInformationExchange nistParser(String src) throws Exception {
+	public static BiometricInformationExchange nistParser(String src) throws Exception  {
 		byte[] dataBytes = decodeURLSafeBase64(src);
 		NistRequestDto requestDto = new NistRequestDto();
 		requestDto.setInputBytes(dataBytes);
@@ -381,7 +382,7 @@ public class CommonUtil {
 	 * src NISTBiometricInformationExchangePackage
 	 * output : xml string
 	 */
-	public static String nistXml(BiometricInformationExchange nistRecord) throws Exception {
+	public static String nistXml(BiometricInformationExchange nistRecord) throws JsonProcessingException {
 		return getXmlMapper(getNamespaceXmlFactory()).writeValueAsString(nistRecord);
 	}
 
@@ -410,7 +411,7 @@ public class CommonUtil {
         otherNamespaces.put(XmlnsNameSpaceConstant.NAMESPACE_FBI, XmlnsNameSpaceConstant.NAMESPACE_URL_FBI);
         otherNamespaces.put(XmlnsNameSpaceConstant.NAMESPACE_XSI, XmlnsNameSpaceConstant.NAMESPACE_URL_XSI);
         otherNamespaces.put(XmlnsNameSpaceConstant.NAMESPACE_INT_I, XmlnsNameSpaceConstant.NAMESPACE_URL_INT_I);
-        //otherNamespaces.put(XmlnsNameSpaceConstant.NAMESPACE_RENAPO, XmlnsNameSpaceConstant.NAMESPACE_URL_RENAPO);
+        otherNamespaces.put(XmlnsNameSpaceConstant.NAMESPACE_RENAPO, XmlnsNameSpaceConstant.NAMESPACE_URL_RENAPO);
         
         return new NamespaceXmlFactory(defaultNamespace, otherNamespaces);
 	}

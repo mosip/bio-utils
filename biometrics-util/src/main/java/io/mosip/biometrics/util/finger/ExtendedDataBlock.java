@@ -1,19 +1,17 @@
 package io.mosip.biometrics.util.finger;
 
 import io.mosip.biometrics.util.AbstractImageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public abstract class ExtendedDataBlock extends AbstractImageInfo {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ExtendedDataBlock.class);
-
 	private int extendedDataBlockIdentificationCode;
 	private int lengthOfExtendedDataBlock;
 
 	public ExtendedDataBlock() {
+		super();
 	}
 
 	public ExtendedDataBlock(int extendedDataBlockIdentificationCode, int lengthOfExtendedDataBlock) {
+		this();
 		setExtendedDataBlockIdentificationCode(extendedDataBlockIdentificationCode);
 		setLengthOfExtendedDataBlock(lengthOfExtendedDataBlock);
 	}

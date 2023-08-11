@@ -49,9 +49,6 @@ public class FaceBDIR extends AbstractImageInfo {
 	@Override
 	protected void readObject(DataInputStream inputStream) throws IOException {
 		setGeneralHeader(new GeneralHeader(inputStream));
-		//long generalHeaderLength = getGeneralHeader().getRecordLength();
-		//int noOfRepresentations = getGeneralHeader().getNoOfRepresentations();
-		//long totalRepresentationLength = getGeneralHeader().getTotalRepresentationLength();
 		if (getGeneralHeader().getNoOfRepresentations() == 1) // For FACE 1 Representation
 		{
 			setRepresentation(new Representation(inputStream));
@@ -61,8 +58,6 @@ public class FaceBDIR extends AbstractImageInfo {
 	@Override
 	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
 		setGeneralHeader(new GeneralHeader(inputStream, onlyImageInformation));
-		//int noOfRepresentations = getGeneralHeader().getNoOfRepresentations();
-		//long totalRepresentationLength = getGeneralHeader().getTotalRepresentationLength();
 		if (getGeneralHeader().getNoOfRepresentations() == 1) // For FACE 1 Representation
 		{
 			setRepresentation(new Representation(inputStream, onlyImageInformation));
@@ -103,14 +98,14 @@ public class FaceBDIR extends AbstractImageInfo {
 
 	public void setRepresentation(Representation representation) {
 		if (this.representation == null)
-			this.representation = new ArrayList<Representation>();
+			this.representation = new ArrayList<>();
 
 		this.representation.add(representationIndex++, representation);
 	}
 
 	public void setRepresentation(Representation representation, int representationIndex) {
 		if (this.representation == null)
-			this.representation = new ArrayList<Representation>();
+			this.representation = new ArrayList<>();
 
 		this.representation.add(representationIndex, representation);
 	}

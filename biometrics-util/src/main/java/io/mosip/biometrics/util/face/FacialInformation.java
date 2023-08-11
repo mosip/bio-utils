@@ -6,12 +6,8 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import io.mosip.biometrics.util.AbstractImageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class FacialInformation extends AbstractImageInfo {
-	private static final Logger LOGGER = LoggerFactory.getLogger(FacialInformation.class);
-
 	/** Indexes into poseAngle array. */
 	private static final int YAW = 0, PITCH = 1, ROLL = 2;
 
@@ -99,36 +95,37 @@ public class FacialInformation extends AbstractImageInfo {
 	@Override
 	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
 		setNoOfLandMarkPoints(inputStream.readUnsignedShort());
-		// 1(gender) + 1(EyeColor) + 1(HairColor) + 1(SubjectHeight) 
-		// + 3(featureMask) + 2(ExpressionMask) + 3(poseAngle) + 3(poseAngleUncertainty)
+		/**
+		 * 1(gender) + 1(EyeColor) + 1(HairColor) + 1(SubjectHeight) + 3(featureMask) + 2(ExpressionMask) + 3(poseAngle) + 3(poseAngleUncertainty)
+		 */
 		inputStream.skip(15);
 	}
 
 	@Override
 	public long getRecordLength() {
-		return 17; /* 2 + 1 + 1 + 1 + 1 + 3 + 2 + 3 + 3 (table 2 ISO/IEC 19794-5) */
+		return 17; /** 2 + 1 + 1 + 1 + 1 + 3 + 2 + 3 + 3 (table 2 ISO/IEC 19794-5) */
 	}
 
 	@Override
 	public void writeObject(DataOutputStream outputStream) throws IOException {
-		outputStream.writeShort(getNoOfLandMarkPoints()); /* 2 */
-		outputStream.writeByte(getGender()); /* + 1 = 3 */
-		outputStream.writeByte(getEyeColor()); /* + 1 = 4 */
-		outputStream.writeByte(getHairColor()); /* + 1 = 5 */
-		outputStream.writeByte(getSubjectHeight()); /* + 1 = 6 */
+		outputStream.writeShort(getNoOfLandMarkPoints()); /** 2 */
+		outputStream.writeByte(getGender()); /** + 1 = 3 */
+		outputStream.writeByte(getEyeColor()); /** + 1 = 4 */
+		outputStream.writeByte(getHairColor()); /** + 1 = 5 */
+		outputStream.writeByte(getSubjectHeight()); /** + 1 = 6 */
 
-		outputStream.writeByte((byte) ((getFeaturesMask() & 0xFF0000L) >> 16)); /* + 1 = 7 */
-		outputStream.writeByte((byte) ((getFeaturesMask() & 0x00FF00L) >> 8)); /* + 1 = 8 */
-		outputStream.writeByte((byte) (getFeaturesMask() & 0x0000FFL)); /* + 1 = 9 */
+		outputStream.writeByte((byte) ((getFeaturesMask() & 0xFF0000L) >> 16)); /** + 1 = 7 */
+		outputStream.writeByte((byte) ((getFeaturesMask() & 0x00FF00L) >> 8)); /** + 1 = 8 */
+		outputStream.writeByte((byte) (getFeaturesMask() & 0x0000FFL)); /** + 1 = 9 */
 
 		outputStream.writeShort(getExpressionMask()); /* + 2 = 11 */
 
-		for (int i = 0; i < 3; i++) { /* + 3 = 14 */
+		for (int i = 0; i < 3; i++) { /** + 3 = 14 */
 			int b = poseAngle[i];
 			outputStream.writeByte(b);
 		}
 
-		for (int i = 0; i < 3; i++) /* + 3 = 17 */
+		for (int i = 0; i < 3; i++) /** + 3 = 17 */
 		{
 			outputStream.writeByte(poseAngleUncertainty[i]);
 		}

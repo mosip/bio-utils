@@ -20,7 +20,7 @@ public class PatternedInjuryDetail implements Serializable {
 	 */
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "PatternedInjuryADAReferenceCodeList")
     @JacksonXmlElementWrapper(useWrapping=false)
-    private List<PATIADAReferenceCodeList> patiADAReferenceCodeList;
+    private List<PATIADAReferenceCodes> patiADAReferenceCodeList;
     
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "PatternedInjuryDescriptiveText")
     private String piDesc;

@@ -1,5 +1,7 @@
 package io.mosip.biometrics.util.nist.parser.v2011.constant;
 
+import java.util.Arrays;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -25,7 +27,7 @@ public class LaboratoryUnitCategoryCodes {
 
 		if (ArrayUtils.contains(arrValues, value))
 			return value;
-		throw new IllegalArgumentException("LaboratoryUnitCategoryCodes value can be " + arrValues.toString()
+		throw new IllegalArgumentException("LaboratoryUnitCategoryCodes value can be " + Arrays.toString(arrValues)
 				+ ", set value is wrong [" + value + "]");
 	}
 }

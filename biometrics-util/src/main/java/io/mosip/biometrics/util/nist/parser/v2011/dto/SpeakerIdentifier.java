@@ -13,5 +13,5 @@ import lombok.Data;
  */
 public class SpeakerIdentifier implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "SpeakerIdentifier")
-	private int speakerIdentifier;
+	private int speakerId;
 }

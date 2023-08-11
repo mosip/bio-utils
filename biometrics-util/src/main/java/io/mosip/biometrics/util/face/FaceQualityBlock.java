@@ -5,12 +5,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import io.mosip.biometrics.util.AbstractImageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class FaceQualityBlock extends AbstractImageInfo {
-	private static final Logger LOGGER = LoggerFactory.getLogger(FaceQualityBlock.class);
-
 	private int qualityScore = 255;
 	private int qualityAlgorithmVendorIdentifier = FaceQualityAlgorithmVendorIdentifier.UNSPECIFIED;
 	private int qualityAlgorithmIdentifier = FaceQualityAlgorithmIdentifier.UNSPECIFIED;

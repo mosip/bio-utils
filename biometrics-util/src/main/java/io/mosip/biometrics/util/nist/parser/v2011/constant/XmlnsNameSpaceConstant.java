@@ -31,4 +31,6 @@ public class XmlnsNameSpaceConstant {
 	public static final String NAMESPACE_URL_RENAPO = "http://www.renapo.gob.mx/NIST/XML/DatosPersona";
 	
 	public static final String NAMESPACE_URL_XSI_SCHEMA_LOCATION = "http://interpol.gov/int-i/1.0../XMLschemas/int-i/1.0/int-i.xsd";
+	
+	private XmlnsNameSpaceConstant() {}
 }

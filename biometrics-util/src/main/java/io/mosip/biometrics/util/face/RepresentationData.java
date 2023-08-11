@@ -7,12 +7,8 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import io.mosip.biometrics.util.AbstractImageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class RepresentationData extends AbstractImageInfo {
-	private static final Logger LOGGER = LoggerFactory.getLogger(RepresentationData.class);
-
 	private ImageData imageData;
 	private byte[] threeDInformationAndData;
 

@@ -25,7 +25,6 @@ public class FaceDecoder {
 				faceBDIR = new FaceBDIR(inputStream, true);
 			else
 				faceBDIR = new FaceBDIR(inputStream);
-			// LOGGER.info("faceBDIR :: ", faceBDIR);
 			return faceBDIR;
 		}
 	}
@@ -73,7 +72,6 @@ public class FaceDecoder {
 			case ImageDataType.JPEG2000_LOSSY:
 			case ImageDataType.JPEG2000_LOSS_LESS:
 				return CommonUtil.convertJP2ToJPEGUsingOpenCV(faceBDIR.getRepresentation().getRepresentationData().getImageData().getImage(), convertRequestDto.getCompressionRatio());
-				//return CommonUtil.convertJP2ToJPEGBytes(faceBDIR.getRepresentation().getRepresentationData().getImageData().getImage());
 			default:
 				return faceBDIR.getRepresentation().getRepresentationData().getImageData().getImage();
 			}
