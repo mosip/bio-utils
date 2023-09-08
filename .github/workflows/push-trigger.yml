@@ -66,6 +66,7 @@ jobs:
       OSSRH_SECRET: ${{ secrets.OSSRH_SECRET }}
       OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
       GPG_SECRET: ${{ secrets.GPG_SECRET }}
+      PROJECT_KEY: 'mosip_biometrics-util'
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
   build-kernel-biometrics-api:
@@ -107,4 +108,5 @@ jobs:
       OSSRH_SECRET: ${{ secrets.OSSRH_SECRET }}
       OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
       GPG_SECRET: ${{ secrets.GPG_SECRET }}
+      PROJECT_KEY: 'mosip_kernel-biometrics-api'
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
