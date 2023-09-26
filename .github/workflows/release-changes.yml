@@ -25,4 +25,5 @@ jobs:
       SNAPSHOT_TAG: ${{ inputs.SNAPSHOT_TAG }}
       BASE: ${{ inputs.BASE }}
     secrets:
+      ACTION_PAT: ${{ secrets.ACTION_PAT }}
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
