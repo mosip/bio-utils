@@ -5,12 +5,7 @@ import java.util.Map;
 
 import io.mosip.kernel.biometrics.constant.BiometricType;
 import io.mosip.kernel.biometrics.entities.BiometricRecord;
-import io.mosip.kernel.biometrics.model.MatchDecision;
-import io.mosip.kernel.biometrics.model.QualityCheck;
 import io.mosip.kernel.biometrics.model.Response;
-import io.mosip.kernel.biometrics.model.SDKInfo;
-
-
 /**
  * The Interface IBioApiV2.
  * 

@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.mosip.biometrics.util.ISOStandardsValidator;
+import io.mosip.biometrics.util.ImageDecoderRequestDto;
 import io.mosip.biometrics.util.Purposes;
 
 public class FingerISOStandardsValidator extends ISOStandardsValidator {
@@ -231,28 +232,33 @@ public class FingerISOStandardsValidator extends ISOStandardsValidator {
 		return false;
 	}
 
-	public boolean isValidBitDepth(byte[] imageData, int bitDepth) {
+	public boolean isValidBitDepth(int bitDepth, ImageDecoderRequestDto decoderRequestDto) {
 		if (bitDepth == FingerImageBitDepth.BPP_08)
 		{
-			// need to check width in image also
-			return true;
+			// need to check depth in image also
+			if (decoderRequestDto.getDepth() == 8)// GRAY 8 bit images
+				return true;
 		}
 
 		return false;
 	}
 
-	public boolean isValidImageCompressionType(String purpose, int compressionType) {
+	public boolean isValidImageCompressionType(String purpose, int compressionType, ImageDecoderRequestDto decoderRequestDto) {
 		try {
 			switch (Purposes.fromCode(purpose)) {
 			case AUTH:
 				if (compressionType == FingerImageCompressionType.JPEG_2000_LOSSY
 						|| compressionType == FingerImageCompressionType.WSQ) {
-					return true;
+					//checking lossy from imagedata
+					if (!decoderRequestDto.isLossless())
+						return true;
 				}
 				break;
 			case REGISTRATION:
 				if (compressionType == FingerImageCompressionType.JPEG_2000_LOSS_LESS) {
-					return true;
+					//checking lossless from imagedata
+					if (decoderRequestDto.isLossless())
+						return true;
 				}
 				break;
 			}
@@ -273,20 +279,22 @@ public class FingerISOStandardsValidator extends ISOStandardsValidator {
 		return false;
 	}
 
-	public boolean isValidImageHorizontalLineLength(String purpose, byte[] imageData, int imageWidth) {
+	public boolean isValidImageHorizontalLineLength(String purpose, int imageWidth, ImageDecoderRequestDto decoderRequestDto) {
 		if (imageWidth >= 0x0001 && imageWidth <= 0xFFFF)
 		{
 			// need to check width in image also
-			return true;
+			if (decoderRequestDto.getWidth() == imageWidth)
+				return true;			
 		}
 		return false;
 	}
 
-	public boolean isValidImageVerticalLineLength(String purpose, byte[] imageData, int imageHeight) {
+	public boolean isValidImageVerticalLineLength(String purpose, int imageHeight, ImageDecoderRequestDto decoderRequestDto) {
 		if (imageHeight >= 0x0001 && imageHeight <= 0xFFFF)
 		{
 			// need to check height in image also
-			return true;
+			if (decoderRequestDto.getHeight() == imageHeight)
+				return true;			
 		}
 		return false;
 	}

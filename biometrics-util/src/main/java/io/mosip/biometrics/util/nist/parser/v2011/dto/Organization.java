@@ -1,0 +1,29 @@
+package io.mosip.biometrics.util.nist.parser.v2011.dto;
+
+import java.io.Serializable;
+
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstant;
+import lombok.Data;
+
+@Data
+/**
+ * ORG = organization
+ */
+public class Organization implements Serializable {
+    @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_NC, localName = "OrganizationIdentification")
+    private Identification orgId;
+    
+    @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_NC, localName = "OrganizationName")
+    private String organizationName;
+    
+    @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_NC, localName = "OrganizationUnitName")
+    private String orgUnitName;
+
+    @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_INT_I, localName = "LocationCountryISO3166Alpha3Code")
+    private String locCountryISO3166Alpha3Code;
+
+    @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_NC, localName = "LocationAddress")
+    private LocationAddress locAddress;
+}

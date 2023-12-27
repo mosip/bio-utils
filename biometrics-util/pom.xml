@@ -1,76 +1,97 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
- 	
-  <groupId>io.mosip.biometric.util</groupId>
-  <artifactId>biometrics-util</artifactId>
-  <version>1.2.0.1-B3</version>
-  <name>biometrics-util</name>
-  <url>http://maven.apache.org</url>
-  <description>This utility is used to convert ISO to Image and Image to ISO</description>
-
-  <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-    </properties>
-
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>io.mosip.biometric.util</groupId>
+	<artifactId>biometrics-util</artifactId>
+	<version>1.2.0.1-B4-SNAPSHOT</version>
+	<name>biometrics-util</name>
+	<url>http://maven.apache.org</url>
+	<description>This utility is used to convert ISO to Image and Image to ISO</description>
+	<properties>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<slf4j.version>1.7.25</slf4j.version>
+		<junit.version>3.8.1</junit.version>
+		<apache.commons.version>3.10</apache.commons.version>
+		<google.protobuf.version>3.13.0</google.protobuf.version>
+		<jai-imageio.version>1.3.0</jai-imageio.version>
+		<github.mhshams.jnbis.version>2.0.2</github.mhshams.jnbis.version>
+		<openpnp-opencv.version>4.5.3-4</openpnp-opencv.version>
+		<lombok.version>1.18.24</lombok.version>
+		<kernel.version>1.2.0.1-B2</kernel.version>
+		<fasterxml.jackson.version>2.15.0</fasterxml.jackson.version>
+		<hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.25</version>
+			<version>${slf4j.version}</version>
 		</dependency>
-		
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-    
-	<dependency>
-		<groupId>org.apache.commons</groupId>
-		<artifactId>commons-lang3</artifactId>
-		<version>3.10</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
-	<dependency>
-	    <groupId>com.google.protobuf</groupId>
-	    <artifactId>protobuf-java</artifactId>
-	    <version>3.13.0</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/com.github.jai-imageio/jai-imageio-jpeg2000 -->
-	<dependency>
-	    <groupId>com.github.jai-imageio</groupId>
-	    <artifactId>jai-imageio-jpeg2000</artifactId>
-	    <version>1.3.0</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/com.github.mhshams/jnbis -->
-	<dependency>
-	    <groupId>com.github.mhshams</groupId>
-	    <artifactId>jnbis</artifactId>
-	    <version>2.0.2</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
-	<dependency>
-	    <groupId>com.fasterxml.jackson.core</groupId>
-	    <artifactId>jackson-databind</artifactId>
-	    <version>2.5.4</version>
-	</dependency>
-	
-      <dependency>
-		<groupId>org.projectlombok</groupId>
-		<artifactId>lombok</artifactId>
-		<version>1.18.22</version>
-		<scope>provided</scope>
-	</dependency>
-	<dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${apache.commons.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
+		<dependency>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId>
+			<version>${google.protobuf.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.github.jai-imageio/jai-imageio-jpeg2000 -->
+		<dependency>
+			<groupId>com.github.jai-imageio</groupId>
+			<artifactId>jai-imageio-jpeg2000</artifactId>
+			<version>${jai-imageio.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.github.mhshams/jnbis -->
+		<dependency>
+			<groupId>com.github.mhshams</groupId>
+			<artifactId>jnbis</artifactId>
+			<version>${github.mhshams.jnbis.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${fasterxml.jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+			<version>${fasterxml.jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-jaxb-annotations</artifactId>
+			<version>${fasterxml.jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.openpnp</groupId>
 			<artifactId>opencv</artifactId>
-			<version>4.5.3-4</version>
-	</dependency>
-        </dependencies>
-
+			<version>${openpnp-opencv.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${hibernate-validator.version}</version>
+		</dependency>
+	</dependencies>
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>
@@ -116,7 +137,6 @@
 					<autoReleaseAfterClose>false</autoReleaseAfterClose>
 				</configuration>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
@@ -131,7 +151,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -216,5 +235,4 @@
 			<organizationUrl>https://github.com/mosip/bio-utils</organizationUrl>
 		</developer>
 	</developers>
-	
 </project>
