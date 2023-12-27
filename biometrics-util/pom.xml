@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.mosip.biometric.util</groupId>
 	<artifactId>biometrics-util</artifactId>
-	<version>1.2.0.1-B2-SNAPSHOT</version>
+	<version>1.2.0.1-B4-SNAPSHOT</version>
 	<name>biometrics-util</name>
 	<url>http://maven.apache.org</url>
 	<description>This utility is used to convert ISO to Image and Image to ISO</description>
@@ -20,7 +20,7 @@
 		<github.mhshams.jnbis.version>2.0.2</github.mhshams.jnbis.version>
 		<openpnp-opencv.version>4.5.3-4</openpnp-opencv.version>
 		<lombok.version>1.18.24</lombok.version>
-		<kernel.version>1.2.1-SNAPSHOT</kernel.version>
+		<kernel.version>1.2.0.1-B2</kernel.version>
 		<fasterxml.jackson.version>2.15.0</fasterxml.jackson.version>
 		<hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
 	</properties>
