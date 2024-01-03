@@ -41,7 +41,7 @@ jobs:
     with:
       SERVICE_LOCATION: 'biometrics-util'
     secrets:
-      OSSRH_URL: ${{ secrets.OSSRH_SNAPSHOT_URL }}
+      OSSRH_URL: ${{ secrets.RELEASE_URL }}
       OSSRH_USER: ${{ secrets.OSSRH_USER }}
       OSSRH_SECRET: ${{ secrets.OSSRH_SECRET }}
       OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
@@ -83,7 +83,11 @@ jobs:
     with:
       SERVICE_LOCATION: 'kernel-biometrics-api'
     secrets:
+<<<<<<< HEAD
       OSSRH_URL: ${{ secrets.OSSRH_SNAPSHOT_URL }
+=======
+      OSSRH_URL: ${{ secrets.RELEASE_URL }}
+>>>>>>> 0e8b3a2 (Release changes (#112))
       OSSRH_USER: ${{ secrets.OSSRH_USER }}
       OSSRH_SECRET: ${{ secrets.OSSRH_SECRET }}
       OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
