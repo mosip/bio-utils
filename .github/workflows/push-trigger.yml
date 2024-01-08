@@ -77,7 +77,7 @@ jobs:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
   publish-to-nexus-kernel-biometrics-api:
-    if: "${{ !contains(github.ref, 'master') && github.event_name != 'pull_request' }}"
+    if: "${{ !contains(github.ref, 'master') && github.event_name != 'pull_request' && github.event_name != 'release' && github.event_name != 'prerelease' && github.event_name != 'publish' }}"
     needs: build-kernel-biometrics-api
     uses: mosip/kattu/.github/workflows/maven-publish-to-nexus.yml@master
     with:
