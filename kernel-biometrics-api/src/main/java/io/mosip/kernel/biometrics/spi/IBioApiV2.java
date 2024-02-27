@@ -6,7 +6,6 @@ import java.util.Map;
 import io.mosip.kernel.biometrics.constant.BiometricType;
 import io.mosip.kernel.biometrics.entities.BiometricRecord;
 import io.mosip.kernel.biometrics.model.Response;
-
 /**
  * The Interface IBioApiV2.
  * 
