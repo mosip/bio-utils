@@ -5,11 +5,7 @@
 	<groupId>io.mosip.kernel</groupId>
 	<artifactId>kernel-biometrics-api</artifactId>
 
-<<<<<<< HEAD
 	<version>1.2.0.2</version>
-=======
-	<version>1.2.0.1-B4</version>
->>>>>>> 0e8b3a2 (Release changes (#112))
 	<name>kernel-biometrics-api</name>
 	<description>biometrics api definitions</description>
 	<url>https://github.com/mosip/commons</url>
@@ -227,6 +223,9 @@
 		<micrometer.registry.prometheus.version>1.4.2</micrometer.registry.prometheus.version>
 		<kernel.core.version>1.2.0.1</kernel.core.version>
 		<jacoco.maven.plugin.version>0.8.5</jacoco.maven.plugin.version>
+
+		<!-- Mosip kernel -->
+		<kernel.core.version>1.2.0.1-SNAPSHOT</kernel.core.version>		
 	</properties>
 
 

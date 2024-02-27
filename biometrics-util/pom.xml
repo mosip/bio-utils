@@ -8,6 +8,7 @@
 	<name>biometrics-util</name>
 	<url>http://maven.apache.org</url>
 	<description>This utility is used to convert ISO to Image and Image to ISO</description>
+
 	<properties>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
@@ -24,6 +25,7 @@
 		<fasterxml.jackson.version>2.15.0</fasterxml.jackson.version>
 		<hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
 	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.slf4j</groupId>
