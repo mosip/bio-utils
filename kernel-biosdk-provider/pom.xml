@@ -5,7 +5,11 @@
 
 	<artifactId>kernel-biosdk-provider</artifactId>
 	<groupId>io.mosip.kernel</groupId>
+<<<<<<< HEAD
 	<version>1.2.0.2</version>
+=======
+	<version>1.2.0.1</version>
+>>>>>>> 412b410 (Release changes (#120))
 	<name>kernel-biosdk-provider</name>
 	<description>Implementation of biosdk provider</description>
 	<url>https://github.com/mosip/commons</url>
@@ -126,7 +130,7 @@
 		<!-- Mosip kernel -->
 		<kernel.core.version>1.2.0.1</kernel.core.version>		
 		<kernel.biometricsdk.version>1.2.0.1</kernel.biometricsdk.version>
-		<kernel-biometrics-api.version>1.2.0.2</kernel-biometrics-api.version>
+		<kernel.biometrics-api.version>1.2.0.2</kernel-biometrics-api.version>
 		<kernel.logger.logback.version>1.2.0.1</kernel.logger.logback.version>
 	</properties>
 
@@ -145,11 +149,7 @@
 		<dependency>
 			<groupId>io.mosip.kernel</groupId>
 			<artifactId>kernel-biometrics-api</artifactId>
-<<<<<<< HEAD
-			<version>${kernel.biometricsdk.version}</version>
-=======
-			<version>${kernel-biometrics-api.version}</version>
->>>>>>> f4e3be0 ([MOSIP-31766]changing pom version to 1.2.0.1-BX to 1.2.0.1-SNAPSHOT)
+			<version>${kernel.biometrics-api.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>com.fasterxml.jackson.core</groupId>
