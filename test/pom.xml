@@ -13,7 +13,7 @@
 	<groupId>io.mosip.bio.utils</groupId>
 	<artifactId>bioutils</artifactId>
 	<packaging>jar</packaging>
-	<version>1.2.0.1-SNAPSHOT</version>
+	<version>1.2.0.1</version>
 	<name>bioutils</name>
 	<url>http://maven.apache.org</url>
 	
@@ -24,10 +24,10 @@
 		<lombok.version>1.18.24</lombok.version>
 		
 		<!-- Mosip kernel -->		
-		<kernel.core.version>1.2.0.1-SNAPSHOT</kernel.core.version>
+		<kernel.core.version>1.2.0.1</kernel.core.version>
 
 		<!-- Mosip Others -->		
-		<biometrics-util.version>1.2.0.1-SNAPSHOT</biometrics-util.version>
+		<biometrics-util.version>1.2.0.1</biometrics-util.version>
 
 		<fasterxml.jackson.version>2.15.0</fasterxml.jackson.version>
 		<hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
