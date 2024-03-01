@@ -4,7 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.mosip.biometric.util</groupId>
 	<artifactId>biometrics-util</artifactId>
+<<<<<<< HEAD
 	<version>1.2.0.2</version>
+=======
+	<version>1.2.0.1</version>
+>>>>>>> 5b3bb68 (Updated Pom versions for release changes)
 	<name>biometrics-util</name>
 	<url>http://maven.apache.org</url>
 	<description>This utility is used to convert ISO to Image and Image to ISO</description>
@@ -21,7 +25,14 @@
 		<github.mhshams.jnbis.version>2.0.2</github.mhshams.jnbis.version>
 		<openpnp-opencv.version>4.5.3-4</openpnp-opencv.version>
 		<lombok.version>1.18.24</lombok.version>
+<<<<<<< HEAD
 		<kernel.version>1.2.0.1</kernel.version>
+=======
+	
+		<!-- Mosip kernel -->
+		<kernel.core.version>1.2.0.1</kernel.core.version>
+	
+>>>>>>> 5b3bb68 (Updated Pom versions for release changes)
 		<fasterxml.jackson.version>2.15.0</fasterxml.jackson.version>
 		<hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
 	</properties>
@@ -173,7 +184,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
 				<version>1.5</version>
-				<!--<configuration><skip>true</skip></configuration>-->
+				<!--<configuration><skip>false</skip></configuration>-->
 				<executions>
 					<execution>
 						<id>sign-artifacts</id>
