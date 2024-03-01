@@ -5,7 +5,7 @@
 
 	<artifactId>kernel-biosdk-provider</artifactId>
 	<groupId>io.mosip.kernel</groupId>
-	<version>1.2.0.1</version>
+	<version>1.2.0.1-SNAPSHOT</version>
 	<name>kernel-biosdk-provider</name>
 	<description>Implementation of biosdk provider</description>
 	<url>https://github.com/mosip/commons</url>
@@ -121,10 +121,10 @@
 		<jacoco.maven.plugin.version>0.8.5</jacoco.maven.plugin.version>
 		
 		<!-- Mosip kernel -->
-		<kernel.core.version>1.2.0.1</kernel.core.version>		
-		<kernel.biometricsdk.version>1.2.0.1</kernel.biometricsdk.version>
-		<kernel-biometrics-api.version>1.2.0.1</kernel-biometrics-api.version>
-		<kernel.logger.logback.version>1.2.0.1</kernel.logger.logback.version>
+		<kernel.core.version>1.2.0.1-SNAPSHOT</kernel.core.version>
+		<kernel.biometricsdk.version>1.2.0.1-SNAPSHOT</kernel.biometricsdk.version>
+		<kernel-biometrics-api.version>1.2.0.1-SNAPSHOT</kernel-biometrics-api.version>
+		<kernel.logger.logback.version>1.2.0.1-SNAPSHOT</kernel.logger.logback.version>
 	</properties>
 
 	<dependencies>
