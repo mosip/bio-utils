@@ -5,7 +5,7 @@
 	<groupId>io.mosip.kernel</groupId>
 	<artifactId>kernel-biometrics-api</artifactId>
 
-	<version>1.2.0.1-SNAPSHOT</version>
+	<version>1.2.0.1</version>
 	<name>kernel-biometrics-api</name>
 	<description>biometrics api definitions</description>
 	<url>https://github.com/mosip/commons</url>
@@ -224,7 +224,7 @@
 		<jacoco.maven.plugin.version>0.8.5</jacoco.maven.plugin.version>
 
 		<!-- Mosip kernel -->
-		<kernel.core.version>1.2.0.1-SNAPSHOT</kernel.core.version>
+		<kernel.core.version>1.2.0.1</kernel.core.version>
 	</properties>
 
 
