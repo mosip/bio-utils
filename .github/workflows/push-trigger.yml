@@ -188,4 +188,8 @@ jobs:
       OSSRH_SECRET: ${{ secrets.OSSRH_SECRET }}
       OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
       GPG_SECRET: ${{ secrets.GPG_SECRET }}
+<<<<<<< HEAD
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+=======
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+>>>>>>> ba27992 ([MOSIP-30923] Updated kernel cbeffutil and biosdk provider build to bio utils push-trigger workflow.)
