@@ -242,16 +242,7 @@ public class FingerISOStandardsValidator extends ISOStandardsValidator {
 
 		return false;
 	}
-	
-	public boolean isValidBitDepth(byte[] imageData, int bitDepth) {
-		if (bitDepth == FingerImageBitDepth.BPP_08)
-		{
-			// need to check depth in image also
-			return true;			
-		}
-		return false;	
-	}
-	
+
 	public boolean isValidImageCompressionType(String purpose, int compressionType, ImageDecoderRequestDto decoderRequestDto) {
 		try {
 			switch (Purposes.fromCode(purpose)) {
