@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import io.mosip.biometrics.util.ISOStandardsValidator;
 import io.mosip.biometrics.util.ImageDecoderRequestDto;
 import io.mosip.biometrics.util.Purposes;
+import io.mosip.biometrics.util.iris.IrisImageBitDepth;
 
 public class FingerISOStandardsValidator extends ISOStandardsValidator {
 	private static final Logger LOGGER = LoggerFactory.getLogger(FingerISOStandardsValidator.class);
@@ -242,7 +243,16 @@ public class FingerISOStandardsValidator extends ISOStandardsValidator {
 
 		return false;
 	}
-
+	
+	public boolean isValidBitDepth(byte[] imageData, int bitDepth) {
+		if (bitDepth == IrisImageBitDepth.BPP_08)
+		{
+			// need to check depth in image also
+			return true;			
+		}
+		return false;	
+	}
+	
 	public boolean isValidImageCompressionType(String purpose, int compressionType, ImageDecoderRequestDto decoderRequestDto) {
 		try {
 			switch (Purposes.fromCode(purpose)) {

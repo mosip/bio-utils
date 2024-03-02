@@ -255,6 +255,15 @@ public class IrisISOStandardsValidator extends ISOStandardsValidator {
 		return false;	
 	}
 
+	public boolean isValidBitDepth(byte[] imageData, int bitDepth) {
+		if (bitDepth == IrisImageBitDepth.BPP_08)
+		{
+			// need to check depth in image also
+			return true;			
+		}
+		return false;	
+	}
+
 	public boolean isValidRange(int range) {
 		if (range >= IrisRange.UNASSIGNED && range <= IrisRange.OVERFLOW_FFFF)
 			return true;
