@@ -5,12 +5,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import io.mosip.biometrics.util.AbstractImageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GeneralHeader extends AbstractImageInfo {
-	private static final Logger LOGGER = LoggerFactory.getLogger(GeneralHeader.class);
-
 	private long formatIdentifier;
 	private long versionNumber;
 	private long totalRepresentationLength;
@@ -57,26 +53,30 @@ public class GeneralHeader extends AbstractImageInfo {
 
 	@Override
 	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
-		// 4(FormatIdentifier) + 4(VersionNumber) + 4(TotalRepresentationLength)
+		/**
+		 *  4(FormatIdentifier) + 4(VersionNumber) + 4(TotalRepresentationLength)
+		 */
 		inputStream.skip(12);
 		setNoOfRepresentations(inputStream.readUnsignedShort());
-		// 1(CertificationFlag) + 2(TemporalSemantics)
+		/**
+		 *  1(CertificationFlag) + 2(TemporalSemantics)
+		 */
 		inputStream.skip(3);
 	}
 
 	@Override
 	public long getRecordLength() {
-		return 17; /* 4 + 4 + 4 + 2 + 1 + 2 (table 2 ISO/IEC 19794-5) */
+		return 17; /** 4 + 4 + 4 + 2 + 1 + 2 (table 2 ISO/IEC 19794-5) */
 	}
 
 	@Override
 	protected void writeObject(DataOutputStream outputStream) throws IOException {
-		outputStream.writeInt((int) getFormatIdentifier()); /* 4 */
-		outputStream.writeInt((int) getVersionNumber()); /* + 4 = 8 */
-		outputStream.writeInt((int) (getRecordLength() + getTotalRepresentationLength())); /* + 4 = 12 */
-		outputStream.writeShort(getNoOfRepresentations()); /* + 2 = 14 */
-		outputStream.writeByte(getCertificationFlag()); /* + 1 = 15 */
-		outputStream.writeShort(getTemporalSemantics()); /* + 2 = 17 */
+		outputStream.writeInt((int) getFormatIdentifier()); /** 4 */
+		outputStream.writeInt((int) getVersionNumber()); /** + 4 = 8 */
+		outputStream.writeInt((int) (getRecordLength() + getTotalRepresentationLength())); /** + 4 = 12 */
+		outputStream.writeShort(getNoOfRepresentations()); /** + 2 = 14 */
+		outputStream.writeByte(getCertificationFlag()); /** + 1 = 15 */
+		outputStream.writeShort(getTemporalSemantics()); /** + 2 = 17 */
 		outputStream.flush();
 	}
 

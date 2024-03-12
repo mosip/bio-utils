@@ -5,12 +5,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import io.mosip.biometrics.util.AbstractImageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ImageInformation extends AbstractImageInfo {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ImageInformation.class);
-
 	private int faceImageType;
 	private int imageDataType;
 	private int width;
@@ -67,26 +63,27 @@ public class ImageInformation extends AbstractImageInfo {
 	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
 		setFaceImageType(inputStream.readUnsignedByte());
 		setImageDataType(inputStream.readUnsignedByte());
-		// 2(Width) + 2(Height) + 1(SpatialSamplingRateLevel) 
-		// + 2(PostAcquistionProcessing) + 1(CrossReference) + 1 (ImageColorSpace)
+		/**
+		 *  2(Width) + 2(Height) + 1(SpatialSamplingRateLevel)  + 2(PostAcquistionProcessing) + 1(CrossReference) + 1 (ImageColorSpace)
+		 */
 		inputStream.skip(9);
 	}
 
 	@Override
 	public long getRecordLength() {
-		return 11; /* 1 + 1 + 2 + 2 + 1 + 2 + 1 + 1 (Figure 2 ISO/IEC 19794-5) */
+		return 11; /** 1 + 1 + 2 + 2 + 1 + 2 + 1 + 1 (Figure 2 ISO/IEC 19794-5) */
 	}
 
 	@Override
 	public void writeObject(DataOutputStream outputStream) throws IOException {
-		outputStream.writeByte(getFaceImageType()); /* 1 */
-		outputStream.writeByte(getImageDataType()); /* + 1 = 2 */
-		outputStream.writeShort(getWidth()); /* + 2 = 4 */
-		outputStream.writeShort(getHeight()); /* + 2 = 6 */
-		outputStream.writeByte(getSpatialSamplingRateLevel()); /* + 1 = 7 */
-		outputStream.writeShort(getPostAcquistionProcessing()); /* + 2 = 9 */
-		outputStream.writeByte(getCrossReference()); /* + 1 = 10 */
-		outputStream.writeByte(getImageColorSpace()); /* + 1 = 11 */
+		outputStream.writeByte(getFaceImageType()); /** 1 */
+		outputStream.writeByte(getImageDataType()); /** + 1 = 2 */
+		outputStream.writeShort(getWidth()); /** + 2 = 4 */
+		outputStream.writeShort(getHeight()); /** + 2 = 6 */
+		outputStream.writeByte(getSpatialSamplingRateLevel()); /** + 1 = 7 */
+		outputStream.writeShort(getPostAcquistionProcessing()); /** + 2 = 9 */
+		outputStream.writeByte(getCrossReference()); /** + 1 = 10 */
+		outputStream.writeByte(getImageColorSpace()); /** + 1 = 11 */
 		outputStream.flush();
 	}
 

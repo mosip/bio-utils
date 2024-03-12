@@ -14,4 +14,7 @@ public class BiometricDataRecord implements Serializable {
     
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "ImageReferenceIdentification")
     private Identification imageRegId;
+
+    @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_RENAPO, localName = "RecordImage")
+    private RecordImage recImage;
 }

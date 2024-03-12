@@ -7,23 +7,25 @@
 
 package io.mosip.kernel.biometrics.constant;
 
-
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 @XmlType(name = "ProcessedLevelType")
 @XmlEnum
+@XmlJavaTypeAdapter(ProcessedLevelTypeAdapter.class)
 public enum ProcessedLevelType implements Serializable {
-
 	@XmlEnumValue("Raw")
 	RAW("Raw"),
 	@XmlEnumValue("Intermediate")
 	INTERMEDIATE("Intermediate"),
 	@XmlEnumValue("Processed")
 	PROCESSED("Processed");
-
+	
 	private final String value;
 
 	ProcessedLevelType(String v) {
@@ -42,5 +44,17 @@ public enum ProcessedLevelType implements Serializable {
 		}
 		throw new IllegalArgumentException(v);
 	}
+}
 
+class ProcessedLevelTypeAdapter extends XmlAdapter<String, ProcessedLevelType> {
+	@Override
+	public ProcessedLevelType unmarshal(String value) throws Exception {
+		return ProcessedLevelType.fromValue(value);
+	}
+
+	@Override
+	public String marshal(ProcessedLevelType status) throws Exception {
+
+		return status.value();
+	}
 }

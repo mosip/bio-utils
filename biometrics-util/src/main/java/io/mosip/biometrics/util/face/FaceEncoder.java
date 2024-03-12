@@ -53,7 +53,6 @@ public class FaceEncoder {
 
 			int gender = Gender.UNKNOWN;
 			int eyeColour = EyeColour.UNSPECIFIED;
-			int featureMask = 0;
 			int subjectHeight = HeightCodes.UNSPECIFIED;
 			int hairColour = HairColour.UNSPECIFIED;
 			int expression = 0;
@@ -70,7 +69,7 @@ public class FaceEncoder {
 			int postAcquisitionProcessing = 0;
 			int crossReference = CrossReference.BASIC;
 			LandmarkPoints[] landmarkPoints = null;
-			int noOfRepresentations = (int) 0x0001;
+			int noOfRepresentations = 0x0001;
 
 			int quality = 40;
 			FaceQualityBlock[] qualityBlock = new FaceQualityBlock[] {

@@ -6,14 +6,10 @@ import java.io.DataInputStream;
 
 import io.mosip.biometrics.util.CommonUtil;
 import io.mosip.biometrics.util.ConvertRequestDto;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 
 public class FingerDecoder {
-	private static final Logger LOGGER = LoggerFactory.getLogger(FingerDecoder.class);
-
 	private static FingerBDIR getFingerBDIRISO19794_4_2011(byte[] isoData, int onlyImageInformation) throws Exception {
 		try (ByteArrayInputStream bais = new ByteArrayInputStream(isoData);
 				DataInputStream inputStream = new DataInputStream(bais);) {
@@ -22,7 +18,6 @@ public class FingerDecoder {
 				fingerBDIR = new FingerBDIR(inputStream, true);
 			else
 				fingerBDIR = new FingerBDIR(inputStream);
-			// LOGGER.info("fingerBDIR :: ", fingerBDIR);
 			return fingerBDIR;
 		}
 	}
@@ -46,7 +41,6 @@ public class FingerDecoder {
 			switch (fingerImageCompressionType) {
 			case FingerImageCompressionType.JPEG_2000_LOSSY:
 			case FingerImageCompressionType.JPEG_2000_LOSS_LESS:
-				//return CommonUtil.convertJP2ToJPEGBytes(fingerBDIR.getRepresentation().getRepresentationBody().getImageData().getImage());
 				return CommonUtil.convertJP2ToJPEGUsingOpenCV(fingerBDIR.getRepresentation().getRepresentationBody().getImageData().getImage(), convertRequestDto.getCompressionRatio());
 			default:
 				return fingerBDIR.getRepresentation().getRepresentationBody().getImageData().getImage();

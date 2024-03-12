@@ -4,12 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class CommentBlock extends ExtendedDataBlock {
-	private static final Logger LOGGER = LoggerFactory.getLogger(CommentBlock.class);
-
 	private byte[] comment;
 
 	public CommentBlock(byte[] comment, short extendedDataBlockIdentificationCode) {

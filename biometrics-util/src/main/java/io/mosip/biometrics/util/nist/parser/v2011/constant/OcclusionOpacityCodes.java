@@ -1,5 +1,7 @@
 package io.mosip.biometrics.util.nist.parser.v2011.constant;
 
+import java.util.Arrays;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -40,6 +42,6 @@ public class OcclusionOpacityCodes {
 		if (ArrayUtils.contains(arrValues, value))
 			return value;
 		throw new IllegalArgumentException(
-				"OcclusionOpacityCodes value can be " + arrValues.toString() + ", set value is wrong [" + value + "]");
+				"OcclusionOpacityCodes value can be " + Arrays.toString(arrValues) + ", set value is wrong [" + value + "]");
 	}
 }

@@ -59,9 +59,7 @@ public class FingerBDIR extends AbstractImageInfo {
 
 	protected void readObject(DataInputStream inputStream) throws IOException {
 		setGeneralHeader(new GeneralHeader(inputStream));
-		long generalHeaderLength = getGeneralHeader().getRecordLength();
 		int noOfRepresentations = getGeneralHeader().getNoOfRepresentations();
-		long totalRepresentationLength = getGeneralHeader().getTotalRepresentationLength();
 		if (noOfRepresentations == 1) // For Finger 1 Representation
 		{
 			setRepresentation(new Representation(inputStream, getGeneralHeader().getCertificationFlag()));
@@ -106,14 +104,14 @@ public class FingerBDIR extends AbstractImageInfo {
 
 	public void setRepresentation(Representation representation) {
 		if (this.representation == null)
-			this.representation = new ArrayList<Representation>();
+			this.representation = new ArrayList<>();
 
 		this.representation.add(representationIndex++, representation);
 	}
 
 	public void setRepresentation(Representation representation, int representationIndex) {
 		if (this.representation == null)
-			this.representation = new ArrayList<Representation>();
+			this.representation = new ArrayList<>();
 
 		this.representation.add(representationIndex, representation);
 	}
@@ -274,5 +272,4 @@ public class FingerBDIR extends AbstractImageInfo {
 	public String toString() {
 		return "\nFingerBDIR [generalHeader=" + generalHeader + ", representation=" + representation + "]\n";
 	}
-
 }
