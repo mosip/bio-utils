@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.mosip.kernel</groupId>
 	<artifactId>kernel-cbeffutil-api</artifactId>
-	<version>1.2.0.2</version>
+	<version>1.2.0.2-SNAPSHOT</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -224,7 +224,7 @@
 		
 		<!-- Mosip kernel -->
 		<kernel.core.version>1.2.0.1</kernel.core.version>
-		<kernel-biometrics-api.version>1.2.0.2</kernel-biometrics-api.version>
+		<kernel-biometrics-api.version>1.2.0.2-SNAPSHOT</kernel-biometrics-api.version>
 	</properties>
 	<dependencies>
 		<dependency>
