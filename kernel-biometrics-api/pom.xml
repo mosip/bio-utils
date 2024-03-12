@@ -5,11 +5,7 @@
 	<groupId>io.mosip.kernel</groupId>
 	<artifactId>kernel-biometrics-api</artifactId>
 
-<<<<<<< HEAD
 	<version>1.2.0.2</version>
-=======
-	<version>1.2.0.1</version>
->>>>>>> 5b3bb68 (Updated Pom versions for release changes)
 	<name>kernel-biometrics-api</name>
 	<description>biometrics api definitions</description>
 	<url>https://github.com/mosip/commons</url>

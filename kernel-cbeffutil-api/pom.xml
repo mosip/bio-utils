@@ -5,12 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.mosip.kernel</groupId>
 	<artifactId>kernel-cbeffutil-api</artifactId>
-<<<<<<< HEAD
 	<version>1.2.0.2</version>
-=======
-	<version>1.2.0.1</version>
-
->>>>>>> 5b3bb68 (Updated Pom versions for release changes)
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -229,12 +224,7 @@
 		
 		<!-- Mosip kernel -->
 		<kernel.core.version>1.2.0.1</kernel.core.version>
-<<<<<<< HEAD
 		<kernel-biometrics-api.version>1.2.0.2</kernel-biometrics-api.version>
-=======
-		<kernel-biometrics-api.version>1.2.0.1</kernel-biometrics-api.version>
->>>>>>> 5b3bb68 (Updated Pom versions for release changes)
-		
 	</properties>
 	<dependencies>
 		<dependency>
