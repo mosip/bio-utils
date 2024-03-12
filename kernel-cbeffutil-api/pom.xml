@@ -5,12 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.mosip.kernel</groupId>
 	<artifactId>kernel-cbeffutil-api</artifactId>
-<<<<<<< HEAD
 	<version>1.2.0.2</version>
-=======
-	<version>1.2.0.1</version>
->>>>>>> 412b410 (Release changes (#120))
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -228,8 +223,8 @@
 		<jacoco.maven.plugin.version>0.8.5</jacoco.maven.plugin.version>
 		
 		<!-- Mosip kernel -->
-		<kernel.core.version>1.2.0.1</kernel.core.version>		
-		<kernel-biometrics-api.version>1.2.0.1</kernel-biometrics-api.version>		
+		<kernel.core.version>1.2.0.1</kernel.core.version>
+		<kernel-biometrics-api.version>1.2.0.2</kernel-biometrics-api.version>
 		
 	</properties>
 	<dependencies>
