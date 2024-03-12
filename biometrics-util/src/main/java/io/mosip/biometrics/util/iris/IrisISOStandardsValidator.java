@@ -245,11 +245,36 @@ public class IrisISOStandardsValidator extends ISOStandardsValidator {
 		return false;	
 	}
 
-	public boolean isValidBitDepth(int bitDepth, ImageDecoderRequestDto decoderRequestDto) {
+	 /**
+     * Validates bit depth of a given image byte array
+     * @deprecated
+     * This method will not be  acceptable in future versions.
+     * <p> Use {@link isValidBitDepth(bitDepth, ImageDecoderRequestDto)} instead.
+     *
+     * @param imageData image byte array
+     * @param bitDepth image bit depth
+     * @return true or false 
+     */
+	@Deprecated
+	public boolean isValidBitDepth(byte[] imageData, int bitDepth) {
 		if (bitDepth == IrisImageBitDepth.BPP_08)
 		{
 			// need to check depth in image also
-			if (decoderRequestDto.getDepth() == 8) // gray scale 8 bit depth
+			return true;			
+		}
+		return false;	
+	}
+
+	 /**
+     * Validates bit depth of a using decoded image information
+     * @param bitDepth image bit depth
+     * @param decoderRequestDto ImageDecoderRequestDto contains decoded image information
+     * @return true or false 
+     */
+	public boolean isValidBitDepth(int bitDepth, ImageDecoderRequestDto decoderRequestDto) {
+		if (bitDepth == IrisImageBitDepth.BPP_08)
+		{
+			if (decoderRequestDto.getDepth() == IrisImageBitDepth.BPP_08) // gray scale 8 bit depth
 				return true;			
 		}
 		return false;	
