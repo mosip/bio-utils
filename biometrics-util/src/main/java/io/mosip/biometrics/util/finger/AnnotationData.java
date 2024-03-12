@@ -5,12 +5,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import io.mosip.biometrics.util.AbstractImageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AnnotationData extends AbstractImageInfo {
-	private static final Logger LOGGER = LoggerFactory.getLogger(AnnotationData.class);
-
 	private int fingerPosition;
 	private int annotationCode;
 

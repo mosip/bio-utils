@@ -43,7 +43,7 @@ public class CheiloscopicImageInfo implements Serializable {
     private String lpPathPec;
     
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "LipPrintSurfaceCodeList")
-    private LipPrintSurfaceCodeList lpSurCodeList;
+    private LipPrintSurfaceCodes lpSurCodeList;
     
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "LipPrintSurfaceText")
     private String lpSur;

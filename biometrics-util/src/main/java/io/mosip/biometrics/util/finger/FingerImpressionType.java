@@ -46,7 +46,7 @@ public class FingerImpressionType {
 		if ((value >= LIVE_SCAN_PLAIN && value <= LATENT_PALM_LIFT)
 				|| (value == LIVE_SCAN_OPTICAL_CONTACTLESS_PLAIN || value == OTHER
 						|| value == UNKNOWN))
-			return (int) value;
+			return value;
 		throw new IllegalArgumentException(
 				"FingerImpressionType value can be between (0x00 and 0x0F) or (0x18 or 0x1C or 0x1D), set value is wrong ["
 						+ value + "]");

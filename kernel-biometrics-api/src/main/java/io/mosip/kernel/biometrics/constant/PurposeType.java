@@ -12,10 +12,12 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlType(name = "PurposeType")
 @XmlEnum
+@XmlJavaTypeAdapter(PurposeTypeAdapter.class)
 public enum PurposeType implements Serializable {
-
 	@XmlEnumValue("Verify")
 	VERIFY("Verify"),
 	@XmlEnumValue("Identify")
@@ -28,7 +30,7 @@ public enum PurposeType implements Serializable {
 	ENROLLIDENTIFY("EnrollIdentify"),
 	@XmlEnumValue("Audit")
 	AUDIT("Audit");
-
+	
 	private final String value;
 
 	PurposeType(String v) {
@@ -47,5 +49,17 @@ public enum PurposeType implements Serializable {
 		}
 		throw new IllegalArgumentException(v);
 	}
+}
 
+class PurposeTypeAdapter extends XmlAdapter<String, PurposeType> {
+    @Override
+    public PurposeType unmarshal(String value) throws Exception {
+        return PurposeType.fromValue(value);
+    }
+
+    @Override
+    public String marshal(PurposeType status) throws Exception {
+
+        return status.value();
+    }
 }

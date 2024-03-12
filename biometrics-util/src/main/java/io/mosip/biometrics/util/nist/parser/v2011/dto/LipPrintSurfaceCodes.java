@@ -10,14 +10,11 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
-/**
- * PATI = PatternedInjury
- */
-public class PATIADAReferenceCodeList implements Serializable {
+public class LipPrintSurfaceCodes implements Serializable {
 	/**
-	 * <!-- 0..* -->
-	 */
-    @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "PatternedInjuryADAReferenceCodeText")
-    @JacksonXmlElementWrapper(useWrapping=false)
-    private List<String> patiADAReferenceCodeList;
+	* <!--1..3-->
+	*/
+	@JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "LipPrintSurfaceCode")
+	@JacksonXmlElementWrapper(useWrapping=false)
+	private List<String> lipPrintSurfaceCodeList;
 }

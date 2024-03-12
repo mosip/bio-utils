@@ -13,5 +13,5 @@ import lombok.Data;
  */
 public class SegmentIdentifier implements Serializable {
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "SegmentIdentifier")
-    private int segmentIdentifier;
+    private int segId;
 }

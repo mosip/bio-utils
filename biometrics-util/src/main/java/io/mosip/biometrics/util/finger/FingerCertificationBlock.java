@@ -40,9 +40,10 @@ public class FingerCertificationBlock extends AbstractImageInfo
 	@Override
     protected void readObject(DataInputStream inputStream) throws IOException {     	
 		int certificationAuthorityID = inputStream.readUnsignedShort();
+    	setCertificationAuthorityID (certificationAuthorityID);
 		try
 		{		
-        	setCertificationAuthorityID (certificationAuthorityID);
+        	FingerCertificationAuthorityID.fromValue(certificationAuthorityID);
 		}
 		catch(Exception ex)
 		{
@@ -50,9 +51,10 @@ public class FingerCertificationBlock extends AbstractImageInfo
 		}
 		
 		int certificationSchemeIdentifier = inputStream.readUnsignedByte();
+		setCertificationSchemeIdentifier (certificationSchemeIdentifier);
 		try
 		{		
-    		setCertificationSchemeIdentifier (certificationSchemeIdentifier);
+			FingerCertificationSchemeIdentifier.fromValue(certificationSchemeIdentifier);
 		}
 		catch(Exception ex)
 		{
@@ -65,7 +67,7 @@ public class FingerCertificationBlock extends AbstractImageInfo
 		inputStream.skip(3);
 	}
     
-    /*  ((255 * 3)) (Table 2 Finger image representation header record  ISO/IEC 19794-4-2011) */
+    /**  ((255 * 3)) (Table 2 Finger image representation header record  ISO/IEC 19794-4-2011) */
 	@Override
     public long getRecordLength ()
     {
@@ -75,8 +77,8 @@ public class FingerCertificationBlock extends AbstractImageInfo
 	@Override
     public void writeObject (DataOutputStream outputStream) throws IOException
     {
-		outputStream.writeShort (getCertificationAuthorityID());     /* + 2 = 2 */
-		outputStream.writeByte (getCertificationSchemeIdentifier()); /* + 1 = 3 */
+		outputStream.writeShort (getCertificationAuthorityID());     /** + 2 = 2 */
+		outputStream.writeByte (getCertificationSchemeIdentifier()); /** + 1 = 3 */
         outputStream.flush ();
     }
     	

@@ -8,12 +8,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import io.mosip.biometrics.util.AbstractImageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class RepresentationHeader extends AbstractImageInfo {
-	private static final Logger LOGGER = LoggerFactory.getLogger(RepresentationHeader.class);
-
 	private long representationDataLength;
 	private long representationLength;
 
@@ -149,7 +145,9 @@ public class RepresentationHeader extends AbstractImageInfo {
 
 	@Override
 	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
-		// 4(RepresentationLength) + 4(RepresentationLength) + 9(Datetime) + 1(DeviceTechnologyIdentifier) + 2(DeviceVendorIdentifier) + 2 (DeviceTypeIdentifier)
+		/**
+		 *  4(RepresentationLength) + 4(RepresentationLength) + 9(Datetime) + 1(DeviceTechnologyIdentifier) + 2(DeviceVendorIdentifier) + 2 (DeviceTypeIdentifier)
+		 */
 		inputStream.skipBytes(18);
 
 		setNoOfQualityBlocks(inputStream.readUnsignedByte());
@@ -176,19 +174,19 @@ public class RepresentationHeader extends AbstractImageInfo {
 				landMarkRecordLength += getLandmarkPoints()[index].getRecordLength();
 		}
 		return (4 + 9 + 1 + 2 + 2 + 1 + qualityBlockRecordLength + 17 + landMarkRecordLength
-				+ 11); /* 4 + 9 + 1 + 2 + 2 + 1 + 5x + 17 + 8x + 11 (table 2 ISO/IEC 19794-5) */
+				+ 11); /** 4 + 9 + 1 + 2 + 2 + 1 + 5x + 17 + 8x + 11 (table 2 ISO/IEC 19794-5) */
 	}
 
 	@Override
 	public void writeObject(DataOutputStream outputStream) throws IOException {
 		outputStream.writeInt((int) getRepresentationLength());
-		outputStream.writeShort(getCaptureYear()); // 2
-		outputStream.writeByte(getCaptureMonth() + 1); // 1
-		outputStream.writeByte(getCaptureDay()); // 1
-		outputStream.writeByte(getCaptureHour()); // 1
-		outputStream.writeByte(getCaptureMinute());// 1
-		outputStream.writeByte(getCaptureSecond());// 1
-		outputStream.writeShort(getCaptureMilliSecond());// 2
+		outputStream.writeShort(getCaptureYear()); /** 2 */
+		outputStream.writeByte(getCaptureMonth() + 1); /** 1 */
+		outputStream.writeByte(getCaptureDay()); /** 1 */
+		outputStream.writeByte(getCaptureHour()); /** 1 */
+		outputStream.writeByte(getCaptureMinute());/** 1 */
+		outputStream.writeByte(getCaptureSecond());/** 1 */
+		outputStream.writeShort(getCaptureMilliSecond());/** 2 */
 
 		outputStream.writeByte(getCaptureDeviceTechnologyIdentifier());
 		outputStream.writeShort(getCaptureDeviceVendorIdentifier());

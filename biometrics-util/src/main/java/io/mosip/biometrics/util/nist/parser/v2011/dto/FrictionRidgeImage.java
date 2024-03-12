@@ -57,26 +57,33 @@ public class FrictionRidgeImage implements Serializable {
     private List<Integer> frePositionCodeList;
     
     /**
-    <!--<!-\- FGP -\-> <!-\-1..6-\->
-    Note: This element has been DEPRECATED
-    <biom:PalmPositionCode>	
-    <!-\- FGP -\-> <!-\-1..6-\->
-    Note: This element has been DEPRECATED
-    <biom:PlantarPositionCode>	
-    <!-\- FGP -\-> <!-\-1..6-\->	
-    Note: This element has been DEPRECATED
-   <biom:FingerPositionCode>-->
+    *<!--<!-\- FGP -\-> <!-\-1..6-\->
+    *Note: This element has been DEPRECATED
+    *<biom:PalmPositionCode>	
+    *<!-\- FGP -\-> <!-\-1..6-\->
+    *Note: This element has been DEPRECATED
+    *<biom:PlantarPositionCode>	
+    *<!-\- FGP -\-> <!-\-1..6-\->	
+    *Note: This element has been DEPRECATED
+   	*<biom:FingerPositionCode>-->
+   	* @deprecated
     */
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "PalmPositionCode")
     @JacksonXmlElementWrapper(useWrapping=false)
     @Deprecated
     private List<Integer> palmPositionCodeList;
 
+    /**
+     * @deprecated
+     */
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "PlantarPositionCode")
     @JacksonXmlElementWrapper(useWrapping=false)
     @Deprecated
     private List<Integer> plantarPositionCodeList;
 
+    /**
+     * @deprecated
+     */
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "FingerPositionCode")
     @JacksonXmlElementWrapper(useWrapping=false)
     @Deprecated

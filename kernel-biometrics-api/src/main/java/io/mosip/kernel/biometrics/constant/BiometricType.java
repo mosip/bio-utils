@@ -7,23 +7,24 @@
 
 package io.mosip.kernel.biometrics.constant;
 
-
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlType(name = "SingleTypeType")
 @XmlEnum
+@XmlJavaTypeAdapter(BiometricTypeAdapter.class)
 public enum BiometricType implements Serializable {
-
 	@XmlEnumValue("Scent")
 	SCENT("Scent"), 
 	@XmlEnumValue("Dna")
 	DNA("DNA"),
-	@XmlEnumValue("Dna")
-	EAR("Ear "),
+	@XmlEnumValue("Ear")
+	EAR("Ear"),
 	@XmlEnumValue("Face")
 	FACE("Face"),
 	@XmlEnumValue("Finger")
@@ -50,7 +51,7 @@ public enum BiometricType implements Serializable {
 	SIGNATURE_SIGN("SignatureSign"),
 	@XmlEnumValue("ExceptionPhoto")
 	EXCEPTION_PHOTO("ExceptionPhoto");
-
+	
 	private final String value;
 
 	BiometricType(String v) {
@@ -69,5 +70,17 @@ public enum BiometricType implements Serializable {
 		}
 		throw new IllegalArgumentException(v);
 	}
+}
 
+class BiometricTypeAdapter extends XmlAdapter<String, BiometricType> {
+	@Override
+	public BiometricType unmarshal(String value) throws Exception {
+		return BiometricType.fromValue(value);
+	}
+
+	@Override
+	public String marshal(BiometricType status) throws Exception {
+
+		return status.value();
+	}
 }
