@@ -232,11 +232,36 @@ public class FingerISOStandardsValidator extends ISOStandardsValidator {
 		return false;
 	}
 
-	public boolean isValidBitDepth(int bitDepth, ImageDecoderRequestDto decoderRequestDto) {
+	 /**
+     * Validates bit depth of a given image byte array
+     * @deprecated
+     * This method will not be  acceptable in future versions.
+     * <p> Use {@link isValidBitDepth(bitDepth, ImageDecoderRequestDto)} instead.
+     *
+     * @param imageData image byte array
+     * @param bitDepth image bit depth
+     * @return true or false 
+     */
+	@Deprecated
+	public boolean isValidBitDepth(byte[] imageData, int bitDepth) {
 		if (bitDepth == FingerImageBitDepth.BPP_08)
 		{
 			// need to check depth in image also
-			if (decoderRequestDto.getDepth() == 8)// GRAY 8 bit images
+			return true;			
+		}
+		return false;	
+	}
+	
+	 /**
+     * Validates bit depth of a using decoded image information
+     * @param bitDepth image bit depth
+     * @param decoderRequestDto ImageDecoderRequestDto contains decoded image information
+     * @return true or false 
+     */
+	public boolean isValidBitDepth(int bitDepth, ImageDecoderRequestDto decoderRequestDto) {
+		if (bitDepth == FingerImageBitDepth.BPP_08)
+		{
+			if (decoderRequestDto.getDepth() == FingerImageBitDepth.BPP_08)// GRAY 8 bit images
 				return true;
 		}
 
