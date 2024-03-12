@@ -83,11 +83,7 @@ jobs:
     with:
       SERVICE_LOCATION: 'kernel-biometrics-api'
     secrets:
-<<<<<<< HEAD
       OSSRH_URL: ${{ secrets.OSSRH_SNAPSHOT_URL }
-=======
-      OSSRH_URL: ${{ secrets.RELEASE_URL }}
->>>>>>> 5b3bb68 (Updated Pom versions for release changes)
       OSSRH_USER: ${{ secrets.OSSRH_USER }}
       OSSRH_SECRET: ${{ secrets.OSSRH_SECRET }}
       OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
@@ -192,7 +188,4 @@ jobs:
       OSSRH_SECRET: ${{ secrets.OSSRH_SECRET }}
       OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
       GPG_SECRET: ${{ secrets.GPG_SECRET }}
-<<<<<<< HEAD
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-=======
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
