@@ -23,7 +23,8 @@
 		<lombok.version>1.18.24</lombok.version>
 
 		<!-- Mosip kernel -->
-		<kernel.core.version>1.2.0.1</kernel.core.version>
+		<kernel.core.version>1.2.1-SNAPSHOT</kernel.core.version>
+    
 		<fasterxml.jackson.version>2.15.0</fasterxml.jackson.version>
 		<hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
 	</properties>
