@@ -23,7 +23,7 @@ on:
 
 jobs:
   build-biometrics-util:
-    uses: mosip/kattu/.github/workflows/maven-build.yml@master
+    uses: mosip/kattu/.github/workflows/maven-build.yml@master-java21
     with:
       SERVICE_LOCATION: 'biometrics-util'
       BUILD_ARTIFACT: 'biometrics-util'
@@ -65,7 +65,7 @@ jobs:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
   build-kernel-biometrics-api:
-    uses: mosip/kattu/.github/workflows/maven-build.yml@master
+    uses: mosip/kattu/.github/workflows/maven-build.yml@master-java21
     with:
       SERVICE_LOCATION: 'kernel-biometrics-api'
       BUILD_ARTIFACT: 'kernel-biometrics-api'
@@ -107,7 +107,7 @@ jobs:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
   build-kernel-biosdk-provider:
-    uses: mosip/kattu/.github/workflows/maven-build.yml@master
+    uses: mosip/kattu/.github/workflows/maven-build.yml@master-java21
     with:
       SERVICE_LOCATION: 'kernel-biosdk-provider'
       BUILD_ARTIFACT: 'kernel-biosdk-provider'
@@ -149,7 +149,7 @@ jobs:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
   build-kernel-cbeffutil-api:
-    uses: mosip/kattu/.github/workflows/maven-build.yml@master
+    uses: mosip/kattu/.github/workflows/maven-build.yml@master-java21
     with:
       SERVICE_LOCATION: 'kernel-cbeffutil-api'
       BUILD_ARTIFACT: 'kernel-cbeffutil-api'
