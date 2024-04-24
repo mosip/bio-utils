@@ -30,17 +30,9 @@ import javax.imageio.metadata.IIOMetadataNode;
 import javax.imageio.plugins.jpeg.JPEGHuffmanTable;
 import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.ImageInputStreamImpl;
-import javax.swing.text.html.HTMLDocument.Iterator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import io.mosip.biometrics.util.ConvertRequestDto;
-import io.mosip.biometrics.util.face.*;
-import io.mosip.biometrics.util.finger.*;
-import io.mosip.biometrics.util.iris.*;
 
 /**
  * Jp2000DecodeApplication

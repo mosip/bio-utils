@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -19,9 +21,11 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import io.mosip.kernel.biometrics.commons.CbeffValidator;
 import io.mosip.kernel.biometrics.constant.*;
@@ -34,6 +38,7 @@ import io.mosip.kernel.biometrics.entities.VersionType;
 import io.mosip.kernel.biometrics.spi.CbeffUtil;
 import io.mosip.kernel.cbeffutil.impl.CbeffImpl;
 
+import org.apache.logging.log4j.core.util.ReflectionUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,7 +51,10 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.lang.Nullable;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.Assert;
+import org.springframework.util.ConcurrentReferenceHashMap;
 
 import io.mosip.kernel.core.cbeffutil.common.CbeffISOReader;
 import io.mosip.kernel.core.cbeffutil.entity.BIRVersion;
@@ -104,7 +112,7 @@ public class CbeffImplTest {
 		format.setOrganization("257");
 		format.setType("7");
 		QualityType Qtype = new QualityType();
-		Qtype.setScore(new Long(100));
+		Qtype.setScore(Long.valueOf(100));
 		RegistryIDType algorithm = new RegistryIDType();
 		algorithm.setOrganization("HMAC");
 		algorithm.setType("SHA-256");
@@ -291,12 +299,11 @@ public class CbeffImplTest {
 		exceptionList.add(exceptionThumb);
 	}
 
-	// @Test
+	//@Test
 	public void testCreateXML() throws Exception {
 		byte[] createXml = cbeffUtilImpl.createXML(createList);
 		createXMLFile(createXml, "createCbeffLatest");
 		assertEquals(new String(createXml), new String(readCreatedXML("createCbeffLatest")));
-
 	}
 
 	@Test
@@ -353,6 +360,4 @@ public class CbeffImplTest {
 		return byteBuffer.toByteArray();
 
 	}
-
-
 }

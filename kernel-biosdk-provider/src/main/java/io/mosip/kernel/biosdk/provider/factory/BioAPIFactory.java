@@ -2,7 +2,7 @@ package io.mosip.kernel.biosdk.provider.factory;
 
 import java.util.*;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 import lombok.Getter;
 import lombok.Setter;

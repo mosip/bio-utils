@@ -1,62 +1,86 @@
 <project
 	xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.mosip.biometric.util</groupId>
 	<artifactId>biometrics-util</artifactId>
-	<version>1.2.1-SNAPSHOT</version>
+	<version>1.2.1-java21-SNAPSHOT</version>
 	<name>biometrics-util</name>
-	<url>http://maven.apache.org</url>
+	<url>https://github.com/mosip/bio-utils</url>
 	<description>This utility is used to convert ISO to Image and Image to ISO</description>
 
 	<properties>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<slf4j.version>1.7.25</slf4j.version>
-		<junit.version>3.8.1</junit.version>
-		<apache.commons.version>3.10</apache.commons.version>
-		<google.protobuf.version>3.13.0</google.protobuf.version>
-		<jai-imageio.version>1.3.0</jai-imageio.version>
-		<github.mhshams.jnbis.version>2.0.2</github.mhshams.jnbis.version>
-		<openpnp-opencv.version>4.5.3-4</openpnp-opencv.version>
-		<lombok.version>1.18.24</lombok.version>
+		<java.version>21</java.version>
 
-		<!-- Mosip kernel -->
-		<kernel.core.version>1.2.1-SNAPSHOT</kernel.core.version>
-    
-		<fasterxml.jackson.version>2.15.0</fasterxml.jackson.version>
-		<hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
+		<!-- maven -->
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<maven.compiler.version>3.11.0</maven.compiler.version>
+		<maven.deploy.plugin.version>3.1.1</maven.deploy.plugin.version>
+		<maven.source.plugin.version>3.3.1</maven.source.plugin.version>
+		<maven.javadoc.plugin.version>3.2.0</maven.javadoc.plugin.version>
+		<maven.gpg.plugin.version>3.2.3</maven.gpg.plugin.version>
+		<maven.jar.plugin.version>3.0.2</maven.jar.plugin.version>
+		<maven.war.plugin.version>3.1.0</maven.war.plugin.version>
+		<nexus.staging.maven.plugin.version>1.6.7</nexus.staging.maven.plugin.version>
+
+		<!-- git -->
+		<git.commit.id.plugin.version>3.0.1</git.commit.id.plugin.version>
+
+		<!-- utilities -->
+		<google.protobuf.version>3.13.0</google.protobuf.version>
+		<jai.imageio.jpeg2000.version>1.3.0</jai.imageio.jpeg2000.version>
+		<github.mhshams.jnbis.version>2.0.2</github.mhshams.jnbis.version>
+
+		<!-- opencv -->
+		<openpnp.opencv.version>4.5.3-4</openpnp.opencv.version>
+
+		<!-- Mosip -->
+		<kernel.bom.version>1.2.1-java21-SNAPSHOT</kernel.bom.version>
+		<kernel.core.version>1.2.1-java21-SNAPSHOT</kernel.core.version>
 	</properties>
-	
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>io.mosip.kernel</groupId>
+				<artifactId>kernel-bom</artifactId>
+				<version>${kernel.bom.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>${apache.commons.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
+		<!--
+		https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
 		<dependency>
 			<groupId>com.google.protobuf</groupId>
 			<artifactId>protobuf-java</artifactId>
 			<version>${google.protobuf.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.github.jai-imageio/jai-imageio-jpeg2000 -->
+		<!--
+		https://mvnrepository.com/artifact/com.github.jai-imageio/jai-imageio-jpeg2000 -->
 		<dependency>
 			<groupId>com.github.jai-imageio</groupId>
 			<artifactId>jai-imageio-jpeg2000</artifactId>
-			<version>${jai-imageio.version}</version>
+			<version>${jai.imageio.jpeg2000.version}</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.github.mhshams/jnbis -->
 		<dependency>
@@ -64,37 +88,34 @@
 			<artifactId>jnbis</artifactId>
 			<version>${github.mhshams.jnbis.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<!--
+		https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>${fasterxml.jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-xml</artifactId>
-			<version>${fasterxml.jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.module</groupId>
 			<artifactId>jackson-module-jaxb-annotations</artifactId>
-			<version>${fasterxml.jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>${lombok.version}</version>
 			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.openpnp</groupId>
 			<artifactId>opencv</artifactId>
-			<version>${openpnp-opencv.version}</version>
+			<version>${openpnp.opencv.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>${hibernate-validator.version}</version>
 		</dependency>
 	</dependencies>
 	<distributionManagement>
@@ -110,8 +131,19 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compiler.version}</version>
+				<configuration>
+					<release>${java.version}</release>
+					<compilerArgs>
+						<arg>--enable-preview</arg>
+					</compilerArgs>
+				</configuration>
+			</plugin>
+			<plugin>
 				<artifactId>maven-deploy-plugin</artifactId>
-				<version>2.8.1</version>
+				<version>${maven.deploy.plugin.version}</version>
 				<executions>
 					<execution>
 						<id>default-deploy</id>
@@ -125,7 +157,7 @@
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.7</version>
+				<version>${nexus.staging.maven.plugin.version}</version>
 				<extensions>true</extensions>
 				<executions>
 					<execution>
@@ -146,7 +178,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
 				<inherited>true</inherited>
-				<version>2.2.1</version>
+				<version>${maven.source.plugin.version}</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -159,7 +191,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.2.0</version>
+				<version>${maven.javadoc.plugin.version}</version>
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>
@@ -175,7 +207,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
-				<version>1.5</version>
+				<version>${maven.gpg.plugin.version}</version>
 				<!--<configuration><skip>true</skip></configuration>-->
 				<executions>
 					<execution>
@@ -196,7 +228,7 @@
 			<plugin>
 				<groupId>pl.project13.maven</groupId>
 				<artifactId>git-commit-id-plugin</artifactId>
-				<version>3.0.1</version>
+				<version>${git.commit.id.plugin.version}</version>
 				<executions>
 					<execution>
 						<id>get-the-git-infos</id>
@@ -208,7 +240,8 @@
 				</executions>
 				<configuration>
 					<generateGitPropertiesFile>true</generateGitPropertiesFile>
-					<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+					<generateGitPropertiesFilename>
+						${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
 					<includeOnlyProperties>
 						<includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
 						<includeOnlyProperty>^git.commit.id.(abbrev|full)$</includeOnlyProperty>

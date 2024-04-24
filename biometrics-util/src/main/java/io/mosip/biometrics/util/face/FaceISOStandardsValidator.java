@@ -293,12 +293,9 @@ public class FaceISOStandardsValidator extends ISOStandardsValidator {
 	}
 
 	public boolean isValidImageColourSpace(String purpose, int imageColourSpace, ImageDecoderRequestDto decoderRequestDto) {
-		if (imageColourSpace == ImageColourSpace.BIT_24_RGB)
-			return true;
-
-		// need to check height in image also
-		if (decoderRequestDto.getImageColorSpace().equalsIgnoreCase("RGB"))
-			return true;
+		if (imageColourSpace == ImageColourSpace.UNSPECIFIED || imageColourSpace == ImageColourSpace.BIT_24_RGB)
+			if (decoderRequestDto.getImageColorSpace().equalsIgnoreCase("RGB"))
+				return true;
 		return false;
 	}
 }

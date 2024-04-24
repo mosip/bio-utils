@@ -1,7 +1,11 @@
 package io.mosip.biometrics.util;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Data
 public class ConvertRequestDto {
 	// currently supported ISO19794_4_2011, ISO19794_5_2011, ISO19794_6_2011

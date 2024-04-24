@@ -14,7 +14,6 @@ import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
-import org.springframework.data.util.ReflectionUtils;
 import org.springframework.stereotype.Component;
 
 import io.mosip.kernel.biometrics.constant.BiometricFunction;
@@ -136,8 +135,8 @@ public class BioProviderImpl_V_0_7 implements iBioProviderApi {
 	public float[] getSegmentQuality(BIR[] sample, Map<String, String> flags) {
 		float[] scores = new float[sample.length];		
 		for(int i =0; i< sample.length; i++) {			
-			BiometricType modality = BiometricType.fromValue(sample[i].getBdbInfo().getType().get(0).value());
-			Method method = ReflectionUtils.findRequiredMethod(this.sdkRegistry.get(modality).getClass(), 
+			BiometricType modality = BiometricType.fromValue(sample[i].getBdbInfo().getType().get(0).value());			
+			Method method = BioProviderUtil.findRequiredMethod(this.sdkRegistry.get(modality).getClass(), 
 					"checkQuality", BIR.class, KeyValuePair[].class);
 			method.setAccessible(true);
 
@@ -166,7 +165,7 @@ public class BioProviderImpl_V_0_7 implements iBioProviderApi {
 		Map<BiometricType, LongStream.Builder> result = new HashMap<>();
 		for(BIR bir : sample) {
 			BiometricType modality = BiometricType.fromValue(bir.getBdbInfo().getType().get(0).value());
-			Method method = ReflectionUtils.findRequiredMethod(this.sdkRegistry.get(modality).getClass(), 
+			Method method = BioProviderUtil.findRequiredMethod(this.sdkRegistry.get(modality).getClass(), 
 					"checkQuality", BIR.class, KeyValuePair[].class);
 			method.setAccessible(true);
 			
@@ -199,7 +198,7 @@ public class BioProviderImpl_V_0_7 implements iBioProviderApi {
 		List<BIR> extracts = new ArrayList<>();
 		for(BIR bir : sample) {
 			BiometricType modality = BiometricType.fromValue(bir.getBdbInfo().getType().get(0).value());
-			Method method = ReflectionUtils.findRequiredMethod(this.sdkRegistry.get(modality).getClass(), 
+			Method method = BioProviderUtil.findRequiredMethod(this.sdkRegistry.get(modality).getClass(), 
 					"extractTemplate", BIR.class, KeyValuePair[].class);
 			method.setAccessible(true);
 			
@@ -221,7 +220,7 @@ public class BioProviderImpl_V_0_7 implements iBioProviderApi {
 	private boolean getSDKMatchResult(List<BIR> sample, BIR[] record, BiometricType modality, Map<String, String> flags, 
 			String threshold) {
 			
-		Method method = ReflectionUtils.findRequiredMethod(this.sdkRegistry.get(modality).getClass(), "match", 
+		Method method = BioProviderUtil.findRequiredMethod(this.sdkRegistry.get(modality).getClass(), "match", 
 				BIR.class, BIR[].class, KeyValuePair[].class);
 		method.setAccessible(true);
 		
@@ -259,7 +258,7 @@ public class BioProviderImpl_V_0_7 implements iBioProviderApi {
 	//CompositeScore compositeMatch(BIR[] sampleList, BIR[] recordList, KeyValuePair[] flags)
 	private boolean getSDKCompositeMatchResult(List<BIR> sample, BIR[] record, BiometricType modality, Map<String, String> flags, 
 			String threshold) {
-		Method method = ReflectionUtils.findRequiredMethod(this.sdkRegistry.get(modality).getClass(), "compositeMatch", 
+		Method method = BioProviderUtil.findRequiredMethod(this.sdkRegistry.get(modality).getClass(), "compositeMatch", 
 				BIR[].class, BIR[].class, KeyValuePair[].class);
 		method.setAccessible(true);
 		
