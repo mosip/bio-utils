@@ -65,7 +65,7 @@ jobs:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
   build-kernel-biometrics-api:
-    uses: mosip/kattu/.github/workflows/maven-build.yml@master-java21-java21
+    uses: mosip/kattu/.github/workflows/maven-build.yml@master-java21
     with:
       SERVICE_LOCATION: 'kernel-biometrics-api'
       BUILD_ARTIFACT: 'kernel-biometrics-api'
