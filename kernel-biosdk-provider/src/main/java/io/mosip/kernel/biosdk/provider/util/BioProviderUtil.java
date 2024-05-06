@@ -1,12 +1,20 @@
 package io.mosip.kernel.biosdk.provider.util;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.data.util.ReflectionUtils;
+import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
+import org.springframework.util.ConcurrentReferenceHashMap;
 
 import io.mosip.kernel.core.bioapi.exception.BiometricException;
 import io.mosip.kernel.core.exception.ExceptionUtils;
@@ -52,5 +60,88 @@ public class BioProviderUtil {
 							modalityParams.get(ProviderConstants.CLASSNAME), ExceptionUtils.getStackTrace(e)));
 		}
 	}
+	
+	public static Method findRequiredMethod(Class<?> type, String name, Class<?>... parameterTypes) {
 
+		Assert.notNull(type, "Class must not be null");
+		Assert.notNull(name, "Method name must not be null");
+
+		Method result = null;
+		Class<?> searchType = type;
+		while (searchType != null) {
+			Method[] methods = (searchType.isInterface() ? searchType.getMethods()
+					: getDeclaredMethods(searchType));
+			for (Method method : methods) {
+				if (name.equals(method.getName()) && hasSameParams(method, parameterTypes)) {
+					if (result == null || result.isSynthetic() || result.isBridge()) {
+						result = method;
+					}
+				}
+			}
+			searchType = searchType.getSuperclass();
+		}
+
+		if (result == null) {
+
+			String parameterTypeNames = Arrays.stream(parameterTypes) //
+					.map(Object::toString) //
+					.collect(Collectors.joining(", "));
+
+			throw new IllegalArgumentException(
+					String.format("Unable to find method %s(%s) on %s", name, parameterTypeNames, type));
+		}
+
+		return result;
+	}
+
+	private static boolean hasSameParams(Method method, Class<?>[] paramTypes) {
+		return (paramTypes.length == method.getParameterCount() && Arrays.equals(paramTypes, method.getParameterTypes()));
+	}
+
+	private static final Map<Class<?>, Method[]> declaredMethodsCache = new ConcurrentReferenceHashMap<>(256);
+	private static final Method[] NO_METHODS = {};
+	private static Method[] getDeclaredMethods(Class<?> clazz) {
+		Assert.notNull(clazz, "Class must not be null");
+		Method[] result = declaredMethodsCache.get(clazz);
+		if (result == null) {
+			try {
+				Method[] declaredMethods = clazz.getDeclaredMethods();
+				List<Method> defaultMethods = findConcreteMethodsOnInterfaces(clazz);
+				if (defaultMethods != null) {
+					result = new Method[declaredMethods.length + defaultMethods.size()];
+					System.arraycopy(declaredMethods, 0, result, 0, declaredMethods.length);
+					int index = declaredMethods.length;
+					for (Method defaultMethod : defaultMethods) {
+						result[index] = defaultMethod;
+						index++;
+					}
+				}
+				else {
+					result = declaredMethods;
+				}
+				declaredMethodsCache.put(clazz, (result.length == 0 ? NO_METHODS : result));
+			}
+			catch (Throwable ex) {
+				throw new IllegalStateException("Failed to introspect Class [" + clazz.getName() +
+						"] from ClassLoader [" + clazz.getClassLoader() + "]", ex);
+			}
+		}
+		return result;
+	}
+	
+	@Nullable
+	private static List<Method> findConcreteMethodsOnInterfaces(Class<?> clazz) {
+		List<Method> result = null;
+		for (Class<?> ifc : clazz.getInterfaces()) {
+			for (Method ifcMethod : ifc.getMethods()) {
+				if (!Modifier.isAbstract(ifcMethod.getModifiers())) {
+					if (result == null) {
+						result = new LinkedList<>();
+					}
+					result.add(ifcMethod);
+				}
+			}
+		}
+		return result;
+	}
 }

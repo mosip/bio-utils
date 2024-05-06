@@ -11,11 +11,11 @@ import io.mosip.kernel.biometrics.spi.IBioApiV2;
 import java.util.List;
 import java.util.Map;
 
-public class TestSDK implements IBioApiV2 {
+public class TestSDK1 implements IBioApiV2 {
 
     @Override
     public SDKInfo init(Map<String, String> initParams) {
-        SDKInfo sdkInfo = new SDKInfo("0.9", "1.0", "MOCKVendor0", "test");
+        SDKInfo sdkInfo = new SDKInfo("0.9", "1.0", "MOCKVendor1", "test");
         sdkInfo.withSupportedMethod(BiometricFunction.MATCH, BiometricType.FINGER);
         sdkInfo.withSupportedMethod(BiometricFunction.EXTRACT, BiometricType.FINGER);
         sdkInfo.withSupportedMethod(BiometricFunction.QUALITY_CHECK, BiometricType.FINGER);

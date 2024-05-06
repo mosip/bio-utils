@@ -85,7 +85,7 @@ public class CbeffValidatorTest {
 		format.setOrganization("257");
 		format.setType("7");
 		QualityType Qtype = new QualityType();
-		Qtype.setScore(new Long(100));
+		Qtype.setScore(Long.valueOf(100));
 		RegistryIDType algorithm = new RegistryIDType();
 		algorithm.setOrganization("HMAC");
 		algorithm.setType("SHA-256");
@@ -293,7 +293,7 @@ public class CbeffValidatorTest {
 		format.setOrganization("257");
 		format.setType("7");
 		QualityType Qtype = new QualityType();
-		Qtype.setScore(new Long(100));
+		Qtype.setScore(Long.valueOf(100));
 		RegistryIDType algorithm = new RegistryIDType();
 		algorithm.setOrganization("HMAC");
 		algorithm.setType("SHA-256");
@@ -320,7 +320,7 @@ public class CbeffValidatorTest {
 		format.setOrganization("257");
 		format.setType("7");
 		QualityType Qtype = new QualityType();
-		Qtype.setScore(new Long(100));
+		Qtype.setScore(Long.valueOf(100));
 		RegistryIDType algorithm = new RegistryIDType();
 		algorithm.setOrganization("HMAC");
 		algorithm.setType("SHA-256");

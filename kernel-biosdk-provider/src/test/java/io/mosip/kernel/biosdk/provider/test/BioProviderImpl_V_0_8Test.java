@@ -3,7 +3,6 @@ package io.mosip.kernel.biosdk.provider.test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
@@ -14,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -85,7 +85,7 @@ public class BioProviderImpl_V_0_8Test  {
 		format.setOrganization("257");
 		format.setType("7");
 		QualityType Qtype = new QualityType();
-		Qtype.setScore(new Long(100));
+		Qtype.setScore(Long.valueOf(100));
 		RegistryIDType algorithm = new RegistryIDType();
 		algorithm.setOrganization("HMAC");
 		algorithm.setType("SHA-256");
@@ -299,7 +299,7 @@ public class BioProviderImpl_V_0_8Test  {
 		smp=sample.toArray(smp);
 		gallery.put("check", record);
 		float[] result= bioProviderImpl_V_0_8.getSegmentQuality(smp,modalityParams);
-        assertThat(result[0],is(90.0F));
+		MatcherAssert.assertThat(result[0],is(90.0F));
 	}
 	
 	@Test
@@ -316,7 +316,7 @@ public class BioProviderImpl_V_0_8Test  {
 		smp=sample.toArray(smp);
 		gallery.put("check", record);
 		Map<BiometricType, Float> result= bioProviderImpl_V_0_8.getModalityQuality(smp,modalityParams);
-        assertThat(result.get(BiometricType.FINGER),is(90.0F));
+		MatcherAssert.assertThat(result.get(BiometricType.FINGER),is(90.0F));
 	}
 	
 	@Test
@@ -333,7 +333,7 @@ public class BioProviderImpl_V_0_8Test  {
 		smp=sample.toArray(smp);
 		gallery.put("check", record);
 		float[] result= bioProviderImpl_V_0_8.getSegmentQuality(smp,modalityParams);
-        assertThat(result[0],is(0F));
+		MatcherAssert.assertThat(result[0],is(0F));
 	}
 	
 	@Test
@@ -350,7 +350,7 @@ public class BioProviderImpl_V_0_8Test  {
 		smp=sample.toArray(smp);
 		gallery.put("check", record);
 		Map<BiometricType, Float> result= bioProviderImpl_V_0_8.getModalityQuality(smp,modalityParams);
-        assertThat(result.get(BiometricType.FINGER),is(0F));
+		MatcherAssert.assertThat(result.get(BiometricType.FINGER),is(0F));
 	}
 	
 	@Test
@@ -365,7 +365,7 @@ public class BioProviderImpl_V_0_8Test  {
 		Map<String, List<BIR>> gallery= new HashMap<String, List<BIR>>();
 		gallery.put("check", record);
 		List<BIR> result= bioProviderImpl_V_0_8.extractTemplate(sample,modalityParams);
-        assertThat(result.size(),is(sample.size()));
+		MatcherAssert.assertThat(result.size(),is(sample.size()));
 	}
 	
 	@Test
