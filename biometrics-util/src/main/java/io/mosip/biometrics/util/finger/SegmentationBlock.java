@@ -23,8 +23,7 @@ public class SegmentationBlock extends ExtendedDataBlock {
 
 	public SegmentationBlock(int segmentationQualityScore, int noOfSegmentationData,
 			SegmentationData[] segmentationData) {
-		setSegmentationAlgorithmVendorIdentifier(
-				FingerSegmentationAlgorithmVendorIdentifier.UNSPECIFIED);
+		setSegmentationAlgorithmVendorIdentifier(FingerSegmentationAlgorithmVendorIdentifier.UNSPECIFIED);
 		setSegmentationAlgorithmIdentifier(FingerSegmentationAlgorithmIdentifier.UNSPECIFIED);
 		setSegmentationQualityScore(segmentationQualityScore);
 
@@ -65,54 +64,54 @@ public class SegmentationBlock extends ExtendedDataBlock {
 	protected void readObject(DataInputStream inputStream) throws IOException {
 		setLengthOfExtendedDataBlock(inputStream.readUnsignedShort());
 
-		int segmentationAlgorithmVendorIdentifier = inputStream.readUnsignedShort();
+		int segmentationAlgorithmVendorIdentifierInfo = inputStream.readUnsignedShort();
 		try {
-			setSegmentationAlgorithmVendorIdentifier(segmentationAlgorithmVendorIdentifier);
+			setSegmentationAlgorithmVendorIdentifier(segmentationAlgorithmVendorIdentifierInfo);
 		} catch (Exception ex) {
 			LOGGER.error(
-					"setSegmentationAlgorithmVendorIdentifier :: Not Defined :: segmentationAlgorithmVendorIdentifier :: "
-							+ Integer.toHexString(segmentationAlgorithmVendorIdentifier));
+					"setSegmentationAlgorithmVendorIdentifier :: Not Defined :: segmentationAlgorithmVendorIdentifier :: {}",
+					Integer.toHexString(segmentationAlgorithmVendorIdentifierInfo));
 		}
 
-		int segmentationAlgorithmIdentifier = inputStream.readUnsignedShort();
+		int segmentationAlgorithmIdentifierInfo = inputStream.readUnsignedShort();
 		try {
-			setSegmentationAlgorithmIdentifier(segmentationAlgorithmIdentifier);
+			setSegmentationAlgorithmIdentifier(segmentationAlgorithmIdentifierInfo);
 		} catch (Exception ex) {
-			LOGGER.error("setSegmentationAlgorithmIdentifier :: Not Defined :: segmentationAlgorithmIdentifier :: "
-					+ Integer.toHexString(segmentationAlgorithmIdentifier));
+			LOGGER.error("setSegmentationAlgorithmIdentifier :: Not Defined :: segmentationAlgorithmIdentifier :: {}",
+					Integer.toHexString(segmentationAlgorithmIdentifierInfo));
 		}
 
 		setSegmentationQualityScore(inputStream.readUnsignedByte());
 
-		int qualityAlgorithmIdentifier = inputStream.readUnsignedShort();
+		int qualityAlgorithmIdentifierInfo = inputStream.readUnsignedShort();
 		try {
-			setQualityAlgorithmIdentifier(qualityAlgorithmIdentifier);
+			setQualityAlgorithmIdentifier(qualityAlgorithmIdentifierInfo);
 		} catch (Exception ex) {
-			LOGGER.error("setQualityAlgorithmIdentifier :: Not Defined :: qualityAlgorithmIdentifier :: "
-					+ Integer.toHexString(qualityAlgorithmIdentifier));
+			LOGGER.error("setQualityAlgorithmIdentifier :: Not Defined :: qualityAlgorithmIdentifier :: {}",
+					Integer.toHexString(qualityAlgorithmIdentifierInfo));
 		}
 
-		int qualityAlgorithmVendorIdentifier = inputStream.readUnsignedShort();
+		int qualityAlgorithmVendorIdentifierInfo = inputStream.readUnsignedShort();
 		try {
-			setQualityAlgorithmVendorIdentifier(qualityAlgorithmVendorIdentifier);
+			setQualityAlgorithmVendorIdentifier(qualityAlgorithmVendorIdentifierInfo);
 		} catch (Exception ex) {
-			LOGGER.error("setQualityAlgorithmVendorIdentifier :: Not Defined :: qualityAlgorithmVendorIdentifier :: "
-					+ Integer.toHexString(qualityAlgorithmVendorIdentifier));
+			LOGGER.error("setQualityAlgorithmVendorIdentifier :: Not Defined :: qualityAlgorithmVendorIdentifier :: {}",
+					Integer.toHexString(qualityAlgorithmVendorIdentifierInfo));
 		}
 
 		setNoOfSegmentationData(inputStream.readUnsignedByte());
 		if (getNoOfSegmentationData() > 0) {
-			SegmentationData[] segmentationData = new SegmentationData[getNoOfSegmentationData()];
+			SegmentationData[] segmentationDataInfo = new SegmentationData[getNoOfSegmentationData()];
 			for (int index = 0; index < getNoOfSegmentationData(); index++) {
-				segmentationData[index] = new SegmentationData(inputStream);
+				segmentationDataInfo[index] = new SegmentationData(inputStream);
 			}
-			setSegmentationData(segmentationData);
+			setSegmentationData(segmentationDataInfo);
 		}
 	}
 
 	@Override
 	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
-		// Skip as base calling class 		
+		// Skip as base calling class
 	}
 
 	/* 2 + 2 + 1 + 1 (Table 12 Segmentation data ISO/IEC 19794-4-2011) */

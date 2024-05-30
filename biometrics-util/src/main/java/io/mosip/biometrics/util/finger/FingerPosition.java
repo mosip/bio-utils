@@ -62,7 +62,7 @@ public class FingerPosition {
 	}
 
 	public static int fromValue(int value) {
-		if (value >= UNKNOWN && value <= (int) LEFT_MIDDLE_AND_RING_AND_LITTLE_FINGERS)
+		if (value >= UNKNOWN && value <= LEFT_MIDDLE_AND_RING_AND_LITTLE_FINGERS)
 			return value;
 		throw new IllegalArgumentException(
 				"FingerPosition value can be between (0x00 and 0x32), set value is wrong [" + value + "]");

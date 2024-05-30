@@ -11,56 +11,42 @@ public class FaceISOStandardsValidator extends ISOStandardsValidator {
 	private static final Logger LOGGER = LoggerFactory.getLogger(FaceISOStandardsValidator.class);
 
 	private static FaceISOStandardsValidator instance = null;
-	  
-    // Constructor
-    private FaceISOStandardsValidator()
-    {
-    	super();
-    }
-  
-    // Static method to create instance of Singleton class
-    public static FaceISOStandardsValidator getInstance()
-    {
-        if (instance == null)
-        	instance = new FaceISOStandardsValidator();
-  
-        return instance;
-    }
-    
+
+	// Constructor
+	private FaceISOStandardsValidator() {
+		super();
+	}
+
+	// Static method to create instance of Singleton class
+	public static FaceISOStandardsValidator getInstance() {
+		if (instance == null)
+			instance = new FaceISOStandardsValidator();
+
+		return instance;
+	}
+
 	public boolean isValidFormatIdentifier(long formatIdentifier) {
-		if (formatIdentifier == FaceFormatIdentifier.FORMAT_FAC)
-			return true;
-		return false;
+		return (formatIdentifier == FaceFormatIdentifier.FORMAT_FAC);
 	}
 
 	public boolean isValidVersionNumber(long versionNumber) {
-		if (versionNumber == FaceVersionNumber.VERSION_030)
-			return true;
-		return false;
+		return (versionNumber == FaceVersionNumber.VERSION_030);
 	}
 
 	public boolean isValidRecordLength(long dataLength, long recordLength) {
-		if (dataLength == recordLength)
-			return true;
-		return false;
+		return (dataLength == recordLength);
 	}
 
 	public boolean isValidNoOfRepresentations(int noOfRepresentations) {
-		if (noOfRepresentations == 0x0001)
-			return true;
-		return false;
+		return (noOfRepresentations == 0x0001);
 	}
 
 	public boolean isValidCertificationFlag(int certificationFlag) {
-		if (certificationFlag == FaceCertificationFlag.UNSPECIFIED)
-			return true;
-		return false;
+		return (certificationFlag == FaceCertificationFlag.UNSPECIFIED);
 	}
 
 	public boolean isValidTemporalSemantics(int temporalSemantics) {
-		if (temporalSemantics == TemporalSequenceFlags.ONE_REPRESENTATION)
-			return true;
-		return false;
+		return (temporalSemantics == TemporalSequenceFlags.ONE_REPRESENTATION);
 	}
 
 	public boolean isValidRepresentationLength(long representationLength) {
@@ -69,25 +55,19 @@ public class FaceISOStandardsValidator extends ISOStandardsValidator {
 		// Representation Header plus the size of the Representation Data, i.e. minimum
 		// 4 bytes for the Length of Image
 		// Data Block field assuming 0 bytes for the variable data.
-		if (representationLength >= 0x00000033 && representationLength <= Long.decode("0xFFFFFFEF"))
-			return true;
-		return false;
+		return (representationLength >= 0x00000033 && representationLength <= Long.decode("0xFFFFFFEF"));
 	}
 
 	public boolean isValidCaptureDeviceTechnologyIdentifier(int captureDeviceTechnologyIdentifier) {
-		if ((captureDeviceTechnologyIdentifier >= FaceCaptureDeviceTechnology.UNSPECIFIED
+		return ((captureDeviceTechnologyIdentifier >= FaceCaptureDeviceTechnology.UNSPECIFIED
 				&& captureDeviceTechnologyIdentifier <= FaceCaptureDeviceTechnology.VIDEO_FRAME_DIGITAL_CAMERA)
 				|| (captureDeviceTechnologyIdentifier >= FaceCaptureDeviceTechnology.VENDOR_80
-						&& captureDeviceTechnologyIdentifier <= FaceCaptureDeviceTechnology.VENDOR_FF))
-			return true;
-		return false;
+						&& captureDeviceTechnologyIdentifier <= FaceCaptureDeviceTechnology.VENDOR_FF));
 	}
 
 	public boolean isValidCaptureDeviceVendor(int captureDeviceVendor) {
-		if (captureDeviceVendor >= FaceCaptureDeviceVendor.UNSPECIFIED
-				&& captureDeviceVendor <= FaceCaptureDeviceVendor.VENDOR_FFFF)
-			return true;
-		return false;
+		return (captureDeviceVendor >= FaceCaptureDeviceVendor.UNSPECIFIED
+				&& captureDeviceVendor <= FaceCaptureDeviceVendor.VENDOR_FFFF);
 	}
 
 	public boolean isValidCaptureDeviceType(int captureDeviceType, int captureDeviceVendor) {
@@ -103,137 +83,117 @@ public class FaceISOStandardsValidator extends ISOStandardsValidator {
 	}
 
 	public boolean isValidNoOfQualityBlocks(int noOfQualityBlocks) {
-		if (noOfQualityBlocks >= 0x00 && noOfQualityBlocks <= 0xFF)
-			return true;
-		return false;
+		return (noOfQualityBlocks >= 0x00 && noOfQualityBlocks <= 0xFF);
 	}
 
 	public boolean isValidQualityAlgorithmIdentifier(int qualityAlgorithmIdentifier) {
-		if (qualityAlgorithmIdentifier >= FaceQualityAlgorithmIdentifier.UNSPECIFIED
-				&& qualityAlgorithmIdentifier <= FaceQualityAlgorithmIdentifier.VENDOR_FFFF)
-			return true;
-		return false;
+		return (qualityAlgorithmIdentifier >= FaceQualityAlgorithmIdentifier.UNSPECIFIED
+				&& qualityAlgorithmIdentifier <= FaceQualityAlgorithmIdentifier.VENDOR_FFFF);
 	}
 
 	public boolean isValidQualityAlgorithmVendorIdentifier(int qualityAlgorithmVendorIdentifier) {
-		if (qualityAlgorithmVendorIdentifier >= FaceQualityAlgorithmVendorIdentifier.UNSPECIFIED
-				&& qualityAlgorithmVendorIdentifier <= FaceQualityAlgorithmVendorIdentifier.VENDOR_FFFF)
-			return true;
-		return false;
+		return (qualityAlgorithmVendorIdentifier >= FaceQualityAlgorithmVendorIdentifier.UNSPECIFIED
+				&& qualityAlgorithmVendorIdentifier <= FaceQualityAlgorithmVendorIdentifier.VENDOR_FFFF);
 	}
 
 	public boolean isValidQualityScore(int qualityScore) {
-		if ((qualityScore >= 0x00 && qualityScore <= 0x64) || qualityScore == 0xFF)
-			return true;
-		return false;
+		return ((qualityScore >= 0x00 && qualityScore <= 0x64) || qualityScore == 0xFF);
 	}
 
 	public boolean isValidNoOfLandmarkPoints(int noOfLandmarkPoints) {
-		if (noOfLandmarkPoints >= 0x0000 && noOfLandmarkPoints <= 0xFFFF)
-			return true;
-		return false;
+		return (noOfLandmarkPoints >= 0x0000 && noOfLandmarkPoints <= 0xFFFF);
 	}
 
 	public boolean isValidGender(int gender) {
-		switch (gender) {
-		case Gender.UNSPECIFIED:
-		case Gender.MALE:
-		case Gender.FEMALE:
-		case Gender.UNKNOWN:
-			return true;
-		}
-		return false;
+		return (gender == Gender.UNSPECIFIED || gender == Gender.MALE || gender == Gender.FEMALE || gender == Gender.UNKNOWN);
 	}
 
 	public boolean isValidEyeColour(int eyeColour) {
-		if ((eyeColour >= EyeColour.UNSPECIFIED && eyeColour <= EyeColour.PINK)
-				|| eyeColour == EyeColour.OTHER_OR_UNKNOWN)
-			return true;
-		return false;
+		return ((eyeColour >= EyeColour.UNSPECIFIED && eyeColour <= EyeColour.PINK)
+				|| eyeColour == EyeColour.OTHER_OR_UNKNOWN);
 	}
 
 	public boolean isValidHairColour(int hairColour) {
-		if ((hairColour >= HairColour.UNSPECIFIED && hairColour <= HairColour.RED)
-				|| (hairColour == HairColour.UNKNOWN))
-			return true;
-		return false;
+		return ((hairColour >= HairColour.UNSPECIFIED && hairColour <= HairColour.RED)
+				|| (hairColour == HairColour.UNKNOWN));
 	}
 
 	public boolean isValidSubjectHeight(int subjectHeight) {
-		if (subjectHeight >= 0x00 && subjectHeight <= 0xFF)
-			return true;
-		return false;
+		return (subjectHeight >= 0x00 && subjectHeight <= 0xFF);
 	}
 
 	public boolean isValidFeatureMask(int featureMask) {
-		if (featureMask >= 0x000000 && featureMask <= 0xFFFFFF)
-			return true;
-		return false;
+		return (featureMask >= 0x000000 && featureMask <= 0xFFFFFF);
 	}
 
 	public boolean isValidExpressionMask(int expressionMask) {
-		if (expressionMask >= 0x0000 && expressionMask <= 0xFFFF)
-			return true;
-		return false;
+		return (expressionMask >= 0x0000 && expressionMask <= 0xFFFF);
 	}
 
 	/*
-	 * Future implementation 
-	*/
+	 * Future implementation
+	 */
+	@SuppressWarnings({ "java:S1172" })
 	public boolean isValidPoseAngle(int[] poseAngle) {
 		return true;
 	}
 
 	/*
-	 * Future implementation 
-	*/
+	 * Future implementation
+	 */
+	@SuppressWarnings({ "java:S1172" })
 	public boolean isValidPoseAngleUncertainty(int[] poseAngleUncertainty) {
 		return true;
 	}
 
 	/*
 	 * Future implementation for LandmarkPointType
-	*/
+	 */
+	@SuppressWarnings({ "java:S1172" })
 	public boolean isValidLandmarkPointType(int landmarkPointType) {
 		return true;
 	}
 
 	/*
 	 * Future implementation for LandmarkPointCode
-	*/
+	 */
+	@SuppressWarnings({ "java:S1172" })
 	public boolean isValidLandmarkPointCode(int landmarkPointType, int landmarkPointCode) {
 		return true;
 	}
-	
+
 	/*
 	 * Future implementation for LandmarkXCooridinate
-	*/
+	 */
+	@SuppressWarnings({ "java:S1172" })
 	public boolean isValidLandmarkXCooridinate(int landmarkPointType, int landmarkPointCode, int xCooridinate) {
 		return true;
 	}
 
 	/*
 	 * Future implementation for LandmarkYCooridinate
-	*/
+	 */
+	@SuppressWarnings({ "java:S1172" })
 	public boolean isValidLandmarkYCooridinate(int landmarkPointType, int landmarkPointCode, int yCooridinate) {
 		return true;
 	}
 
 	/*
 	 * Future implementation for LandmarkZCooridinate
-	*/
+	 */
+	@SuppressWarnings({ "java:S1172" })
 	public boolean isValidLandmarkZCooridinate(int landmarkPointType, int landmarkPointCode, int zCooridinate) {
 		return true;
 	}
 
 	public boolean isValidFaceImageType(int faceImageType) {
-		if ((faceImageType >= FaceImageType.BASIC && faceImageType <= FaceImageType.POST_PROCESSED_FRONTAL)
-				|| (faceImageType >= FaceImageType.BASIC_3D && faceImageType <= FaceImageType.TOKEN_FRONTAL_3D))
-			return true;
-		return false;
+		return ((faceImageType >= FaceImageType.BASIC && faceImageType <= FaceImageType.POST_PROCESSED_FRONTAL)
+				|| (faceImageType >= FaceImageType.BASIC_3D && faceImageType <= FaceImageType.TOKEN_FRONTAL_3D));
 	}
 
-	public boolean isValidImageCompressionType(String purpose, int compressionType, ImageDecoderRequestDto decoderRequestDto) {
+	@SuppressWarnings({ "java:S1172" })
+	public boolean isValidImageCompressionType(String purpose, int compressionType,
+			ImageDecoderRequestDto decoderRequestDto) {
 		try {
 			switch (Purposes.fromCode(purpose)) {
 			case AUTH:
@@ -244,58 +204,42 @@ public class FaceISOStandardsValidator extends ISOStandardsValidator {
 				if (compressionType == ImageDataType.JPEG2000_LOSS_LESS)
 					return true;
 				break;
+			default:
+				return false;
 			}
 		} catch (Exception e) {
-			LOGGER.error ("isValidFaceImageType", e);
+			LOGGER.error("isValidFaceImageType", e);
 		}
 
 		return false;
 	}
 
+	@SuppressWarnings({ "java:S1172" })
 	public boolean isValidImageWidth(String purpose, int imageWidth, ImageDecoderRequestDto decoderRequestDto) {
-		if (imageWidth >= 0x0001 && imageWidth <= 0xFFFF)
-		{
-			// need to check width in image also
-			if (decoderRequestDto.getWidth() == imageWidth)
-				return true;			
-		}
-		return false;
+		return ((imageWidth >= 0x0001 && imageWidth <= 0xFFFF) && decoderRequestDto.getWidth() == imageWidth);
 	}
 
+	@SuppressWarnings({ "java:S1172" })
 	public boolean isValidImageHeight(String purpose, int imageHeight, ImageDecoderRequestDto decoderRequestDto) {
-		if (imageHeight >= 0x0001 && imageHeight <= 0xFFFF)
-		{
-			// need to check height in image also
-			if (decoderRequestDto.getHeight() == imageHeight)
-				return true;			
-		}
-		return false;
+		return ((imageHeight >= 0x0001 && imageHeight <= 0xFFFF) && decoderRequestDto.getHeight() == imageHeight);
 	}
 
 	public boolean isValidSpatialSamplingRateLevel(int spatialSamplingRateLevel) {
-		if (spatialSamplingRateLevel >= SpatialSamplingRateLevel.SPATIAL_SAMPLING_RATE_LEVEL_180
-				&& spatialSamplingRateLevel <= SpatialSamplingRateLevel.SPATIAL_SAMPLING_RATE_LEVEL_750)
-			return true;
-		return false;
+		return (spatialSamplingRateLevel >= SpatialSamplingRateLevel.SPATIAL_SAMPLING_RATE_LEVEL_180
+				&& spatialSamplingRateLevel <= SpatialSamplingRateLevel.SPATIAL_SAMPLING_RATE_LEVEL_750);
 	}
 
 	public boolean isValidPostAcquisitionProcessing(int postAcquisitionProcessing) {
-		if (postAcquisitionProcessing >= 0x0000 && postAcquisitionProcessing <= 0xFFFF)
-			return true;
-		return false;
+		return (postAcquisitionProcessing >= 0x0000 && postAcquisitionProcessing <= 0xFFFF);
 	}
 
 	public boolean isValidCrossReference(int crossReference) {
-		if (crossReference >= CrossReference.BASIC
-				&& crossReference <= CrossReference.CROSSREFERENCE_FF)
-			return true;
-		return false;
+		return (crossReference >= CrossReference.BASIC && crossReference <= CrossReference.CROSSREFERENCE_FF);
 	}
 
-	public boolean isValidImageColourSpace(String purpose, int imageColourSpace, ImageDecoderRequestDto decoderRequestDto) {
-		if (imageColourSpace == ImageColourSpace.UNSPECIFIED || imageColourSpace == ImageColourSpace.BIT_24_RGB)
-			if (decoderRequestDto.getImageColorSpace().equalsIgnoreCase("RGB"))
-				return true;
-		return false;
+	@SuppressWarnings({ "java:S1172" })
+	public boolean isValidImageColourSpace(String purpose, int imageColourSpace,
+			ImageDecoderRequestDto decoderRequestDto) {
+		return ((imageColourSpace == ImageColourSpace.UNSPECIFIED || imageColourSpace == ImageColourSpace.BIT_24_RGB) &&  decoderRequestDto.getImageColorSpace().equalsIgnoreCase("RGB"));
 	}
 }

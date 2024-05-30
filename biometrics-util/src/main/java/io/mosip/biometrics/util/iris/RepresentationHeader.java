@@ -60,6 +60,7 @@ public class RepresentationHeader extends AbstractImageInfo {
 		setRepresentationNo(representationNo);
 	}
 
+	@SuppressWarnings({ "java:S107" })
 	public RepresentationHeader(long representationDataLength, Date captureDate, int captureDeviceTechnologyIdentifier,
 			int captureDeviceVendorIdentifier, int captureDeviceTypeIdentifier, IrisQualityBlock[] qualityBlocks,
 			ImageInformation imageInformation, int representationNo) {
@@ -118,20 +119,20 @@ public class RepresentationHeader extends AbstractImageInfo {
 		setCaptureDateTime(calendar.getTime());
 
 		setCaptureDeviceTechnologyIdentifier(inputStream.readUnsignedByte());
-		int captureDeviceVendorIdentifier = inputStream.readUnsignedShort();
+		int captureDeviceVendorIdentifierInfo = inputStream.readUnsignedShort();
 		try {
-			setCaptureDeviceVendorIdentifier(captureDeviceVendorIdentifier);
+			setCaptureDeviceVendorIdentifier(captureDeviceVendorIdentifierInfo);
 		} catch (Exception ex) {
-			LOGGER.error("setCaptureDeviceVendorIdentifier :: Not Defined :: captureDeviceVendorIdentifier :: "
-					+ captureDeviceVendorIdentifier);
+			LOGGER.error("setCaptureDeviceVendorIdentifier :: Not Defined :: captureDeviceVendorIdentifier :: {}",
+					captureDeviceVendorIdentifierInfo);
 		}
 
-		int captureDeviceTypeIdentifier = inputStream.readUnsignedShort();
+		int captureDeviceTypeIdentifierInfo = inputStream.readUnsignedShort();
 		try {
-			setCaptureDeviceTypeIdentifier(captureDeviceTypeIdentifier);
+			setCaptureDeviceTypeIdentifier(captureDeviceTypeIdentifierInfo);
 		} catch (Exception ex) {
-			LOGGER.error("setCaptureDeviceTypeIdentifier :: Not Defined :: captureDeviceTypeIdentifier :: "
-					+ captureDeviceTypeIdentifier);
+			LOGGER.error("setCaptureDeviceTypeIdentifier :: Not Defined :: captureDeviceTypeIdentifier :: {}",
+					captureDeviceTypeIdentifierInfo);
 		}
 
 		setNoOfQualityBlocks(inputStream.readUnsignedByte());
@@ -150,9 +151,10 @@ public class RepresentationHeader extends AbstractImageInfo {
 	@Override
 	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
 		setRepresentationDataLength((inputStream.readInt() & 0xFFFFFFFFL));
-		// 9 (Datetime) + 1(DeviceTechnologyIdentifier) + 2(DeviceVendorIdentifier) + 2 (DeviceTypeIdentifier)
+		// 9 (Datetime) + 1(DeviceTechnologyIdentifier) + 2(DeviceVendorIdentifier) + 2
+		// (DeviceTypeIdentifier)
 		inputStream.skipBytes(14);
-		
+
 		setNoOfQualityBlocks(inputStream.readUnsignedByte());
 		IrisQualityBlock[] qualityBlock = new IrisQualityBlock[getNoOfQualityBlocks()];
 		if (getNoOfQualityBlocks() > 0) {

@@ -22,16 +22,22 @@ import io.mosip.kernel.core.logger.spi.Logger;
 
 public class BioProviderUtil {
 
+	private BioProviderUtil() {
+		throw new IllegalStateException("BioProviderUtil class");
+	}
+
 	private static Map<String, Object> sdkInstances = new HashMap<>();
 
 	private static final Logger LOGGER = BioSDKProviderLoggerFactory.getLogger(BioProviderUtil.class);
 
+	@SuppressWarnings({ "java:S3011" })
 	public static Object getSDKInstance(Map<String, String> modalityParams) throws BiometricException {
 		try {
 			String instanceKey = modalityParams.entrySet().stream().sorted(Map.Entry.comparingByKey())
 					.map(entry -> entry.getKey() + "=" + entry.getValue()).collect(Collectors.joining("-"));
 			if (sdkInstances.containsKey(instanceKey)) {
-				LOGGER.debug("SDK instance reused for modality class >>> {}", modalityParams.get(ProviderConstants.CLASSNAME));
+				LOGGER.debug("SDK instance reused for modality class >>> {}",
+						modalityParams.get(ProviderConstants.CLASSNAME));
 				return sdkInstances.get(instanceKey);
 			}
 			Class<?> object = Class.forName(modalityParams.get(ProviderConstants.CLASSNAME));
@@ -60,31 +66,27 @@ public class BioProviderUtil {
 							modalityParams.get(ProviderConstants.CLASSNAME), ExceptionUtils.getStackTrace(e)));
 		}
 	}
-	
-	public static Method findRequiredMethod(Class<?> type, String name, Class<?>... parameterTypes) {
 
+	public static Method findRequiredMethod(Class<?> type, String name, Class<?>... parameterTypes) {
 		Assert.notNull(type, "Class must not be null");
 		Assert.notNull(name, "Method name must not be null");
 
 		Method result = null;
 		Class<?> searchType = type;
 		while (searchType != null) {
-			Method[] methods = (searchType.isInterface() ? searchType.getMethods()
-					: getDeclaredMethods(searchType));
+			Method[] methods = (searchType.isInterface() ? searchType.getMethods() : getDeclaredMethods(searchType));
 			for (Method method : methods) {
-				if (name.equals(method.getName()) && hasSameParams(method, parameterTypes)) {
-					if (result == null || result.isSynthetic() || result.isBridge()) {
-						result = method;
-					}
+				if (name.equals(method.getName()) && hasSameParams(method, parameterTypes)
+						&& (result == null || result.isSynthetic() || result.isBridge())) {
+					result = method;
 				}
 			}
 			searchType = searchType.getSuperclass();
 		}
 
 		if (result == null) {
-
-			String parameterTypeNames = Arrays.stream(parameterTypes) //
-					.map(Object::toString) //
+			String parameterTypeNames = Arrays.stream(parameterTypes)
+					.map(Object::toString)
 					.collect(Collectors.joining(", "));
 
 			throw new IllegalArgumentException(
@@ -95,11 +97,13 @@ public class BioProviderUtil {
 	}
 
 	private static boolean hasSameParams(Method method, Class<?>[] paramTypes) {
-		return (paramTypes.length == method.getParameterCount() && Arrays.equals(paramTypes, method.getParameterTypes()));
+		return (paramTypes.length == method.getParameterCount()
+				&& Arrays.equals(paramTypes, method.getParameterTypes()));
 	}
 
 	private static final Map<Class<?>, Method[]> declaredMethodsCache = new ConcurrentReferenceHashMap<>(256);
 	private static final Method[] NO_METHODS = {};
+
 	private static Method[] getDeclaredMethods(Class<?> clazz) {
 		Assert.notNull(clazz, "Class must not be null");
 		Method[] result = declaredMethodsCache.get(clazz);
@@ -115,20 +119,18 @@ public class BioProviderUtil {
 						result[index] = defaultMethod;
 						index++;
 					}
-				}
-				else {
+				} else {
 					result = declaredMethods;
 				}
 				declaredMethodsCache.put(clazz, (result.length == 0 ? NO_METHODS : result));
-			}
-			catch (Throwable ex) {
-				throw new IllegalStateException("Failed to introspect Class [" + clazz.getName() +
-						"] from ClassLoader [" + clazz.getClassLoader() + "]", ex);
+			} catch (Exception ex) {
+				throw new IllegalStateException("Failed to introspect Class [" + clazz.getName()
+						+ "] from ClassLoader [" + clazz.getClassLoader() + "]", ex);
 			}
 		}
 		return result;
 	}
-	
+
 	@Nullable
 	private static List<Method> findConcreteMethodsOnInterfaces(Class<?> clazz) {
 		List<Method> result = null;

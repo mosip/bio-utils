@@ -19,5 +19,6 @@ public class PATIADAReferenceCodeList implements Serializable {
 	 */
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "PatternedInjuryADAReferenceCodeText")
     @JacksonXmlElementWrapper(useWrapping=false)
+	@SuppressWarnings({ "java:S1700" })
     private List<String> patiADAReferenceCodeList;
 }

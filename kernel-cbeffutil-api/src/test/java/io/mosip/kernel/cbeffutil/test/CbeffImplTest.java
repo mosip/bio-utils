@@ -1,7 +1,7 @@
 package io.mosip.kernel.cbeffutil.test;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -10,9 +10,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -20,25 +17,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-import io.mosip.kernel.biometrics.commons.CbeffValidator;
-import io.mosip.kernel.biometrics.constant.*;
-import io.mosip.kernel.biometrics.entities.BDBInfo;
-import io.mosip.kernel.biometrics.entities.BIR;
-import io.mosip.kernel.biometrics.entities.BIRInfo;
-import io.mosip.kernel.biometrics.entities.Entry;
-import io.mosip.kernel.biometrics.entities.RegistryIDType;
-import io.mosip.kernel.biometrics.entities.VersionType;
-import io.mosip.kernel.biometrics.spi.CbeffUtil;
-import io.mosip.kernel.cbeffutil.impl.CbeffImpl;
-
-import org.apache.logging.log4j.core.util.ReflectionUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,20 +28,25 @@ import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.lang.Nullable;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.Assert;
-import org.springframework.util.ConcurrentReferenceHashMap;
 
+import io.mosip.kernel.biometrics.commons.CbeffValidator;
+import io.mosip.kernel.biometrics.constant.BiometricType;
+import io.mosip.kernel.biometrics.constant.OtherKey;
+import io.mosip.kernel.biometrics.constant.ProcessedLevelType;
+import io.mosip.kernel.biometrics.constant.PurposeType;
+import io.mosip.kernel.biometrics.constant.QualityType;
+import io.mosip.kernel.biometrics.entities.BDBInfo;
+import io.mosip.kernel.biometrics.entities.BIR;
+import io.mosip.kernel.biometrics.entities.BIRInfo;
+import io.mosip.kernel.biometrics.entities.Entry;
+import io.mosip.kernel.biometrics.entities.RegistryIDType;
+import io.mosip.kernel.biometrics.entities.VersionType;
+import io.mosip.kernel.biometrics.spi.CbeffUtil;
+import io.mosip.kernel.cbeffutil.impl.CbeffImpl;
 import io.mosip.kernel.core.cbeffutil.common.CbeffISOReader;
-import io.mosip.kernel.core.cbeffutil.entity.BIRVersion;
-
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({URL.class, CbeffValidator.class})
+@PrepareForTest({ URL.class, CbeffValidator.class })
 public class CbeffImplTest {
 
 	@InjectMocks
@@ -78,11 +63,11 @@ public class CbeffImplTest {
 	private List<BIR> exceptionList;
 	private static final String localpath = "./src/main/resources";
 
+	@SuppressWarnings("unused")
 	@Before
 	public void setUp() throws Exception {
 		PowerMockito.whenNew(URL.class).withArguments(Mockito.anyString()).thenReturn(mockURL);
 		when(mockURL.openStream()).thenReturn(inputStream);
-
 
 		byte[] rindexFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintRight_Index.iso",
 				"Finger");
@@ -102,12 +87,7 @@ public class CbeffImplTest {
 		byte[] llittleFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintLeft_Little.iso",
 				"Finger");
 		byte[] leftthumb = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintLeft_Thumb.iso", "Finger");
-		// byte[] irisImg1 = CbeffISOReader.readISOImage(localpath + "/images/" +
-		// "IrisImageRight.iso", "Iris");
-		// byte[] irisImg2 = CbeffISOReader.readISOImage(localpath + "/images/" +
-		// "IrisImageLeft.iso", "Iris");
-		// byte[] faceImg = CbeffISOReader.readISOImage(localpath + "/images/" +
-		// "faceImage.iso", "Face");
+
 		RegistryIDType format = new RegistryIDType();
 		format.setOrganization("257");
 		format.setType("7");
@@ -118,8 +98,7 @@ public class CbeffImplTest {
 		algorithm.setType("SHA-256");
 		Qtype.setAlgorithm(algorithm);
 		createList = new ArrayList<>();
-		BIR rIndexFinger = new BIR.BIRBuilder().withBdb(rindexFinger)
-				.withVersion(new VersionType(1, 1))
+		BIR rIndexFinger = new BIR.BIRBuilder().withBdb(rindexFinger).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1))
 				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
 				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
@@ -130,8 +109,7 @@ public class CbeffImplTest {
 
 		createList.add(rIndexFinger);
 
-		BIR rMiddleFinger = new BIR.BIRBuilder().withBdb(rmiddleFinger)
-				.withVersion(new VersionType(1, 1))
+		BIR rMiddleFinger = new BIR.BIRBuilder().withBdb(rmiddleFinger).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1))
 				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
 				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
@@ -142,8 +120,7 @@ public class CbeffImplTest {
 
 		createList.add(rMiddleFinger);
 
-		BIR rRingFinger = new BIR.BIRBuilder().withBdb(rringFinger)
-				.withVersion(new VersionType(1, 1))
+		BIR rRingFinger = new BIR.BIRBuilder().withBdb(rringFinger).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1))
 				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
 				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
@@ -154,8 +131,7 @@ public class CbeffImplTest {
 
 		createList.add(rRingFinger);
 
-		BIR rLittleFinger = new BIR.BIRBuilder().withBdb(rlittleFinger)
-				.withVersion(new VersionType(1, 1))
+		BIR rLittleFinger = new BIR.BIRBuilder().withBdb(rlittleFinger).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1))
 				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
 				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
@@ -166,8 +142,7 @@ public class CbeffImplTest {
 
 		createList.add(rLittleFinger);
 
-		BIR lIndexFinger = new BIR.BIRBuilder().withBdb(lindexFinger)
-				.withVersion(new VersionType(1, 1))
+		BIR lIndexFinger = new BIR.BIRBuilder().withBdb(lindexFinger).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1))
 				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
 				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
@@ -178,8 +153,7 @@ public class CbeffImplTest {
 
 		createList.add(lIndexFinger);
 
-		BIR lMiddleFinger = new BIR.BIRBuilder().withBdb(lmiddleFinger)
-				.withVersion(new VersionType(1, 1))
+		BIR lMiddleFinger = new BIR.BIRBuilder().withBdb(lmiddleFinger).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1))
 				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
 				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
@@ -190,8 +164,7 @@ public class CbeffImplTest {
 
 		createList.add(lMiddleFinger);
 
-		BIR lRightFinger = new BIR.BIRBuilder().withBdb(lringFinger)
-				.withVersion(new VersionType(1, 1))
+		BIR lRightFinger = new BIR.BIRBuilder().withBdb(lringFinger).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1))
 				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
 				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
@@ -202,8 +175,7 @@ public class CbeffImplTest {
 
 		createList.add(lRightFinger);
 
-		BIR lLittleFinger = new BIR.BIRBuilder().withBdb(llittleFinger)
-				.withVersion(new VersionType(1, 1))
+		BIR lLittleFinger = new BIR.BIRBuilder().withBdb(llittleFinger).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1))
 				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
 				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
@@ -214,8 +186,7 @@ public class CbeffImplTest {
 
 		createList.add(lLittleFinger);
 
-		BIR rightThumb = new BIR.BIRBuilder().withBdb(rightthumb)
-				.withVersion(new VersionType(1, 1))
+		BIR rightThumb = new BIR.BIRBuilder().withBdb(rightthumb).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1))
 				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
 				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
@@ -226,8 +197,7 @@ public class CbeffImplTest {
 
 		createList.add(rightThumb);
 
-		BIR leftThumb = new BIR.BIRBuilder().withBdb(leftthumb)
-				.withVersion(new VersionType(1, 1))
+		BIR leftThumb = new BIR.BIRBuilder().withBdb(leftthumb).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1))
 				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
 				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
@@ -238,45 +208,8 @@ public class CbeffImplTest {
 
 		createList.add(leftThumb);
 
-//		BIR face = new BIR.BIRBuilder().withBdb(faceImg)
-//				.withVersion(new VersionType(1, 1))
-//				.withCbeffversion(new VersionType(1, 1))
-//				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
-//				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format)
-//						.withQuality(Qtype).withType(Arrays.asList(BiometricType.FACE)).withPurpose(PurposeType.ENROLL)
-//						.withLevel(ProcessedLevelType.RAW).withCreationDate(LocalDateTime.now(ZoneId.of("UTC")))
-//						.build())
-//				.build();
-//		
-//		createList.add(face);
-//
-//		BIR leftIris = new BIR.BIRBuilder().withBdb(irisImg1)
-//				.withVersion(new VersionType(1, 1))
-//				.withCbeffversion(new VersionType(1, 1))
-//				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
-//				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format)
-//						.withQuality(Qtype).withType(Arrays.asList(BiometricType.IRIS)).withSubtype(Arrays.asList("Right"))
-//						.withPurpose(PurposeType.ENROLL).withCreationDate(LocalDateTime.now(ZoneId.of("UTC")))
-//						.withLevel(ProcessedLevelType.RAW).build())
-//				.build();
-//		
-//		createList.add(leftIris);
-//
-//		BIR rightIris = new BIR.BIRBuilder().withBdb(irisImg2)
-//				.withVersion(new VersionType(1, 1))
-//				.withCbeffversion(new VersionType(1, 1))
-//				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
-//				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format)
-//						.withQuality(Qtype).withType(Arrays.asList(BiometricType.IRIS)).withSubtype(Arrays.asList("Left"))
-//						.withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
-//						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
-//				.build();
-//		
-//		createList.add(rightIris);
-
 		exceptionList = new ArrayList<>();
-		BIR validThumb = new BIR.BIRBuilder().withBdb(leftthumb)
-				.withVersion(new VersionType(1, 1))
+		BIR validThumb = new BIR.BIRBuilder().withBdb(leftthumb).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1))
 				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
 				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
@@ -284,22 +217,21 @@ public class CbeffImplTest {
 						.withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
 						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
 				.build();
-		Entry entry=new Entry(OtherKey.EXCEPTION, "true");
-		BIR exceptionThumb = new BIR.BIRBuilder().withBdb(new byte[0])
-				.withVersion(new VersionType(1, 1))
+
+		Entry entryInfo = new Entry(OtherKey.EXCEPTION, "true");
+		BIR exceptionThumb = new BIR.BIRBuilder().withBdb(new byte[0]).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1))
 				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
 				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
 						.withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Left Thumb"))
 						.withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
 						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
-				.withOthers(OtherKey.EXCEPTION, "true")
-				.build();
+				.withOthers(OtherKey.EXCEPTION, "true").build();
 		exceptionList.add(validThumb);
 		exceptionList.add(exceptionThumb);
 	}
 
-	//@Test
+	// @Test
 	public void testCreateXML() throws Exception {
 		byte[] createXml = cbeffUtilImpl.createXML(createList);
 		createXMLFile(createXml, "createCbeffLatest");
@@ -313,13 +245,13 @@ public class CbeffImplTest {
 		byte[] createXml = cbeffUtilImpl.createXML(createList, readXSD("updatedcbeff"));
 		createXMLFile(createXml, "createCbeffLatest2");
 		assertEquals(new String(createXml), new String(readCreatedXML("createCbeffLatest2")));
-
 	}
 
 	@Test
 	public void testCreateExceptionXMLFromLocal() throws Exception {
 		PowerMockito.mockStatic(CbeffValidator.class);
-		cbeffUtilImpl.createXML(exceptionList, readXSD("cbeff"));
+		byte[] result = cbeffUtilImpl.createXML(exceptionList, readXSD("cbeff"));
+		assertArrayEquals(null, result);
 	}
 
 	private byte[] readCreatedXML(String name) throws IOException {
@@ -346,6 +278,7 @@ public class CbeffImplTest {
 		assertEquals(new String(updateXml), new String(readCreatedXML("updateCbeff")));
 	}
 
+	@SuppressWarnings("unused")
 	private byte[] readbytesFromStream(InputStream inputStream) throws IOException {
 		ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
 		// this is storage overwritten on each iteration with bytes

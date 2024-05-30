@@ -1,5 +1,8 @@
 package io.mosip.biometrics.util.nist.parser.v2011.constant;
 
+import java.io.Serializable;
+import java.util.Arrays;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -8,7 +11,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 import lombok.Data;
 
 @Data
-public class PalmPositionCodes {
+public class PalmPositionCodes implements Serializable {
 	public static final int UNKNOWN_PALM = 20;
 	public static final int RIGHT_FULL_PALM = 21;
 	public static final int RIGHT_WRITERS_PALM = 22;
@@ -35,7 +38,7 @@ public class PalmPositionCodes {
 	public static final int RIGHT_WRIST_BRACELET = 85;
 	public static final int LEFT_WRIST_BRACELET = 86;
 
-	public static final Integer[] arrValues = new Integer[] { UNKNOWN_PALM, RIGHT_FULL_PALM, RIGHT_WRITERS_PALM,
+	protected static final Integer[] arrValues = new Integer[] { UNKNOWN_PALM, RIGHT_FULL_PALM, RIGHT_WRITERS_PALM,
 			LEFT_FULL_PALM, LEFT_WRITERS_PALM, RIGHT_LOWER_PALM, RIGHT_UPPER_PALM, LEFT_LOWER_PALM, LEFT_UPPER_PALM,
 			RIGHT_OTHER, LEFT_OTHER, RIGHT_INTERDIGITAL, RIGHT_THENAR, RIGHT_HYPOTHENAR, LEFT_INTERDIGITAL, LEFT_THENAR,
 			LEFT_HYPOTHENAR, RIGHT_GRASP, LEFT_GRASP, RIGHT_CARPAL_DELTA_AREA, LEFT_CARPAL_DELTA_AREA,
@@ -47,10 +50,10 @@ public class PalmPositionCodes {
 
 	@JsonCreator
 	public static Integer fromValue(Integer value) {
-
 		if (ArrayUtils.contains(arrValues, value))
 			return value;
+		
 		throw new IllegalArgumentException(
-				"PlantarPositionCodes value can be " + arrValues.toString() + ", set value is wrong [" + value + "]");
+				"PlantarPositionCodes value can be " + Arrays.toString(arrValues) + ", set value is wrong [" + value + "]");
 	}
 }

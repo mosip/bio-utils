@@ -27,6 +27,8 @@ public class ImageDecoderRequestDto {
 	private String imageAspectRatio = "";
 	//Lossy should between (15 : 1 to 10 : 1), for lossless should between (1 : 1 to 3 : 1)
 	private String imageCompressionRatio = "";
+
+	@SuppressWarnings({ "java:S107" })
 	public ImageDecoderRequestDto(String imageType, int width, int height, boolean isLossless, int depth,
 			int horizontalDPI, int verticalDPI, int bitRate, int size, String imageData, String imageColorSpace,
 			String imageAspectRatio, String imageCompressionRatio) {

@@ -1,5 +1,6 @@
 package io.mosip.biometrics.util;
 
+@SuppressWarnings({ "java:S115" })
 public enum Modality {
 	UnSpecified(0x0000), 
 	Finger(0x0001), 

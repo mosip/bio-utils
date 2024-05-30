@@ -1,5 +1,8 @@
 package io.mosip.biometrics.util;
 
+import io.mosip.biometrics.util.constant.BiometricUtilErrorCode;
+import io.mosip.biometrics.util.exception.BiometricUtilException;
+
 public enum Purposes {
 	AUTH("Auth"),
 	REGISTRATION("Registration");
@@ -14,12 +17,12 @@ public enum Purposes {
 		return code;
 	}
 
-	public static Purposes fromCode(String code) throws Exception {
+	public static Purposes fromCode(String code) {
 		 for (Purposes paramCode : Purposes.values()) {
 	     	if (paramCode.getCode().equals(code)) {
 	        	return paramCode;
 	    	}
 		 }
-		 throw new Exception("Invalid Purpose Code");
+		 throw new BiometricUtilException(BiometricUtilErrorCode.INVALID_PURPOSE_TYPE_EXCEPTION.getErrorCode(), BiometricUtilErrorCode.INVALID_PURPOSE_TYPE_EXCEPTION.getErrorMessage());
 	}
 }

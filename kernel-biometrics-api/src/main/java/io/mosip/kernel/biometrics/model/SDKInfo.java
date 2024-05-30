@@ -1,6 +1,7 @@
 package io.mosip.kernel.biometrics.model;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,15 +30,15 @@ public class SDKInfo {
 		this.sdkVersion = sdkVersion;
 		this.productOwner = new RegistryIDType(organization, type);
 		this.supportedModalities = new ArrayList<>();
-		this.supportedMethods = new HashMap<>();
+		this.supportedMethods = new EnumMap<>(BiometricFunction.class);
 		this.otherInfo = new HashMap<>();
 	}
 	
+	@SuppressWarnings({ "java:S3824" })
 	public SDKInfo withSupportedMethod(BiometricFunction function, BiometricType biometricType) {
 		if(!this.supportedMethods.containsKey(function))
 			this.supportedMethods.put(function, new ArrayList<>());
 		this.supportedMethods.get(function).add(biometricType);
 		return this;
-	}
-	
+	}	
 }

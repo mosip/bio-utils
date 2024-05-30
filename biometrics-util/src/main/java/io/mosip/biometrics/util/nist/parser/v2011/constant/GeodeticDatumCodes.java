@@ -1,5 +1,8 @@
 package io.mosip.biometrics.util.nist.parser.v2011.constant;
 
+import java.io.Serializable;
+import java.util.Arrays;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -8,7 +11,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 import lombok.Data;
 
 @Data
-public class GeodeticDatumCodes {
+public class GeodeticDatumCodes implements Serializable {
 	public static final String AIRY = "AIRY";// Airy
 	public static final String AUST = "AUST";// Australian National
 	public static final String BES = "BES";// Bessel 1841
@@ -35,7 +38,7 @@ public class GeodeticDatumCodes {
 	 *  (entry up to 6 characters) Other
 	 */
 
-	public static final String[] arrValues = new String[] { AIRY, AUST, BES, BESN, CLK66, CLK80, CLK80, EVER, FIS60,
+	protected static final String[] arrValues = new String[] { AIRY, AUST, BES, BESN, CLK66, CLK80, CLK80, EVER, FIS60,
 			FIS68, GRS67, HELM, HOUG, INT, KRAS, AIRYM, EVERM, FIS60M, SA69, WGS60, WGS66, WGS72, WGS84 };
 
 	@JacksonXmlText
@@ -47,6 +50,6 @@ public class GeodeticDatumCodes {
 		if (ArrayUtils.contains(arrValues, value))
 			return value;
 		throw new IllegalArgumentException(
-				"GeodeticDatumCodes value can be " + arrValues.toString() + ", set value is wrong [" + value + "]");
+				"GeodeticDatumCodes value can be " + Arrays.toString(arrValues) + ", set value is wrong [" + value + "]");
 	}
 }

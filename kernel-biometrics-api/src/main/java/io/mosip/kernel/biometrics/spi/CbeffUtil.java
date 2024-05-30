@@ -7,11 +7,11 @@ import io.mosip.kernel.biometrics.entities.BIR;
 
 /**
  * @author 
-
  * 
- *         Interface for Cbeff Interface
+ *  Interface for Cbeff Interface
  *
  */
+@SuppressWarnings({ "java:S112" })
 public interface CbeffUtil {
 
 	public byte[] createXML(List<BIR> cbeffPack) throws Exception;
@@ -31,5 +31,4 @@ public interface CbeffUtil {
 	public byte[] createXML(List<BIR> birList, byte[] xsd) throws Exception;
 
 	public List<BIR> getBIRDataFromXMLType(byte[] xmlBytes, String type) throws Exception;
-
 }
