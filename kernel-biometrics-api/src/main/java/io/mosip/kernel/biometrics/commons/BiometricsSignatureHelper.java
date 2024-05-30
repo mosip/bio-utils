@@ -13,9 +13,11 @@ import io.mosip.kernel.core.exception.BiometricSignatureValidationException;
 import io.mosip.kernel.core.util.CryptoUtil;
 
 public class BiometricsSignatureHelper {
+	private BiometricsSignatureHelper() {
+		throw new IllegalStateException("BiometricsSignatureHelper class");
+	}
 
 	public static String extractJWTToken(BIR bir) throws BiometricSignatureValidationException, JSONException {
-
 		String constructedJWTToken = null;
 
 		Map<String, String> othersInfo = bir.getOthers();
@@ -37,7 +39,6 @@ public class BiometricsSignatureHelper {
 			}
 		}
 		return constructedJWTToken;
-
 	}
 
 	private static void compareJWTForSameCertificates(String jwtString1, String jwtString2)
@@ -45,7 +46,7 @@ public class BiometricsSignatureHelper {
 		String jwtString1Header = new String(CryptoUtil.decodeURLSafeBase64(jwtString1.split("\\.")[0]));
 		JSONObject jwtString1HeaderCertificate = new JSONObject(jwtString1Header);
 		JSONArray jwtString1HeadercertificateJsonArray = jwtString1HeaderCertificate.getJSONArray("x5c");
-		ArrayList<String> jwtString1Certificates = new ArrayList<String>();
+		ArrayList<String> jwtString1Certificates = new ArrayList<>();
 		if (jwtString1HeadercertificateJsonArray != null) {
 			for (int i = 0; i < jwtString1HeadercertificateJsonArray.length(); i++) {
 				jwtString1Certificates.add(jwtString1HeadercertificateJsonArray.getString(i));
@@ -55,7 +56,7 @@ public class BiometricsSignatureHelper {
 		String jwtString2Header = new String(CryptoUtil.decodeURLSafeBase64(jwtString2.split("\\.")[0]));
 		JSONObject jwtString2HeaderCertificate = new JSONObject(jwtString2Header);
 		JSONArray jwtString2HeadercertificateJsonArray = jwtString2HeaderCertificate.getJSONArray("x5c");
-		ArrayList<String> jwtString2Certificates = new ArrayList<String>();
+		ArrayList<String> jwtString2Certificates = new ArrayList<>();
 		if (jwtString2HeadercertificateJsonArray != null) {
 			for (int i = 0; i < jwtString2HeadercertificateJsonArray.length(); i++) {
 				jwtString2Certificates.add(jwtString2HeadercertificateJsonArray.getString(i));

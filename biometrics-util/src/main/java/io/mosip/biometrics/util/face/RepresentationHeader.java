@@ -8,12 +8,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import io.mosip.biometrics.util.AbstractImageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class RepresentationHeader extends AbstractImageInfo {
-	private static final Logger LOGGER = LoggerFactory.getLogger(RepresentationHeader.class);
-
 	private long representationDataLength;
 	private long representationLength;
 
@@ -63,6 +59,7 @@ public class RepresentationHeader extends AbstractImageInfo {
 		setRepresentationLength(getRecordLength() + getRepresentationDataLength());
 	}
 
+	@SuppressWarnings({ "java:S107" })
 	public RepresentationHeader(long representationDataLength, Date captureDate, int captureDeviceTechnologyIdentifier,
 			int captureDeviceVendorIdentifier, int captureDeviceTypeIdentifier, FaceQualityBlock[] qualityBlocks,
 			FacialInformation facialInformation, LandmarkPoints[] landmarkPoints, ImageInformation imageInformation) {
@@ -136,11 +133,11 @@ public class RepresentationHeader extends AbstractImageInfo {
 		setFacialInformation(new FacialInformation(inputStream));
 		int noOfLandMarkPoints = getFacialInformation().getNoOfLandMarkPoints();
 		if (noOfLandMarkPoints > 0) {
-			LandmarkPoints[] landmarkPoints = new LandmarkPoints[noOfLandMarkPoints];
+			LandmarkPoints[] landmarkPointsInfo = new LandmarkPoints[noOfLandMarkPoints];
 			for (int index = 0; index < noOfLandMarkPoints; index++) {
-				landmarkPoints[index] = new LandmarkPoints(inputStream);
+				landmarkPointsInfo[index] = new LandmarkPoints(inputStream);
 			}
-			setLandmarkPoints(landmarkPoints);
+			setLandmarkPoints(landmarkPointsInfo);
 		}
 
 		setImageInformation(new ImageInformation(inputStream));

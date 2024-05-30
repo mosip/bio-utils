@@ -12,8 +12,6 @@
 				minOccurs="0" />
 			<xs:element name="CBEFFVersion" type="VersionType"
 				minOccurs="0" />
-			<!--<xs:any namespace="##other" processContents="skip"
-				minOccurs="0" maxOccurs="unbounded" />-->
 			<xs:element name="BIRInfo" type="BIRInfoType" />
 			<xs:element name="BDBInfo" type="BDBInfoType"
 				minOccurs="0" />

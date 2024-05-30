@@ -5,12 +5,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import io.mosip.biometrics.util.AbstractImageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class LandmarkPoints extends AbstractImageInfo {
-	private static final Logger LOGGER = LoggerFactory.getLogger(LandmarkPoints.class);
-
 	private int landmarkPointType;
 	private int landmarkPointCode;
 	private int xCoordinate;
@@ -44,13 +40,14 @@ public class LandmarkPoints extends AbstractImageInfo {
 	}
 
 	@Override
+	@SuppressWarnings({ "java:S2674" })
 	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
 		inputStream.skip(8);
 	}
 
 	@Override
 	public long getRecordLength() {
-		return 1 + 1 + 2 + 2 + 2;// 8
+		return (long)1 + 1 + 2 + 2 + 2;// 8
 	}
 
 	@Override

@@ -8,8 +8,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Objects;
 
 public class IrisEncoder {
+	private static final String ISO_VERSION = "ISO19794_6_2011";
+
+	private IrisEncoder() {
+		throw new IllegalStateException("IrisEncoder class");
+	}
+
+	@SuppressWarnings({ "java:S100", "java:S107" })
 	public static byte[] convertIrisImageToISO19794_6_2011(long formatIdentifier, long versionNumber,
 			int certificationFlag, Date captureDate, int noOfRepresentations, int representationNo, int noOfEyesPresent,
 			int eyeLabel, int imageType, int imageFormat, int horizontalOrientation, int verticalOrientation,
@@ -36,8 +44,7 @@ public class IrisEncoder {
 	}
 
 	public static byte[] convertIrisImageToISO(ConvertRequestDto convertRequestDto) throws Exception {
-		switch (convertRequestDto.getVersion()) {
-		case "ISO19794_6_2011":
+		if (convertRequestDto.getVersion().equals(ISO_VERSION)) {
 			long formatIdentifier = IrisFormatIdentifier.FORMAT_IIR;
 			long versionNumber = IrisVersionNumber.VERSION_020;
 			int certificationFlag = IrisCertificationFlag.UNSPECIFIED;
@@ -56,8 +63,6 @@ public class IrisEncoder {
 			int compressionType = convertRequestDto.getPurpose().equalsIgnoreCase("AUTH")
 					? IrisImageCompressionType.JPEG_LOSSY
 					: IrisImageCompressionType.JPEG_LOSSLESS_OR_NONE;
-			// System.out.println("Purpose==" + convertRequestDto.getPurpose() + "
-			// <<compressionType==" + compressionType);
 
 			int bitDepth = IrisImageBitDepth.BPP_08;
 
@@ -75,9 +80,9 @@ public class IrisEncoder {
 			int deviceVendor = IrisCaptureDeviceVendor.UNSPECIFIED;
 			int deviceType = IrisCaptureDeviceType.UNSPECIFIED;
 
-			int noOfRepresentations = (int) 0x0001;
-			int representationNo = (int) 0x0001;
-			int noOfEyesPresent = (int) 0x0001;
+			int noOfRepresentations = 0x0001;
+			int representationNo = 0x0001;
+			int noOfEyesPresent = 0x0001;
 
 			int quality = 80;
 			IrisQualityBlock[] qualityBlocks = new IrisQualityBlock[] {
@@ -98,7 +103,7 @@ public class IrisEncoder {
 	}
 
 	private static byte getEyeLabel(String biometricSubType) {
-		if (biometricSubType == null)
+		if (Objects.isNull(biometricSubType))
 			return EyeLabel.UNSPECIFIED;
 
 		switch (biometricSubType) {

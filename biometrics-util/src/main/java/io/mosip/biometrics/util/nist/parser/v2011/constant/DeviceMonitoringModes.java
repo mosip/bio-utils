@@ -1,5 +1,8 @@
 package io.mosip.biometrics.util.nist.parser.v2011.constant;
 
+import java.io.Serializable;
+import java.util.Arrays;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -8,7 +11,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 import lombok.Data;
 
 @Data
-public class DeviceMonitoringModes {
+public class DeviceMonitoringModes implements Serializable  {
 	/**
 	 *  Operator physically controls the subject to acquire the biometric sample
 	 */
@@ -30,7 +33,7 @@ public class DeviceMonitoringModes {
 	 */
 	public static final String UNKNOWN = "UNKNOWN";
 
-	public static final String[] arrValues = new String[] { CONTROLLED, ASSISTED, OBSERVED, UNATTENDED, UNKNOWN };
+	protected static final String[] arrValues = new String[] { CONTROLLED, ASSISTED, OBSERVED, UNATTENDED, UNKNOWN };
 
 	@JacksonXmlText
 	private String value;
@@ -41,6 +44,6 @@ public class DeviceMonitoringModes {
 		if (ArrayUtils.contains(arrValues, value))
 			return value;
 		throw new IllegalArgumentException(
-				"DeviceMonitoringModes value can be " + arrValues.toString() + ", set value is wrong [" + value + "]");
+				"DeviceMonitoringModes value can be " + Arrays.toString(arrValues) + ", set value is wrong [" + value + "]");
 	}
 }

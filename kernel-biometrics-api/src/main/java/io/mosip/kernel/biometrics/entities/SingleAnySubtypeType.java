@@ -1,6 +1,5 @@
 package io.mosip.kernel.biometrics.entities;
 import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
@@ -33,12 +32,18 @@ import javax.xml.bind.annotation.XmlType;
 public enum SingleAnySubtypeType {
 
 	@XmlEnumValue("Left")
-	LEFT("Left"), @XmlEnumValue("Right")
-	RIGHT("Right"), @XmlEnumValue("Thumb")
-	THUMB("Thumb"), @XmlEnumValue("IndexFinger")
-	INDEX_FINGER("IndexFinger"), @XmlEnumValue("MiddleFinger")
-	MIDDLE_FINGER("MiddleFinger"), @XmlEnumValue("RingFinger")
-	RING_FINGER("RingFinger"), @XmlEnumValue("LittleFinger")
+	LEFT("Left"), 
+	@XmlEnumValue("Right")
+	RIGHT("Right"), 
+	@XmlEnumValue("Thumb")
+	THUMB("Thumb"), 
+	@XmlEnumValue("IndexFinger")
+	INDEX_FINGER("IndexFinger"), 
+	@XmlEnumValue("MiddleFinger")
+	MIDDLE_FINGER("MiddleFinger"), 
+	@XmlEnumValue("RingFinger")
+	RING_FINGER("RingFinger"), 
+	@XmlEnumValue("LittleFinger")
 	LITTLE_FINGER("LittleFinger");
 
 	private final String value;

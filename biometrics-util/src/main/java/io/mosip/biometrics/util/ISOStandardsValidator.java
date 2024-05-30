@@ -5,6 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 
 public abstract class ISOStandardsValidator {
+	@SuppressWarnings({ "java:S1066", "java:S3776" })
 	public boolean isValidCaptureDateTime(int year, int month, int day, int hour, int minute, int second,
 			int milliSecond) {
 		/*
@@ -43,8 +44,8 @@ public abstract class ISOStandardsValidator {
 		return false;
 	}
 
-	public boolean isValidImageData(String purpose, Modality modality, ImageDecoderRequestDto decoderRequestDto)
-			throws Exception {
+	@SuppressWarnings({ "java:S1172" })
+	public boolean isValidImageData(String purpose, Modality modality, ImageDecoderRequestDto decoderRequestDto) {
 		switch (Purposes.fromCode(purpose)) {
 		case AUTH:
 			if (isJP2000(true, decoderRequestDto) || isWSQ(true, decoderRequestDto)) {
@@ -56,6 +57,8 @@ public abstract class ISOStandardsValidator {
 				return true;
 			}
 			break;
+		default:
+			return false;
 		}
 
 		return false;
@@ -63,9 +66,7 @@ public abstract class ISOStandardsValidator {
 
 	public int getBioDataType(String purpose, Modality modality, byte[] inImageData) throws Exception {
 		switch (modality) {
-		case Finger:
-		case Iris:
-		case Face:
+		case Finger, Iris, Face:
 			switch (Purposes.fromCode(purpose)) {
 			case AUTH:
 				if (isJP2000(inImageData)) {
@@ -80,31 +81,26 @@ public abstract class ISOStandardsValidator {
 					return ImageType.JPEG2000.value();
 				}
 				break;
+			default:
+				return -1;
 			}
 			break;
 		case UnSpecified:
 			break;
+		default:
+			return -1;
 		}
 
 		return -1;
 	}
 
-	public boolean isJP2000(boolean isAuth, ImageDecoderRequestDto decoderRequestDto) throws Exception {
-		boolean isValid = false;
-
-		if (isAuth && decoderRequestDto.getImageType().equals("JP2000"))
-			isValid = true;
-		else if (!isAuth && decoderRequestDto.getImageType().equals("JP2000"))
-			isValid = true;
-		return isValid;
+	@SuppressWarnings({ "java:S1172" })
+	public boolean isJP2000(boolean isAuth, ImageDecoderRequestDto decoderRequestDto) {
+		return (decoderRequestDto.getImageType().equals("JP2000"));
 	}
 
-	public boolean isWSQ(boolean isAuth, ImageDecoderRequestDto decoderRequestDto) throws Exception {
-		boolean isValid = false;
-
-		if (isAuth && decoderRequestDto.getImageType().equals("WSQ"))
-			isValid = true;
-		return isValid;
+	public boolean isWSQ(boolean isAuth, ImageDecoderRequestDto decoderRequestDto) {
+		return (isAuth && decoderRequestDto.getImageType().equals("WSQ"));
 	}
 
 	/**
@@ -115,10 +111,10 @@ public abstract class ISOStandardsValidator {
 	 * D8 FF E1 WSQ : check with marker from WsqDecoder JP2000: 6a 70 32 68 // JP2
 	 * Header
 	 */
+	@SuppressWarnings({ "java:S112", "java:S135" })
 	public boolean isJP2000(byte[] imageData) throws Exception {
 		boolean isValid = false;
-		DataInputStream ins = new DataInputStream(new BufferedInputStream(new ByteArrayInputStream(imageData)));
-		try {
+		try (DataInputStream ins = new DataInputStream(new BufferedInputStream(new ByteArrayInputStream(imageData)))) {
 			// Make sure that the first 12 bytes is the JP2_SIGNATURE_BOX
 			// or if not that the first 2 bytes is the SOC marker
 			while (true) {
@@ -129,83 +125,82 @@ public abstract class ISOStandardsValidator {
 				}
 				break;
 			}
-		} finally {
-			ins.close();
 		}
 		return isValid;
 	}
 
+	@SuppressWarnings({ "java:S112", "java:S125", "java:S135" })
 	public boolean isWSQ(byte[] imageData) throws Exception {
 		boolean isValid = false;
-		DataInputStream ins = new DataInputStream(new BufferedInputStream(new ByteArrayInputStream(imageData)));
-		try {
+
+		try (DataInputStream ins = new DataInputStream(new BufferedInputStream(new ByteArrayInputStream(imageData)))) {
 			while (true) {
-				// a wsq file WSQ Marker Definitions
-				// SOI_WSQ = 0xffa0;
-				if (ins.readUnsignedShort() == 0xffa0) {
+				// a wsq file WSQ Marker Definitions				
+				/* 
+				 * SOI_WSQ value 0xffa0;
+				 */
+				if (ins.readUnsignedShort() == 0xffa0) {				
 					isValid = true;
 					break;
 				}
 				break;
 			}
-		} finally {
-			ins.close();
 		}
 		return isValid;
 	}
 
 	public boolean isValidImageDataLength(byte[] imageData, long imageDataLength) {
-		if (imageData != null && imageData.length == (int) imageDataLength)
-			return true;
-
-		return false;
+		return (imageData != null && imageData.length == (int) imageDataLength);
 	}
 
-	public boolean isValidImageCompressionRatio(String purpose, Modality modality, ImageDecoderRequestDto decoderRequestDto)
-			throws Exception {
+	@SuppressWarnings({ "java:S1172" })
+	public boolean isValidImageCompressionRatio(String purpose, Modality modality,
+			ImageDecoderRequestDto decoderRequestDto) {
 		switch (Purposes.fromCode(purpose)) {
 		case AUTH:
 			String ratio = decoderRequestDto.getImageCompressionRatio();
 			if (ratio != null && !ratio.isBlank() && !ratio.isEmpty()) {
 				String[] arrRatio = ratio.split(":");
-				if (arrRatio != null && arrRatio.length > 0) {
-					// Up to 15:1
-					if (Float.parseFloat(arrRatio[0].trim()) > 0.0f && Float.parseFloat(arrRatio[0].trim()) <= 15.0f)
-						return true;
-				}
+				// Up to 15:1
+				if ((arrRatio != null && arrRatio.length > 0) && (Float.parseFloat(arrRatio[0].trim()) > 0.0f
+						&& Float.parseFloat(arrRatio[0].trim()) <= 15.0f))
+					return true;
 			}
 			break;
 		case REGISTRATION:
 			return true;
+		default:
+			return false;
 		}
 
 		return false;
 	}
 
-	public boolean isValidImageAspectRatio(String purpose, Modality modality, ImageDecoderRequestDto decoderRequestDto)
-			throws Exception {
+	@SuppressWarnings({ "java:S1172" })
+	public boolean isValidImageAspectRatio(String purpose, Modality modality,
+			ImageDecoderRequestDto decoderRequestDto) {
 		switch (Purposes.fromCode(purpose)) {
 		case AUTH:
 			String ratio = decoderRequestDto.getImageAspectRatio();
 			if (ratio != null && !ratio.isBlank() && !ratio.isEmpty()) {
 				String[] arrRatio = ratio.split(":");
-				if (arrRatio != null && arrRatio.length > 0) {
-					// Up to 1:1
-					if (Float.parseFloat(arrRatio[0].trim()) == 1.0f)
-						return true;
-				}
+				// Up to 1:1
+				if (arrRatio != null && arrRatio.length > 0 && Float.parseFloat(arrRatio[0].trim()) == 1.0f)
+					return true;
 			}
 			break;
 		case REGISTRATION:
 			return true;
+		default:
+			return false;
 		}
 
 		return false;
 	}
 
 	// GRAY[8 bit] and RGB[24 bit]
-	public boolean isValidImageColorSpace(String purpose, Modality modality, ImageDecoderRequestDto decoderRequestDto)
-			throws Exception {
+	@SuppressWarnings({ "java:S3776" })
+	public boolean isValidImageColorSpace(String purpose, Modality modality, ImageDecoderRequestDto decoderRequestDto) {
 		String colorSpace = decoderRequestDto.getImageColorSpace();
 		switch (Purposes.fromCode(purpose)) {
 		case AUTH:
@@ -244,14 +239,16 @@ public abstract class ISOStandardsValidator {
 				break;
 			}
 			break;
+		default:
+			return false;
 		}
 
 		return true;
 	}
 
-	// HorizontalDPI [490 to 1010 DPI] and VerticalDPI [490 to 1010 DPI] 
-	public boolean isValidImageDPI(String purpose, Modality modality, ImageDecoderRequestDto decoderRequestDto)
-			throws Exception {
+	// HorizontalDPI [490 to 1010 DPI] and VerticalDPI [490 to 1010 DPI]
+	@SuppressWarnings({ "java:S3776" })
+	public boolean isValidImageDPI(String purpose, Modality modality, ImageDecoderRequestDto decoderRequestDto) {
 		int horizontalDPI = decoderRequestDto.getHorizontalDPI();
 		int verticalDPI = decoderRequestDto.getVerticalDPI();
 		switch (Purposes.fromCode(purpose)) {
@@ -283,6 +280,8 @@ public abstract class ISOStandardsValidator {
 				break;
 			}
 			break;
+		default:
+			return false;
 		}
 
 		return true;

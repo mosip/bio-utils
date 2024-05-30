@@ -6,17 +6,13 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import io.mosip.biometrics.util.AbstractImageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class SegmentationData extends AbstractImageInfo {
-	private static final Logger LOGGER = LoggerFactory.getLogger(SegmentationData.class);
-
 	private int fingerPosition;
 	private int qualityScore;
 	private int noOfCoordinates;
-	private int[] XCoordinates;
-	private int[] YCoordinates;
+	private int[] xCoordinates;
+	private int[] yCoordinates;
 	private int fingerOrientation;
 
 	public SegmentationData(int qualityScore) {
@@ -65,6 +61,7 @@ public class SegmentationData extends AbstractImageInfo {
 	}
 
 	@Override
+	@SuppressWarnings({ "java:S2674" })
 	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
 		// 1(FingerPosition) + 1(QualityScore)
 		inputStream.skip(2);
@@ -128,19 +125,19 @@ public class SegmentationData extends AbstractImageInfo {
 	}
 
 	public int[] getXCoordinates() {
-		return XCoordinates;
+		return xCoordinates;
 	}
 
 	public void setXCoordinates(int[] xCoordinates) {
-		XCoordinates = xCoordinates;
+		this.xCoordinates = xCoordinates;
 	}
 
 	public int[] getYCoordinates() {
-		return YCoordinates;
+		return yCoordinates;
 	}
 
 	public void setYCoordinates(int[] yCoordinates) {
-		YCoordinates = yCoordinates;
+		this.yCoordinates = yCoordinates;
 	}
 
 	public int getFingerOrientation() {
@@ -156,8 +153,8 @@ public class SegmentationData extends AbstractImageInfo {
 		return "\nSegmentationData [RecordLength=" + getRecordLength() + ", fingerPosition="
 				+ Integer.toHexString(fingerPosition) + ", qualityScore="
 				+ Integer.toHexString(qualityScore) + ", noOfCoordinates="
-				+ Integer.toHexString(noOfCoordinates) + ", XCoordinates=" + Arrays.toString(XCoordinates)
-				+ ", YCoordinates=" + Arrays.toString(YCoordinates) + ", fingerOrientation="
+				+ Integer.toHexString(noOfCoordinates) + ", XCoordinates=" + Arrays.toString(xCoordinates)
+				+ ", YCoordinates=" + Arrays.toString(yCoordinates) + ", fingerOrientation="
 				+ Integer.toHexString(fingerOrientation) + "]\n";
 	}
 }

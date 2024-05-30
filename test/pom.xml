@@ -23,12 +23,15 @@
 		<maven.jar.plugin.version>3.4.0</maven.jar.plugin.version>
 		<maven.dependency.plugin.version>2.10</maven.dependency.plugin.version>
 		<maven.resources.plugin.version>3.3.1</maven.resources.plugin.version>
+		<maven.sonar.plugin.version>3.7.0.1746</maven.sonar.plugin.version>
+		<jacoco.maven.plugin.version>0.8.11</jacoco.maven.plugin.version>
+		<maven.surefire.plugin.version>3.1.2</maven.surefire.plugin.version>
 
 		<!-- spring -->
 		<spring.boot.version>2.0.2.RELEASE</spring.boot.version>
 
 		<!-- opencv -->
-		<openpnp-opencv.version>4.5.3-4</openpnp-opencv.version>
+		<openpnp.opencv.version>4.5.3-4</openpnp.opencv.version>
 
 		<!-- utilities -->
 		<okhttp.version>2.7.5</okhttp.version>
@@ -36,7 +39,7 @@
 		<jai.imageio.jpeg2000.version>1.3.0</jai.imageio.jpeg2000.version>
 		<github.mhshams.jnbis.version>2.0.2</github.mhshams.jnbis.version>
 		<imgscalr.lib.version>4.2</imgscalr.lib.version>
-
+		
 		<!-- fasterxml jackson-->
 		<com.fasterxml.jackson.databind.version>2.15.0</com.fasterxml.jackson.databind.version>
 		<com.fasterxml.jackson.core.version>2.15.0</com.fasterxml.jackson.core.version>
@@ -130,6 +133,11 @@
 			<artifactId>imgscalr-lib</artifactId>
 			<version>${imgscalr.lib.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.openpnp</groupId>
+			<artifactId>opencv</artifactId>
+			<version>${openpnp.opencv.version}</version>
+		</dependency>
 	</dependencies>
 	
 	<distributionManagement>
@@ -154,6 +162,29 @@
 					<compilerArgs>
 						<arg>--enable-preview</arg>
 					</compilerArgs>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven.surefire.plugin.version}</version>
+				<configuration>
+					<skipTests>${skipTests}</skipTests>
+					<skip>false</skip>
+					<argLine>
+						${argLine}
+						--add-modules=ALL-SYSTEM
+						--add-opens java.xml/jdk.xml.internal=ALL-UNNAMED
+						--add-opens java.base/java.lang.reflect=ALL-UNNAMED
+						--add-opens java.base/java.lang.stream=ALL-UNNAMED
+						--add-opens java.base/java.time=ALL-UNNAMED
+						--add-opens java.base/java.time.LocalDate=ALL-UNNAMED
+						--add-opens
+						java.base/java.time.LocalDateTime=ALL-UNNAMED
+						--add-opens
+						java.base/java.time.LocalDateTime.date=ALL-UNNAMED
+						--enable-preview
+					</argLine>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -263,6 +294,9 @@
 										<include>
 											run_nist_data_quality_analyser.bat</include>
 
+										<include>run_rotate_face.bat</include>
+										<include>run_rotate_finger.bat</include>
+										<include>run_rotate_iris.bat</include>
 									</includes>
 								</resource>
 							</resources>
@@ -271,5 +305,6 @@
 				</executions>
 			</plugin>
 		</plugins>
-	</build>
+	</build>	
+	
 </project>

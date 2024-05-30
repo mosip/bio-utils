@@ -19,7 +19,7 @@ public class SpatialSamplingRateLevel {
 	public static final int SPATIAL_SAMPLING_RATE_LEVEL_610_TO_750 = 0x06;
 	public static final int SPATIAL_SAMPLING_RATE_LEVEL_750 = 0x07;
 	public static final int RESERVED_08 = 0x08;
-	public static final int RESERVED_FF = (int) 0xFF;
+	public static final int RESERVED_FF = 0xFF;
 
 	private int value;
 

@@ -1,5 +1,22 @@
 package io.mosip.kernel.biometrics.test;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.isA;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import org.hamcrest.MatcherAssert;
+import org.junit.Before;
+import org.junit.Test;
+
 import io.mosip.kernel.biometrics.commons.CbeffValidator;
 import io.mosip.kernel.biometrics.constant.BiometricType;
 import io.mosip.kernel.biometrics.constant.OtherKey;
@@ -14,22 +31,6 @@ import io.mosip.kernel.biometrics.entities.SingleAnySubtypeType;
 import io.mosip.kernel.biometrics.entities.VersionType;
 import io.mosip.kernel.core.cbeffutil.common.CbeffISOReader;
 import io.mosip.kernel.core.cbeffutil.exception.CbeffException;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.isA;
-import static org.junit.Assert.assertThat;
 
 public class CbeffValidatorTest {
 
@@ -75,12 +76,7 @@ public class CbeffValidatorTest {
 		iris = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintLeft_Thumb.iso", "Finger");
 		face = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintLeft_Thumb.iso", "Finger");
 		handGeo = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintLeft_Thumb.iso", "Finger");
-		// byte[] irisImg1 = CbeffISOReader.readISOImage(localpath + "/images/" +
-		// "IrisImageRight.iso", "Iris");
-		// byte[] irisImg2 = CbeffISOReader.readISOImage(localpath + "/images/" +
-		// "IrisImageLeft.iso", "Iris");
-		// byte[] faceImg = CbeffISOReader.readISOImage(localpath + "/images/" +
-		// "faceImage.iso", "Face");
+
 		RegistryIDType format = new RegistryIDType();
 		format.setOrganization("257");
 		format.setType("7");
@@ -275,14 +271,14 @@ public class CbeffValidatorTest {
 	public void validateXMLTest() throws CbeffException {
 		BIR bir = new BIR();
 		bir.setBirs(createList);
-		assertThat(CbeffValidator.validateXML(bir), is(true));
+		MatcherAssert.assertThat(CbeffValidator.validateXML(bir), is(true));
 	}
 	
 	@Test
 	public void validateXMLOtherThanFingerTest() throws CbeffException {
 		BIR bir = new BIR();
 		bir.setBirs(birList);
-		assertThat(CbeffValidator.validateXML(bir), is(true));
+		MatcherAssert.assertThat(CbeffValidator.validateXML(bir), is(true));
 	}
 	
 	@Test(expected = CbeffException.class)
@@ -325,9 +321,7 @@ public class CbeffValidatorTest {
 		algorithm.setOrganization("HMAC");
 		algorithm.setType("SHA-256");
 		Qtype.setAlgorithm(algorithm);
-		/*List<Entry> others = new ArrayList<>();
-		Entry exceptionEntry = new Entry(OtherKey.EXCEPTION, "true");
-		others.add(exceptionEntry);*/
+
 		BIR invalidBiometricType = new BIR.BIRBuilder().withBdb(handGeo).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1)).withOthers(OtherKey.EXCEPTION, "true")
 				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
@@ -412,7 +406,7 @@ public class CbeffValidatorTest {
 		CbeffValidator.validateXML(bir);
 	}
 	@Test
-	public void createXMLBytesTest() throws IOException, Exception {
+	public void createXMLBytesTest() throws Exception {
 		BIR bir = new BIR();
 		VersionType type = new VersionType(1, 1);
 		BIRInfo birInfo = new BIRInfo();
@@ -421,11 +415,11 @@ public class CbeffValidatorTest {
 		bir.setCbeffversion(type);
 		bir.setBirs(createList);
 		byte[] xmlbytes = CbeffValidator.createXMLBytes(bir, readXSD("updatedcbeff"));
-		assertThat(xmlbytes, isA(byte[].class));
+		MatcherAssert.assertThat(xmlbytes, isA(byte[].class));
 	}
 	
 	@Test(expected = CbeffException.class)
-	public void createXMLSAXExceptionBytesTest() throws IOException, Exception {
+	public void createXMLSAXExceptionBytesTest() throws Exception {
 		BIR bir = new BIR();
 		VersionType type = new VersionType(1, 1);
 		BIRInfo birInfo = new BIRInfo();
@@ -433,106 +427,114 @@ public class CbeffValidatorTest {
 		bir.setBirInfo(birInfo);
 		bir.setCbeffversion(type);
 		bir.setBirs(createList);
-		assertThat(CbeffValidator.createXMLBytes(bir, readXSD("cbeff")), isA(byte[].class));
+		MatcherAssert.assertThat(CbeffValidator.createXMLBytes(bir, readXSD("cbeff")), isA(byte[].class));
 	}
 	@Test
-	public void getBIRFromXMLTest() throws IOException, Exception {
+	public void getBIRFromXMLTest() throws Exception {
 		BIR bir = CbeffValidator.getBIRFromXML(readCreatedXML("createCbeffLatest"));
-		assertThat(bir.getVersion().getMajor(), is(1));
-		assertThat(bir.getVersion().getMinor(), is(1));
+		MatcherAssert.assertThat(bir.getVersion().getMajor(), is(1));
+		MatcherAssert.assertThat(bir.getVersion().getMinor(), is(1));
 	}
 
 	@Test
-	public void getBDBBasedOnTypeAndSubTypeSubTypeNULLTest() throws IOException, Exception {
+	@SuppressWarnings({ "java:S5976" })
+	public void getBDBBasedOnTypeAndSubTypeSubTypeNULLTest() throws Exception {
 		BIR bir = new BIR();
 		bir.setBirs(createList);
 		Map<String, String> bdbMap = CbeffValidator.getBDBBasedOnTypeAndSubType(bir, "Finger", null);
-		assertThat(bdbMap.size(), is(10));
+		MatcherAssert.assertThat(bdbMap.size(), is(10));
 	}
 	
 	@Test
-	public void getBDBBasedOnTypeAndSubTypeSubTypeNULLWithFaceBioTypeTest() throws IOException, Exception {
+	@SuppressWarnings({ "java:S5976" })
+	public void getBDBBasedOnTypeAndSubTypeSubTypeNULLWithFaceBioTypeTest() throws Exception {
 		BIR bir = new BIR();
 		bir.setBirs(birList);
 		Map<String, String> bdbMap = CbeffValidator.getBDBBasedOnTypeAndSubType(bir, "Face", null);
-		assertThat(bdbMap.size(), is(1));
+		MatcherAssert.assertThat(bdbMap.size(), is(1));
 	}
 	
 	@Test
-	public void getBDBBasedOnTypeAndSubTypeSubTypeNULLWithIrisBioTypeTest() throws IOException, Exception {
+	@SuppressWarnings({ "java:S5976" })
+	public void getBDBBasedOnTypeAndSubTypeSubTypeNULLWithIrisBioTypeTest() throws Exception {
 		BIR bir = new BIR();
 		bir.setBirs(birList);
 		Map<String, String> bdbMap = CbeffValidator.getBDBBasedOnTypeAndSubType(bir, "Iris", null);
-		assertThat(bdbMap.size(), is(1));
+		MatcherAssert.assertThat(bdbMap.size(), is(1));
 	}
 	
 	@Test
-	public void getBDBBasedOnTypeAndSubTypeSubTypeNULLWithHandGeoBioTypeTest() throws IOException, Exception {
+	@SuppressWarnings({ "java:S5976" })
+	public void getBDBBasedOnTypeAndSubTypeSubTypeNULLWithHandGeoBioTypeTest() throws Exception {
 		BIR bir = new BIR();
 		bir.setBirs(birList);
 		Map<String, String> bdbMap = CbeffValidator.getBDBBasedOnTypeAndSubType(bir, "Handgeometry", null);
-		assertThat(bdbMap.size(), is(1));
+		MatcherAssert.assertThat(bdbMap.size(), is(1));
 	}
 		
 	@Test
-	public void getBDBBasedOnTypeAndSubTypeAllNULLTest() throws IOException, Exception {
+	public void getBDBBasedOnTypeAndSubTypeAllNULLTest() throws Exception {
 		BIR bir = new BIR();
 		bir.setBirs(createList);
 		Map<String, String> bdbMap = CbeffValidator.getBDBBasedOnTypeAndSubType(bir, null, null);
-		assertThat(bdbMap.size(), is(10));
+		MatcherAssert.assertThat(bdbMap.size(), is(10));
 	}
 	
 	@Test
-	public void getBDBBasedOnTypeAndSubTypeTypeNULLTest() throws IOException, Exception {
+	public void getBDBBasedOnTypeAndSubTypeTypeNULLTest() throws Exception {
 		BIR bir = new BIR();
 		bir.setBirs(createList);
 		Map<String, String> bdbMap = CbeffValidator.getBDBBasedOnTypeAndSubType(bir, null, "MiddleFinger");
-		assertThat(bdbMap.size(), is(1));
+		MatcherAssert.assertThat(bdbMap.size(), is(1));
 	}
 	
 	@Test
-	public void getBDBBasedOnTypeAndSubTypeTest() throws IOException, Exception {
+	public void getBDBBasedOnTypeAndSubTypeTest() throws Exception {
 		BIR bir = new BIR();
 		bir.setBirs(createList);
 		Map<String, String> bdbMap = CbeffValidator.getBDBBasedOnTypeAndSubType(bir, "Finger", "MiddleFinger");
-		assertThat(bdbMap.size(), is(1));
+		MatcherAssert.assertThat(bdbMap.size(), is(1));
 	}
 
 	@Test
-	public void isInEnumTest() throws IOException, Exception {
-		assertThat(CbeffValidator.isInEnum("LEFT", SingleAnySubtypeType.class), is(true));
+	public void isInEnumTest()  {
+		MatcherAssert.assertThat(CbeffValidator.isInEnum("LEFT", SingleAnySubtypeType.class), is(true));
 	}
 
 	@Test
-	public void getAllBDBDataSubTypeNULLTest() throws IOException, Exception {
+	@SuppressWarnings({ "java:S5976" })
+	public void getAllBDBDataSubTypeNULLTest() throws Exception {
 		BIR bir = new BIR();
 		bir.setBirs(createList);
 		Map<String, String> bdbMap = CbeffValidator.getAllBDBData(bir, "Finger", null);
-		assertThat(bdbMap.size(), is(10));
+		MatcherAssert.assertThat(bdbMap.size(), is(10));
 	}
 	
 	@Test
-	public void getAllBDBDataTypeNullTest() throws IOException, Exception {
+	@SuppressWarnings({ "java:S5976" })
+	public void getAllBDBDataTypeNullTest() throws Exception {
 		BIR bir = new BIR();
 		bir.setBirs(createList);
 		Map<String, String> bdbMap = CbeffValidator.getAllBDBData(bir, null, "MiddleFinger");
-		assertThat(bdbMap.size(), is(1));
+		MatcherAssert.assertThat(bdbMap.size(), is(1));
 	}
 	
 	@Test
-	public void getAllBDBDataTest() throws IOException, Exception {
+	@SuppressWarnings({ "java:S5976" })
+	public void getAllBDBDataTest() throws Exception {
 		BIR bir = new BIR();
 		bir.setBirs(createList);
 		Map<String, String> bdbMap = CbeffValidator.getAllBDBData(bir, "Finger", "MiddleFinger");
-		assertThat(bdbMap.size(), is(1));
+		MatcherAssert.assertThat(bdbMap.size(), is(1));
 	}
 
 	@Test
-	public void getBIRDataFromXMLTypeTest() throws IOException, Exception {
+	@SuppressWarnings({ "java:S5976" })
+	public void getBIRDataFromXMLTypeTest() throws Exception {
 		BIR bir = new BIR();
 		bir.setBirs(createList);
 		List<BIR> birs = CbeffValidator.getBIRDataFromXMLType(readCreatedXML("createCbeffLatest"), "Finger");
-		assertThat(birs.size(), is(3));
+		MatcherAssert.assertThat(birs.size(), is(3));
 	}
 
 	private byte[] readXSD(String name) throws IOException {
@@ -544,5 +546,4 @@ public class CbeffValidatorTest {
 		byte[] fileContent = Files.readAllBytes(Paths.get(localpath + "/schema/" + name + ".xml"));
 		return fileContent;
 	}
-
 }

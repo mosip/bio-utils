@@ -14,46 +14,55 @@ import java.util.Map;
 
 public class TestSDK2 implements IBioApiV2 {
 
-    @Override
-    public SDKInfo init(Map<String, String> initParams) {
-        SDKInfo sdkInfo = new SDKInfo("0.9", "1", "MOCKVendor2", "test2");
-        sdkInfo.withSupportedMethod(BiometricFunction.MATCH, BiometricType.IRIS);
-        sdkInfo.withSupportedMethod(BiometricFunction.EXTRACT, BiometricType.IRIS);
-        sdkInfo.withSupportedMethod(BiometricFunction.QUALITY_CHECK, BiometricType.IRIS);
+	@Override
+	public SDKInfo init(Map<String, String> initParams) {
+		SDKInfo sdkInfo = new SDKInfo("0.9", "1", "MOCKVendor2", "test2");
+		sdkInfo.withSupportedMethod(BiometricFunction.MATCH, BiometricType.IRIS);
+		sdkInfo.withSupportedMethod(BiometricFunction.EXTRACT, BiometricType.IRIS);
+		sdkInfo.withSupportedMethod(BiometricFunction.QUALITY_CHECK, BiometricType.IRIS);
 
-        sdkInfo.withSupportedMethod(BiometricFunction.MATCH, BiometricType.FACE);
-        sdkInfo.withSupportedMethod(BiometricFunction.EXTRACT, BiometricType.FACE);
-        sdkInfo.withSupportedMethod(BiometricFunction.QUALITY_CHECK, BiometricType.FACE);
-        return sdkInfo;
-    }
+		sdkInfo.withSupportedMethod(BiometricFunction.MATCH, BiometricType.FACE);
+		sdkInfo.withSupportedMethod(BiometricFunction.EXTRACT, BiometricType.FACE);
+		sdkInfo.withSupportedMethod(BiometricFunction.QUALITY_CHECK, BiometricType.FACE);
+		return sdkInfo;
+	}
 
-    @Override
-    public Response<QualityCheck> checkQuality(BiometricRecord sample, List<BiometricType> modalitiesToCheck, Map<String, String> flags) {
-        return null;
-    }
+	@Override
+	public Response<QualityCheck> checkQuality(BiometricRecord sample, List<BiometricType> modalitiesToCheck,
+			Map<String, String> flags) {
+		return null;
+	}
 
-    @Override
-    public Response<MatchDecision[]> match(BiometricRecord sample, BiometricRecord[] gallery, List<BiometricType> modalitiesToMatch, Map<String, String> flags) {
-        return null;
-    }
+	@Override
+	public Response<MatchDecision[]> match(BiometricRecord sample, BiometricRecord[] gallery,
+			List<BiometricType> modalitiesToMatch, Map<String, String> flags) {
+		return null;
+	}
 
-    @Override
-    public Response<BiometricRecord> extractTemplate(BiometricRecord sample, List<BiometricType> modalitiesToExtract, Map<String, String> flags) {
-        return null;
-    }
+	@Override
+	public Response<BiometricRecord> extractTemplate(BiometricRecord sample, List<BiometricType> modalitiesToExtract,
+			Map<String, String> flags) {
+		return null;
+	}
 
-    @Override
-    public Response<BiometricRecord> segment(BiometricRecord sample, List<BiometricType> modalitiesToSegment, Map<String, String> flags) {
-        return null;
-    }
+	@Override
+	public Response<BiometricRecord> segment(BiometricRecord sample, List<BiometricType> modalitiesToSegment,
+			Map<String, String> flags) {
+		return null;
+	}
 
-    @Override
-    public Response<BiometricRecord> convertFormatV2(BiometricRecord sample, String sourceFormat, String targetFormat, Map<String, String> sourceParams, Map<String, String> targetParams, List<BiometricType> modalitiesToConvert) {
-        return null;
-    }
+	@Override
+	public Response<BiometricRecord> convertFormatV2(BiometricRecord sample, String sourceFormat, String targetFormat,
+			Map<String, String> sourceParams, Map<String, String> targetParams,
+			List<BiometricType> modalitiesToConvert) {
+		return null;
+	}
 
-    @Override
-    public BiometricRecord convertFormat(BiometricRecord sample, String sourceFormat, String targetFormat, Map<String, String> sourceParams, Map<String, String> targetParams, List<BiometricType> modalitiesToConvert) {
-        return null;
-    }
+	@Override
+	@Deprecated
+	public BiometricRecord convertFormat(BiometricRecord sample, String sourceFormat, String targetFormat,
+			Map<String, String> sourceParams, Map<String, String> targetParams,
+			List<BiometricType> modalitiesToConvert) {
+		return null;
+	}
 }

@@ -2,11 +2,11 @@ package io.mosip.kernel.cbeffutil.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
-
-import jakarta.annotation.PostConstruct;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +16,7 @@ import io.mosip.kernel.biometrics.commons.CbeffValidator;
 import io.mosip.kernel.biometrics.entities.BIR;
 import io.mosip.kernel.biometrics.spi.CbeffUtil;
 import io.mosip.kernel.cbeffutil.container.impl.CbeffContainerImpl;
+import jakarta.annotation.PostConstruct;
 
 /**
  * This class is used to create,update, validate and search Cbeff data.
@@ -24,7 +25,6 @@ import io.mosip.kernel.cbeffutil.container.impl.CbeffContainerImpl;
  */
 @Component
 public class CbeffImpl implements CbeffUtil {
-
 	/*
 	 * XSD storage path from config server
 	 */
@@ -48,10 +48,11 @@ public class CbeffImpl implements CbeffUtil {
 	 * Load XSD.
 	 *
 	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws URISyntaxException 
 	 */
 	@PostConstruct
-	public void loadXSD() throws IOException {
-		try (InputStream xsdBytes = new URL(configServerFileStorageURL + schemaName).openStream()) {
+	public void loadXSD() throws IOException, URISyntaxException {
+		try (InputStream xsdBytes = new URI(configServerFileStorageURL + schemaName).toURL().openStream()) {
 			xsd = IOUtils.toByteArray(xsdBytes);
 		}
 	}
@@ -177,27 +178,5 @@ public class CbeffImpl implements CbeffUtil {
 	@Override
 	public List<BIR> getBIRDataFromXMLType(byte[] xmlBytes, String type) throws Exception {
 		return CbeffValidator.getBIRDataFromXMLType(xmlBytes, type);
-	}
-
-	
-
-	/*
-	 * public static void main(String arg[]) throws Exception { byte[] xsd =
-	 * Files.readAllBytes(Paths.get("C:\\Users\\M1044287\\Desktop\\cbeff.xsd"));
-	 * CbeffImpl cbeffImpl = new CbeffImpl(); List<BIR> birs =
-	 * cbeffImpl.getBIRDataFromXML(readCreatedXML());
-	 * 
-	 * 
-	 * byte[] ac = new CbeffImpl().createXML(birs, xsd);
-	 * FileUtils.writeByteArrayToFile(new
-	 * File("C:\\Users\\M1044287\\Desktop\\a.xml"), ac);
-	 * 
-	 * }
-	 * 
-	 * private static byte[] readCreatedXML() throws IOException { byte[]
-	 * fileContent =
-	 * Files.readAllBytes(Paths.get("C:\\Users\\M1044287\\Desktop\\cbeff-dev.xml"));
-	 * return fileContent; }
-	 */
-
+	}	
 }

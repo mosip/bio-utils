@@ -1,5 +1,8 @@
 package io.mosip.biometrics.util.nist.parser.v2011.constant;
 
+import java.io.Serializable;
+import java.util.Arrays;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -8,13 +11,13 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 import lombok.Data;
 
 @Data
-public class FrictionRidgeImpressionTypes {
+public class FrictionRidgeImpressionTypes implements Serializable {
 	/**
 	 * Exemplar Prints
 	 */
 	/**
 	 * Contact Impressions
-	 */	
+	 */
 	/**
 	 * Finger(s) presented on platen or paper without rolling
 	 */
@@ -31,21 +34,25 @@ public class FrictionRidgeImpressionTypes {
 	 * Contactless Acquistions
 	 */
 	/*
-	 * 	Finger(s) / palm / plantar presented stationary, in view of a stationary sensor and sensor captures plain contact equivalent.
+	 * Finger(s) / palm / plantar presented stationary, in view of a stationary
+	 * sensor and sensor captures plain contact equivalent.
 	 */
 	public static final int PLAIN_CONTACTLESS_STATIONARY_SUBJECT = 24;
 	/**
-	 * Finger(s) / palm / plantar presented stationary, in view of a stationary sensor and sensor captures rolled equivalent.
+	 * Finger(s) / palm / plantar presented stationary, in view of a stationary
+	 * sensor and sensor captures rolled equivalent.
 	 */
 	public static final int ROLLED_CONTACTLESS_STATIONARY_SUBJECT = 25;
 	/**
-	 * Finger(s) / palm / plantar move through the capture volume of a sensor and sensor captures rolled equivalent.
+	 * Finger(s) / palm / plantar move through the capture volume of a sensor and
+	 * sensor captures rolled equivalent.
 	 */
 	public static final int ROLLED_CONTACTLESS_MOVING_SUBJECT = 41;
 	/**
-	 * Finger(s) / palm / plantar move through the capture volume of a sensor and sensor captures plain equivalent.
+	 * Finger(s) / palm / plantar move through the capture volume of a sensor and
+	 * sensor captures plain equivalent.
 	 */
-	public static final int PLAIN_CONTACTLESS_MOVING_SUBJECT = 42;		
+	public static final int PLAIN_CONTACTLESS_MOVING_SUBJECT = 42;
 	/**
 	 * System integration exceptions
 	 */
@@ -62,19 +69,20 @@ public class FrictionRidgeImpressionTypes {
 	 * Image or impression of friction skin deposited on a surface
 	 */
 	public static final int LATENT_IMAGE = 4;
-	
-	
-	public static final Integer[] arrValues = new Integer[] { PLAIN_CONTACT, ROLLED_CONTACT, LIVE_SCAN_SWIPE, PLAIN_CONTACTLESS_STATIONARY_SUBJECT, ROLLED_CONTACTLESS_STATIONARY_SUBJECT, ROLLED_CONTACTLESS_MOVING_SUBJECT, PLAIN_CONTACTLESS_MOVING_SUBJECT, OTHER, LATENT_IMAGE };
+
+	protected static final Integer[] arrValues = new Integer[] { PLAIN_CONTACT, ROLLED_CONTACT, LIVE_SCAN_SWIPE,
+			PLAIN_CONTACTLESS_STATIONARY_SUBJECT, ROLLED_CONTACTLESS_STATIONARY_SUBJECT,
+			ROLLED_CONTACTLESS_MOVING_SUBJECT, PLAIN_CONTACTLESS_MOVING_SUBJECT, OTHER, LATENT_IMAGE };
 
 	@JacksonXmlText
 	private Integer value;
 
 	@JsonCreator
 	public static Integer fromValue(Integer value) {
-
 		if (ArrayUtils.contains(arrValues, value))
 			return value;
-		throw new IllegalArgumentException("FrictionRidgeImpressionTypes value can be " + arrValues.toString()
+
+		throw new IllegalArgumentException("FrictionRidgeImpressionTypes value can be " + Arrays.toString(arrValues)
 				+ ", set value is wrong [" + value + "]");
 	}
 }

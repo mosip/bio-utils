@@ -18,6 +18,7 @@ public class Representation extends AbstractImageInfo {
 				qualityBlocks, imageInformation, representationNo));
 	}
 
+	@SuppressWarnings({ "java:S107" })
 	public Representation(Date captureDate, int sourceType, int deviceVendor, int deviceType,
 			IrisQualityBlock[] qualityBlocks, ImageInformation imageInformation, int representationNo, byte[] image) {
 		setRepresentationData(new RepresentationData(new ImageData(image)));

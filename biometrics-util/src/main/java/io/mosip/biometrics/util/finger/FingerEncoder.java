@@ -1,18 +1,21 @@
 package io.mosip.biometrics.util.finger;
 
-import io.mosip.biometrics.util.CommonUtil;
-import io.mosip.biometrics.util.ConvertRequestDto;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.util.Date;
 
-public class FingerEncoder {
-	private static final Logger LOGGER = LoggerFactory.getLogger(FingerEncoder.class);
+import io.mosip.biometrics.util.CommonUtil;
+import io.mosip.biometrics.util.ConvertRequestDto;
 
+public class FingerEncoder {
+	private static final String ISO_VERSION = "ISO19794_4_2011";
+
+	private FingerEncoder() {
+		throw new IllegalStateException("FingerEncoder class");
+	}
+	
+	@SuppressWarnings({ "java:S100", "java:S107", "java:S112" })
 	public static byte[] convertFingerImageToISO19794_4_2011(long formatIdentifier,
 			long versionNumber, int certificationFlag, int sourceType, int deviceVendor, int deviceType,
 			Date captureDate, int noOfRepresentations, FingerQualityBlock[] qualityBlocks,
@@ -38,8 +41,7 @@ public class FingerEncoder {
 	}
 
 	public static byte[] convertFingerImageToISO(ConvertRequestDto convertRequestDto) throws Exception {
-		switch (convertRequestDto.getVersion()) {
-		case "ISO19794_4_2011":
+		if (convertRequestDto.getVersion().equals(ISO_VERSION)) {
 			long formatIdentifier = FingerFormatIdentifier.FORMAT_FIR;
 			long versionNumber = FingerVersionNumber.VERSION_020;
 			int certificationFlag = FingerCertificationFlag.UNSPECIFIED;
@@ -64,6 +66,8 @@ public class FingerEncoder {
 			int imageSpatialSamplingRateHorizontal = 500;
 			int imageSpatialSamplingRateVertical = 500;
 			int bitDepth = FingerImageBitDepth.BPP_08;
+			
+			@SuppressWarnings({ "java:S3358" })
 			int compressionType =  convertRequestDto.getPurpose().equalsIgnoreCase("AUTH") ? convertRequestDto.getImageType() == 0 ? FingerImageCompressionType.JPEG_2000_LOSSY
 					: FingerImageCompressionType.WSQ : FingerImageCompressionType.JPEG_2000_LOSS_LESS;
 			int impressionType = FingerImpressionType.UNKNOWN;
@@ -77,7 +81,6 @@ public class FingerEncoder {
 			AnnotationBlock annotationBlock = null;
 			CommentBlock[] commentBlocks = null;
 
-			//LOGGER.info("imageWidth :: {} :: imageHeight :: {} :: Size :: {}", lineLengthHorizontal, lineLengthVertical, convertRequestDto.getInputBytes().length);
 			return convertFingerImageToISO19794_4_2011(formatIdentifier, versionNumber, certificationFlag, sourceType,
 					deviceVendor, deviceType, captureDate, noOfRepresentations, qualityBlocks, certificationBlocks,
 					fingerPosition, representationNo, scaleUnitType, captureDeviceSpatialSamplingRateHorizontal,

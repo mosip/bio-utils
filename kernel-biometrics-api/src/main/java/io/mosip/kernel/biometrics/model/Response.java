@@ -18,5 +18,6 @@ public class Response<T> {
 	private String statusMessage;
 	
 	/** The response. */
+	@SuppressWarnings({ "java:S1700" })
 	private T response;
 }
