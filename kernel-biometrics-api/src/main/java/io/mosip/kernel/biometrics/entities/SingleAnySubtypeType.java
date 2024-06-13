@@ -1,4 +1,5 @@
 package io.mosip.kernel.biometrics.entities;
+
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
@@ -30,19 +31,46 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "SingleAnySubtypeType")
 @XmlEnum
 public enum SingleAnySubtypeType {
-
+	/**
+	 * Left: Indicates the left version of a specific finger (e.g., left thumb).
+	 */
 	@XmlEnumValue("Left")
-	LEFT("Left"), 
+	LEFT("Left"),
+
+	/**
+	 * Right: Indicates the right version of a specific finger (e.g., right index
+	 * finger).
+	 */
 	@XmlEnumValue("Right")
-	RIGHT("Right"), 
+	RIGHT("Right"),
+
+	/**
+	 * Thumb: Refers to the thumb finger.
+	 */
 	@XmlEnumValue("Thumb")
-	THUMB("Thumb"), 
+	THUMB("Thumb"),
+
+	/**
+	 * IndexFinger: Refers to the index finger.
+	 */
 	@XmlEnumValue("IndexFinger")
-	INDEX_FINGER("IndexFinger"), 
+	INDEX_FINGER("IndexFinger"),
+
+	/**
+	 * MiddleFinger: Refers to the middle finger.
+	 */
 	@XmlEnumValue("MiddleFinger")
-	MIDDLE_FINGER("MiddleFinger"), 
+	MIDDLE_FINGER("MiddleFinger"),
+
+	/**
+	 * RingFinger: Refers to the ring finger.
+	 */
 	@XmlEnumValue("RingFinger")
-	RING_FINGER("RingFinger"), 
+	RING_FINGER("RingFinger"),
+
+	/**
+	 * LittleFinger: Refers to the little finger (pinky).
+	 */
 	@XmlEnumValue("LittleFinger")
 	LITTLE_FINGER("LittleFinger");
 
@@ -64,5 +92,4 @@ public enum SingleAnySubtypeType {
 		}
 		throw new IllegalArgumentException(v);
 	}
-
 }

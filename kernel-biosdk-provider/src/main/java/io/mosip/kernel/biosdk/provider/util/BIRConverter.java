@@ -15,12 +15,23 @@ import io.mosip.kernel.core.cbeffutil.jaxbclasses.QualityType;
 import io.mosip.kernel.core.cbeffutil.jaxbclasses.RegistryIDType;
 import io.mosip.kernel.core.cbeffutil.jaxbclasses.SingleType;
 
+/**
+ * Utility class for converting between different representations of Biometric
+ * Information Records (BIR).
+ */
 @SuppressWarnings("deprecation")
 public class BIRConverter {
 	private BIRConverter() {
 		throw new IllegalStateException("BIRConverter class");
 	}
 
+	/**
+	 * Converts a {@link BIR} object to a
+	 * {@link io.mosip.kernel.biometrics.entities.BIR} object.
+	 *
+	 * @param bir The input {@link BIR} object to convert.
+	 * @return A converted {@link io.mosip.kernel.biometrics.entities.BIR} object.
+	 */
 	public static io.mosip.kernel.biometrics.entities.BIR convertToBiometricRecordBIR(BIR bir) {
 		List<BiometricType> bioTypes = new ArrayList<>();
 		for (SingleType type : bir.getBdbInfo().getType()) {
@@ -90,6 +101,14 @@ public class BIRConverter {
 				.build();
 	}
 
+	/**
+	 * Converts a {@link io.mosip.kernel.biometrics.entities.BIR} object to a
+	 * {@link BIR} object.
+	 *
+	 * @param bir The input {@link io.mosip.kernel.biometrics.entities.BIR} object
+	 *            to convert.
+	 * @return A converted {@link BIR} object.
+	 */
 	public static BIR convertToBIR(io.mosip.kernel.biometrics.entities.BIR bir) {
 		List<SingleType> bioTypes = new ArrayList<>();
 		for (BiometricType type : bir.getBdbInfo().getType()) {

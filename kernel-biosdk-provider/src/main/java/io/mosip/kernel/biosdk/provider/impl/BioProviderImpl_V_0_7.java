@@ -32,22 +32,82 @@ import io.mosip.kernel.core.bioapi.model.Score;
 import io.mosip.kernel.core.exception.ExceptionUtils;
 import io.mosip.kernel.core.logger.spi.Logger;
 
+/**
+ * Implementation of the {@link iBioProviderApi} interface for version 0.7 of
+ * the BioSDK provider. This class provides methods to initialize, verify,
+ * identify, and extract biometric templates using specific SDK instances for
+ * supported modalities like fingerprint, iris, and face.
+ * 
+ * <p>
+ * It supports operations like matching biometric samples against stored
+ * records, composite matching for multiple modalities, quality assessment of
+ * biometric samples, and extraction of biometric templates. The class utilizes
+ * reflection to dynamically invoke methods on the underlying SDK instances.
+ * </p>
+ * 
+ * <p>
+ * The class manages a registry of SDK instances for each supported modality and
+ * their associated threshold values for verification and identification
+ * processes.
+ * </p>
+ * 
+ * <p>
+ * SDK initialization is based on provided parameters, which include SDK
+ * instance details and configuration for each supported modality.
+ * </p>
+ * 
+ * <p>
+ * Error handling is implemented to log exceptions encountered during method
+ * invocations on SDK instances.
+ * </p>
+ * 
+ * <p>
+ * Note: This class is thread-safe for concurrent invocations.
+ * </p>
+ * 
+ * @see iBioProviderApi
+ * @see BiometricType
+ * @see BiometricFunction
+ * @see BIR
+ * @see QualityScore
+ * @see CompositeScore
+ * @see KeyValuePair
+ * @see BiometricException
+ * @see Logger
+ * @see BioProviderUtil
+ * @see BioSDKProviderLoggerFactory
+ * @see ProviderConstants
+ */
+
 @Component
 @SuppressWarnings({ "java:S101" })
 public class BioProviderImpl_V_0_7 implements iBioProviderApi {
 
 	private static final Logger LOGGER = BioSDKProviderLoggerFactory.getLogger(BioProviderImpl_V_0_7.class);
 
+	// Constants for method names and API version
 	private static final String METHOD_NAME_KEY = "_METHOD_NAME";
 	private static final String THRESHOLD_KEY = "_THRESHOLD";
 	private static final String API_VERSION = "0.7";
 
+	// Constants for method tags and default values
 	private static final String TAG_MATCH = "match";
 	private static final String TAG_MATCH_COMPOSITE = "compositeMatch";
 
+	// Registry to store SDK instances for each modality
 	private Map<BiometricType, Object> sdkRegistry = new EnumMap<>(BiometricType.class);
+	// Thresholds for each modality
 	private Map<BiometricType, String> thresholds = new EnumMap<>(BiometricType.class);
 
+	/**
+	 * Initializes the SDK instances for supported modalities based on provided
+	 * parameters.
+	 * 
+	 * @param params Configuration parameters for each supported biometric modality.
+	 * @return Map of supported modalities and their corresponding functions.
+	 * @throws BiometricException If there are issues initializing the SDK
+	 *                            instances.
+	 */
 	@Override
 	public Map<BiometricType, List<BiometricFunction>> init(Map<BiometricType, Map<String, String>> params)
 			throws BiometricException {
@@ -66,9 +126,15 @@ public class BioProviderImpl_V_0_7 implements iBioProviderApi {
 		return getSupportedModalities();
 	}
 
-	/*
-	 * compositeMatch --> is intended to be used for match on multiple modalities
-	 * NOte: compositeMatch should not be used on multiple segments of same modality
+	/**
+	 * Verifies if a given sample matches a biometric record for a specific
+	 * modality.
+	 * 
+	 * @param sample    Biometric sample to be verified.
+	 * @param bioRecord Biometric record against which the sample is verified.
+	 * @param modality  Biometric modality (e.g., fingerprint, iris).
+	 * @param flags     Additional flags to control verification.
+	 * @return True if the sample matches the biometric record; false otherwise.
 	 */
 	@Override
 	public boolean verify(List<BIR> sample, List<BIR> bioRecord, BiometricType modality, Map<String, String> flags) {
@@ -100,6 +166,17 @@ public class BioProviderImpl_V_0_7 implements iBioProviderApi {
 		}
 	}
 
+	/**
+	 * Identifies a sample against a gallery of biometric records for a specific
+	 * modality.
+	 * 
+	 * @param sample   Biometric sample to be identified.
+	 * @param gallery  Gallery of biometric records against which the sample is
+	 *                 identified.
+	 * @param modality Biometric modality (e.g., fingerprint, iris).
+	 * @param flags    Additional flags to control identification.
+	 * @return Map of record identifiers and their corresponding match results.
+	 */
 	@Override
 	public Map<String, Boolean> identify(List<BIR> sample, Map<String, List<BIR>> gallery, BiometricType modality,
 			Map<String, String> flags) {
@@ -142,8 +219,12 @@ public class BioProviderImpl_V_0_7 implements iBioProviderApi {
 		return result;
 	}
 
-	/*
-	 * QualityScore checkQuality(BIR sample, KeyValuePair[] flags)
+	/**
+	 * Calculates quality scores for each segment of biometric samples.
+	 * 
+	 * @param sample Biometric samples for which quality scores are calculated.
+	 * @param flags  Additional flags to control quality assessment.
+	 * @return Array of quality scores for each segment.
 	 */
 	@Override
 	@SuppressWarnings({ "java:S3011" })
@@ -170,8 +251,14 @@ public class BioProviderImpl_V_0_7 implements iBioProviderApi {
 		return scores;
 	}
 
-	/*
-	 * QualityScore checkQuality(BIR sample, KeyValuePair[] flags)
+	/**
+	 * Calculates quality scores for each modality based on the provided biometric
+	 * samples.
+	 * 
+	 * @param sample Biometric samples for which quality scores are calculated.
+	 * @param flags  Additional flags to control quality assessment.
+	 * @return Map of biometric modalities and their corresponding average quality
+	 *         scores.
 	 */
 	@Override
 	@SuppressWarnings({ "java:S3011" })
@@ -204,8 +291,13 @@ public class BioProviderImpl_V_0_7 implements iBioProviderApi {
 		return finalResult;
 	}
 
-	/*
-	 * BIR extractTemplate(BIR paramBIR, KeyValuePair[] paramArrayOfKeyValuePair)
+	/**
+	 * Extracts biometric templates from the provided samples for a specific
+	 * modality.
+	 * 
+	 * @param sample Biometric samples from which templates are to be extracted.
+	 * @param flags  Additional flags to control template extraction.
+	 * @return List of extracted biometric templates.
 	 */
 	@Override
 	@SuppressWarnings({ "java:S3011" })
@@ -230,6 +322,20 @@ public class BioProviderImpl_V_0_7 implements iBioProviderApi {
 		return extracts;
 	}
 
+	/**
+	 * Performs a standard match operation using the SDK instance for the specified
+	 * biometric modality. Computes match scores and determines if the match meets
+	 * the specified threshold.
+	 *
+	 * @param sample    The sample biometric records to be verified.
+	 * @param bioRecord The bio record against which the sample is verified.
+	 * @param modality  The type of biometric modality being verified.
+	 * @param flags     Additional flags for verification.
+	 * @param threshold The threshold score above which the match is considered
+	 *                  successful.
+	 * @return true if the verification is successful and meets the threshold, false
+	 *         otherwise.
+	 */
 	// Score[] match(BIR sample, BIR[] gallery, KeyValuePair[] flags)
 	@SuppressWarnings({ "java:S3011" })
 	private boolean getSDKMatchResult(List<BIR> sample, BIR[] bioRecord, BiometricType modality,
@@ -267,6 +373,20 @@ public class BioProviderImpl_V_0_7 implements iBioProviderApi {
 		return isMatched;
 	}
 
+	/**
+	 * Performs a composite match operation using the SDK instance for the specified
+	 * biometric modality. Computes composite match scores and determines if the
+	 * match meets the specified threshold.
+	 *
+	 * @param sample    The sample biometric records to be identified.
+	 * @param bioRecord The bio record against which the sample is verified.
+	 * @param modality  The type of biometric modality being verified.
+	 * @param flags     Additional flags for identification.
+	 * @param threshold The threshold score above which the match is considered
+	 *                  successful.
+	 * @return true if the identification is successful and meets the threshold,
+	 *         false otherwise.
+	 */
 	// CompositeScore compositeMatch(BIR[] sampleList, BIR[] recordList,
 	// KeyValuePair[] flags)
 	@SuppressWarnings({ "java:S3011" })
@@ -300,16 +420,35 @@ public class BioProviderImpl_V_0_7 implements iBioProviderApi {
 		return isMatched;
 	}
 
+	/**
+	 * Retrieves the supported biometric modalities and their associated functions.
+	 * 
+	 * @return Mapping of supported biometric modalities to their associated
+	 *         functions.
+	 */
 	private Map<BiometricType, List<BiometricFunction>> getSupportedModalities() {
 		Map<BiometricType, List<BiometricFunction>> result = new EnumMap<>(BiometricType.class);
 		sdkRegistry.forEach((modality, map) -> result.put(modality, Arrays.asList(BiometricFunction.values())));
 		return result;
 	}
 
+	/**
+	 * Adds a SDK instance to the registry for a specific biometric modality.
+	 * 
+	 * @param sdkInstance The SDK instance to be added.
+	 * @param modality    The biometric modality associated with the SDK instance.
+	 */
 	private void addToRegistry(Object sdkInstance, BiometricType modality) {
 		sdkRegistry.put(modality, sdkInstance);
 	}
 
+	/**
+	 * Retrieves key-value pairs from the provided flags map and converts them into
+	 * KeyValuePair array.
+	 * 
+	 * @param flags Additional flags to be converted into KeyValuePair array.
+	 * @return Array of KeyValuePair extracted from flags.
+	 */
 	@SuppressWarnings({ "java:S1168" })
 	private KeyValuePair[] getKeyValuePairs(Map<String, String> flags) {
 		if (Objects.isNull(flags))

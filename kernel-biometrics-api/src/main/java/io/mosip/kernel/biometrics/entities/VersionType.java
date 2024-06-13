@@ -21,6 +21,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents a version number with major and minor components.
+ *
+ * This JAXB-generated class represents the "VersionType" element found in an XML schema. It defines a simple
+ * structure to capture a version number, consisting of major and minor components. Both components are represented
+ * as unsigned integers.
+ *
+ */
 @Data
 @JsonDeserialize(builder = VersionType.VersionTypeBuilder.class)
 @AllArgsConstructor
@@ -28,17 +36,25 @@ import lombok.NoArgsConstructor;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "VersionType", propOrder = { "major", "minor" })
 public class VersionType implements Serializable {
-	@XmlElement(name = "Major")
-	@XmlSchemaType(name = "unsignedInt")
-	private int major;
-	@XmlElement(name = "Minor")
-	@XmlSchemaType(name = "unsignedInt")
-	private int minor;
-	
+	 /**
+     * Major version number (unsigned integer).
+     */
+    @XmlElement(name = "Major")
+    @XmlSchemaType(name = "unsignedInt")
+    private int major;
+
+    /**
+     * Minor version number (unsigned integer).
+     */
+    @XmlElement(name = "Minor")
+    @XmlSchemaType(name = "unsignedInt")
+    private int minor;
+
 	public VersionType(VersionTypeBuilder versionTypeBuilder) {
 		this.major = versionTypeBuilder.major;
 		this.minor = versionTypeBuilder.minor;
 	}
+
 	public static class VersionTypeBuilder {
 		private int major;
 		private int minor;

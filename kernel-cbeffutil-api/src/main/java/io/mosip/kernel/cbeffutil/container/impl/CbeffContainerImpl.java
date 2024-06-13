@@ -10,20 +10,27 @@ import io.mosip.kernel.cbeffutil.container.CbeffContainerI;
 import io.mosip.kernel.core.cbeffutil.common.CbeffXSDValidator;
 
 /**
- * @author Ramadurai Pandian
+ * Implementation class for creating and updating Biometric Information Record
+ * (BIR) using CBEFF format.
  * 
- *         A Container Class where the BIR is created and updated
- *
+ * <p>
+ * This class provides methods to create a new BIR type, update an existing BIR
+ * type, and validate CBEFF XML data against an XSD schema.
+ * </p>
+ * 
+ * <p>
+ * Authors: Ramadurai Pandian
+ * </p>
  */
 public class CbeffContainerImpl extends CbeffContainerI<BIR, BIR> {
 
 	private BIR bir;
 
 	/**
-	 * Method where the initialization of BIR happens
+	 * Initializes the BIR instance with the provided list of BIR data.
 	 * 
-	 * @param birList List of BIR data
-	 * @return BIR data with all images
+	 * @param birList List of BIR data to create the BIR type.
+	 * @return BIR instance with initialized data.
 	 */
 	@Override
 	public BIR createBIRType(List<BIR> birList) {
@@ -35,20 +42,20 @@ public class CbeffContainerImpl extends CbeffContainerI<BIR, BIR> {
 	private void load() {
 		// Creating first version of Cbeff
 		bir = new BIR();
-		
+
 		BIRInfoBuilder infoBuilder = new BIRInfoBuilder().withIntegrity(false);
 		BIRInfo birInfo = new BIRInfo(infoBuilder);
 		bir.setBirInfo(birInfo);
 	}
 
 	/**
-	 * Method to the update of BIR
+	 * Updates an existing BIR instance with the provided list of BIR data and CBEFF
+	 * XML bytes.
 	 * 
-	 * @param birList   List of BIR data
-	 * 
-	 * @param fileBytes Cbeff XML data as bytes
-	 * 
-	 * @return BIR BIR data with all images
+	 * @param birList   List of BIR data to update the BIR type.
+	 * @param fileBytes CBEFF XML data as bytes.
+	 * @return Updated BIR instance.
+	 * @throws Exception If an error occurs during the update process.
 	 */
 	@Override
 	public BIR updateBIRType(List<BIR> birList, byte[] fileBytes) throws Exception {
@@ -60,13 +67,13 @@ public class CbeffContainerImpl extends CbeffContainerI<BIR, BIR> {
 	}
 
 	/**
-	 * Method to the validate the BIR
+	 * Validates the provided CBEFF XML data against the specified XSD schema.
 	 * 
-	 * @param xmlBytes Cbeff XML data as bytes array
-	 * 
-	 * @param xsdBytes Cbeff XSD data as bytes array
-	 * 
-	 * @return boolean of validated XML against XSD
+	 * @param xmlBytes Byte array of CBEFF XML data to validate.
+	 * @param xsdBytes Byte array of XSD schema data for validation.
+	 * @return {@code true} if the XML data is valid according to the XSD schema,
+	 *         {@code false} otherwise.
+	 * @throws Exception If an error occurs during the validation process.
 	 */
 	@Override
 	public boolean validateXML(byte[] xmlBytes, byte[] xsdBytes) throws Exception {

@@ -7,25 +7,62 @@
 
 package io.mosip.kernel.biometrics.constant;
 
+/**
+ * Enumerates the different purposes for which a biometric sample might be used.
+ *
+ * This JAXB-generated enum represents the "PurposeType" element found in an XML schema. It defines the various reasons
+ * why a biometric sample might be captured or used in a biometric system, such as verification, identification, enrollment,
+ * or auditing.
+ *
+ */
+
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
+
 @XmlType(name = "PurposeType")
 @XmlEnum
 public enum PurposeType implements Serializable {
-
+	/**
+	 * Verification: Comparing a biometric sample to a registered template for
+	 * authentication.
+	 */
 	@XmlEnumValue("Verify")
 	VERIFY("Verify"),
+
+	/**
+	 * Identification: Identifying an individual from a database using a biometric
+	 * sample.
+	 */
 	@XmlEnumValue("Identify")
 	IDENTIFY("Identify"),
+
+	/**
+	 * Enrollment: Capturing a biometric sample and registering it for future use.
+	 */
 	@XmlEnumValue("Enroll")
 	ENROLL("Enroll"),
+
+	/**
+	 * Enroll and Verify: Performing enrollment followed by immediate verification
+	 * of the enrolled sample.
+	 */
 	@XmlEnumValue("EnrollVerify")
 	ENROLLVERIFY("EnrollVerify"),
+
+	/**
+	 * Enroll and Identify: Performing enrollment followed by identification using
+	 * the enrolled sample.
+	 */
 	@XmlEnumValue("EnrollIdentify")
 	ENROLLIDENTIFY("EnrollIdentify"),
+
+	/**
+	 * Audit: Using a biometric sample for auditing purposes (e.g.,
+	 * non-repudiation).
+	 */
 	@XmlEnumValue("Audit")
 	AUDIT("Audit");
 

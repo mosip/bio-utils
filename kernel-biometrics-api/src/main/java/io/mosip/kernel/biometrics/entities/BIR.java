@@ -21,11 +21,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 
- * BIR class with Builder to create data
+ * Represents a Biometric Information Record (BIR) containing various attributes
+ * such as version, CBEFF version, BIR information, biometric data block (BDB)
+ * info, structured biometric data (SB), and additional key-value pairs. This
+ * class supports XML and JSON serialization/deserialization.
+ * <p>
+ * This class uses a builder pattern ({@link BIR.BIRBuilder}) for object
+ * creation.
+ * </p>
  * 
  * @author Ramadurai Pandian
- *
+ * @version 1.0.0
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "BIRType", propOrder = { "version", "cbeffversion", "birInfo", "bdbInfo", "sbInfo", "birs", "bdb", "sb",
@@ -58,6 +64,11 @@ public class BIR implements Serializable {
 	@JsonDeserialize(using = MapEntryDeserializer.class)
 	private Map<String, String> others;
 
+	/**
+	 * Constructs a new instance of BIR using a builder pattern.
+	 * 
+	 * @param birBuilder the builder used for constructing this BIR object
+	 */
 	public BIR(BIRBuilder birBuilder) {
 		this.version = birBuilder.version;
 		this.cbeffversion = birBuilder.cbeffversion;
@@ -69,6 +80,9 @@ public class BIR implements Serializable {
 		this.others = birBuilder.others;
 	}
 
+	/**
+	 * Builder pattern class for constructing instances of BIR.
+	 */
 	public static class BIRBuilder {
 		private VersionType version;
 		private VersionType cbeffversion;
@@ -79,11 +93,24 @@ public class BIR implements Serializable {
 		private SBInfo sbInfo;
 		private Map<String, String> others = new HashMap<>();
 
+		/**
+		 * Sets the additional key-value pairs for the BIR.
+		 * 
+		 * @param others the additional key-value pairs
+		 * @return this builder instance
+		 */
 		public BIRBuilder withOthers(Map<String, String> others) {
 			this.others = others;
 			return this;
 		}
 
+		/**
+		 * Adds a key-value pair to the additional key-value pairs for the BIR.
+		 * 
+		 * @param key   the key of the additional pair
+		 * @param value the value of the additional pair
+		 * @return this builder instance
+		 */
 		public BIRBuilder withOthers(String key, String value) {
 			if (Objects.isNull(this.others))
 				this.others = new HashMap<>();
@@ -92,41 +119,88 @@ public class BIR implements Serializable {
 			return this;
 		}
 
+		/**
+		 * Sets the version of the BIR.
+		 * 
+		 * @param version the version of the BIR
+		 * @return this builder instance
+		 */
 		public BIRBuilder withVersion(VersionType version) {
 			this.version = version;
 			return this;
 		}
 
+		/**
+		 * Sets the CBEFF version of the BIR.
+		 * 
+		 * @param cbeffversion the CBEFF version of the BIR
+		 * @return this builder instance
+		 */
 		public BIRBuilder withCbeffversion(VersionType cbeffversion) {
 			this.cbeffversion = cbeffversion;
 			return this;
 		}
 
+		/**
+		 * Sets the BIR information.
+		 * 
+		 * @param birInfo the BIR information
+		 * @return this builder instance
+		 */
 		public BIRBuilder withBirInfo(BIRInfo birInfo) {
 			this.birInfo = birInfo;
 			return this;
 		}
 
+		/**
+		 * Sets the BDBInfo (Biometric Data Block information).
+		 * 
+		 * @param bdbInfo the BDBInfo
+		 * @return this builder instance
+		 */
 		public BIRBuilder withBdbInfo(BDBInfo bdbInfo) {
 			this.bdbInfo = bdbInfo;
 			return this;
 		}
 
+		/**
+		 * Sets the BDB (Biometric Data Block).
+		 * 
+		 * @param bdb the BDB
+		 * @return this builder instance
+		 */
 		public BIRBuilder withBdb(byte[] bdb) {
 			this.bdb = bdb;
 			return this;
 		}
 
+		/**
+		 * Sets the SB (Structured Biometric Data).
+		 * 
+		 * @param sb the SB
+		 * @return this builder instance
+		 */
 		public BIRBuilder withSb(byte[] sb) {
 			this.sb = sb == null ? new byte[0] : sb;
 			return this;
 		}
 
+		/**
+		 * Sets the SBInfo (Structured Biometric Data information).
+		 * 
+		 * @param sbInfo the SBInfo
+		 * @return this builder instance
+		 */
 		public BIRBuilder withSbInfo(SBInfo sbInfo) {
 			this.sbInfo = sbInfo;
 			return this;
 		}
 
+		/**
+		 * Builds and returns a new instance of BIR using this builder.
+		 * 
+		 * @return a new instance of BIR
+		 */
 		public BIR build() {
 			return new BIR(this);
 		}

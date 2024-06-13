@@ -6,4 +6,7 @@
 */.settings/*
 .sonarlint/
 test/.classpath
+test/.settings/*
+test/.classpath
 test/.settings/org.eclipse.core.resources.prefs
+test/.settings/org.eclipse.jdt.core.prefs

@@ -13,40 +13,56 @@ import io.mosip.kernel.logger.logback.util.MetricTag;
 public interface iBioProviderApi {
 
 	/**
-	 * loading of SDK based on the provided params and other initialization stuff
-	 * 
-	 * @param params
+	 * Initializes the SDK based on the provided parameters.
+	 *
+	 * @param params The map of biometric types to their respective parameters.
+	 * @return A map containing supported biometric types and their corresponding
+	 *         functions.
+	 * @throws BiometricException If an error occurs during SDK initialization.
 	 */
 	Map<BiometricType, List<BiometricFunction>> init(Map<BiometricType, Map<String, String>> params)
 			throws BiometricException;
 
 	/**
-	 * 1:1 match
-	 * 
-	 * @param sample
-	 * @param bioRecord
-	 * @param modality
-	 * @return
+	 * Performs a 1:1 biometric verification (match).
+	 *
+	 * @param sample    The list of sample biometric records.
+	 * @param bioRecord The list of biometric records in the gallery for
+	 *                  verification.
+	 * @param modality  The biometric type (modality) for which the verification is
+	 *                  performed.
+	 * @param flags     Additional flags for customization of the verification
+	 *                  process.
+	 * @return true if the verification is successful, false otherwise.
 	 */
 	boolean verify(List<BIR> sample, List<BIR> bioRecord,
 			@MetricTag(value = "modality", extractor = "arg.value") BiometricType modality, Map<String, String> flags);
 
 	/**
-	 * 1:n match
-	 * 
-	 * @param sample
-	 * @param gallery
-	 * @param modality
-	 * @return
+	 * Performs a 1:n biometric identification.
+	 *
+	 * @param sample   The list of sample biometric records.
+	 * @param gallery  The gallery of biometric records mapped by their respective
+	 *                 keys.
+	 * @param modality The biometric type (modality) for which the identification is
+	 *                 performed.
+	 * @param flags    Additional flags for customization of the identification
+	 *                 process.
+	 * @return A map containing the key from the gallery and a boolean indicating if
+	 *         there was a match.
 	 */
 	Map<String, Boolean> identify(List<BIR> sample, Map<String, List<BIR>> gallery,
 			@MetricTag(value = "modality", extractor = "arg.value") BiometricType modality, Map<String, String> flags);
 
 	/**
-	 * Score provided by SDK, later should be added in BIR "others" attribute
-	 * 
-	 * @param sample
-	 * @return
+	 * Retrieves the quality scores for each segment in the provided sample
+	 * biometric records.
+	 *
+	 * @param sample The array of sample biometric records.
+	 * @param flags  Additional flags for customization of the quality check
+	 *               process.
+	 * @return An array of quality scores corresponding to each segment in the
+	 *         sample.
 	 */
 	float[] getSegmentQuality(
 			@MetricTag(value = "modality", extractor = "int size = arg.length; String[] names = new String[size];for(int i=0;i<size;i++){ names[i] = "
@@ -55,9 +71,14 @@ public interface iBioProviderApi {
 			Map<String, String> flags);
 
 	/**
-	 * 
-	 * @param sample
-	 * @return
+	 * Retrieves the overall quality scores for each biometric modality in the
+	 * provided sample biometric records.
+	 *
+	 * @param sample The array of sample biometric records.
+	 * @param flags  Additional flags for customization of the quality check
+	 *               process.
+	 * @return A map containing each biometric modality and its corresponding
+	 *         overall quality score.
 	 */
 	Map<BiometricType, Float> getModalityQuality(
 			@MetricTag(value = "modality", extractor = "int size = arg.length; String[] names = new String[size];for(int i=0;i<size;i++){ names[i] = "
@@ -66,9 +87,12 @@ public interface iBioProviderApi {
 			Map<String, String> flags);
 
 	/**
-	 * 
-	 * @param sample
-	 * @return
+	 * Extracts biometric templates from the provided sample biometric records.
+	 *
+	 * @param sample The list of sample biometric records.
+	 * @param flags  Additional flags for customization of the template extraction
+	 *               process.
+	 * @return The list of extracted biometric templates.
 	 */
 	List<BIR> extractTemplate(
 			@MetricTag(value = "modality", extractor = "int size = arg.size(); String[] names = new String[size];for(int i=0;i<size;i++){ names[i] = "

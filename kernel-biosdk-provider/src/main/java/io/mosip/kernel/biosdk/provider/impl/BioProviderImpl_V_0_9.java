@@ -34,6 +34,56 @@ import io.mosip.kernel.biosdk.provider.util.BioProviderUtil;
 import io.mosip.kernel.biosdk.provider.util.ErrorCode;
 import io.mosip.kernel.biosdk.provider.util.ProviderConstants;
 import io.mosip.kernel.core.bioapi.exception.BiometricException;
+import io.mosip.kernel.core.bioapi.model.CompositeScore;
+import io.mosip.kernel.core.bioapi.model.KeyValuePair;
+import io.mosip.kernel.core.bioapi.model.QualityScore;
+
+/**
+ * Implementation of the {@link iBioProviderApi} interface for version 0.9 of
+ * the BioSDK provider. This class provides methods to initialize, verify,
+ * identify, and extract biometric templates using specific SDK instances for
+ * supported modalities like fingerprint, iris, and face.
+ * 
+ * <p>
+ * It supports operations like matching biometric samples against stored
+ * records, composite matching for multiple modalities, quality assessment of
+ * biometric samples, and extraction of biometric templates. The class utilizes
+ * reflection to dynamically invoke methods on the underlying SDK instances.
+ * </p>
+ * 
+ * <p>
+ * The class manages a registry of SDK instances for each supported modality and
+ * their associated threshold values for verification and identification
+ * processes.
+ * </p>
+ * 
+ * <p>
+ * SDK initialization is based on provided parameters, which include SDK
+ * instance details and configuration for each supported modality.
+ * </p>
+ * 
+ * <p>
+ * Error handling is implemented to log exceptions encountered during method
+ * invocations on SDK instances.
+ * </p>
+ * 
+ * <p>
+ * Note: This class is thread-safe for concurrent invocations.
+ * </p>
+ * 
+ * @see iBioProviderApi
+ * @see BiometricType
+ * @see BiometricFunction
+ * @see BIR
+ * @see QualityScore
+ * @see CompositeScore
+ * @see KeyValuePair
+ * @see BiometricException
+ * @see Logger
+ * @see BioProviderUtil
+ * @see BioSDKProviderLoggerFactory
+ * @see ProviderConstants
+ */
 
 @Component
 @SuppressWarnings({ "java:S101" })
@@ -44,6 +94,15 @@ public class BioProviderImpl_V_0_9 implements iBioProviderApi {
 	private static final String API_VERSION = "0.9";
 	private final Map<BiometricType, Map<BiometricFunction, IBioApi>> sdkRegistry = new EnumMap<>(BiometricType.class);
 
+	/**
+	 * Initializes the biometric SDKs based on the provided parameters.
+	 *
+	 * @param params The map of biometric types to their respective parameters.
+	 * @return A map containing supported biometric types and their corresponding
+	 *         functions.
+	 * @throws BiometricException If an error occurs during SDK initialization or if
+	 *                            the SDK version does not match.
+	 */
 	@Counted(value = "sdk.count", extraTags = { "api_version", API_VERSION })
 	@Timed(value = "sdk.time", extraTags = { "api_version", API_VERSION })
 	@Override
@@ -71,6 +130,18 @@ public class BioProviderImpl_V_0_9 implements iBioProviderApi {
 		return getSupportedModalities();
 	}
 
+	/**
+	 * Performs biometric verification between a sample and a gallery of biometric
+	 * records.
+	 *
+	 * @param sample     The list of sample biometric records.
+	 * @param bioRecords The list of biometric records in the gallery.
+	 * @param modality   The biometric type (modality) for which the verification is
+	 *                   performed.
+	 * @param flags      Additional flags for customization of the verification
+	 *                   process.
+	 * @return true if the verification is successful, false otherwise.
+	 */
 	@Counted(value = "sdk.count", extraTags = { "api_version", API_VERSION })
 	@Timed(value = "sdk.time", extraTags = { "api_version", API_VERSION })
 	@Override
@@ -84,9 +155,10 @@ public class BioProviderImpl_V_0_9 implements iBioProviderApi {
 			Map<BiometricType, Decision> decisions = response.getResponse()[0].getDecisions();
 			if (decisions.containsKey(modality)) {
 				Match matchResult = decisions.get(modality).getMatch();
-				logger.info(ProviderConstants.LOGGER_SESSIONID, ProviderConstants.LOGGER_IDTYPE, ProviderConstants.LOGGER_EMPTY,
-						MessageFormat.format("Verify::AnalyticsInfo : {0}, errors : {1}", decisions.get(modality).getAnalyticsInfo(),
-						decisions.get(modality).getErrors()));
+				logger.info(ProviderConstants.LOGGER_SESSIONID, ProviderConstants.LOGGER_IDTYPE,
+						ProviderConstants.LOGGER_EMPTY,
+						MessageFormat.format("Verify::AnalyticsInfo : {0}, errors : {1}",
+								decisions.get(modality).getAnalyticsInfo(), decisions.get(modality).getErrors()));
 				return Match.MATCHED.equals(matchResult);
 			}
 		}
@@ -94,6 +166,20 @@ public class BioProviderImpl_V_0_9 implements iBioProviderApi {
 		return false;
 	}
 
+	/**
+	 * Performs biometric identification between a sample and a gallery of biometric
+	 * records.
+	 *
+	 * @param sample   The list of sample biometric records.
+	 * @param gallery  The gallery of biometric records mapped by their respective
+	 *                 keys.
+	 * @param modality The biometric type (modality) for which the identification is
+	 *                 performed.
+	 * @param flags    Additional flags for customization of the identification
+	 *                 process.
+	 * @return A map containing the key from the gallery and a boolean indicating if
+	 *         there was a match.
+	 */
 	@Counted(value = "sdk.count", extraTags = { "api_version", API_VERSION })
 	@Timed(value = "sdk.time", extraTags = { "api_version", API_VERSION })
 	@Override
@@ -102,8 +188,8 @@ public class BioProviderImpl_V_0_9 implements iBioProviderApi {
 		Map<String, Integer> keyIndexMapping = new HashMap<>();
 		BiometricRecord[] galleryRecords = new BiometricRecord[gallery.size()];
 		int i = 0;
-		for (Map.Entry<String,List<BIR>> entry : gallery.entrySet()) {
-		    String key = entry.getKey();
+		for (Map.Entry<String, List<BIR>> entry : gallery.entrySet()) {
+			String key = entry.getKey();
 			keyIndexMapping.put(key, i);
 			galleryRecords[i++] = getBiometricRecord(gallery.get(key).toArray(new BIR[gallery.get(key).size()]));
 		}
@@ -118,10 +204,11 @@ public class BioProviderImpl_V_0_9 implements iBioProviderApi {
 				if (response.getResponse()[index].getDecisions().containsKey(modality)) {
 					result.put(key, Match.MATCHED
 							.equals(response.getResponse()[index].getDecisions().get(modality).getMatch()));
-					logger.info(ProviderConstants.LOGGER_SESSIONID, ProviderConstants.LOGGER_IDTYPE, ProviderConstants.LOGGER_EMPTY,
+					logger.info(ProviderConstants.LOGGER_SESSIONID, ProviderConstants.LOGGER_IDTYPE,
+							ProviderConstants.LOGGER_EMPTY,
 							MessageFormat.format("Identify::AnalyticsInfo : {0}, errors : {1}",
-							response.getResponse()[index].getDecisions().get(modality).getAnalyticsInfo(),
-							response.getResponse()[index].getDecisions().get(modality).getErrors()));
+									response.getResponse()[index].getDecisions().get(modality).getAnalyticsInfo(),
+									response.getResponse()[index].getDecisions().get(modality).getErrors()));
 				} else
 					result.put(key, false);
 			});
@@ -129,6 +216,16 @@ public class BioProviderImpl_V_0_9 implements iBioProviderApi {
 		return result;
 	}
 
+	/**
+	 * Retrieves the quality scores for each segment in the provided sample
+	 * biometric records.
+	 *
+	 * @param sample The array of sample biometric records.
+	 * @param flags  Additional flags for customization of the quality check
+	 *               process.
+	 * @return An array of quality scores corresponding to each segment in the
+	 *         sample.
+	 */
 	@Counted(value = "sdk.count", extraTags = { "api_version", API_VERSION })
 	@Timed(value = "sdk.time", extraTags = { "api_version", API_VERSION })
 	@Override
@@ -142,16 +239,27 @@ public class BioProviderImpl_V_0_9 implements iBioProviderApi {
 			if (isSuccessResponse(response) && response.getResponse().getScores() != null
 					&& response.getResponse().getScores().containsKey(modality)) {
 				scores[i] = response.getResponse().getScores().get(modality).getScore();
-				logger.info(ProviderConstants.LOGGER_SESSIONID, ProviderConstants.LOGGER_IDTYPE, ProviderConstants.LOGGER_EMPTY,
+				logger.info(ProviderConstants.LOGGER_SESSIONID, ProviderConstants.LOGGER_IDTYPE,
+						ProviderConstants.LOGGER_EMPTY,
 						MessageFormat.format("SegmentQuality::AnalyticsInfo : {0}, errors : {1}",
-						response.getResponse().getScores().get(modality).getAnalyticsInfo(),
-						response.getResponse().getScores().get(modality).getErrors()));
+								response.getResponse().getScores().get(modality).getAnalyticsInfo(),
+								response.getResponse().getScores().get(modality).getErrors()));
 			} else
 				scores[i] = 0;
 		}
 		return scores;
 	}
 
+	/**
+	 * Retrieves the overall quality scores for each biometric modality in the
+	 * provided sample biometric records.
+	 *
+	 * @param sample The array of sample biometric records.
+	 * @param flags  Additional flags for customization of the quality check
+	 *               process.
+	 * @return A map containing each biometric modality and its corresponding
+	 *         overall quality score.
+	 */
 	@Counted(value = "sdk.count", extraTags = { "api_version", API_VERSION })
 	@Timed(value = "sdk.time", extraTags = { "api_version", API_VERSION })
 	@Override
@@ -188,6 +296,14 @@ public class BioProviderImpl_V_0_9 implements iBioProviderApi {
 		return scoreMap;
 	}
 
+	/**
+	 * Extracts biometric templates from the provided sample biometric records.
+	 *
+	 * @param sample The list of sample biometric records.
+	 * @param flags  Additional flags for customization of the template extraction
+	 *               process.
+	 * @return The list of extracted biometric templates.
+	 */
 	@Counted(value = "sdk.count", extraTags = { "api_version", API_VERSION })
 	@Timed(value = "sdk.time", extraTags = { "api_version", API_VERSION })
 	@Override
@@ -215,11 +331,28 @@ public class BioProviderImpl_V_0_9 implements iBioProviderApi {
 		return templates;
 	}
 
+	/**
+	 * Checks if the response is successful based on the HTTP status code and
+	 * non-null response object.
+	 *
+	 * @param response The response object to be checked.
+	 * @return true if the response is successful (HTTP status code between 200 and
+	 *         299 and non-null response object), false otherwise.
+	 */
 	private boolean isSuccessResponse(Response<?> response) {
 		return (response != null && (response.getStatusCode() >= 200 && response.getStatusCode() <= 299)
 				&& response.getResponse() != null);
 	}
 
+	/**
+	 * Adds the loaded SDK instance to the registry based on the supported biometric
+	 * functions.
+	 *
+	 * @param sdkInfo  The SDK information containing supported biometric methods.
+	 * @param iBioApi  The SDK instance to be added to the registry.
+	 * @param modality The biometric type (modality) associated with the SDK
+	 *                 instance.
+	 */
 	private void addToRegistry(SDKInfo sdkInfo, IBioApi iBioApi, BiometricType modality) {
 		for (BiometricFunction biometricFunction : sdkInfo.getSupportedMethods().keySet()) {
 			if (sdkInfo.getSupportedMethods().get(biometricFunction).contains(modality)) {
@@ -231,6 +364,13 @@ public class BioProviderImpl_V_0_9 implements iBioProviderApi {
 		}
 	}
 
+	/**
+	 * Retrieves supported biometric modalities along with their associated
+	 * functions.
+	 *
+	 * @return A map containing each supported biometric modality and its associated
+	 *         list of functions.
+	 */
 	private Map<BiometricType, List<BiometricFunction>> getSupportedModalities() {
 		Map<BiometricType, List<BiometricFunction>> result = new EnumMap<>(BiometricType.class);
 		sdkRegistry.forEach((modality, map) -> {
@@ -242,12 +382,28 @@ public class BioProviderImpl_V_0_9 implements iBioProviderApi {
 		return result;
 	}
 
+	/**
+	 * Converts an array of biometric records into a biometric record containing
+	 * segments.
+	 *
+	 * @param birs The array of biometric records.
+	 * @return A biometric record containing segments initialized from the provided
+	 *         array.
+	 */
 	private BiometricRecord getBiometricRecord(BIR[] birs) {
 		BiometricRecord biometricRecord = new BiometricRecord();
 		biometricRecord.setSegments(Arrays.asList(birs));
 		return biometricRecord;
 	}
 
+	/**
+	 * Converts a single biometric record into a biometric record containing
+	 * segments.
+	 *
+	 * @param bir The single biometric record.
+	 * @return A biometric record containing segments initialized from the provided
+	 *         record.
+	 */
 	private BiometricRecord getBiometricRecord(BIR bir) {
 		BiometricRecord biometricRecord = new BiometricRecord();
 		biometricRecord.getSegments().add(bir);

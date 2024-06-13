@@ -7,47 +7,130 @@
 
 package io.mosip.kernel.biometrics.constant;
 
-
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * Enumerates the various biometric modalities supported by the system.
+ *
+ * This JAXB-generated enum represents the "BiometricType" element found in an XML schema. It defines the different
+ * biometric modalities (e.g., fingerprint, iris) that can be captured, processed, and used for identification
+ * or verification purposes.
+ *
+ */
 @XmlType(name = "SingleTypeType")
 @XmlEnum
 public enum BiometricType implements Serializable {
-
+	/**
+	 * Scent: Biometric modality using body odor for identification (less common).
+	 */
 	@XmlEnumValue("Scent")
-	SCENT("Scent"), 
-	@XmlEnumValue("Dna")
+	SCENT("Scent"),
+
+	/**
+	 * DNA: Biometric modality using Deoxyribonucleic acid for high-accuracy
+	 * identification.
+	 */
+	@XmlEnumValue("DNA")
 	DNA("DNA"),
-	@XmlEnumValue("Dna")
-	EAR("Ear "),
+
+	/**
+	 * Ear: Biometric modality using the shape and features of the ear for
+	 * identification.
+	 */
+	@XmlEnumValue("Ear")
+	EAR("Ear"),
+
+	/**
+	 * Face: Biometric modality using facial features for identification or
+	 * verification.
+	 */
 	@XmlEnumValue("Face")
 	FACE("Face"),
+
+	/**
+	 * Finger: Biometric modality using fingerprint patterns for identification or
+	 * verification.
+	 */
 	@XmlEnumValue("Finger")
 	FINGER("Finger"),
+
+	/**
+	 * Foot: Biometric modality using foot sole or footprint patterns for
+	 * identification.
+	 */
 	@XmlEnumValue("Foot")
 	FOOT("Foot"),
+
+	/**
+	 * Vein: Biometric modality using vein patterns for identification or
+	 * verification.
+	 */
 	@XmlEnumValue("Vein")
 	VEIN("Vein"),
+
+	/**
+	 * Hand Geometry: Biometric modality using the shape and dimensions of the hand
+	 * for identification.
+	 */
 	@XmlEnumValue("HandGeometry")
 	HAND_GEOMETRY("HandGeometry"),
+
+	/**
+	 * Iris: Biometric modality using the iris of the eye for high-accuracy
+	 * identification.
+	 */
 	@XmlEnumValue("Iris")
 	IRIS("Iris"),
+
+	/**
+	 * Retina: Biometric modality using the blood vessel patterns in the retina for
+	 * high-accuracy identification.
+	 */
 	@XmlEnumValue("Retina")
 	RETINA("Retina"),
+
+	/**
+	 * Voice: Biometric modality using voice characteristics for identification or
+	 * verification.
+	 */
 	@XmlEnumValue("Voice")
 	VOICE("Voice"),
+
+	/**
+	 * Gait: Biometric modality using walking patterns for identification.
+	 */
 	@XmlEnumValue("Gait")
 	GAIT("Gait"),
+
+	/**
+	 * Keystroke: Biometric modality using typing patterns for identification or
+	 * verification.
+	 */
 	@XmlEnumValue("Keystroke")
 	KEYSTROKE("Keystroke"),
+
+	/**
+	 * Lip Movement: Biometric modality using lip movements for identification or
+	 * verification.
+	 */
 	@XmlEnumValue("LipMovement")
 	LIP_MOVEMENT("LipMovement"),
+
+	/**
+	 * Signature Sign: Biometric modality using handwritten signatures for
+	 * identification or verification.
+	 */
 	@XmlEnumValue("SignatureSign")
 	SIGNATURE_SIGN("SignatureSign"),
+
+	/**
+	 * Exception Photo: Biometric modality used to capture a photograph in case of
+	 * exception during other modality capture.
+	 */
 	@XmlEnumValue("ExceptionPhoto")
 	EXCEPTION_PHOTO("ExceptionPhoto");
 
