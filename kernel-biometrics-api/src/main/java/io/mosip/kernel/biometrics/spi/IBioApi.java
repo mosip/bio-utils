@@ -57,8 +57,8 @@ import io.mosip.kernel.biometrics.model.SDKInfo;
  * </p>
  * 
  * <p>
- * For deprecated methods, such as {@link #convertFormat}, consider migrating to
- * the updated version {@link #convertFormatV2} as indicated by the deprecation
+ * For deprecated methods, such as {@link IBioApiV2#convertFormat}, consider migrating to
+ * the updated version {@link IBioApiV2#convertFormatV2} as indicated by the deprecation
  * notice.
  * </p>
  * 
@@ -188,7 +188,7 @@ public interface IBioApi {
 	 * converted to target format (sample must be in sourceFormat).
 	 * </p>
 	 * 
-	 * @deprecated Since version 1.2.1, use {@link #convertFormatV2} instead.
+	 * @deprecated Since version 1.2.1, use {@link IBioApiV2#convertFormatV2} instead.
 	 * @param sample              The biometric record containing the sample data to
 	 *                            convert.
 	 * @param sourceFormat        The source format of the biometric data.
