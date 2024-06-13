@@ -7,7 +7,7 @@
 	<artifactId>bioutils</artifactId>
 	<packaging>jar</packaging>
 	<version>1.2.1-SNAPSHOT</version>
-	<name>bioutils</name>
+	<name>biometrics-util-test</name>
 	<url>https://github.com/mosip/bio-utils</url>
 	<description>This utility is used to Test the Biomnetric Util Repo
 		functionalties.</description>

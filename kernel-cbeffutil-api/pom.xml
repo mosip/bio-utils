@@ -6,7 +6,7 @@
 	<groupId>io.mosip.kernel</groupId>
 	<artifactId>kernel-cbeffutil-api</artifactId>
 	<version>1.2.1-SNAPSHOT</version>
-	<name>cebff util</name>
+	<name>kernel-cbeffutil-api</name>
 	<description>Biometric interface to be compliant with CBEFF standard </description>
 	<url>https://github.com/mosip/bio-utils</url>
 
