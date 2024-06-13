@@ -39,26 +39,27 @@ public class FingerQualityBlock extends AbstractImageInfo {
 	protected void readObject(DataInputStream inputStream) throws IOException {
 		setQualityScore(inputStream.readUnsignedByte());
 
-		int qualityAlgorithmVendorIdentifier = inputStream.readUnsignedShort();
+		int qualityAlgorithmVendorIdentifierInfo = inputStream.readUnsignedShort();
 		try {
-			setQualityAlgorithmVendorIdentifier(qualityAlgorithmVendorIdentifier);
+			setQualityAlgorithmVendorIdentifier(qualityAlgorithmVendorIdentifierInfo);
 		} catch (Exception ex) {
-			LOGGER.error("setQualityAlgorithmVendorIdentifier :: Not Defined :: qualityAlgorithmVendorIdentifier :: "
-					+ Integer.toHexString(qualityAlgorithmVendorIdentifier));
+			LOGGER.error("setQualityAlgorithmVendorIdentifier :: Not Defined :: qualityAlgorithmVendorIdentifier :: {}",
+					Integer.toHexString(qualityAlgorithmVendorIdentifierInfo));
 		}
 
-		int qualityAlgorithmIdentifier = inputStream.readUnsignedShort();
+		int qualityAlgorithmIdentifierInfo = inputStream.readUnsignedShort();
 		try {
-			setQualityAlgorithmIdentifier(qualityAlgorithmIdentifier);
+			setQualityAlgorithmIdentifier(qualityAlgorithmIdentifierInfo);
 		} catch (Exception ex) {
-			LOGGER.error("setQualityAlgorithmIdentifier :: Not Defined :: qualityAlgorithmIdentifier :: "
-					+ Integer.toHexString(qualityAlgorithmIdentifier));
+			LOGGER.error("setQualityAlgorithmIdentifier :: Not Defined :: qualityAlgorithmIdentifier ::{} ",
+					Integer.toHexString(qualityAlgorithmIdentifierInfo));
 		}
 	}
 
 	@Override
+	@SuppressWarnings({ "java:S2674" })
 	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
-		// skip		
+		// skip
 		inputStream.skip(5);
 	}
 

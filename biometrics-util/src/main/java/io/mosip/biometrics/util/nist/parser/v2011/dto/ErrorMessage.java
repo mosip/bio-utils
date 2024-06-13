@@ -16,5 +16,6 @@ public class ErrorMessage implements Serializable {
     private String errorMnemonicCode;
 
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_INT_I, localName = "ErrorMessageText")
+	@SuppressWarnings({ "java:S1700" })
     private String errorMessage;
 }

@@ -11,9 +11,9 @@ import lombok.Data;
  * CD = CustomDefined
  */
 public class CDDescriptiveDetail implements Serializable {
-    @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_NC, localName = "put_whatever_you_like")
-    private String put_whatever_you_like;
+    @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_NC, localName = "putWhateverYouLike")
+    private String putWhateverYouLike;
 
-    @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_NC, localName = "this_wont_be_validated")
-    private String this_wont_be_validated;
+    @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_NC, localName = "thisWontBeValidated")
+    private String thisWontBeValidated;
 }

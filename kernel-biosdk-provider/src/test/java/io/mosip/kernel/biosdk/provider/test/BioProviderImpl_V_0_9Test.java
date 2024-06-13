@@ -1,31 +1,21 @@
 package io.mosip.kernel.biosdk.provider.test;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import com.sun.source.tree.AssertTree;
 
 import io.mosip.kernel.biometrics.constant.BiometricFunction;
 import io.mosip.kernel.biometrics.constant.BiometricType;
@@ -43,12 +33,10 @@ import io.mosip.kernel.biosdk.provider.spi.iBioProviderApi;
 import io.mosip.kernel.biosdk.provider.util.ProviderConstants;
 import io.mosip.kernel.core.bioapi.exception.BiometricException;
 import io.mosip.kernel.core.cbeffutil.common.CbeffISOReader;
-import io.mosip.kernel.core.cbeffutil.exception.CbeffException;
 
-
-public class BioProviderImpl_V_0_9Test  {
-
-	private List<BIR> record;
+public class BioProviderImpl_V_0_9Test {
+	private List<BIR> recordList;
+	@SuppressWarnings("unused")
 	private List<BIR> updateList;
 	private List<BIR> sample;
 	private String localpath = "./src/test/resources";
@@ -62,45 +50,30 @@ public class BioProviderImpl_V_0_9Test  {
 	byte[] lringFinger = null;
 	byte[] llittleFinger = null;
 	byte[] leftthumb = null;
-	
-	
 
 	@Before
 	public void setUp() throws Exception {
-
 		rindexFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintRight_Index.iso", "Finger");
-		rmiddleFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintRight_Middle.iso",
-				"Finger");
-		rringFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintRight_Ring.iso",
-				"Finger");
-		rlittleFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintRight_Little.iso",
-				"Finger");
-		rightthumb = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintRight_Thumb.iso",
-				"Finger");
-		lindexFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintLeft_Index.iso",
-				"Finger");
-		lmiddleFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintLeft_Middle.iso",
-				"Finger");
+		rmiddleFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintRight_Middle.iso", "Finger");
+		rringFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintRight_Ring.iso", "Finger");
+		rlittleFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintRight_Little.iso", "Finger");
+		rightthumb = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintRight_Thumb.iso", "Finger");
+		lindexFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintLeft_Index.iso", "Finger");
+		lmiddleFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintLeft_Middle.iso", "Finger");
 		lringFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintLeft_Ring.iso", "Finger");
-		llittleFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintLeft_Little.iso",
-				"Finger");
+		llittleFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintLeft_Little.iso", "Finger");
 		leftthumb = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintLeft_Thumb.iso", "Finger");
-		// byte[] irisImg1 = CbeffISOReader.readISOImage(localpath + "/images/" +
-		// "IrisImageRight.iso", "Iris");
-		// byte[] irisImg2 = CbeffISOReader.readISOImage(localpath + "/images/" +
-		// "IrisImageLeft.iso", "Iris");
-		// byte[] faceImg = CbeffISOReader.readISOImage(localpath + "/images/" +
-		// "faceImage.iso", "Face");
+
 		RegistryIDType format = new RegistryIDType();
 		format.setOrganization("257");
 		format.setType("7");
 		QualityType Qtype = new QualityType();
-		Qtype.setScore(new Long(100));
+		Qtype.setScore(Long.valueOf(100));
 		RegistryIDType algorithm = new RegistryIDType();
 		algorithm.setOrganization("HMAC");
 		algorithm.setType("SHA-256");
 		Qtype.setAlgorithm(algorithm);
-		record = new ArrayList<>();
+		recordList = new ArrayList<>();
 		sample = new ArrayList<>();
 		BIR rIndexFinger = new BIR.BIRBuilder().withBdb(rindexFinger).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1))
@@ -111,7 +84,7 @@ public class BioProviderImpl_V_0_9Test  {
 						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
 				.build();
 
-		record.add(rIndexFinger);
+		recordList.add(rIndexFinger);
 
 		BIR rMiddleFinger = new BIR.BIRBuilder().withBdb(rmiddleFinger).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1))
@@ -122,7 +95,7 @@ public class BioProviderImpl_V_0_9Test  {
 						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
 				.build();
 
-		record.add(rMiddleFinger);
+		recordList.add(rMiddleFinger);
 
 		BIR rRingFinger = new BIR.BIRBuilder().withBdb(rringFinger).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1))
@@ -133,7 +106,7 @@ public class BioProviderImpl_V_0_9Test  {
 						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
 				.build();
 
-		record.add(rRingFinger);
+		recordList.add(rRingFinger);
 
 		BIR rLittleFinger = new BIR.BIRBuilder().withBdb(rlittleFinger).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1))
@@ -144,7 +117,7 @@ public class BioProviderImpl_V_0_9Test  {
 						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
 				.build();
 
-		record.add(rLittleFinger);
+		recordList.add(rLittleFinger);
 
 		BIR lIndexFinger = new BIR.BIRBuilder().withBdb(lindexFinger).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1))
@@ -155,7 +128,7 @@ public class BioProviderImpl_V_0_9Test  {
 						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
 				.build();
 
-		record.add(lIndexFinger);
+		recordList.add(lIndexFinger);
 
 		BIR lMiddleFinger = new BIR.BIRBuilder().withBdb(lmiddleFinger).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1))
@@ -166,7 +139,7 @@ public class BioProviderImpl_V_0_9Test  {
 						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
 				.build();
 
-		record.add(lMiddleFinger);
+		recordList.add(lMiddleFinger);
 
 		BIR lRightFinger = new BIR.BIRBuilder().withBdb(lringFinger).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1))
@@ -177,7 +150,7 @@ public class BioProviderImpl_V_0_9Test  {
 						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
 				.build();
 
-		record.add(lRightFinger);
+		recordList.add(lRightFinger);
 
 		BIR lLittleFinger = new BIR.BIRBuilder().withBdb(llittleFinger).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1))
@@ -188,7 +161,7 @@ public class BioProviderImpl_V_0_9Test  {
 						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
 				.build();
 
-		record.add(lLittleFinger);
+		recordList.add(lLittleFinger);
 
 		BIR rightThumb = new BIR.BIRBuilder().withBdb(rightthumb).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1))
@@ -199,7 +172,7 @@ public class BioProviderImpl_V_0_9Test  {
 						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
 				.build();
 
-		record.add(rightThumb);
+		recordList.add(rightThumb);
 
 		BIR leftThumb = new BIR.BIRBuilder().withBdb(leftthumb).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1))
@@ -210,203 +183,205 @@ public class BioProviderImpl_V_0_9Test  {
 						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
 				.build();
 
-		record.add(leftThumb);
-		sample.addAll(record);
-		
-		 SDKInfo sdkInfo = new SDKInfo("0.9", "1", "MOCKVendor2", "test2");
-	        sdkInfo.withSupportedMethod(BiometricFunction.MATCH, BiometricType.IRIS);
-	        sdkInfo.withSupportedMethod(BiometricFunction.EXTRACT, BiometricType.IRIS);
-	        sdkInfo.withSupportedMethod(BiometricFunction.QUALITY_CHECK, BiometricType.IRIS);
+		recordList.add(leftThumb);
+		sample.addAll(recordList);
 
-	        sdkInfo.withSupportedMethod(BiometricFunction.MATCH, BiometricType.FACE);
-	        sdkInfo.withSupportedMethod(BiometricFunction.EXTRACT, BiometricType.FACE);
-	        sdkInfo.withSupportedMethod(BiometricFunction.QUALITY_CHECK, BiometricType.FACE);
+		SDKInfo sdkInfo = new SDKInfo("0.9", "1", "MOCKVendor2", "test2");
+		sdkInfo.withSupportedMethod(BiometricFunction.MATCH, BiometricType.IRIS);
+		sdkInfo.withSupportedMethod(BiometricFunction.EXTRACT, BiometricType.IRIS);
+		sdkInfo.withSupportedMethod(BiometricFunction.QUALITY_CHECK, BiometricType.IRIS);
+
+		sdkInfo.withSupportedMethod(BiometricFunction.MATCH, BiometricType.FACE);
+		sdkInfo.withSupportedMethod(BiometricFunction.EXTRACT, BiometricType.FACE);
+		sdkInfo.withSupportedMethod(BiometricFunction.QUALITY_CHECK, BiometricType.FACE);
 	}
-	
+
 	@Test
-	public void initTest() throws CbeffException, BiometricException {
+	public void initTest() throws Exception {
 		iBioProviderApi bioProviderImpl_V_0_9 = new BioProviderImpl_V_0_9();
-		Map<BiometricType,Map<String, String>> input = new HashMap<>();
+		Map<BiometricType, Map<String, String>> input = new HashMap<>();
 		Map<String, String> modalityParams = new HashMap<>();
-		modalityParams.put(ProviderConstants.VERSION,"0.9");
-		modalityParams.put(ProviderConstants.CLASSNAME,"io.mosip.kernel.biosdk.provider.test.dto.SDKInstanceOne0_9");
+		modalityParams.put(ProviderConstants.VERSION, "0.9");
+		modalityParams.put(ProviderConstants.CLASSNAME, "io.mosip.kernel.biosdk.provider.test.dto.SDKInstanceOne0_9");
 		input.put(BiometricType.FINGER, modalityParams);
-		Map<BiometricType, List<BiometricFunction>> map=bioProviderImpl_V_0_9.init(input);
+		Map<BiometricType, List<BiometricFunction>> map = bioProviderImpl_V_0_9.init(input);
 		assertNotNull(map.get(BiometricType.FINGER));
 		List<BiometricFunction> biometricFunctions = map.get(BiometricType.FINGER);
 		assertTrue(biometricFunctions.contains(BiometricFunction.MATCH));
 		assertTrue(biometricFunctions.contains(BiometricFunction.EXTRACT));
-		assertTrue(biometricFunctions.contains(BiometricFunction.QUALITY_CHECK));		
+		assertTrue(biometricFunctions.contains(BiometricFunction.QUALITY_CHECK));
 	}
-	
+
 	@Test(expected = BiometricException.class)
-	public void initBiometricExceptionTest() throws CbeffException, BiometricException {
+	@SuppressWarnings({ "java:S5777" })
+	public void initBiometricExceptionTest() throws Exception {
 		iBioProviderApi bioProviderImpl_V_0_9 = new BioProviderImpl_V_0_9();
-		Map<BiometricType,Map<String, String>> input = new HashMap<>();
+		Map<BiometricType, Map<String, String>> input = new HashMap<>();
 		Map<String, String> modalityParams = new HashMap<>();
-		modalityParams.put(ProviderConstants.VERSION,"0.9");
-		modalityParams.put(ProviderConstants.CLASSNAME,"io.mosip.kernel.biosdk.provider.test.exception.SDKInstanceException");
+		modalityParams.put(ProviderConstants.VERSION, "0.9");
+		modalityParams.put(ProviderConstants.CLASSNAME,
+				"io.mosip.kernel.biosdk.provider.test.exception.SDKInstanceException");
 		input.put(BiometricType.FINGER, modalityParams);
-		Map<BiometricType, List<BiometricFunction>> map=bioProviderImpl_V_0_9.init(input);
+		Map<BiometricType, List<BiometricFunction>> map = bioProviderImpl_V_0_9.init(input);
+	    
 		assertNotNull(map.get(BiometricType.FINGER));
 		List<BiometricFunction> biometricFunctions = map.get(BiometricType.FINGER);
 		assertTrue(biometricFunctions.contains(BiometricFunction.MATCH));
 		assertTrue(biometricFunctions.contains(BiometricFunction.EXTRACT));
-		assertTrue(biometricFunctions.contains(BiometricFunction.QUALITY_CHECK));		
+		assertTrue(biometricFunctions.contains(BiometricFunction.QUALITY_CHECK));
 	}
 
-	
 	@Test
-	public void verifyTest() throws CbeffException, BiometricException {
+	public void verifyTest() throws Exception {
 		iBioProviderApi bioProviderImpl_V_0_9 = new BioProviderImpl_V_0_9();
-		Map<BiometricType,Map<String, String>> input = new HashMap<>();
+		Map<BiometricType, Map<String, String>> input = new HashMap<>();
 		Map<String, String> modalityParams = new HashMap<>();
-		modalityParams.put(ProviderConstants.VERSION,"0.9");
-		modalityParams.put(ProviderConstants.CLASSNAME,"io.mosip.kernel.biosdk.provider.test.dto.SDKInstanceOne0_9");
+		modalityParams.put(ProviderConstants.VERSION, "0.9");
+		modalityParams.put(ProviderConstants.CLASSNAME, "io.mosip.kernel.biosdk.provider.test.dto.SDKInstanceOne0_9");
 		input.put(BiometricType.FINGER, modalityParams);
 		bioProviderImpl_V_0_9.init(input);
-		assertTrue(bioProviderImpl_V_0_9.verify(sample, record, BiometricType.FINGER, modalityParams));
+		assertTrue(bioProviderImpl_V_0_9.verify(sample, recordList, BiometricType.FINGER, modalityParams));
 	}
-	
+
 	@Test
-	public void verifyIdentifyTest() throws CbeffException, BiometricException {
+	public void verifyIdentifyTest() throws Exception {
 		iBioProviderApi bioProviderImpl_V_0_9 = new BioProviderImpl_V_0_9();
-		Map<BiometricType,Map<String, String>> input = new HashMap<>();
+		Map<BiometricType, Map<String, String>> input = new HashMap<>();
 		Map<String, String> modalityParams = new HashMap<>();
-		modalityParams.put(ProviderConstants.VERSION,"0.9");
-		modalityParams.put(ProviderConstants.CLASSNAME,"io.mosip.kernel.biosdk.provider.test.dto.SDKInstanceOne0_9");
+		modalityParams.put(ProviderConstants.VERSION, "0.9");
+		modalityParams.put(ProviderConstants.CLASSNAME, "io.mosip.kernel.biosdk.provider.test.dto.SDKInstanceOne0_9");
 		input.put(BiometricType.FINGER, modalityParams);
 		bioProviderImpl_V_0_9.init(input);
-		Map<String, List<BIR>> gallery= new HashMap<String, List<BIR>>();
-		gallery.put("check", record);
-		Map<String, Boolean>result= bioProviderImpl_V_0_9.identify(sample, gallery, BiometricType.FINGER, modalityParams);
-        assertTrue(result.get("check"));
+		Map<String, List<BIR>> gallery = new HashMap<String, List<BIR>>();
+		gallery.put("check", recordList);
+		Map<String, Boolean> result = bioProviderImpl_V_0_9.identify(sample, gallery, BiometricType.FINGER,
+				modalityParams);
+		assertTrue(result.get("check"));
 	}
-	
+
 	@Test
-	public void verifyFalseTest() throws CbeffException, BiometricException {
+	public void verifyFalseTest() throws Exception {
 		iBioProviderApi bioProviderImpl_V_0_9 = new BioProviderImpl_V_0_9();
-		Map<BiometricType,Map<String, String>> input = new HashMap<>();
+		Map<BiometricType, Map<String, String>> input = new HashMap<>();
 		Map<String, String> modalityParams = new HashMap<>();
-		modalityParams.put(ProviderConstants.VERSION,"0.9");
-		modalityParams.put(ProviderConstants.CLASSNAME,"io.mosip.kernel.biosdk.provider.test.dto.SDKInstanceTwo0_9");
+		modalityParams.put(ProviderConstants.VERSION, "0.9");
+		modalityParams.put(ProviderConstants.CLASSNAME, "io.mosip.kernel.biosdk.provider.test.dto.SDKInstanceTwo0_9");
 		input.put(BiometricType.FINGER, modalityParams);
 		bioProviderImpl_V_0_9.init(input);
-		assertFalse(bioProviderImpl_V_0_9.verify(sample, record, BiometricType.FINGER, modalityParams));
+		assertFalse(bioProviderImpl_V_0_9.verify(sample, recordList, BiometricType.FINGER, modalityParams));
 	}
-	
+
 	@Test
-	public void verifyIdentifyFalseTest() throws CbeffException, BiometricException {
+	public void verifyIdentifyFalseTest() throws Exception {
 		iBioProviderApi bioProviderImpl_V_0_9 = new BioProviderImpl_V_0_9();
-		Map<BiometricType,Map<String, String>> input = new HashMap<>();
+		Map<BiometricType, Map<String, String>> input = new HashMap<>();
 		Map<String, String> modalityParams = new HashMap<>();
-		modalityParams.put(ProviderConstants.VERSION,"0.9");
-		modalityParams.put(ProviderConstants.CLASSNAME,"io.mosip.kernel.biosdk.provider.test.dto.SDKInstanceThree0_9");
+		modalityParams.put(ProviderConstants.VERSION, "0.9");
+		modalityParams.put(ProviderConstants.CLASSNAME, "io.mosip.kernel.biosdk.provider.test.dto.SDKInstanceThree0_9");
 		input.put(BiometricType.FINGER, modalityParams);
 		bioProviderImpl_V_0_9.init(input);
-		Map<String, List<BIR>> gallery= new HashMap<String, List<BIR>>();
-		gallery.put("check", record);
-		Map<String, Boolean>result= bioProviderImpl_V_0_9.identify(sample, gallery, BiometricType.FINGER, modalityParams);
-        assertFalse(result.get("check"));
+		Map<String, List<BIR>> gallery = new HashMap<String, List<BIR>>();
+		gallery.put("check", recordList);
+		Map<String, Boolean> result = bioProviderImpl_V_0_9.identify(sample, gallery, BiometricType.FINGER,
+				modalityParams);
+		assertFalse(result.get("check"));
 	}
-	
+
 	@Test
-	public void getSegmentQualityTest() throws CbeffException, BiometricException {
+	public void getSegmentQualityTest() throws Exception {
 		iBioProviderApi bioProviderImpl_V_0_9 = new BioProviderImpl_V_0_9();
-		Map<BiometricType,Map<String, String>> input = new HashMap<>();
+		Map<BiometricType, Map<String, String>> input = new HashMap<>();
 		Map<String, String> modalityParams = new HashMap<>();
-		modalityParams.put(ProviderConstants.VERSION,"0.9");
-		modalityParams.put(ProviderConstants.CLASSNAME,"io.mosip.kernel.biosdk.provider.test.dto.SDKInstanceOne0_9");
+		modalityParams.put(ProviderConstants.VERSION, "0.9");
+		modalityParams.put(ProviderConstants.CLASSNAME, "io.mosip.kernel.biosdk.provider.test.dto.SDKInstanceOne0_9");
 		input.put(BiometricType.FINGER, modalityParams);
 		bioProviderImpl_V_0_9.init(input);
-		Map<String, List<BIR>> gallery= new HashMap<String, List<BIR>>();
+		Map<String, List<BIR>> gallery = new HashMap<String, List<BIR>>();
 		BIR[] smp = new BIR[sample.size()];
-		smp=sample.toArray(smp);
-		gallery.put("check", record);
-		float[] result= bioProviderImpl_V_0_9.getSegmentQuality(smp,modalityParams);
-        assertThat(result[0],is(90.0F));
+		smp = sample.toArray(smp);
+		gallery.put("check", recordList);
+		float[] result = bioProviderImpl_V_0_9.getSegmentQuality(smp, modalityParams);
+		MatcherAssert.assertThat(result[0], is(90.0F));
 	}
-	
+
 	@Test
-	public void getModalityQualityTest() throws CbeffException, BiometricException {
+	public void getModalityQualityTest() throws Exception {
 		iBioProviderApi bioProviderImpl_V_0_9 = new BioProviderImpl_V_0_9();
-		Map<BiometricType,Map<String, String>> input = new HashMap<>();
+		Map<BiometricType, Map<String, String>> input = new HashMap<>();
 		Map<String, String> modalityParams = new HashMap<>();
-		modalityParams.put(ProviderConstants.VERSION,"0.9");
-		modalityParams.put(ProviderConstants.CLASSNAME,"io.mosip.kernel.biosdk.provider.test.dto.SDKInstanceOne0_9");
+		modalityParams.put(ProviderConstants.VERSION, "0.9");
+		modalityParams.put(ProviderConstants.CLASSNAME, "io.mosip.kernel.biosdk.provider.test.dto.SDKInstanceOne0_9");
 		input.put(BiometricType.FINGER, modalityParams);
 		bioProviderImpl_V_0_9.init(input);
-		Map<String, List<BIR>> gallery= new HashMap<String, List<BIR>>();
+		Map<String, List<BIR>> gallery = new HashMap<String, List<BIR>>();
 		BIR[] smp = new BIR[sample.size()];
-		smp=sample.toArray(smp);
-		gallery.put("check", record);
-		Map<BiometricType, Float> result= bioProviderImpl_V_0_9.getModalityQuality(smp,modalityParams);
-        assertThat(result.get(BiometricType.FINGER),is(90.0F));
+		smp = sample.toArray(smp);
+		gallery.put("check", recordList);
+		Map<BiometricType, Float> result = bioProviderImpl_V_0_9.getModalityQuality(smp, modalityParams);
+		MatcherAssert.assertThat(result.get(BiometricType.FINGER), is(90.0F));
 	}
-	
+
 	@Test
-	public void getSegmentQualityFalseTest() throws CbeffException, BiometricException {
+	public void getSegmentQualityFalseTest() throws Exception {
 		iBioProviderApi bioProviderImpl_V_0_9 = new BioProviderImpl_V_0_9();
-		Map<BiometricType,Map<String, String>> input = new HashMap<>();
+		Map<BiometricType, Map<String, String>> input = new HashMap<>();
 		Map<String, String> modalityParams = new HashMap<>();
-		modalityParams.put(ProviderConstants.VERSION,"0.9");
-		modalityParams.put(ProviderConstants.CLASSNAME,"io.mosip.kernel.biosdk.provider.test.dto.SDKInstanceTwo0_9");
+		modalityParams.put(ProviderConstants.VERSION, "0.9");
+		modalityParams.put(ProviderConstants.CLASSNAME, "io.mosip.kernel.biosdk.provider.test.dto.SDKInstanceTwo0_9");
 		input.put(BiometricType.FINGER, modalityParams);
 		bioProviderImpl_V_0_9.init(input);
-		Map<String, List<BIR>> gallery= new HashMap<String, List<BIR>>();
+		Map<String, List<BIR>> gallery = new HashMap<String, List<BIR>>();
 		BIR[] smp = new BIR[sample.size()];
-		smp=sample.toArray(smp);
-		gallery.put("check", record);
-		float[] result= bioProviderImpl_V_0_9.getSegmentQuality(smp,modalityParams);
-        assertThat(result[0],is(0F));
+		smp = sample.toArray(smp);
+		gallery.put("check", recordList);
+		float[] result = bioProviderImpl_V_0_9.getSegmentQuality(smp, modalityParams);
+		MatcherAssert.assertThat(result[0], is(0F));
 	}
-	
+
 	@Test
 	public void getModalityQualityFalseTest() throws Exception {
 		iBioProviderApi bioProviderImpl_V_0_9 = new BioProviderImpl_V_0_9();
-		Map<BiometricType,Map<String, String>> input = new HashMap<>();
+		Map<BiometricType, Map<String, String>> input = new HashMap<>();
 		Map<String, String> modalityParams = new HashMap<>();
-		modalityParams.put(ProviderConstants.VERSION,"0.9");
-		modalityParams.put(ProviderConstants.CLASSNAME,"io.mosip.kernel.biosdk.provider.test.dto.SDKInstanceTwo0_9");
+		modalityParams.put(ProviderConstants.VERSION, "0.9");
+		modalityParams.put(ProviderConstants.CLASSNAME, "io.mosip.kernel.biosdk.provider.test.dto.SDKInstanceTwo0_9");
 		input.put(BiometricType.FINGER, modalityParams);
 		bioProviderImpl_V_0_9.init(input);
-		Map<String, List<BIR>> gallery= new HashMap<String, List<BIR>>();
+		Map<String, List<BIR>> gallery = new HashMap<String, List<BIR>>();
 		BIR[] smp = new BIR[sample.size()];
-		smp=sample.toArray(smp);
-		gallery.put("check", record);
-		Map<BiometricType, Float> result= bioProviderImpl_V_0_9.getModalityQuality(smp,modalityParams);
-        assertThat(result.get(BiometricType.FINGER),is(0F));
-	}
-	
-	@Test
-	public void extractTemplateTest() throws CbeffException, BiometricException {
-		iBioProviderApi bioProviderImpl_V_0_9 = new BioProviderImpl_V_0_9();
-		Map<BiometricType,Map<String, String>> input = new HashMap<>();
-		Map<String, String> modalityParams = new HashMap<>();
-		modalityParams.put(ProviderConstants.VERSION,"0.9");
-		modalityParams.put(ProviderConstants.CLASSNAME,"io.mosip.kernel.biosdk.provider.test.dto.SDKInstanceOne0_9");
-		input.put(BiometricType.FINGER, modalityParams);
-		bioProviderImpl_V_0_9.init(input);
-		Map<String, List<BIR>> gallery= new HashMap<String, List<BIR>>();
-		gallery.put("check", record);
-		List<BIR> result= bioProviderImpl_V_0_9.extractTemplate(sample,modalityParams);
-        assertThat(result.size(),is(sample.size()));
-	}
-	
-	@Test
-	public void extractTemplateFalseTest() throws CbeffException, BiometricException {
-		iBioProviderApi bioProviderImpl_V_0_9 = new BioProviderImpl_V_0_9();
-		Map<BiometricType,Map<String, String>> input = new HashMap<>();
-		Map<String, String> modalityParams = new HashMap<>();
-		modalityParams.put(ProviderConstants.VERSION,"0.9");
-		modalityParams.put(ProviderConstants.CLASSNAME,"io.mosip.kernel.biosdk.provider.test.dto.SDKInstanceTwo0_9");
-		input.put(BiometricType.FINGER, modalityParams);
-		bioProviderImpl_V_0_9.init(input);
-		Map<String, List<BIR>> gallery= new HashMap<String, List<BIR>>();
-		gallery.put("check", record);
-		List<BIR> result= bioProviderImpl_V_0_9.extractTemplate(sample,modalityParams);
-        assertThat(result.size(),is(0));
+		smp = sample.toArray(smp);
+		gallery.put("check", recordList);
+		Map<BiometricType, Float> result = bioProviderImpl_V_0_9.getModalityQuality(smp, modalityParams);
+		MatcherAssert.assertThat(result.get(BiometricType.FINGER), is(0F));
 	}
 
+	@Test
+	public void extractTemplateTest() throws Exception {
+		iBioProviderApi bioProviderImpl_V_0_9 = new BioProviderImpl_V_0_9();
+		Map<BiometricType, Map<String, String>> input = new HashMap<>();
+		Map<String, String> modalityParams = new HashMap<>();
+		modalityParams.put(ProviderConstants.VERSION, "0.9");
+		modalityParams.put(ProviderConstants.CLASSNAME, "io.mosip.kernel.biosdk.provider.test.dto.SDKInstanceOne0_9");
+		input.put(BiometricType.FINGER, modalityParams);
+		bioProviderImpl_V_0_9.init(input);
+		Map<String, List<BIR>> gallery = new HashMap<String, List<BIR>>();
+		gallery.put("check", recordList);
+		List<BIR> result = bioProviderImpl_V_0_9.extractTemplate(sample, modalityParams);
+		MatcherAssert.assertThat(result.size(), is(sample.size()));
+	}
 
+	@Test
+	public void extractTemplateFalseTest() throws Exception {
+		iBioProviderApi bioProviderImpl_V_0_9 = new BioProviderImpl_V_0_9();
+		Map<BiometricType, Map<String, String>> input = new HashMap<>();
+		Map<String, String> modalityParams = new HashMap<>();
+		modalityParams.put(ProviderConstants.VERSION, "0.9");
+		modalityParams.put(ProviderConstants.CLASSNAME, "io.mosip.kernel.biosdk.provider.test.dto.SDKInstanceTwo0_9");
+		input.put(BiometricType.FINGER, modalityParams);
+		bioProviderImpl_V_0_9.init(input);
+		Map<String, List<BIR>> gallery = new HashMap<String, List<BIR>>();
+		gallery.put("check", recordList);
+		List<BIR> result = bioProviderImpl_V_0_9.extractTemplate(sample, modalityParams);
+		MatcherAssert.assertThat(result.size(), is(0));
+	}
 }

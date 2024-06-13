@@ -49,6 +49,7 @@ public class RepresentationHeader extends AbstractImageInfo {
 	private int lineLengthHorizontal;
 	private int lineLengthVertical;
 
+	@SuppressWarnings({ "java:S107" })
 	public RepresentationHeader(long representationDataLength, Date captureDate, FingerQualityBlock[] qualityBlocks,
 			int certificationFlag, FingerCertificationBlock[] certificationBlocks, int fingerPosition,
 			int representationNo, int scaleUnitType) {
@@ -89,6 +90,7 @@ public class RepresentationHeader extends AbstractImageInfo {
 		setLineLengthVertical(0);
 	}
 
+	@SuppressWarnings({ "java:S107" })
 	public RepresentationHeader(long representationDataLength, Date captureDate, int captureDeviceTechnologyIdentifier,
 			int captureDeviceVendorIdentifier, int captureDeviceTypeIdentifier, FingerQualityBlock[] qualityBlocks,
 			int certificationFlag, FingerCertificationBlock[] certificationBlocks, int fingerPosition,
@@ -139,12 +141,14 @@ public class RepresentationHeader extends AbstractImageInfo {
 		readObject(inputStream);
 	}
 
-	public RepresentationHeader(DataInputStream inputStream, int certificationFlag, boolean onlyImageInformation) throws IOException {
+	public RepresentationHeader(DataInputStream inputStream, int certificationFlag, boolean onlyImageInformation)
+			throws IOException {
 		setCertificationFlag(certificationFlag);
 		readObject(inputStream, onlyImageInformation);
 	}
 
 	@Override
+	@SuppressWarnings({ "java:S3776" })
 	protected void readObject(DataInputStream inputStream) throws IOException {
 		setRepresentationDataLength((inputStream.readInt() & 0xFFFFFFFFL));
 
@@ -168,20 +172,20 @@ public class RepresentationHeader extends AbstractImageInfo {
 		setCaptureDateTime(calendar.getTime());
 
 		setCaptureDeviceTechnologyIdentifier(inputStream.readUnsignedByte());
-		int captureDeviceVendorIdentifier = inputStream.readUnsignedShort();
+		int captureDeviceVendorIdentifierInfo = inputStream.readUnsignedShort();
 		try {
-			setCaptureDeviceVendorIdentifier(captureDeviceVendorIdentifier);
+			setCaptureDeviceVendorIdentifier(captureDeviceVendorIdentifierInfo);
 		} catch (Exception ex) {
-			LOGGER.error("setCaptureDeviceVendorIdentifier :: Not Defined :: captureDeviceVendorIdentifier :: "
-					+ Integer.toHexString(captureDeviceVendorIdentifier));
+			LOGGER.error("setCaptureDeviceVendorIdentifier :: Not Defined :: captureDeviceVendorIdentifier :: {}",
+					Integer.toHexString(captureDeviceVendorIdentifierInfo));
 		}
 
-		int captureDeviceTypeIdentifier = inputStream.readUnsignedShort();
+		int captureDeviceTypeIdentifierInfo = inputStream.readUnsignedShort();
 		try {
-			setCaptureDeviceTypeIdentifier(captureDeviceTypeIdentifier);
+			setCaptureDeviceTypeIdentifier(captureDeviceTypeIdentifierInfo);
 		} catch (Exception ex) {
-			LOGGER.error("setCaptureDeviceTypeIdentifier :: Not Defined :: captureDeviceTypeIdentifier :: "
-					+ Integer.toHexString(captureDeviceTypeIdentifier));
+			LOGGER.error("setCaptureDeviceTypeIdentifier :: Not Defined :: captureDeviceTypeIdentifier :: {}",
+					Integer.toHexString(captureDeviceTypeIdentifierInfo));
 		}
 
 		setNoOfQualityBlocks(inputStream.readUnsignedByte());
@@ -195,57 +199,57 @@ public class RepresentationHeader extends AbstractImageInfo {
 
 		if (getCertificationFlag() == FingerCertificationFlag.ONE) {
 			setNoOfCertificationBlocks(inputStream.readUnsignedByte());
-			FingerCertificationBlock[] certificationBlocks = new FingerCertificationBlock[getNoOfCertificationBlocks()];
+			FingerCertificationBlock[] certificationBlocksInfo = new FingerCertificationBlock[getNoOfCertificationBlocks()];
 			if (getNoOfCertificationBlocks() > 0) {
 				for (int index = 0; index < getNoOfCertificationBlocks(); index++) {
-					certificationBlocks[index] = new FingerCertificationBlock(inputStream);
+					certificationBlocksInfo[index] = new FingerCertificationBlock(inputStream);
 				}
 			}
-			setCertificationBlocks(certificationBlocks);
+			setCertificationBlocks(certificationBlocksInfo);
 		}
 
-		int fingerPosition = inputStream.readUnsignedByte();
+		int fingerPositionInfo = inputStream.readUnsignedByte();
 		try {
-			setFingerPosition(fingerPosition);
+			setFingerPosition(fingerPositionInfo);
 		} catch (Exception ex) {
-			LOGGER.error(
-					"setFingerPosition :: Not Defined :: fingerPosition :: " + Integer.toHexString(fingerPosition));
+			LOGGER.error("setFingerPosition :: Not Defined :: fingerPosition :: {}",
+					Integer.toHexString(fingerPositionInfo));
 		}
 
 		setRepresentationNo(inputStream.readUnsignedByte());
 
-		int scaleUnits = inputStream.readUnsignedByte();
+		int scaleUnitsInfo = inputStream.readUnsignedByte();
 		try {
-			setScaleUnits(scaleUnits);
+			setScaleUnits(scaleUnitsInfo);
 		} catch (Exception ex) {
-			LOGGER.error("setScaleUnits :: Not Defined :: scaleUnits :: " + Integer.toHexString(scaleUnits));
+			LOGGER.error("setScaleUnits :: Not Defined :: scaleUnits :: {}", Integer.toHexString(scaleUnitsInfo));
 		}
 		setCaptureDeviceSpatialSamplingRateHorizontal(inputStream.readUnsignedShort());
 		setCaptureDeviceSpatialSamplingRateVertical(inputStream.readUnsignedShort());
 		setImageSpatialSamplingRateHorizontal(inputStream.readUnsignedShort());
 		setImageSpatialSamplingRateVertical(inputStream.readUnsignedShort());
 
-		int bitDepth = inputStream.readUnsignedByte();
+		int bitDepthInfo = inputStream.readUnsignedByte();
 		try {
-			setBitDepth(bitDepth);
+			setBitDepth(bitDepthInfo);
 		} catch (Exception ex) {
-			LOGGER.error("setBitDepth :: Not Defined :: bitDepth :: " + Integer.toHexString(bitDepth));
+			LOGGER.error("setBitDepth :: Not Defined :: bitDepth :: {}", Integer.toHexString(bitDepthInfo));
 		}
 
-		int compressionType = inputStream.readUnsignedByte();
+		int compressionTypeInfo = inputStream.readUnsignedByte();
 		try {
-			setCompressionType(compressionType);
+			setCompressionType(compressionTypeInfo);
 		} catch (Exception ex) {
-			LOGGER.error(
-					"setCompressionType :: Not Defined :: compressionType :: " + Integer.toHexString(compressionType));
+			LOGGER.error("setCompressionType :: Not Defined :: compressionType :: {}",
+					Integer.toHexString(compressionTypeInfo));
 		}
 
-		int impressionType = inputStream.readUnsignedByte();
+		int impressionTypeInfo = inputStream.readUnsignedByte();
 		try {
-			setImpressionType(impressionType);
+			setImpressionType(impressionTypeInfo);
 		} catch (Exception ex) {
-			LOGGER.error(
-					"setImpressionType :: Not Defined :: impressionType :: " + Integer.toHexString(impressionType));
+			LOGGER.error("setImpressionType :: Not Defined :: impressionType :: {}",
+					Integer.toHexString(impressionTypeInfo));
 		}
 
 		setLineLengthHorizontal(inputStream.readUnsignedShort());
@@ -254,7 +258,8 @@ public class RepresentationHeader extends AbstractImageInfo {
 
 	@Override
 	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
-		// 4(RepresentationDataLength) + 9(Datetime) + 1(DeviceTechnologyIdentifier) + 2(DeviceVendorIdentifier) + 2 (DeviceTypeIdentifier)
+		// 4(RepresentationDataLength) + 9(Datetime) + 1(DeviceTechnologyIdentifier) +
+		// 2(DeviceVendorIdentifier) + 2 (DeviceTypeIdentifier)
 		inputStream.skipBytes(18);
 
 		setNoOfQualityBlocks(inputStream.readUnsignedByte());
@@ -264,32 +269,33 @@ public class RepresentationHeader extends AbstractImageInfo {
 			setNoOfCertificationBlocks(inputStream.readUnsignedByte());
 			inputStream.skipBytes(getNoOfCertificationBlocks() * 3);
 		}
-		
-		int fingerPosition = inputStream.readUnsignedByte();
+
+		int fingerPositionInfo = inputStream.readUnsignedByte();
 		try {
-			setFingerPosition(fingerPosition);
+			setFingerPosition(fingerPositionInfo);
 		} catch (Exception ex) {
-			LOGGER.error(
-					"setFingerPosition :: Not Defined :: fingerPosition :: " + Integer.toHexString(fingerPosition));
+			LOGGER.error("setFingerPosition :: Not Defined :: fingerPosition :: {}",
+					Integer.toHexString(fingerPositionInfo));
 		}
 
-		// 1(RepresentationNo) + 1(scaleUnits) + 2(DeviceSpatialSamplingRateHorizontal) + 2(CaptureDeviceSpatialSamplingRateVertical)
-		// + 2(ImageSpatialSamplingRateHorizontal) + 2(ImageSpatialSamplingRateVertical)		
+		// 1(RepresentationNo) + 1(scaleUnits) + 2(DeviceSpatialSamplingRateHorizontal)
+		// + 2(CaptureDeviceSpatialSamplingRateVertical)
+		// + 2(ImageSpatialSamplingRateHorizontal) + 2(ImageSpatialSamplingRateVertical)
 		inputStream.skipBytes(10);
-		
-		int bitDepth = inputStream.readUnsignedByte();
+
+		int bitDepthInfo = inputStream.readUnsignedByte();
 		try {
-			setBitDepth(bitDepth);
+			setBitDepth(bitDepthInfo);
 		} catch (Exception ex) {
-			LOGGER.error("setBitDepth :: Not Defined :: bitDepth :: " + Integer.toHexString(bitDepth));
+			LOGGER.error("setBitDepth :: Not Defined :: bitDepth :: {}", Integer.toHexString(bitDepthInfo));
 		}
 
-		int compressionType = inputStream.readUnsignedByte();
+		int compressionTypeInfo = inputStream.readUnsignedByte();
 		try {
-			setCompressionType(compressionType);
+			setCompressionType(compressionTypeInfo);
 		} catch (Exception ex) {
-			LOGGER.error(
-					"setCompressionType :: Not Defined :: compressionType :: " + Integer.toHexString(compressionType));
+			LOGGER.error("setCompressionType :: Not Defined :: compressionType :: {}",
+					Integer.toHexString(compressionTypeInfo));
 		}
 
 		// 1(impressionType) + 2(LineLengthHorizontal) + 2(LineLengthVertical)

@@ -5,12 +5,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import io.mosip.biometrics.util.AbstractImageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GeneralHeader extends AbstractImageInfo {
-	private static final Logger LOGGER = LoggerFactory.getLogger(GeneralHeader.class);
-
 	private long formatIdentifier;
 	private long versionNumber;
 	private long totalRepresentationLength;
@@ -56,6 +52,7 @@ public class GeneralHeader extends AbstractImageInfo {
 	}
 
 	@Override
+	@SuppressWarnings({ "java:S2674" })
 	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
 		// 4(FormatIdentifier) + 4(VersionNumber)
 		inputStream.skip(8);

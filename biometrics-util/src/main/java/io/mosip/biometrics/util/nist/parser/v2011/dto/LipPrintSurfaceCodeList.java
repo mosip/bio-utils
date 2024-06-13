@@ -16,5 +16,6 @@ public class LipPrintSurfaceCodeList implements Serializable {
 	*/
 	@JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "LipPrintSurfaceCode")
 	@JacksonXmlElementWrapper(useWrapping=false)
+	@SuppressWarnings({ "java:S1700" })
 	private List<String> lipPrintSurfaceCodeList;
 }

@@ -1,5 +1,8 @@
 package io.mosip.biometrics.util.nist.parser.v2011.constant;
 
+import java.io.Serializable;
+import java.util.Arrays;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -8,7 +11,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 import lombok.Data;
 
 @Data
-public class ColorSpaces {
+public class ColorSpaces implements Serializable {
 	/**
 	 * Undefined
 	 */
@@ -34,17 +37,16 @@ public class ColorSpaces {
 	 */
 	public static final String SYCC = "SYCC";
 
-	public static final String[] arrValues = new String[] { UNK, GRAY, RGB, SRGB, YCC, SYCC };
+	protected static final String[] arrValues = new String[] { UNK, GRAY, RGB, SRGB, YCC, SYCC };
 
 	@JacksonXmlText
 	private String value;
 
 	@JsonCreator
 	public static String fromValue(String value) {
-
 		if (ArrayUtils.contains(arrValues, value))
 			return value;
 		throw new IllegalArgumentException(
-				"ColorSpaces value can be " + arrValues.toString() + ", set value is wrong [" + value + "]");
+				"ColorSpaces value can be " + Arrays.toString(arrValues) + ", set value is wrong [" + value + "]");
 	}
 }

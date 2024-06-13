@@ -1,5 +1,8 @@
 package io.mosip.biometrics.util.nist.parser.v2011.constant;
 
+import java.io.Serializable;
+import java.util.Arrays;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -8,7 +11,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 import lombok.Data;
 
 @Data
-public class FingerPositionCodes {
+public class FingerPositionCodes implements Serializable {
 	public static final int UNKNOWN_FINGER = 0;
 	public static final int RIGHT_THUMB = 1;
 	public static final int RIGHT_INDEX_FINGER = 2;
@@ -61,7 +64,7 @@ public class FingerPositionCodes {
 	public static final int FINGERTIPS_FOUR_FINGERS_AND_THUMB_SIMULTANEOUSLY_RIGHT_HAND_PLAIN = 53;
 	public static final int FINGERTIPS_FOUR_FINGERS_AND_THUMB_SIMULTANEOUSLY_LEFT_HAND_PLAIN = 54;
 
-	public static final Integer[] arrValues = new Integer[] { UNKNOWN_FINGER, RIGHT_THUMB, RIGHT_INDEX_FINGER,
+	protected static final Integer[] arrValues = new Integer[] { UNKNOWN_FINGER, RIGHT_THUMB, RIGHT_INDEX_FINGER,
 			RIGHT_MIDDLE_FINGER, RIGHT_RING_FINGER, RIGHT_LITTLE_FINGER, LEFT_THUMB, LEFT_INDEX_FINGER,
 			LEFT_MIDDLE_FINGER, LEFT_RING_FINGER, LEFT_LITTLE_FINGER, PLAIN_RIGHT_THUMB, PLAIN_LEFT_THUMB,
 			PLAIN_RIGHT_FOUR_FINGERS_MAY_INCLUDE_EXTRA_DIGITS, PLAIN_LEFT_FOUR_FINGERS_MAY_INCLUDE_EXTRA_DIGITS,
@@ -83,6 +86,6 @@ public class FingerPositionCodes {
 		if (ArrayUtils.contains(arrValues, value))
 			return value;
 		throw new IllegalArgumentException(
-				"FingerPositionCodes value can be " + arrValues.toString() + ", set value is wrong [" + value + "]");
+				"FingerPositionCodes value can be " + Arrays.toString(arrValues) + ", set value is wrong [" + value + "]");
 	}
 }

@@ -10,6 +10,7 @@ import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstan
 import lombok.Data;
 
 @Data
+@SuppressWarnings({ "java:S6539" })
 public class ExtendedFeatureSetMinutiae implements Serializable {
     /**
     <!-- 9.303 FSP -->

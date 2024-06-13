@@ -6,14 +6,12 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import io.mosip.biometrics.util.AbstractImageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class FacialInformation extends AbstractImageInfo {
-	private static final Logger LOGGER = LoggerFactory.getLogger(FacialInformation.class);
-
 	/** Indexes into poseAngle array. */
-	private static final int YAW = 0, PITCH = 1, ROLL = 2;
+	private static final int YAW = 0;
+	private static final int PITCH = 1;
+	private static final int ROLL = 2;
 
 	private int noOfLandMarkPoints;
 	private int gender;
@@ -41,6 +39,7 @@ public class FacialInformation extends AbstractImageInfo {
 		System.arraycopy(poseAngleUncertainty, 0, poseAngleUncertainty, 0, 3);
 	}
 
+	@SuppressWarnings({ "java:S107" })
 	public FacialInformation(int noOflandMarkPoints, int gender, int eyeColor, int hairColor, int subjectHeight,
 			int propertyMask, int expressionMask, int[] poseAngle, int[] poseAngleUncertainty) {
 		setNoOfLandMarkPoints(noOflandMarkPoints);
@@ -97,6 +96,7 @@ public class FacialInformation extends AbstractImageInfo {
 	}
 
 	@Override
+	@SuppressWarnings({ "java:S2674" })
 	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
 		setNoOfLandMarkPoints(inputStream.readUnsignedShort());
 		// 1(gender) + 1(EyeColor) + 1(HairColor) + 1(SubjectHeight) 

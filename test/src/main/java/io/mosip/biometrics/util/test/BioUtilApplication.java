@@ -20,58 +20,60 @@ import io.mosip.biometrics.util.iris.*;
 public class BioUtilApplication {
 	private static final Logger LOGGER = LoggerFactory.getLogger(BioUtilApplication.class);
 
+	@SuppressWarnings({ "java:S3776", "java:S6541" })
 	public static void main(String[] args) {
 		if (args != null && args.length >= 2) {
 			// Argument 0 should contain
 			// io.mosip.biometrics.util.image.type.jp2000/io.mosip.biometrics.util.image.type.wsq"
 			String imageType = args[0];
-			LOGGER.info("main :: imageType :: Argument [0] " + imageType);
-			if (imageType.contains(ApplicationConstant.IMAGE_TYPE_JP2000))// 0
-			{
+			LOGGER.info("main :: imageType :: Argument {} ", imageType);
+			// 0 or 1
+			if (imageType.contains(ApplicationConstant.IMAGE_TYPE_JP2000)
+					|| imageType.contains(ApplicationConstant.IMAGE_TYPE_WSQ)) {
 				imageType = imageType.split("=")[1];
-			} else if (imageType.contains(ApplicationConstant.IMAGE_TYPE_WSQ))// 1
-			{
-				imageType = imageType.split("=")[1];
+			} else {
+				System.exit(-1);
 			}
 
 			// Argument 1 should contain
 			// "io.mosip.biometrics.util.convert.image.to.iso/io.mosip.biometrics.util.convert.iso.to.image"
 			String convertTo = args[1];
-			LOGGER.info("main :: convertTo :: Argument [1] " + convertTo);
-			if (convertTo.contains(ApplicationConstant.MOSIP_CONVERT_IMAGE_TO_ISO))// 0
-			{
+			LOGGER.info("main :: convertTo :: Argument {}", convertTo);
+			// 0 or 1
+			if (convertTo.contains(ApplicationConstant.MOSIP_CONVERT_IMAGE_TO_ISO)
+					|| convertTo.contains(ApplicationConstant.MOSIP_CONVERT_ISO_TO_IMAGE)) {
 				convertTo = convertTo.split("=")[1];
-			} else if (convertTo.contains(ApplicationConstant.MOSIP_CONVERT_ISO_TO_IMAGE))// 1
-			{
-				convertTo = convertTo.split("=")[1];
+			} else {
+				System.exit(-1);
 			}
 
 			// Argument 2 should contain
 			// "mosip.mock.sbi.biometric.type.finger.folder.path/mosip.mock.sbi.biometric.type.face.folder.path/mosip.mock.sbi.biometric.type.iris.folder.path"
 			String biometricFolderPath = args[2];
-			LOGGER.info("main :: biometricFolderPath :: Argument [2] " + biometricFolderPath);
-			if (biometricFolderPath.contains(ApplicationConstant.MOSIP_BIOMETRIC_TYPE_FINGER)) {
+			LOGGER.info("main :: biometricFolderPath :: Argument {} ", biometricFolderPath);
+			if (biometricFolderPath.contains(ApplicationConstant.MOSIP_BIOMETRIC_TYPE_FINGER)
+					|| biometricFolderPath.contains(ApplicationConstant.MOSIP_BIOMETRIC_TYPE_FACE)
+					|| biometricFolderPath.contains(ApplicationConstant.MOSIP_BIOMETRIC_TYPE_IRIS)) {
 				biometricFolderPath = biometricFolderPath.split("=")[1];
-			} else if (biometricFolderPath.contains(ApplicationConstant.MOSIP_BIOMETRIC_TYPE_FACE)) {
-				biometricFolderPath = biometricFolderPath.split("=")[1];
-			} else if (biometricFolderPath.contains(ApplicationConstant.MOSIP_BIOMETRIC_TYPE_IRIS)) {
-				biometricFolderPath = biometricFolderPath.split("=")[1];
+			} else {
+				System.exit(-1);
 			}
 
 			// Argument 3 should contain
 			// "mosip.mock.sbi.biometric.type.file.image/mosip.mock.sbi.biometric.type.file.iso"
 			String converionFile = args[3];
-			LOGGER.info("main :: converionFile :: Argument [2] " + converionFile);
-			if (converionFile.contains(ApplicationConstant.MOSIP_BIOMETRIC_TYPE_FILE_IMAGE)) {
+			LOGGER.info("main :: converionFile :: Argument {} ", converionFile);
+			if (converionFile.contains(ApplicationConstant.MOSIP_BIOMETRIC_TYPE_FILE_IMAGE)
+					|| converionFile.contains(ApplicationConstant.MOSIP_BIOMETRIC_TYPE_FILE_ISO)) {
 				converionFile = converionFile.split("=")[1];
-			} else if (converionFile.contains(ApplicationConstant.MOSIP_BIOMETRIC_TYPE_FILE_ISO)) {
-				converionFile = converionFile.split("=")[1];
+			} else {
+				System.exit(-1);
 			}
 
 			// Argument 4 should contain "mosip.mock.sbi.biometric.subtype=Right"
 			// Example#Iris Right eye
 			String biometricSubType = args[4];
-			LOGGER.info("main :: biometricSubType :: Argument [4] " + biometricSubType);
+			LOGGER.info("main :: biometricSubType :: Argument {} ", biometricSubType);
 			if (biometricSubType != null && (biometricSubType.contains(ApplicationConstant.BIO_SUB_TYPE_UNKNOWN)
 					|| biometricSubType.contains(ApplicationConstant.BIO_SUB_TYPE_LEFT)
 					|| biometricSubType.contains(ApplicationConstant.BIO_SUB_TYPE_RIGHT)
@@ -86,16 +88,19 @@ public class BioUtilApplication {
 					|| biometricSubType.contains(ApplicationConstant.BIO_SUB_TYPE_LEFT_RING)
 					|| biometricSubType.contains(ApplicationConstant.BIO_SUB_TYPE_LEFT_LITTLE))) {
 				biometricSubType = biometricSubType.split("=")[1];
+			} else {
+				System.exit(-1);
 			}
 
 			// Argument 5 should contain
 			// "io.mosip.biometrics.util.purpose.registration=REGISTRATION/io.mosip.biometrics.util.purpose.auth=AUTH"
 			String purpose = args[5];
-			LOGGER.info("main :: purpose :: Argument [5] " + purpose);
-			if (purpose.contains(ApplicationConstant.MOSIP_PURPOSE_AUTH)) {
+			LOGGER.info("main :: purpose :: Argument {} ", purpose);
+			if (purpose.contains(ApplicationConstant.MOSIP_PURPOSE_AUTH)
+					|| purpose.contains(ApplicationConstant.MOSIP_PURPOSE_REGISTRATION)) {
 				purpose = purpose.split("=")[1];
-			} else if (converionFile.contains(ApplicationConstant.MOSIP_PURPOSE_REGISTRATION)) {
-				purpose = purpose.split("=")[1];
+			} else {
+				System.exit(-1);
 			}
 
 			if (biometricFolderPath.contains("Face")) {
@@ -105,24 +110,25 @@ public class BioUtilApplication {
 					doIrisConversion(purpose, imageType, convertTo, biometricFolderPath, converionFile,
 							biometricSubType);
 				} else {
-					LOGGER.info("main :: biometricSubType :: Argument [3] " + biometricSubType + " is empty for Iris");
+					LOGGER.info("main :: biometricSubType :: Argument {} is empty for Iris ", biometricSubType);
 				}
 			} else if (biometricFolderPath.contains("Finger")) {
 				if (biometricSubType != null) {
 					doFingerConversion(purpose, imageType, convertTo, biometricFolderPath, converionFile,
 							biometricSubType);
 				} else {
-					LOGGER.info("main :: biometricSubType :: Argument [3] " + biometricSubType + " is empty for Iris");
+					LOGGER.info("main :: biometricSubType :: Argument {}  is empty for Iris", biometricSubType);
 				}
 			}
 		}
 	}
 
+	@SuppressWarnings({ "java:S2093", "java:S3776" })
 	public static void doFaceConversion(String purpose, String inputImageType, String convertTo,
 			String biometricFolderPath, String converionFile) {
-		LOGGER.info("doFaceConversion :: Started :: inputImageType ::" + inputImageType + " :: convertTo :: "
-				+ convertTo + "  :: biometricFolderPath :: " + biometricFolderPath + " :: converionFile :: "
-				+ converionFile);
+		LOGGER.info(
+				"doFaceConversion :: Started :: inputImageType :: {} :: convertTo :: {} :: biometricFolderPath :: {} :: converionFile :: {}",
+				inputImageType, convertTo, biometricFolderPath, converionFile);
 		FileOutputStream tmpOutputStream = null;
 		try {
 			ConvertRequestDto requestDto = new ConvertRequestDto();
@@ -136,7 +142,7 @@ public class BioUtilApplication {
 				String fileName = filePath + biometricFolderPath + converionFile;
 				File initialFile = new File(fileName);
 				if (initialFile.exists()) {
-					LOGGER.info("doFaceConversion :: fileName ::" + fileName);
+					LOGGER.info("doFaceConversion :: fileName :: {}", fileName);
 
 					byte[] imageData = Files.readAllBytes(Paths.get(fileName));
 					if (imageData != null) {
@@ -162,7 +168,7 @@ public class BioUtilApplication {
 				String fileName = filePath + biometricFolderPath + converionFile;
 				File initialFile = new File(fileName);
 				if (initialFile.exists()) {
-					LOGGER.info("doFaceConversion :: fileName ::" + fileName);
+					LOGGER.info("doFaceConversion :: fileName :: {}", fileName);
 					byte[] isoData = Files.readAllBytes(Paths.get(fileName));
 					requestDto.setInputBytes(isoData);
 					requestDto.setOnlyImageInformation(1);
@@ -183,16 +189,18 @@ public class BioUtilApplication {
 				if (tmpOutputStream != null)
 					tmpOutputStream.close();
 			} catch (Exception ex) {
+				LOGGER.info("doFaceConversion :: Error ", ex);
 			}
 		}
 		LOGGER.info("doFaceConversion :: Ended :: ");
 	}
 
+	@SuppressWarnings({ "java:S2093", "java:S3776" })
 	public static void doIrisConversion(String purpose, String inputImageType, String convertTo,
 			String biometricFolderPath, String converionFile, String biometricSubType) {
-		LOGGER.info("doIrisConversion :: Started :: inputImageType :: " + inputImageType + " :: convertTo ::"
-				+ convertTo + " :: biometricFolderPath :: " + biometricFolderPath + " :: converionFile :: "
-				+ converionFile + " :: biometricSubType :: " + biometricSubType);
+		LOGGER.info(
+				"doIrisConversion :: Started :: inputImageType :: {} :: convertTo :: {} :: biometricFolderPath :: {} :: converionFile :: {} :: biometricSubType {} ",
+				inputImageType, convertTo, biometricFolderPath, converionFile, biometricSubType);
 		FileOutputStream tmpOutputStream = null;
 		try {
 			ConvertRequestDto requestDto = new ConvertRequestDto();
@@ -206,7 +214,7 @@ public class BioUtilApplication {
 				String fileName = filePath + biometricFolderPath + converionFile;
 				File initialFile = new File(fileName);
 				if (initialFile.exists()) {
-					LOGGER.info("doIrisConversion :: fileName ::" + fileName);
+					LOGGER.info("doIrisConversion :: fileName :: {}", fileName);
 					byte[] imageData = Files.readAllBytes(Paths.get(fileName));
 					if (imageData != null) {
 						requestDto.setImageType(Integer.parseInt(inputImageType));
@@ -230,7 +238,7 @@ public class BioUtilApplication {
 				String fileName = filePath + biometricFolderPath + converionFile;
 				File initialFile = new File(fileName);
 				if (initialFile.exists()) {
-					LOGGER.info("doIrisConversion :: fileName ::" + fileName);
+					LOGGER.info("doIrisConversion :: fileName ::{}", fileName);
 					byte[] isoData = Files.readAllBytes(Paths.get(fileName));
 					requestDto.setInputBytes(isoData);
 					requestDto.setOnlyImageInformation(1);
@@ -251,16 +259,19 @@ public class BioUtilApplication {
 				if (tmpOutputStream != null)
 					tmpOutputStream.close();
 			} catch (Exception ex) {
+				LOGGER.info("doIrisConversion :: Error ", ex);
 			}
 		}
 		LOGGER.info("doIrisConversion :: Ended :: ");
 	}
 
+	@SuppressWarnings({ "java:S2093", "java:S3776" })
 	public static void doFingerConversion(String purpose, String inputImageType, String convertTo,
 			String biometricFolderPath, String converionFile, String biometricSubType) {
-		LOGGER.info("doFingerConversion :: Started :: inputImageType :: " + inputImageType + " :: convertTo ::"
-				+ convertTo + " :: biometricFolderPath :: " + biometricFolderPath + " :: converionFile :: "
-				+ converionFile + " :: biometricSubType :: " + biometricSubType);
+		LOGGER.info(
+				"doFingerConversion :: Started :: inputImageType :: {} :: convertTo :: {} :: biometricFolderPath :: {} :: converionFile :: {} :: biometricSubType {} ",
+				inputImageType, convertTo, biometricFolderPath, converionFile, biometricSubType);
+
 		FileOutputStream tmpOutputStream = null;
 		try {
 			ConvertRequestDto requestDto = new ConvertRequestDto();
@@ -274,7 +285,7 @@ public class BioUtilApplication {
 				String fileName = filePath + biometricFolderPath + converionFile;
 				File initialFile = new File(fileName);
 				if (initialFile.exists()) {
-					LOGGER.info("doFingerConversion :: fileName ::" + fileName);
+					LOGGER.info("doFingerConversion :: fileName :: {}", fileName);
 
 					byte[] imageData = Files.readAllBytes(Paths.get(fileName));
 					if (imageData != null) {
@@ -299,7 +310,7 @@ public class BioUtilApplication {
 				String fileName = filePath + biometricFolderPath + converionFile;
 				File initialFile = new File(fileName);
 				if (initialFile.exists()) {
-					LOGGER.info("doFingerConversion :: fileName ::" + fileName);
+					LOGGER.info("doFingerConversion :: fileName ::{}", fileName);
 					byte[] isoData = Files.readAllBytes(Paths.get(fileName));
 					requestDto.setInputBytes(isoData);
 					requestDto.setOnlyImageInformation(1);
@@ -324,6 +335,7 @@ public class BioUtilApplication {
 				if (tmpOutputStream != null)
 					tmpOutputStream.close();
 			} catch (Exception ex) {
+				LOGGER.info("doFingerConversion :: Error ", ex);
 			}
 		}
 		LOGGER.info("doFingerConversion :: Ended :: ");

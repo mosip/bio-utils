@@ -85,7 +85,7 @@ public interface IBioApi {
 	/**
 	 * Converts the provided BDBData from source format to target format for all segments
 	 * if modalitiesToConvert is null/empty, each modality found in the sample is converted to target format(sample must be in sourceFormat).
-	 * 
+	 * @deprecated (1.2.1, @use convertFormatV2)
 	 * @param sample
 	 * @param sourceFormat
 	 * @param targetFormat
@@ -94,7 +94,7 @@ public interface IBioApi {
 	 * @param modalitiesToConvert
 	 * @return
 	 */
-	@Deprecated
+	@Deprecated(since = "1.2.1", forRemoval = true)
 	BiometricRecord convertFormat(BiometricRecord sample, String sourceFormat, String targetFormat, Map<String, String> sourceParams, 
 			Map<String, String> targetParams, List<BiometricType> modalitiesToConvert);
 }

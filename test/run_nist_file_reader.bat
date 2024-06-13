@@ -1,1 +1,1 @@
-java -cp bioutils-1.2.1-SNAPSHOT.jar;lib\* io.mosip.biometrics.util.test.SampleNistFileReader "mosip.mock.sbi.biometric.type.nist.folder.path=/BiometricInfo/NistXmlData/" 
+java -cp bioutils-1.2.1-java21-SNAPSHOT.jar;lib\* io.mosip.biometrics.util.test.SampleNistFileReader "mosip.mock.sbi.biometric.type.nist.folder.path=/BiometricInfo/NistXmlData/" 

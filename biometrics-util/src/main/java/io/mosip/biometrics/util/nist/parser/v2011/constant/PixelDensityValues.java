@@ -1,12 +1,14 @@
 package io.mosip.biometrics.util.nist.parser.v2011.constant;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 
 import lombok.Data;
 
 @Data
-public class PixelDensityValues {
+public class PixelDensityValues implements Serializable {
 	public static final int VALUE_MIN = 1;
 	public static final int VALUE_MAX = 9999;
 

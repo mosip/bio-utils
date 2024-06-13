@@ -6,16 +6,13 @@ import java.io.IOException;
 import java.util.Date;
 
 import io.mosip.biometrics.util.AbstractImageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Representation extends AbstractImageInfo {
-	private static final Logger LOGGER = LoggerFactory.getLogger(Representation.class);
-
 	private RepresentationHeader representationHeader;
 	private RepresentationBody representationBody;
 	private int certificationFlag;
 
+	@SuppressWarnings({ "java:S107" })
 	public Representation(Date captureDate, FingerQualityBlock[] qualityBlocks, int certificationFlag,
 			FingerCertificationBlock[] certificationBlocks, int fingerPosition, int representationNo, int scaleUnitType,
 			byte[] image) {
@@ -26,6 +23,7 @@ public class Representation extends AbstractImageInfo {
 						certificationFlag, certificationBlocks, fingerPosition, representationNo, scaleUnitType));
 	}
 
+	@SuppressWarnings({ "java:S107" })
 	public Representation(Date captureDate, int captureDeviceTechnologyIdentifier, int captureDeviceVendorIdentifier,
 			int captureDeviceTypeIdentifier, FingerQualityBlock[] qualityBlocks, int certificationFlag,
 			FingerCertificationBlock[] certificationBlocks, int fingerPosition, int representationNo, int scaleUnitType,
@@ -42,8 +40,6 @@ public class Representation extends AbstractImageInfo {
 				captureDeviceSpatialSamplingRateHorizontal, captureDeviceSpatialSamplingRateVertical,
 				imageSpatialSamplingRateHorizontal, imageSpatialSamplingRateVertical, bitDepth, compressionType,
 				impressionType, lineLengthHorizontal, lineLengthVertical));
-
-		//LOGGER.info(this.toString());
 	}
 
 	public Representation(DataInputStream inputStream, int certificationFlag) throws IOException {

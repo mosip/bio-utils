@@ -1,5 +1,8 @@
 package io.mosip.biometrics.util.nist.parser.v2011.constant;
 
+import java.io.Serializable;
+import java.util.Arrays;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -8,7 +11,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 import lombok.Data;
 
 @Data
-public class OcclusionCategoryCodes {
+public class OcclusionCategoryCodes implements Serializable {
 	/**
 	 * Eyelashes or reflections of eyelashes (iris only)
 	 */
@@ -34,7 +37,7 @@ public class OcclusionCategoryCodes {
 	 */
 	public static final String OTHER = "O";
 
-	public static final String[] arrValues = new String[] { LASHES, HEAD_COVERING, SPECULAR, SHADOW, REFLECTION,
+	protected static final String[] arrValues = new String[] { LASHES, HEAD_COVERING, SPECULAR, SHADOW, REFLECTION,
 			OTHER };
 
 	@JacksonXmlText
@@ -42,10 +45,10 @@ public class OcclusionCategoryCodes {
 
 	@JsonCreator
 	public static String fromValue(String value) {
-
 		if (ArrayUtils.contains(arrValues, value))
 			return value;
-		throw new IllegalArgumentException(
-				"OcclusionCategoryCodes value can be " + arrValues.toString() + ", set value is wrong [" + value + "]");
+
+		throw new IllegalArgumentException("OcclusionCategoryCodes value can be " + Arrays.toString(arrValues)
+				+ ", set value is wrong [" + value + "]");
 	}
 }

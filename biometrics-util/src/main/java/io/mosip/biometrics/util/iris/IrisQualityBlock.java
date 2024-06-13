@@ -5,12 +5,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import io.mosip.biometrics.util.AbstractImageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class IrisQualityBlock extends AbstractImageInfo {
-	private static final Logger LOGGER = LoggerFactory.getLogger(IrisQualityBlock.class);
-
 	private int qualityScore = 255;
 	private int qualityAlgorithmVendorIdentifier = IrisQualityAlgorithmVendorIdentifier.UNSPECIFIED;
 	private int qualityAlgorithmIdentifier = IrisQualityAlgorithmIdentifier.UNSPECIFIED;
@@ -44,6 +40,7 @@ public class IrisQualityBlock extends AbstractImageInfo {
 	}
 
 	@Override
+	@SuppressWarnings({ "java:S2674" })
 	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
 		inputStream.skip(5);
 	}

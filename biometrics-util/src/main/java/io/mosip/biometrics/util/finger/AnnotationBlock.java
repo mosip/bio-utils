@@ -5,12 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class AnnotationBlock extends ExtendedDataBlock {
-	private static final Logger LOGGER = LoggerFactory.getLogger(AnnotationBlock.class);
-
 	private int noOfAnnotationData;
 	private AnnotationData[] annotationData;
 
@@ -37,11 +32,11 @@ public class AnnotationBlock extends ExtendedDataBlock {
 		setLengthOfExtendedDataBlock(inputStream.readUnsignedShort());
 		setNoOfAnnotationData(inputStream.readUnsignedByte());
 		if (getNoOfAnnotationData() > 0) {
-			AnnotationData[] annotationData = new AnnotationData[getNoOfAnnotationData()];
+			AnnotationData[] annotationInfo = new AnnotationData[getNoOfAnnotationData()];
 			for (int index = 0; index < getNoOfAnnotationData(); index++) {
-				annotationData[index] = new AnnotationData(inputStream);
+				annotationInfo[index] = new AnnotationData(inputStream);
 			}
-			setAnnotationData(annotationData);
+			setAnnotationData(annotationInfo);
 		}
 	}
 

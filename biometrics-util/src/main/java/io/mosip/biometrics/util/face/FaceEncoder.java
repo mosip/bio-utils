@@ -10,14 +10,21 @@ import java.io.IOException;
 import java.util.Date;
 
 public class FaceEncoder {
-	public static byte[] convertFaceImageToISO19794_5_2011(long formatIdentifier,
-			long versionNumber, int certificationFlag, int temporalSemantics, Date captureDate,
-			int noOfRepresentations, int noOfLandMarkPoints, int gender, int eyeColour, int hairColour,
-			int subjectHeight, int expression, int features, int[] poseAngle, int[] poseAngleUncertainty,
-			int faceImageType, int sourceType, int deviceVendor, int deviceType, FaceQualityBlock[] qualityBlock,
-			byte[] imageData, int imageWidth, int imageHeight, int imageDataType, int spatialSamplingRateLevel,
-			int postAcquisitionProcessing, int crossReference, int imageColourSpace, LandmarkPoints[] landmarkPoints,
-			byte[] threeDInformationAndData) throws IOException {
+	private static final String ISO_VERSION = "ISO19794_5_2011";
+
+	private FaceEncoder() {
+		throw new IllegalStateException("FaceEncoder class");
+	}
+
+	@SuppressWarnings({ "java:S100", "java:S107" })
+	public static byte[] convertFaceImageToISO19794_5_2011(long formatIdentifier, long versionNumber,
+			int certificationFlag, int temporalSemantics, Date captureDate, int noOfRepresentations,
+			int noOfLandMarkPoints, int gender, int eyeColour, int hairColour, int subjectHeight, int expression,
+			int features, int[] poseAngle, int[] poseAngleUncertainty, int faceImageType, int sourceType,
+			int deviceVendor, int deviceType, FaceQualityBlock[] qualityBlock, byte[] imageData, int imageWidth,
+			int imageHeight, int imageDataType, int spatialSamplingRateLevel, int postAcquisitionProcessing,
+			int crossReference, int imageColourSpace, LandmarkPoints[] landmarkPoints, byte[] threeDInformationAndData)
+			throws IOException {
 		FacialInformation facialInformation = new FacialInformation(noOfLandMarkPoints, gender, eyeColour, hairColour,
 				subjectHeight, features, expression, poseAngle, poseAngleUncertainty);
 
@@ -37,9 +44,9 @@ public class FaceEncoder {
 		return data;
 	}
 
+	@SuppressWarnings({ "unused" })
 	public static byte[] convertFaceImageToISO(ConvertRequestDto convertRequestDto) throws Exception {
-		switch (convertRequestDto.getVersion()) {
-		case "ISO19794_5_2011":
+		if (convertRequestDto.getVersion().equals(ISO_VERSION)) {
 			long formatIdentifier = FaceFormatIdentifier.FORMAT_FAC;
 			long versionNumber = FaceVersionNumber.VERSION_030;
 			int certificationFlag = FaceCertificationFlag.UNSPECIFIED;
@@ -70,14 +77,14 @@ public class FaceEncoder {
 			int postAcquisitionProcessing = 0;
 			int crossReference = CrossReference.BASIC;
 			LandmarkPoints[] landmarkPoints = null;
-			int noOfRepresentations = (int) 0x0001;
+			int noOfRepresentations = 0x0001;
 
 			int quality = 40;
 			FaceQualityBlock[] qualityBlock = new FaceQualityBlock[] {
 					new FaceQualityBlock(quality, algorithmVendorIdentifier, qualityAlgorithmIdentifier) };
-			int imageDataType = convertRequestDto.getPurpose().equalsIgnoreCase("AUTH") ? ImageDataType.JPEG2000_LOSSY :
-				ImageDataType.JPEG2000_LOSS_LESS;
-			
+			int imageDataType = convertRequestDto.getPurpose().equalsIgnoreCase("AUTH") ? ImageDataType.JPEG2000_LOSSY
+					: ImageDataType.JPEG2000_LOSS_LESS;
+
 			BufferedImage bufferedImage = CommonUtil.getBufferedImage(convertRequestDto);
 			int imageWidth = bufferedImage.getWidth();
 			int imageHeight = bufferedImage.getHeight();
@@ -85,11 +92,10 @@ public class FaceEncoder {
 
 			return convertFaceImageToISO19794_5_2011(formatIdentifier, versionNumber, certificationFlag,
 					temporalSequenceFlags, captureDate, noOfRepresentations, noOfLandMarkPoints, gender, eyeColour,
-					hairColour, subjectHeight, expression, features, poseAngle, poseAngleUncertainty,
-					faceImageType, sourceType, deviceVendor, deviceType, qualityBlock,
-					convertRequestDto.getInputBytes(), imageWidth, imageHeight, imageDataType, spatialSamplingRateLevel,
-					postAcquisitionProcessing, crossReference, imageColourSpace, landmarkPoints,
-					threeDInformationAndData);
+					hairColour, subjectHeight, expression, features, poseAngle, poseAngleUncertainty, faceImageType,
+					sourceType, deviceVendor, deviceType, qualityBlock, convertRequestDto.getInputBytes(), imageWidth,
+					imageHeight, imageDataType, spatialSamplingRateLevel, postAcquisitionProcessing, crossReference,
+					imageColourSpace, landmarkPoints, threeDInformationAndData);
 		}
 		throw new UnsupportedOperationException();
 	}
