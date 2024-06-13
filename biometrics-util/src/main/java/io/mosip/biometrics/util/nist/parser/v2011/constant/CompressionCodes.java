@@ -1,5 +1,8 @@
 package io.mosip.biometrics.util.nist.parser.v2011.constant;
 
+import java.io.Serializable;
+import java.util.Arrays;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -8,7 +11,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 import lombok.Data;
 
 @Data
-public class CompressionCodes {
+public class CompressionCodes implements Serializable  {
 	/**
 	 *  Uncompressed Lossless NA
 	 */
@@ -38,7 +41,7 @@ public class CompressionCodes {
 	 */
 	public static final String PNG_LOSSLESS = "PNG";
 
-	public static final String[] arrValues = new String[] { NONE_LOSSLESS, WSQ20_LOSSY, JPEG_LOSSY, JPEG_LOSSLESS,
+	protected static final String[] arrValues = new String[] { NONE_LOSSLESS, WSQ20_LOSSY, JPEG_LOSSY, JPEG_LOSSLESS,
 			JP2_LOSSY, JP2_LOSSLESS, PNG_LOSSLESS };
 
 	@JacksonXmlText
@@ -50,6 +53,6 @@ public class CompressionCodes {
 		if (ArrayUtils.contains(arrValues, value))
 			return value;
 		throw new IllegalArgumentException(
-				"CompressionCodes value can be " + arrValues.toString() + ", set value is wrong [" + value + "]");
+				"CompressionCodes value can be " + Arrays.toString(arrValues) + ", set value is wrong [" + value + "]");
 	}
 }

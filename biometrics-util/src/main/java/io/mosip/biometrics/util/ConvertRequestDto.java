@@ -2,33 +2,64 @@ package io.mosip.biometrics.util;
 
 import lombok.Data;
 
+/**
+ * Represents a request for converting biometric data to a specific format.
+ */
 @Data
 public class ConvertRequestDto {
-	// currently supported ISO19794_4_2011, ISO19794_5_2011, ISO19794_6_2011
-	private String version; 
-	//// Registration or Auth
-	private String purpose; 
-	// JP2000 --> 0 or WSQ --> 1
-	private int imageType; 
-	// Iso or image Data
+	/**
+	 * The version of the biometric standard supported for conversion.
+	 * <p>
+	 * Examples include ISO19794_4_2011, ISO19794_5_2011, ISO19794_6_2011.
+	 */
+	private String version;
+
+	/**
+	 * The purpose of the conversion.
+	 * <p>
+	 * Valid values are "Registration" or "Auth".
+	 */
+	private String purpose;
+
+	/**
+	 * The type of image format to convert to.
+	 * <p>
+	 * Use 0 for JP2000 and 1 for WSQ.
+	 */
+	private int imageType;
+
+	/**
+	 * The biometric data input, either ISO format or raw image data.
+	 */
 	private byte[] inputBytes;
 
-	//// Face or Iris or Finger
-	private String modality; 
-	
-	private String biometricSubType;
-	
-	// Default --> 0 or onlyImageInformation --> 1
-	private int onlyImageInformation = 0; 
+	/**
+	 * The modality of the biometric data.
+	 * <p>
+	 * Examples include "Face", "Iris", or "Finger".
+	 */
+	private String modality;
 
-	// use only for lossless images
-	//a) For JPEG, it can be a quality from 0 to 100 (the higher is the better). Default value is 95.
-	//b) For PNG, it can be the compression level from 0 to 9. A higher value means a smaller size and longer compression time. 
-	// 		If specified, strategy is changed to IMWRITE_PNG_STRATEGY_DEFAULT (Z_DEFAULT_STRATEGY). Default value is 1 (best speed setting).
-	//c) For WEBP, it can be a quality from 1 to 100 (the higher is the better). 
-	//		By default (without any parameter) and for quality above 100 the lossless compression is used.
-	//d) For WSQ we do not use opencv 
-	//e) For JPEG2000, use to specify the target compression rate (multiplied by 1000). 
-	//		The value can be from 0 to 1000. Default is 1000.
-	private int compressionRatio = 95; 
+	/**
+	 * Optional subtype of the biometric data.
+	 */
+	private String biometricSubType;
+
+	 /**
+     * Flag indicating whether to include only image information.
+     * <p>
+     * Default is 0 (false), set to 1 (true) to request only image information.
+     */
+	private int onlyImageInformation = 0;
+
+	 /**
+     * Compression ratio or quality level for lossy images.
+     * <p>
+     * For JPEG, specify a quality from 0 to 100 (higher is better), default is 95.
+     * For PNG, specify a compression level from 0 to 9 (higher value means smaller size and longer compression time).
+     * For WEBP, specify a quality from 1 to 100 (higher is better), lossless compression used for quality above 100 or default.
+     * For WSQ, this parameter is not applicable.
+     * For JPEG2000, specify the target compression rate (multiplied by 1000) from 0 to 1000, default is 1000.
+     */
+	private int compressionRatio = 95;
 }

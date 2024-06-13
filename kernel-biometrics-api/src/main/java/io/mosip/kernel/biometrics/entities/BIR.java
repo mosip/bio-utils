@@ -3,6 +3,7 @@ package io.mosip.kernel.biometrics.entities;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -19,7 +20,6 @@ import io.mosip.kernel.core.cbeffutil.common.Base64Adapter;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 /**
  * 
  * BIR class with Builder to create data
@@ -28,14 +28,13 @@ import lombok.NoArgsConstructor;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "BIRType", propOrder = { "version", "cbeffversion", "birInfo", "bdbInfo", "sbInfo", "birs", "bdb",
-"sb", "others"})
+@XmlType(name = "BIRType", propOrder = { "version", "cbeffversion", "birInfo", "bdbInfo", "sbInfo", "birs", "bdb", "sb",
+		"others" })
 @XmlRootElement(name = "BIR")
 @Data
 @NoArgsConstructor
 @JsonDeserialize(builder = BIR.BIRBuilder.class)
 public class BIR implements Serializable {
-
 	@XmlElement(name = "Version")
 	private VersionType version;
 	@XmlElement(name = "CBEFFVersion")
@@ -50,13 +49,14 @@ public class BIR implements Serializable {
 	@XmlElement(name = "SB")
 	@XmlJavaTypeAdapter(Base64Adapter.class)
 	private byte[] sb;
+	@SuppressWarnings({ "java:S1948" })
 	@XmlElement(name = "BIR")
 	protected List<BIR> birs;
 	@XmlElement(name = "SBInfo")
 	private SBInfo sbInfo;
 	@XmlJavaTypeAdapter(AdapterOthersListToHashMap.class)
 	@JsonDeserialize(using = MapEntryDeserializer.class)
-	private HashMap<String, String> others;
+	private Map<String, String> others;
 
 	public BIR(BIRBuilder birBuilder) {
 		this.version = birBuilder.version;
@@ -77,15 +77,15 @@ public class BIR implements Serializable {
 		private byte[] bdb;
 		private byte[] sb;
 		private SBInfo sbInfo;
-		private HashMap<String, String> others = new HashMap<>();
+		private Map<String, String> others = new HashMap<>();
 
-		public BIRBuilder withOthers(HashMap<String, String> others) {
+		public BIRBuilder withOthers(Map<String, String> others) {
 			this.others = others;
 			return this;
 		}
 
 		public BIRBuilder withOthers(String key, String value) {
-			if(Objects.isNull(this.others))
+			if (Objects.isNull(this.others))
 				this.others = new HashMap<>();
 			else
 				this.others.put(key, value);
@@ -130,7 +130,5 @@ public class BIR implements Serializable {
 		public BIR build() {
 			return new BIR(this);
 		}
-
 	}
-
 }

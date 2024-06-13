@@ -4,7 +4,24 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 
+/**
+ * Abstract class for validating ISO standards related to biometric data.
+ */
 public abstract class ISOStandardsValidator {
+	/**
+	 * Validates the capture date and time based on ISO standards.
+	 *
+	 * @param year        the year component of the date/time
+	 * @param month       the month component of the date/time
+	 * @param day         the day component of the date/time
+	 * @param hour        the hour component of the time
+	 * @param minute      the minute component of the time
+	 * @param second      the second component of the time
+	 * @param milliSecond the millisecond component of the time
+	 * @return true if the date/time components are valid according to ISO
+	 *         standards, false otherwise
+	 */
+	@SuppressWarnings({ "java:S1066", "java:S3776" })
 	public boolean isValidCaptureDateTime(int year, int month, int day, int hour, int minute, int second,
 			int milliSecond) {
 		/*
@@ -43,8 +60,21 @@ public abstract class ISOStandardsValidator {
 		return false;
 	}
 
-	public boolean isValidImageData(String purpose, Modality modality, ImageDecoderRequestDto decoderRequestDto)
-			throws Exception {
+	/**
+	 * Validates the image data based on ISO standards for a given purpose and
+	 * modality.
+	 *
+	 * @param purpose           the purpose of the biometric data (e.g., AUTH or
+	 *                          REGISTRATION)
+	 * @param modality          the modality of the biometric data (e.g., Finger,
+	 *                          Face)
+	 * @param decoderRequestDto the DTO containing image decoding request
+	 *                          information
+	 * @return true if the image data is valid according to ISO standards, false
+	 *         otherwise
+	 */
+	@SuppressWarnings({ "java:S1172" })
+	public boolean isValidImageData(String purpose, Modality modality, ImageDecoderRequestDto decoderRequestDto) {
 		switch (Purposes.fromCode(purpose)) {
 		case AUTH:
 			if (isJP2000(true, decoderRequestDto) || isWSQ(true, decoderRequestDto)) {
@@ -56,16 +86,27 @@ public abstract class ISOStandardsValidator {
 				return true;
 			}
 			break;
+		default:
+			return false;
 		}
 
 		return false;
 	}
 
+	/**
+	 * Retrieves the biometric data type (e.g., JPEG2000, WSQ) based on ISO
+	 * standards.
+	 *
+	 * @param purpose     the purpose of the biometric data (e.g., AUTH or
+	 *                    REGISTRATION)
+	 * @param modality    the modality of the biometric data (e.g., Finger, Iris)
+	 * @param inImageData the byte array of the image data
+	 * @return the biometric data type as an integer value, or -1 if not recognized
+	 * @throws Exception if there is an error processing the image data
+	 */
 	public int getBioDataType(String purpose, Modality modality, byte[] inImageData) throws Exception {
 		switch (modality) {
-		case Finger:
-		case Iris:
-		case Face:
+		case Finger, Iris, Face:
 			switch (Purposes.fromCode(purpose)) {
 			case AUTH:
 				if (isJP2000(inImageData)) {
@@ -80,45 +121,62 @@ public abstract class ISOStandardsValidator {
 					return ImageType.JPEG2000.value();
 				}
 				break;
+			default:
+				return -1;
 			}
 			break;
 		case UnSpecified:
 			break;
+		default:
+			return -1;
 		}
 
 		return -1;
 	}
 
-	public boolean isJP2000(boolean isAuth, ImageDecoderRequestDto decoderRequestDto) throws Exception {
-		boolean isValid = false;
-
-		if (isAuth && decoderRequestDto.getImageType().equals("JP2000"))
-			isValid = true;
-		else if (!isAuth && decoderRequestDto.getImageType().equals("JP2000"))
-			isValid = true;
-		return isValid;
-	}
-
-	public boolean isWSQ(boolean isAuth, ImageDecoderRequestDto decoderRequestDto) throws Exception {
-		boolean isValid = false;
-
-		if (isAuth && decoderRequestDto.getImageType().equals("WSQ"))
-			isValid = true;
-		return isValid;
+	/**
+	 * Checks if the image type in the decoder request DTO is JP2000 format.
+	 *
+	 * @param isAuth            indicates if authentication mode is enabled
+	 * @param decoderRequestDto the DTO containing image decoding request
+	 *                          information
+	 * @return true if the image type is JP2000, false otherwise
+	 */
+	@SuppressWarnings({ "java:S1172" })
+	public boolean isJP2000(boolean isAuth, ImageDecoderRequestDto decoderRequestDto) {
+		return (decoderRequestDto.getImageType().equals("JP2000"));
 	}
 
 	/**
-	 * Some Extra info about other file format with jpeg: initial of file contains
-	 * these bytes BMP : 42 4D JPG : FF D8 FF EO ( Starting 2 Byte will always be
-	 * same) PNG : 89 50 4E 47 GIF : 47 49 46 38 When a JPG file uses JFIF or EXIF,
-	 * The signature is different : Raw : FF D8 FF DB JFIF : FF D8 FF E0 EXIF : FF
-	 * D8 FF E1 WSQ : check with marker from WsqDecoder JP2000: 6a 70 32 68 // JP2
-	 * Header
+	 * Checks if the image type in the decoder request DTO is WSQ format and is used
+	 * in authentication mode.
+	 *
+	 * @param isAuth            indicates if authentication mode is enabled
+	 * @param decoderRequestDto the DTO containing image decoding request
+	 *                          information
+	 * @return true if the image type is WSQ and used in authentication mode, false
+	 *         otherwise
 	 */
+	public boolean isWSQ(boolean isAuth, ImageDecoderRequestDto decoderRequestDto) {
+		return (isAuth && decoderRequestDto.getImageType().equals("WSQ"));
+	}
+
+	/**
+	 * Checks if the image data is in JPEG2000 format. Some Extra info about other
+	 * file format with jpeg: initial of file contains these bytes BMP : 42 4D JPG :
+	 * FF D8 FF EO ( Starting 2 Byte will always be same) PNG : 89 50 4E 47 GIF : 47
+	 * 49 46 38 When a JPG file uses JFIF or EXIF, The signature is different : Raw
+	 * : FF D8 FF DB JFIF : FF D8 FF E0 EXIF : FF D8 FF E1 WSQ : check with marker
+	 * from WsqDecoder JP2000: 6a 70 32 68 // JP2 Header
+	 *
+	 * @param imageData the byte array of the image data
+	 * @return true if the image data is in JPEG2000 format, false otherwise
+	 * @throws Exception if there is an error processing the image data
+	 */
+	@SuppressWarnings({ "java:S112", "java:S135" })
 	public boolean isJP2000(byte[] imageData) throws Exception {
 		boolean isValid = false;
-		DataInputStream ins = new DataInputStream(new BufferedInputStream(new ByteArrayInputStream(imageData)));
-		try {
+		try (DataInputStream ins = new DataInputStream(new BufferedInputStream(new ByteArrayInputStream(imageData)))) {
 			// Make sure that the first 12 bytes is the JP2_SIGNATURE_BOX
 			// or if not that the first 2 bytes is the SOC marker
 			while (true) {
@@ -129,83 +187,130 @@ public abstract class ISOStandardsValidator {
 				}
 				break;
 			}
-		} finally {
-			ins.close();
 		}
 		return isValid;
 	}
 
+	/**
+	 * Checks if the image data is in WSQ format.
+	 *
+	 * @param imageData the byte array of the image data
+	 * @return true if the image data is in WSQ format, false otherwise
+	 * @throws Exception if there is an error processing the image data
+	 */
+	@SuppressWarnings({ "java:S112", "java:S125", "java:S135" })
 	public boolean isWSQ(byte[] imageData) throws Exception {
 		boolean isValid = false;
-		DataInputStream ins = new DataInputStream(new BufferedInputStream(new ByteArrayInputStream(imageData)));
-		try {
+
+		try (DataInputStream ins = new DataInputStream(new BufferedInputStream(new ByteArrayInputStream(imageData)))) {
 			while (true) {
 				// a wsq file WSQ Marker Definitions
-				// SOI_WSQ = 0xffa0;
+				/*
+				 * SOI_WSQ value 0xffa0;
+				 */
 				if (ins.readUnsignedShort() == 0xffa0) {
 					isValid = true;
 					break;
 				}
 				break;
 			}
-		} finally {
-			ins.close();
 		}
 		return isValid;
 	}
 
+	/**
+	 * Validates the length of the image data.
+	 *
+	 * @param imageData       the byte array of the image data
+	 * @param imageDataLength the expected length of the image data
+	 * @return true if the image data length matches the expected length, false
+	 *         otherwise
+	 */
 	public boolean isValidImageDataLength(byte[] imageData, long imageDataLength) {
-		if (imageData != null && imageData.length == (int) imageDataLength)
-			return true;
-
-		return false;
+		return (imageData != null && imageData.length == (int) imageDataLength);
 	}
 
-	public boolean isValidImageCompressionRatio(String purpose, Modality modality, ImageDecoderRequestDto decoderRequestDto)
-			throws Exception {
+	/**
+	 * Checks if the image compression ratio is valid based on ISO standards.
+	 *
+	 * @param purpose           the purpose of the biometric data (e.g., AUTH or
+	 *                          REGISTRATION)
+	 * @param modality          the modality of the biometric data (e.g., Finger,
+	 *                          Face)
+	 * @param decoderRequestDto the DTO containing image decoding request
+	 *                          information
+	 * @return true if the image compression ratio is valid, false otherwise
+	 */
+	@SuppressWarnings({ "java:S1172" })
+	public boolean isValidImageCompressionRatio(String purpose, Modality modality,
+			ImageDecoderRequestDto decoderRequestDto) {
 		switch (Purposes.fromCode(purpose)) {
 		case AUTH:
 			String ratio = decoderRequestDto.getImageCompressionRatio();
 			if (ratio != null && !ratio.isBlank() && !ratio.isEmpty()) {
 				String[] arrRatio = ratio.split(":");
-				if (arrRatio != null && arrRatio.length > 0) {
-					// Up to 15:1
-					if (Float.parseFloat(arrRatio[0].trim()) > 0.0f && Float.parseFloat(arrRatio[0].trim()) <= 15.0f)
-						return true;
-				}
+				// Up to 15:1
+				if ((arrRatio != null && arrRatio.length > 0) && (Float.parseFloat(arrRatio[0].trim()) > 0.0f
+						&& Float.parseFloat(arrRatio[0].trim()) <= 15.0f))
+					return true;
 			}
 			break;
 		case REGISTRATION:
 			return true;
+		default:
+			return false;
 		}
 
 		return false;
 	}
 
-	public boolean isValidImageAspectRatio(String purpose, Modality modality, ImageDecoderRequestDto decoderRequestDto)
-			throws Exception {
+	/**
+	 * Checks if the image aspect ratio is valid based on ISO standards.
+	 *
+	 * @param purpose           the purpose of the biometric data (e.g., AUTH or
+	 *                          REGISTRATION)
+	 * @param modality          the modality of the biometric data (e.g., Finger,
+	 *                          Face)
+	 * @param decoderRequestDto the DTO containing image decoding request
+	 *                          information
+	 * @return true if the image aspect ratio is valid, false otherwise
+	 */
+	@SuppressWarnings({ "java:S1172" })
+	public boolean isValidImageAspectRatio(String purpose, Modality modality,
+			ImageDecoderRequestDto decoderRequestDto) {
 		switch (Purposes.fromCode(purpose)) {
 		case AUTH:
 			String ratio = decoderRequestDto.getImageAspectRatio();
 			if (ratio != null && !ratio.isBlank() && !ratio.isEmpty()) {
 				String[] arrRatio = ratio.split(":");
-				if (arrRatio != null && arrRatio.length > 0) {
-					// Up to 1:1
-					if (Float.parseFloat(arrRatio[0].trim()) == 1.0f)
-						return true;
-				}
+				// Up to 1:1
+				if (arrRatio != null && arrRatio.length > 0 && Float.parseFloat(arrRatio[0].trim()) == 1.0f)
+					return true;
 			}
 			break;
 		case REGISTRATION:
 			return true;
+		default:
+			return false;
 		}
 
 		return false;
 	}
 
-	// GRAY[8 bit] and RGB[24 bit]
-	public boolean isValidImageColorSpace(String purpose, Modality modality, ImageDecoderRequestDto decoderRequestDto)
-			throws Exception {
+	/**
+	 * Checks if the image color space is valid based on ISO standards. GRAY[8 bit]
+	 * and RGB[24 bit]
+	 * 
+	 * @param purpose           the purpose of the biometric data (e.g., AUTH or
+	 *                          REGISTRATION)
+	 * @param modality          the modality of the biometric data (e.g., Finger,
+	 *                          Face)
+	 * @param decoderRequestDto the DTO containing image decoding request
+	 *                          information
+	 * @return true if the image color space is valid, false otherwise
+	 */
+	@SuppressWarnings({ "java:S3776" })
+	public boolean isValidImageColorSpace(String purpose, Modality modality, ImageDecoderRequestDto decoderRequestDto) {
 		String colorSpace = decoderRequestDto.getImageColorSpace();
 		switch (Purposes.fromCode(purpose)) {
 		case AUTH:
@@ -244,14 +349,27 @@ public abstract class ISOStandardsValidator {
 				break;
 			}
 			break;
+		default:
+			return false;
 		}
 
 		return true;
 	}
 
-	// HorizontalDPI [490 to 1010 DPI] and VerticalDPI [490 to 1010 DPI] 
-	public boolean isValidImageDPI(String purpose, Modality modality, ImageDecoderRequestDto decoderRequestDto)
-			throws Exception {
+	/**
+	 * Checks if the image DPI (dots per inch) is valid based on ISO standards.
+	 * HorizontalDPI [490 to 1010 DPI] and VerticalDPI [490 to 1010 DPI]
+	 * 
+	 * @param purpose           the purpose of the biometric data (e.g., AUTH or
+	 *                          REGISTRATION)
+	 * @param modality          the modality of the biometric data (e.g., Finger,
+	 *                          Face)
+	 * @param decoderRequestDto the DTO containing image decoding request
+	 *                          information
+	 * @return true if the image DPI is valid, false otherwise
+	 */
+	@SuppressWarnings({ "java:S3776" })
+	public boolean isValidImageDPI(String purpose, Modality modality, ImageDecoderRequestDto decoderRequestDto) {
 		int horizontalDPI = decoderRequestDto.getHorizontalDPI();
 		int verticalDPI = decoderRequestDto.getVerticalDPI();
 		switch (Purposes.fromCode(purpose)) {
@@ -283,6 +401,8 @@ public abstract class ISOStandardsValidator {
 				break;
 			}
 			break;
+		default:
+			return false;
 		}
 
 		return true;

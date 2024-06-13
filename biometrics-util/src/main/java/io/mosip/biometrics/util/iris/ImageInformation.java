@@ -30,6 +30,7 @@ public class ImageInformation extends AbstractImageInfo {
 	private int irisDiameterSmallest;
 	private int irisDiameterLargest;
 
+	@SuppressWarnings({ "java:S107" })
 	public ImageInformation(int eyeLabel, int imageType, int imageFormat, int horizontalOrientation,
 			int verticalOrientation, int compressionType, int width, int height, int bitDepth, int range,
 			int rollAngleOfEye, int rollAngleUncertainty, int irisCenterSmallestX, int irisCenterLargestX,
@@ -64,26 +65,27 @@ public class ImageInformation extends AbstractImageInfo {
 	}
 
 	@Override
+	@SuppressWarnings({ "java:S1117", "java:S1854", "unused" })
 	protected void readObject(DataInputStream inputStream) throws IOException {
 		int eyeLabel = inputStream.readUnsignedByte();
 		try {
 			setEyeLabel(eyeLabel);
 		} catch (Exception ex) {
-			LOGGER.error("setEyeLabel :: Not Defined :: eyeLabel :: " + eyeLabel);
+			LOGGER.error("setEyeLabel :: Not Defined :: eyeLabel :: {}", eyeLabel);
 		}
 
 		int imageType = inputStream.readUnsignedByte();
 		try {
 			setImageType(imageType);
 		} catch (Exception ex) {
-			LOGGER.error("setImageType :: Not Defined :: imageType :: " + imageType);
+			LOGGER.error("setImageType :: Not Defined :: imageType :: {}", imageType);
 		}
 
 		int imageFormat = inputStream.readUnsignedByte();
 		try {
 			setImageFormat(imageFormat);
 		} catch (Exception ex) {
-			LOGGER.error("setImageFormat :: Not Defined :: imageFormat :: " + imageFormat);
+			LOGGER.error("setImageFormat :: Not Defined :: imageFormat :: {}", imageFormat);
 		}
 		/*
 		 * 8 7 6 5 4 3 2 1 [ | | | | | | | | ] 1 1 = 0x0003 horizontalOrientation (>> 0)
@@ -95,14 +97,14 @@ public class ImageInformation extends AbstractImageInfo {
 		try {
 			setHorizontalOrientation(horizontalOrientation);
 		} catch (Exception ex) {
-			LOGGER.error(
-					"setHorizontalOrientation :: Not Defined :: horizontalOrientation :: " + horizontalOrientation);
+			LOGGER.error("setHorizontalOrientation :: Not Defined :: horizontalOrientation :: {}",
+					horizontalOrientation);
 		}
 		int verticalOrientation = (imagePropertiesBits & 0x000C) >> 2;
 		try {
 			setVerticalOrientation(verticalOrientation);
 		} catch (Exception ex) {
-			LOGGER.error("setVerticalOrientation :: Not Defined :: verticalOrientation :: " + verticalOrientation);
+			LOGGER.error("setVerticalOrientation :: Not Defined :: verticalOrientation :: {}", verticalOrientation);
 		}
 
 		int futureType = (imagePropertiesBits & 0x0030) >> 4; // NO USED NOW
@@ -111,9 +113,8 @@ public class ImageInformation extends AbstractImageInfo {
 		try {
 			setCompressionType(compressionType);
 		} catch (Exception ex) {
-			LOGGER.error("setCompressionType :: Not Defined :: compressionType :: " + compressionType);
+			LOGGER.error("setCompressionType :: Not Defined :: compressionType :: {}", compressionType);
 		}
-		//System.out.println(imagePropertiesBits + " >> " + horizontalOrientation + " " + verticalOrientation + " " + compressionType);
 		setWidth(inputStream.readUnsignedShort());
 		setHeight(inputStream.readUnsignedShort());
 
@@ -121,7 +122,7 @@ public class ImageInformation extends AbstractImageInfo {
 		try {
 			setBitDepth((byte) bitDepth);
 		} catch (Exception ex) {
-			LOGGER.error("setBitDepth :: Not Defined :: bitDepth :: " + bitDepth);
+			LOGGER.error("setBitDepth :: Not Defined :: bitDepth :: {}", bitDepth);
 		}
 		setRange(inputStream.readUnsignedShort());
 		setRollAngleOfEye(inputStream.readUnsignedShort());
@@ -135,26 +136,27 @@ public class ImageInformation extends AbstractImageInfo {
 	}
 
 	@Override
+	@SuppressWarnings({ "java:S1117", "java:S1854", "java:S2674", "unused" })
 	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
 		int eyeLabel = inputStream.readUnsignedByte();
 		try {
 			setEyeLabel(eyeLabel);
 		} catch (Exception ex) {
-			LOGGER.error("setEyeLabel :: Not Defined :: eyeLabel :: " + eyeLabel);
+			LOGGER.error("setEyeLabel :: Not Defined :: eyeLabel :: {}", eyeLabel);
 		}
 
 		int imageType = inputStream.readUnsignedByte();
 		try {
 			setImageType(imageType);
 		} catch (Exception ex) {
-			LOGGER.error("setImageType :: Not Defined :: imageType :: " + imageType);
+			LOGGER.error("setImageType :: Not Defined :: imageType :: {}", imageType);
 		}
 
 		int imageFormat = inputStream.readUnsignedByte();
 		try {
 			setImageFormat(imageFormat);
 		} catch (Exception ex) {
-			LOGGER.error("setImageFormat :: Not Defined :: imageFormat :: " + imageFormat);
+			LOGGER.error("setImageFormat :: Not Defined :: imageFormat ::{}", imageFormat);
 		}
 		/*
 		 * 8 7 6 5 4 3 2 1 [ | | | | | | | | ] 1 1 = 0x0003 horizontalOrientation (>> 0)
@@ -166,14 +168,14 @@ public class ImageInformation extends AbstractImageInfo {
 		try {
 			setHorizontalOrientation(horizontalOrientation);
 		} catch (Exception ex) {
-			LOGGER.error(
-					"setHorizontalOrientation :: Not Defined :: horizontalOrientation :: " + horizontalOrientation);
+			LOGGER.error("setHorizontalOrientation :: Not Defined :: horizontalOrientation :: {}",
+					horizontalOrientation);
 		}
 		int verticalOrientation = (imagePropertiesBits & 0x000C) >> 2;
 		try {
 			setVerticalOrientation(verticalOrientation);
 		} catch (Exception ex) {
-			LOGGER.error("setVerticalOrientation :: Not Defined :: verticalOrientation :: " + verticalOrientation);
+			LOGGER.error("setVerticalOrientation :: Not Defined :: verticalOrientation :: {}", verticalOrientation);
 		}
 
 		int futureType = (imagePropertiesBits & 0x0030) >> 4; // NO USED NOW
@@ -182,20 +184,20 @@ public class ImageInformation extends AbstractImageInfo {
 		try {
 			setCompressionType(compressionType);
 		} catch (Exception ex) {
-			LOGGER.error("setCompressionType :: Not Defined :: compressionType :: " + compressionType);
+			LOGGER.error("setCompressionType :: Not Defined :: compressionType :: {}", compressionType);
 		}
-		// 2(Width) + 2(Height) + 1(bitDepth) + 2(Range) + 2(RollAngleOfEye) 
-		// + 2(RollAngleUncertainty) + 2(IrisCenterSmallestX) + 2(IrisCenterLargestX) 
-		// + 2(IrisCenterSmallestY) + 2(IrisCenterLargestY) 
-		// + 2(IrisDiameterSmallest) + 2(IrisDiameterLargest) 
+		// 2(Width) + 2(Height) + 1(bitDepth) + 2(Range) + 2(RollAngleOfEye)
+		// + 2(RollAngleUncertainty) + 2(IrisCenterSmallestX) + 2(IrisCenterLargestX)
+		// + 2(IrisCenterSmallestY) + 2(IrisCenterLargestY)
+		// + 2(IrisDiameterSmallest) + 2(IrisDiameterLargest)
 		inputStream.skip(23);
 	}
 
 	@Override
 	public long getRecordLength() {
 		return 27; /*
-					 * 1 + 1 + 1 + 1 + 2 + 2 + 1 + 2 + 2 + 2 + 2 + 2 + 2 + 2 + 2 + 2 (Table 4
-					 * Iris representation header ISO/IEC 19794-6-2011)
+					 * 1 + 1 + 1 + 1 + 2 + 2 + 1 + 2 + 2 + 2 + 2 + 2 + 2 + 2 + 2 + 2 (Table 4 Iris
+					 * representation header ISO/IEC 19794-6-2011)
 					 */
 	}
 

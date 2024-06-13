@@ -3,9 +3,7 @@ package io.mosip.kernel.biosdk.provider.util;
 import io.mosip.kernel.core.logger.spi.Logger;
 import io.mosip.kernel.logger.logback.factory.Logfactory;
 
-
-public class BioSDKProviderLoggerFactory {
-	
+public class BioSDKProviderLoggerFactory {	
 	/**
 	 * Instantiates a new bio sdk logger.
 	 */
@@ -21,5 +19,4 @@ public class BioSDKProviderLoggerFactory {
 	public static Logger getLogger(Class<?> clazz) {
 		return Logfactory.getSlf4jLogger(clazz);
 	}
-
 }

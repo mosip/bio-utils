@@ -93,7 +93,7 @@ public class FeaturePoint {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		StringBuffer out = new StringBuffer();
+		StringBuilder out = new StringBuilder();
 		out.append("( point: ");
 		out.append(getMajorCode());
 		out.append(".");

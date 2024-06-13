@@ -6,14 +6,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import io.mosip.biometrics.util.AbstractImageInfo;
+import io.mosip.biometrics.util.constant.BiometricUtilErrorCode;
+import io.mosip.biometrics.util.exception.BiometricUtilException;
 
 public class IrisBDIR extends AbstractImageInfo {
 	private GeneralHeader generalHeader;
 	private int representationIndex = 0;
 	private List<Representation> representation;
 
+	@SuppressWarnings({ "java:S107" })
 	public IrisBDIR(long formatIdentifier, long versionNumber, int certificationFlag, Date captureDate,
 			int noOfRepresentations, IrisQualityBlock[] qualityBlocks, ImageInformation imageInformation,
 			int representationNo, int noOfEyesPresent, byte[] image) {
@@ -24,6 +28,7 @@ public class IrisBDIR extends AbstractImageInfo {
 				noOfRepresentations, certificationFlag, noOfEyesPresent));
 	}
 
+	@SuppressWarnings({ "java:S107" })
 	public IrisBDIR(long formatIdentifier, long versionNumber, int certificationFlag, int sourceType, int deviceVendor,
 			int deviceType, Date captureDate, int noOfRepresentations, IrisQualityBlock[] qualityBlocks,
 			ImageInformation imageInformation, int representationNo, int noOfEyesPresent, byte[] image) {
@@ -51,24 +56,23 @@ public class IrisBDIR extends AbstractImageInfo {
 	@Override
 	protected void readObject(DataInputStream inputStream) throws IOException {
 		setGeneralHeader(new GeneralHeader(inputStream));
-		long generalHeaderLength = getGeneralHeader().getRecordLength();
 		int noOfRepresentations = getGeneralHeader().getNoOfRepresentations();
-		long totalRepresentationLength = getGeneralHeader().getTotalRepresentationLength();
-		if (noOfRepresentations == 1) // For IRIS 1 Representation
-		{
+		/*
+		 * For IRIS 1 Representation
+		 */
+		if (noOfRepresentations == 1)
 			setRepresentation(new Representation(inputStream));
-		}
 	}
 
 	@Override
 	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
 		setGeneralHeader(new GeneralHeader(inputStream, onlyImageInformation));
 		int noOfRepresentations = getGeneralHeader().getNoOfRepresentations();
-		long totalRepresentationLength = getGeneralHeader().getTotalRepresentationLength();
-		if (noOfRepresentations == 1) // For IRIS 1 Representation
-		{
+		/*
+		 * For IRIS 1 Representation
+		 */
+		if (noOfRepresentations == 1)
 			setRepresentation(new Representation(inputStream, onlyImageInformation));
-		}
 	}
 
 	@Override
@@ -87,27 +91,31 @@ public class IrisBDIR extends AbstractImageInfo {
 	}
 
 	public Representation getRepresentation() {
-		if (this.representation == null)
-			return null;
+		if (Objects.isNull(this.representation))
+			throw new BiometricUtilException(BiometricUtilErrorCode.DATA_NULL_OR_EMPTY_EXCEPTION.getErrorCode(),
+					BiometricUtilErrorCode.DATA_NULL_OR_EMPTY_EXCEPTION.getErrorMessage());
+
 		return representation.get(0);
 	}
 
 	public Representation getRepresentation(int representationIndex) {
-		if (this.representation == null)
-			return null;
+		if (Objects.isNull(this.representation))
+			throw new BiometricUtilException(BiometricUtilErrorCode.DATA_NULL_OR_EMPTY_EXCEPTION.getErrorCode(),
+					BiometricUtilErrorCode.DATA_NULL_OR_EMPTY_EXCEPTION.getErrorMessage());
+
 		return representation.get(representationIndex);
 	}
 
 	public void setRepresentation(Representation representation) {
-		if (this.representation == null)
-			this.representation = new ArrayList<Representation>();
+		if (Objects.isNull(this.representation))
+			this.representation = new ArrayList<>();
 
 		this.representation.add(representationIndex++, representation);
 	}
 
 	public void setRepresentation(Representation representation, int representationIndex) {
-		if (this.representation == null)
-			this.representation = new ArrayList<Representation>();
+		if (Objects.isNull(this.representation))
+			this.representation = new ArrayList<>();
 
 		this.representation.add(representationIndex, representation);
 	}

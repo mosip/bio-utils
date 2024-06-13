@@ -7,12 +7,8 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import io.mosip.biometrics.util.AbstractImageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class RepresentationData extends AbstractImageInfo {
-	private static final Logger LOGGER = LoggerFactory.getLogger(RepresentationData.class);
-
 	private ImageData imageData;
 	private byte[] threeDInformationAndData;
 
@@ -44,6 +40,7 @@ public class RepresentationData extends AbstractImageInfo {
 				bos.close();
 			}
 		} catch (Exception ex) {
+			throw new IOException(ex);
 		}
 	}
 
@@ -62,10 +59,7 @@ public class RepresentationData extends AbstractImageInfo {
 	public void writeObject(DataOutputStream outputStream) throws IOException {
 		getImageData().writeObject(outputStream);
 		if (getThreeDInformationAndData() != null) {
-			try {
-				outputStream.write(getThreeDInformationAndData(), 0, getThreeDInformationAndData().length);
-			} catch (Exception ex) {
-			}
+			outputStream.write(getThreeDInformationAndData(), 0, getThreeDInformationAndData().length);
 		}
 		outputStream.flush();
 	}

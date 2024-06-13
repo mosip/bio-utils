@@ -24,6 +24,6 @@ public class QualityScore {
 	public QualityScore() {
 		this.score = 0;
 		this.errors = new ArrayList<>();
-		this.analyticsInfo = new HashMap<String, String>();
+		this.analyticsInfo = new HashMap<>();
 	}
 }

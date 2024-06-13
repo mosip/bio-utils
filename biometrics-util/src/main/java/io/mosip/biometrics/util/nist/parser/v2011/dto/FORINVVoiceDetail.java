@@ -14,6 +14,7 @@ import lombok.Data;
  * FORINV =  ForensicInvestigatory
  * FOR = Forensic
  */
+@SuppressWarnings({ "java:S6539" })
 public class FORINVVoiceDetail implements Serializable {
     /**
     <!-- 11.032 SGEO -->

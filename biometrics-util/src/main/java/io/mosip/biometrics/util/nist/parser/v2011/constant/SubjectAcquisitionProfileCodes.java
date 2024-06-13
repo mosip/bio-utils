@@ -1,5 +1,8 @@
 package io.mosip.biometrics.util.nist.parser.v2011.constant;
 
+import java.io.Serializable;
+import java.util.Arrays;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -8,7 +11,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 import lombok.Data;
 
 @Data
-public class SubjectAcquisitionProfileCodes {
+public class SubjectAcquisitionProfileCodes implements Serializable {
 	public static final int UNKNOWN_ACQUISITION_PROFILE = 0;
 	public static final int SURVEILLANCE_FACIAL_IMAGE = 1;
 	public static final int DRIVER_LICENSE_IMAGE_AAMVA = 10;
@@ -26,7 +29,7 @@ public class SubjectAcquisitionProfileCodes {
 	public static final int BEST_PRACTICE_APPLICATION_LEVEL_51 = 51;
 	public static final int MOBILE_ID_BEST_PRACTICE_LEVEL_52 = 52;
 
-	public static final Integer[] arrValues = new Integer[] { UNKNOWN_ACQUISITION_PROFILE, SURVEILLANCE_FACIAL_IMAGE,
+	protected static final Integer[] arrValues = new Integer[] { UNKNOWN_ACQUISITION_PROFILE, SURVEILLANCE_FACIAL_IMAGE,
 			SURVEILLANCE_FACIAL_IMAGE, DRIVER_LICENSE_IMAGE_AAMVA, ANSI_FULL_FRONTAL_FACIAL_IMAGE,
 			ANSI_TOKEN_FACIAL_IMAGE, ISO_FULL_FRONTAL_FACIAL_IMAGE_ISO_IEC_19794_5,
 			ISO_TOKEN_FACIAL_IMAGE_ISO_IEC_19794_5, PIV_FACIAL_IMAGE_NIST_SP_800_76, LEGACY_MUGSHOT,
@@ -41,7 +44,8 @@ public class SubjectAcquisitionProfileCodes {
 	public static Integer fromValue(int value) {
 		if (ArrayUtils.contains(arrValues, value))
 			return value;
-		throw new IllegalArgumentException("SubjectAcquisitionProfileCodes value can be " + arrValues.toString()
+
+		throw new IllegalArgumentException("SubjectAcquisitionProfileCodes value can be " + Arrays.toString(arrValues)
 				+ ", set value is wrong [" + value + "]");
 	}
 }

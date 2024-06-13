@@ -5,12 +5,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import io.mosip.biometrics.util.AbstractImageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ImageInformation extends AbstractImageInfo {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ImageInformation.class);
-
 	private int faceImageType;
 	private int imageDataType;
 	private int width;
@@ -31,6 +27,7 @@ public class ImageInformation extends AbstractImageInfo {
 		setImageColorSpace(ImageColourSpace.UNSPECIFIED);
 	}
 
+	@SuppressWarnings({ "java:S107" })
 	public ImageInformation(int faceImageType, int imageDataType, int width, int height, int spatialSamplingRateLevel,
 			int postAcquistionProcessing, int crossReference, int imageColorSpace) {
 		setFaceImageType(faceImageType);
@@ -64,6 +61,7 @@ public class ImageInformation extends AbstractImageInfo {
 	}
 
 	@Override
+	@SuppressWarnings({ "java:S2674" })
 	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
 		setFaceImageType(inputStream.readUnsignedByte());
 		setImageDataType(inputStream.readUnsignedByte());
