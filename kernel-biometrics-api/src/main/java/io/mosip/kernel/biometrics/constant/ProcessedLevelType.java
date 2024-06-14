@@ -7,20 +7,44 @@
 
 package io.mosip.kernel.biometrics.constant;
 
+/**
+ * Enumerates the different processing levels of biometric data.
+ *
+ * This JAXB-generated enum represents the "ProcessedLevelType" element found in an XML schema. It defines the
+ * various stages of processing that a biometric sample may undergo within a biometric system, such as raw,
+ * intermediate, and processed.
+ *
+ */
 
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
+
 @XmlType(name = "ProcessedLevelType")
 @XmlEnum
 public enum ProcessedLevelType implements Serializable {
-
+	/**
+	 * Raw: Unprocessed biometric data in its original captured format (e.g., sensor
+	 * image).
+	 */
 	@XmlEnumValue("Raw")
 	RAW("Raw"),
+
+	/**
+	 * Intermediate: Biometric data that has undergone some initial processing
+	 * (e.g., feature extraction). This level may represent data after basic
+	 * transformations or noise reduction.
+	 */
 	@XmlEnumValue("Intermediate")
 	INTERMEDIATE("Intermediate"),
+
+	/**
+	 * Processed: Biometric data that is ready for use in biometric operations
+	 * (e.g., matching, verification). This level typically represents data after
+	 * all necessary processing steps are complete.
+	 */
 	@XmlEnumValue("Processed")
 	PROCESSED("Processed");
 
@@ -42,5 +66,4 @@ public enum ProcessedLevelType implements Serializable {
 		}
 		throw new IllegalArgumentException(v);
 	}
-
 }

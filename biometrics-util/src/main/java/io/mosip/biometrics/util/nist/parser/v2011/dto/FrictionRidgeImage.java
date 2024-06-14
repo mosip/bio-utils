@@ -66,20 +66,27 @@ public class FrictionRidgeImage implements Serializable {
     <!-\- FGP -\-> <!-\-1..6-\->	
     Note: This element has been DEPRECATED
    <biom:FingerPositionCode>-->
+   	@deprecated("1.2.1") 
     */
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "PalmPositionCode")
     @JacksonXmlElementWrapper(useWrapping=false)
-    @Deprecated
+    @Deprecated(since = "1.2.1", forRemoval = true)
     private List<Integer> palmPositionCodeList;
 
+    /*
+     * 	@deprecated("1.2.1") 
+     */
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "PlantarPositionCode")
     @JacksonXmlElementWrapper(useWrapping=false)
-    @Deprecated
+    @Deprecated(since = "1.2.1", forRemoval = true)
     private List<Integer> plantarPositionCodeList;
 
+    /*
+     * 	@deprecated("1.2.1") 
+     */
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "FingerPositionCode")
     @JacksonXmlElementWrapper(useWrapping=false)
-    @Deprecated
+    @Deprecated(since = "1.2.1", forRemoval = true)
     private List<Integer> fingerPositionCodeList;
 
     @JacksonXmlProperty(namespace = XmlnsNameSpaceConstant.NAMESPACE_URL_BIOM, localName = "FingerprintImageMajorCasePrint")

@@ -1,6 +1,8 @@
 package io.mosip.biometrics.util.nist.parser.v2011.constant;
 
-public class XmlnsNameSpaceConstant {
+import java.io.Serializable;
+
+public class XmlnsNameSpaceConstant implements Serializable {
 	public static final String NAMESPACE_S = "s";
 	public static final String NAMESPACE_I = "i";
 	public static final String NAMESPACE_ITL = "itl";

@@ -1,0 +1,1 @@
+java -cp bioutils-1.2.1-SNAPSHOT.jar;lib\* io.mosip.biometrics.util.test.ImageRotateApplication "io.mosip.biometrics.util.image.type.jp2000=0" "mosip.mock.sbi.biometric.type.finger.folder.path=/BiometricInfo/Finger/" "mosip.mock.sbi.biometric.type.file.image=info_left_index_registration.jp2" "io.mosip.biometrics.image.rotation=180"

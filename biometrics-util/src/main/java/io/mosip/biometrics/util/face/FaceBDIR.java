@@ -6,14 +6,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import io.mosip.biometrics.util.AbstractImageInfo;
+import io.mosip.biometrics.util.constant.BiometricUtilErrorCode;
+import io.mosip.biometrics.util.exception.BiometricUtilException;
 
 public class FaceBDIR extends AbstractImageInfo {
 	private GeneralHeader generalHeader;
 	private int representationIndex = 0;
 	private List<Representation> representation;
 
+	@SuppressWarnings({ "java:S107" })
 	public FaceBDIR(long formatIdentifier, long versionNumber, int certificationFlag, int temporalSemantics,
 			Date captureDate, int noOfRepresentations, FaceQualityBlock[] qualityBlocks,
 			FacialInformation facialInformation, LandmarkPoints[] landmarkPoints, ImageInformation imageInformation,
@@ -26,6 +30,7 @@ public class FaceBDIR extends AbstractImageInfo {
 				noOfRepresentations, certificationFlag, temporalSemantics));
 	}
 
+	@SuppressWarnings({ "java:S107" })
 	public FaceBDIR(long formatIdentifier, long versionNumber, int certificationFlag, int temporalSemantics,
 			int sourceType, int deviceVendor, int deviceType, Date captureDate, int noOfRepresentations,
 			FaceQualityBlock[] qualityBlocks, FacialInformation facialInformation, LandmarkPoints[] landmarkPoints,
@@ -49,24 +54,21 @@ public class FaceBDIR extends AbstractImageInfo {
 	@Override
 	protected void readObject(DataInputStream inputStream) throws IOException {
 		setGeneralHeader(new GeneralHeader(inputStream));
-		//long generalHeaderLength = getGeneralHeader().getRecordLength();
-		//int noOfRepresentations = getGeneralHeader().getNoOfRepresentations();
-		//long totalRepresentationLength = getGeneralHeader().getTotalRepresentationLength();
-		if (getGeneralHeader().getNoOfRepresentations() == 1) // For FACE 1 Representation
-		{
+		/*
+		 * For FACE 1 Representation
+		 */
+		if (getGeneralHeader().getNoOfRepresentations() == 1)
 			setRepresentation(new Representation(inputStream));
-		}
 	}
 
 	@Override
 	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
 		setGeneralHeader(new GeneralHeader(inputStream, onlyImageInformation));
-		//int noOfRepresentations = getGeneralHeader().getNoOfRepresentations();
-		//long totalRepresentationLength = getGeneralHeader().getTotalRepresentationLength();
-		if (getGeneralHeader().getNoOfRepresentations() == 1) // For FACE 1 Representation
-		{
+		/*
+		 * For FACE 1 Representation
+		 */
+		if (getGeneralHeader().getNoOfRepresentations() == 1)
 			setRepresentation(new Representation(inputStream, onlyImageInformation));
-		}
 	}
 
 	@Override
@@ -90,27 +92,31 @@ public class FaceBDIR extends AbstractImageInfo {
 	}
 
 	public Representation getRepresentation() {
-		if (this.representation == null)
-			return null;
-		return representation.get(0);
+		if (Objects.isNull(this.representation))
+			throw new BiometricUtilException(BiometricUtilErrorCode.DATA_NULL_OR_EMPTY_EXCEPTION.getErrorCode(),
+					BiometricUtilErrorCode.DATA_NULL_OR_EMPTY_EXCEPTION.getErrorMessage());
+
+		return this.representation.get(0);
 	}
 
 	public Representation getRepresentation(int representationIndex) {
-		if (this.representation == null)
-			return null;
+		if (Objects.isNull(this.representation))
+			throw new BiometricUtilException(BiometricUtilErrorCode.DATA_NULL_OR_EMPTY_EXCEPTION.getErrorCode(),
+					BiometricUtilErrorCode.DATA_NULL_OR_EMPTY_EXCEPTION.getErrorMessage());
+
 		return representation.get(representationIndex);
 	}
 
 	public void setRepresentation(Representation representation) {
-		if (this.representation == null)
-			this.representation = new ArrayList<Representation>();
+		if (Objects.isNull(this.representation))
+			this.representation = new ArrayList<>();
 
 		this.representation.add(representationIndex++, representation);
 	}
 
 	public void setRepresentation(Representation representation, int representationIndex) {
-		if (this.representation == null)
-			this.representation = new ArrayList<Representation>();
+		if (Objects.isNull(this.representation))
+			this.representation = new ArrayList<>();
 
 		this.representation.add(representationIndex, representation);
 	}

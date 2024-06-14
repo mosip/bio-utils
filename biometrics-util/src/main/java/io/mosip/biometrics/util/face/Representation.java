@@ -19,6 +19,7 @@ public class Representation extends AbstractImageInfo {
 				qualityBlocks, facialInformation, landmarkPoints, imageInformation));
 	}
 
+	@SuppressWarnings({ "java:S107" })
 	public Representation(Date captureDate, int sourceType, int deviceVendor, int deviceType,
 			FaceQualityBlock[] qualityBlocks, FacialInformation facialInformation, LandmarkPoints[] landmarkPoints,
 			ImageInformation imageInformation, byte[] image, byte[] threeDInformationAndData) {

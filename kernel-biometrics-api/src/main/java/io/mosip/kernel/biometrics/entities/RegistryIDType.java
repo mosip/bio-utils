@@ -18,57 +18,33 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
+/**
+ * Represents a registry identifier consisting of an organization and type.
+ *
+ * This class defines a unique identifier used within a registry system. It
+ * comprises two components: - organization: The organization or entity that
+ * owns or defines the format/standard being identified. - type: The specific
+ * type or identifier within the organization's domain (e.g., fingerprint format
+ * version).
+ *
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegistryIDType", propOrder = { "organization", "type" })
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegistryIDType implements Serializable {
-
+	/**
+	 * The organization or entity that owns or defines the format/standard being
+	 * identified.
+	 */
 	@XmlElement(name = "Organization", required = true)
 	protected String organization;
+
+	/**
+	 * The specific type or identifier within the organization's domain (e.g.,
+	 * fingerprint format version).
+	 */
 	@XmlElement(name = "Type", required = true)
 	protected String type;
-
-	/**
-	 * Gets the value of the organization property.
-	 * 
-	 * @return possible object is {@link String }
-	 * 
-	 */
-	public String getOrganization() {
-		return organization;
-	}
-
-	/**
-	 * Sets the value of the organization property.
-	 * 
-	 * @param value allowed object is {@link String }
-	 * 
-	 */
-	public void setOrganization(String value) {
-		this.organization = value;
-	}
-
-	/**
-	 * Gets the value of the type property.
-	 * 
-	 * @return possible object is {@link String }
-	 * 
-	 */
-	public String getType() {
-		return type;
-	}
-
-	/**
-	 * Sets the value of the type property.
-	 * 
-	 * @param value allowed object is {@link String }
-	 * 
-	 */
-	public void setType(String value) {
-		this.type = value;
-	}
-
 }

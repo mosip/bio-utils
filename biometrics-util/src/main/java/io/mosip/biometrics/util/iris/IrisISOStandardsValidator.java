@@ -11,57 +11,43 @@ public class IrisISOStandardsValidator extends ISOStandardsValidator {
 	private static final Logger LOGGER = LoggerFactory.getLogger(IrisISOStandardsValidator.class);
 
 	private static IrisISOStandardsValidator instance = null;
-	  
-    // Constructor
-    private IrisISOStandardsValidator()
-    {
-    	super();
-    }
-  
-    // Static method to create instance of Singleton class
-    public static IrisISOStandardsValidator getInstance()
-    {
-        if (instance == null)
-        	instance = new IrisISOStandardsValidator();
-  
-        return instance;
-    }
-    
+
+	// Constructor
+	private IrisISOStandardsValidator() {
+		super();
+	}
+
+	// Static method to create instance of Singleton class
+	public static IrisISOStandardsValidator getInstance() {
+		if (instance == null)
+			instance = new IrisISOStandardsValidator();
+
+		return instance;
+	}
+
 	public boolean isValidFormatIdentifier(long formatIdentifier) {
-		if (formatIdentifier == IrisFormatIdentifier.FORMAT_IIR)
-			return true;
-		return false;
+		return (formatIdentifier == IrisFormatIdentifier.FORMAT_IIR);
 	}
 
 	public boolean isValidVersionNumber(long versionNumber) {
-		if (versionNumber == IrisVersionNumber.VERSION_020)
-			return true;
-		return false;
+		return (versionNumber == IrisVersionNumber.VERSION_020);
 	}
 
 	public boolean isValidRecordLength(long dataLength, long recordLength) {
-		if (dataLength == recordLength)
-			return true;
-		return false;
+		return (dataLength == recordLength);
 	}
 
 	public boolean isValidNoOfRepresentations(int noOfRepresentations) {
-		if (noOfRepresentations == 0x0001)
-			return true;
-		return false;
+		return (noOfRepresentations == 0x0001);
 	}
 
 	public boolean isValidCertificationFlag(int certificationFlag) {
-		if (certificationFlag == IrisCertificationFlag.UNSPECIFIED)
-			return true;
-		return false;
+		return (certificationFlag == IrisCertificationFlag.UNSPECIFIED);
 	}
 
 	public boolean isValidNoOfEyesRepresented(int noOfEyesRepresented) {
-		if (noOfEyesRepresented == NoOfEyesRepresented.UNKNOWN
-				|| noOfEyesRepresented == NoOfEyesRepresented.LEFT_OR_RIGHT_EYE_PRESENT)
-			return true;
-		return false;
+		return (noOfEyesRepresented == NoOfEyesRepresented.UNKNOWN
+				|| noOfEyesRepresented == NoOfEyesRepresented.LEFT_OR_RIGHT_EYE_PRESENT);
 	}
 
 	public boolean isValidRepresentationLength(long representationLength) {
@@ -70,23 +56,17 @@ public class IrisISOStandardsValidator extends ISOStandardsValidator {
 		// Representation Header plus the size of the Representation Data, i.e. minimum
 		// 4 bytes for the Length of Image
 		// Data Block field assuming 0 bytes for the variable data.
-		if (representationLength >= 0x00000035 && representationLength <= Long.decode("0xFFFFFFEF"))
-			return true;
-		return false;
+		return (representationLength >= 0x00000035 && representationLength <= Long.decode("0xFFFFFFEF"));
 	}
 
 	public boolean isValidCaptureDeviceTechnologyIdentifier(int captureDeviceTechnologyIdentifier) {
-		if (captureDeviceTechnologyIdentifier >= IrisCaptureDeviceTechnology.UNSPECIFIED
-				&& captureDeviceTechnologyIdentifier <= IrisCaptureDeviceTechnology.CMOS_OR_CCD)
-			return true;
-		return false;
+		return (captureDeviceTechnologyIdentifier >= IrisCaptureDeviceTechnology.UNSPECIFIED
+				&& captureDeviceTechnologyIdentifier <= IrisCaptureDeviceTechnology.CMOS_OR_CCD);
 	}
 
 	public boolean isValidCaptureDeviceVendor(int captureDeviceVendor) {
-		if (captureDeviceVendor >= IrisCaptureDeviceVendor.UNSPECIFIED
-				&& captureDeviceVendor <= IrisCaptureDeviceVendor.VENDOR_FFFF)
-			return true;
-		return false;
+		return (captureDeviceVendor >= IrisCaptureDeviceVendor.UNSPECIFIED
+				&& captureDeviceVendor <= IrisCaptureDeviceVendor.VENDOR_FFFF);
 	}
 
 	public boolean isValidCaptureDeviceType(int captureDeviceType, int captureDeviceVendor) {
@@ -102,58 +82,39 @@ public class IrisISOStandardsValidator extends ISOStandardsValidator {
 	}
 
 	public boolean isValidNoOfQualityBlocks(int noOfQualityBlocks) {
-		if (noOfQualityBlocks >= 0x00 && noOfQualityBlocks <= 0xFF)
-			return true;
-		return false;
+		return (noOfQualityBlocks >= 0x00 && noOfQualityBlocks <= 0xFF);
 	}
 
 	public boolean isValidQualityAlgorithmIdentifier(int qualityAlgorithmIdentifier) {
-		if (qualityAlgorithmIdentifier >= IrisQualityAlgorithmIdentifier.UNSPECIFIED
-				&& qualityAlgorithmIdentifier <= IrisQualityAlgorithmIdentifier.VENDOR_FFFF)
-			return true;
-		return false;
+		return (qualityAlgorithmIdentifier >= IrisQualityAlgorithmIdentifier.UNSPECIFIED
+				&& qualityAlgorithmIdentifier <= IrisQualityAlgorithmIdentifier.VENDOR_FFFF);
 	}
 
 	public boolean isValidQualityAlgorithmVendorIdentifier(int qualityAlgorithmVendorIdentifier) {
-		if (qualityAlgorithmVendorIdentifier >= IrisQualityAlgorithmVendorIdentifier.UNSPECIFIED
-				&& qualityAlgorithmVendorIdentifier <= IrisQualityAlgorithmVendorIdentifier.VENDOR_FFFF)
-			return true;
-		return false;
+		return (qualityAlgorithmVendorIdentifier >= IrisQualityAlgorithmVendorIdentifier.UNSPECIFIED
+				&& qualityAlgorithmVendorIdentifier <= IrisQualityAlgorithmVendorIdentifier.VENDOR_FFFF);
 	}
 
 	public boolean isValidQualityScore(int qualityScore) {
-		if ((qualityScore >= 0x00 && qualityScore <= 0x64) || qualityScore == 0xFF)
-			return true;
-		return false;
+		return ((qualityScore >= 0x00 && qualityScore <= 0x64) || qualityScore == 0xFF);
 	}
 
 	public boolean isValidNoOfRepresentation(int noOfRepresentation) {
-		if (noOfRepresentation == 0x0001)
-			return true;
-		return false;
+		return (noOfRepresentation == 0x0001);
 	}
 
 	public boolean isValidEyeLabel(String purpose, int eyeLabel) {
 		try {
 			switch (Purposes.fromCode(purpose)) {
 			case AUTH:
-				switch (eyeLabel) {
-				case EyeLabel.UNSPECIFIED:
-				case EyeLabel.RIGHT:
-				case EyeLabel.LEFT:
-					return true;
-				}
-				break;
+				return (eyeLabel == EyeLabel.UNSPECIFIED || eyeLabel == EyeLabel.RIGHT || eyeLabel == EyeLabel.LEFT);
 			case REGISTRATION:
-				switch (eyeLabel) {
-				case EyeLabel.RIGHT:
-				case EyeLabel.LEFT:
-					return true;
-				}
-				break;
+				return (eyeLabel == EyeLabel.RIGHT || eyeLabel == EyeLabel.LEFT);
+			default:
+				return false;
 			}
 		} catch (Exception e) {
-			LOGGER.error ("isValidEyeLabel", e);
+			LOGGER.error("isValidEyeLabel", e);
 		}
 
 		return false;
@@ -163,182 +124,137 @@ public class IrisISOStandardsValidator extends ISOStandardsValidator {
 		try {
 			switch (Purposes.fromCode(purpose)) {
 			case AUTH:
-				switch (imageType) {
-				case ImageType.CROPPED_AND_MASKED:
-					return true;
-				}
-				break;
+				return (imageType == ImageType.CROPPED_AND_MASKED);
 			case REGISTRATION:
-				switch (imageType) {
-				case ImageType.CROPPED:
-					return true;
-				}
-				break;
+				return (imageType == ImageType.CROPPED);
+			default:
+				return false;
 			}
 		} catch (Exception e) {
-			LOGGER.error ("isValidImageType", e);
+			LOGGER.error("isValidImageType", e);
 		}
 
 		return false;
 	}
 
 	public boolean isValidImageFromat(int imageFormat) {
-		if (imageFormat == ImageFormat.MONO_JPEG2000)
-			return true;
-		return false;
+		return (imageFormat == ImageFormat.MONO_JPEG2000);
 	}
 
 	public boolean isValidImageHorizontalOrientation(int horizontalOrientation) {
-		if (horizontalOrientation >= HorizontalOrientation.ORIENTATION_UNDEFINIED
-				&& horizontalOrientation <= HorizontalOrientation.ORIENTATION_FLIPPED)
-			return true;
-		return false;
+		return (horizontalOrientation >= HorizontalOrientation.ORIENTATION_UNDEFINIED
+				&& horizontalOrientation <= HorizontalOrientation.ORIENTATION_FLIPPED);
 	}
 
 	public boolean isValidImageVerticalOrientation(int verticalOrientation) {
-		if (verticalOrientation >= VerticalOrientation.ORIENTATION_UNDEFINIED
-				&& verticalOrientation <= VerticalOrientation.ORIENTATION_FLIPPED)
-			return true;
-		return false;
+		return (verticalOrientation >= VerticalOrientation.ORIENTATION_UNDEFINIED
+				&& verticalOrientation <= VerticalOrientation.ORIENTATION_FLIPPED);
 	}
 
-	public boolean isValidImageCompressionType(String purpose, int compressionType, ImageDecoderRequestDto decoderRequestDto) {
+	public boolean isValidImageCompressionType(String purpose, int compressionType,
+			ImageDecoderRequestDto decoderRequestDto) {
 		try {
 			switch (Purposes.fromCode(purpose)) {
 			case AUTH:
-				if (compressionType == IrisImageCompressionType.JPEG_LOSSY)
-					//checking lossy from imagedata
-					if (!decoderRequestDto.isLossless())
-						return true;
+				// checking lossy from imagedata
+				if (compressionType == IrisImageCompressionType.JPEG_LOSSY && !decoderRequestDto.isLossless())
+					return true;
 				break;
 			case REGISTRATION:
-				if (compressionType == IrisImageCompressionType.JPEG_LOSSLESS_OR_NONE)
-					//checking lossless from imagedata
-					if (decoderRequestDto.isLossless())
-						return true;
+				// checking lossless from imagedata
+				if (compressionType == IrisImageCompressionType.JPEG_LOSSLESS_OR_NONE && decoderRequestDto.isLossless())
+					return true;
 				break;
+			default:
+				return false;
 			}
 		} catch (Exception e) {
-			LOGGER.error ("isValidImageCompressionType", e);
+			LOGGER.error("isValidImageCompressionType", e);
 		}
 
 		return false;
 	}
 
+	@SuppressWarnings({ "java:S1172" })
 	public boolean isValidImageWidth(String purpose, int imageWidth, ImageDecoderRequestDto decoderRequestDto) {
-		if (imageWidth >= 0x0001 && imageWidth <= 0xFFFF)
-		{
-			// need to check width in image also
-			if (imageWidth == decoderRequestDto.getWidth())
-				return true;			
-		}
-		return false;	
+		return (imageWidth >= 0x0001 && imageWidth <= 0xFFFF && imageWidth == decoderRequestDto.getWidth());
 	}
 
+	@SuppressWarnings({ "java:S1172" })
 	public boolean isValidImageHeight(String purpose, int imageHeight, ImageDecoderRequestDto decoderRequestDto) {
-		if (imageHeight >= 0x0001 && imageHeight <= 0xFFFF)
-		{
-			// need to check height in image also
-			if (imageHeight == decoderRequestDto.getHeight())
-				return true;			
-		}
-		return false;	
+		return (imageHeight >= 0x0001 && imageHeight <= 0xFFFF && imageHeight == decoderRequestDto.getHeight());
 	}
 
-	 /**
-     * Validates bit depth of a given image byte array
-     * @deprecated
-     * This method will not be  acceptable in future versions.
-     * <p> Use {@link isValidBitDepth(bitDepth, ImageDecoderRequestDto)} instead.
-     *
-     * @param imageData image byte array
-     * @param bitDepth image bit depth
-     * @return true or false 
-     */
-	@Deprecated
+	/**
+	 * Validates bit depth of a given image byte array
+	 * 
+	 * @deprecated This method will not be acceptable in future versions.
+	 *             <p>
+	 *             Use {@link isValidBitDepth(bitDepth, ImageDecoderRequestDto)}
+	 *             instead.
+	 *
+	 * @param imageData image byte array
+	 * @param bitDepth  image bit depth
+	 * @return true or false
+	 */
+	@Deprecated(since = "1.2.1", forRemoval = true)
 	public boolean isValidBitDepth(byte[] imageData, int bitDepth) {
-		if (bitDepth == IrisImageBitDepth.BPP_08)
-		{
-			// need to check depth in image also
-			return true;			
-		}
-		return false;	
+		return (bitDepth == IrisImageBitDepth.BPP_08);
 	}
 
-	 /**
-     * Validates bit depth of a using decoded image information
-     * @param bitDepth image bit depth
-     * @param decoderRequestDto ImageDecoderRequestDto contains decoded image information
-     * @return true or false 
-     */
+	/**
+	 * Validates bit depth of a using decoded image information
+	 * 
+	 * @param bitDepth          image bit depth
+	 * @param decoderRequestDto ImageDecoderRequestDto contains decoded image
+	 *                          information
+	 * @return true or false
+	 */
 	public boolean isValidBitDepth(int bitDepth, ImageDecoderRequestDto decoderRequestDto) {
-		if (bitDepth == IrisImageBitDepth.BPP_08)
-		{
-			if (decoderRequestDto.getDepth() == IrisImageBitDepth.BPP_08) // gray scale 8 bit depth
-				return true;			
-		}
-		return false;	
+		return (bitDepth == IrisImageBitDepth.BPP_08 && decoderRequestDto.getDepth() == IrisImageBitDepth.BPP_08);
 	}
 
 	public boolean isValidRange(int range) {
-		if (range >= IrisRange.UNASSIGNED && range <= IrisRange.OVERFLOW_FFFF)
-			return true;
-		return false;
+		return (range >= IrisRange.UNASSIGNED && range <= IrisRange.OVERFLOW_FFFF);
 	}
 
 	public boolean isValidRollAngleOfEye(int rollAngleOfEye) {
-		if (rollAngleOfEye >= IrisRangeRollAngleOfEye.ROLL_ANGLE_0000
-				&& rollAngleOfEye <= IrisRangeRollAngleOfEye.ROLL_ANGLE_UNDEFINIED)
-			return true;
-		return false;
+		return (rollAngleOfEye >= IrisRangeRollAngleOfEye.ROLL_ANGLE_0000
+				&& rollAngleOfEye <= IrisRangeRollAngleOfEye.ROLL_ANGLE_UNDEFINIED);
 	}
 
 	public boolean isValidRollAngleUncertainty(int rollAngleUncertainty) {
-		if (rollAngleUncertainty >= IrisRangeRollAngleUncertainty.ROLL_UNCERTAIN_0000
-				&& rollAngleUncertainty <= IrisRangeRollAngleUncertainty.ROLL_UNCERTAIN_UNDEFINIED)
-			return true;
-		return false;
+		return (rollAngleUncertainty >= IrisRangeRollAngleUncertainty.ROLL_UNCERTAIN_0000
+				&& rollAngleUncertainty <= IrisRangeRollAngleUncertainty.ROLL_UNCERTAIN_UNDEFINIED);
 	}
 
 	public boolean isValidIrisCenterSmallestX(int centerSmallestX) {
-		if (centerSmallestX >= IrisCoordinate.COORDINATE_UNDEFINIED
-				&& centerSmallestX <= IrisCoordinate.COORDINATE_FFFF)
-			return true;
-		return false;
+		return (centerSmallestX >= IrisCoordinate.COORDINATE_UNDEFINIED
+				&& centerSmallestX <= IrisCoordinate.COORDINATE_FFFF);
 	}
 
 	public boolean isValidIrisCenterLargestX(int centerLargestX) {
-		if (centerLargestX >= IrisCoordinate.COORDINATE_UNDEFINIED
-				&& centerLargestX <= IrisCoordinate.COORDINATE_FFFF)
-			return true;
-		return false;
+		return (centerLargestX >= IrisCoordinate.COORDINATE_UNDEFINIED
+				&& centerLargestX <= IrisCoordinate.COORDINATE_FFFF);
 	}
 
 	public boolean isValidIrisCenterSmallestY(int centerSmallestY) {
-		if (centerSmallestY >= IrisCoordinate.COORDINATE_UNDEFINIED
-				&& centerSmallestY <= IrisCoordinate.COORDINATE_FFFF)
-			return true;
-		return false;
+		return (centerSmallestY >= IrisCoordinate.COORDINATE_UNDEFINIED
+				&& centerSmallestY <= IrisCoordinate.COORDINATE_FFFF);
 	}
 
 	public boolean isValidIrisCenterLargestY(int centerLargestY) {
-		if (centerLargestY >= IrisCoordinate.COORDINATE_UNDEFINIED
-				&& centerLargestY <= IrisCoordinate.COORDINATE_FFFF)
-			return true;
-		return false;
+		return (centerLargestY >= IrisCoordinate.COORDINATE_UNDEFINIED
+				&& centerLargestY <= IrisCoordinate.COORDINATE_FFFF);
 	}
 
 	public boolean isValidIrisDiameterSmallest(int diameterSmallest) {
-		if (diameterSmallest >= IrisCoordinate.COORDINATE_UNDEFINIED
-				&& diameterSmallest <= IrisCoordinate.COORDINATE_FFFF)
-			return true;
-		return false;
+		return (diameterSmallest >= IrisCoordinate.COORDINATE_UNDEFINIED
+				&& diameterSmallest <= IrisCoordinate.COORDINATE_FFFF);
 	}
 
 	public boolean isValidIrisDiameterLargest(int diameterLargest) {
-		if (diameterLargest >= IrisCoordinate.COORDINATE_UNDEFINIED
-				&& diameterLargest <= IrisCoordinate.COORDINATE_FFFF)
-			return true;
-		return false;
+		return (diameterLargest >= IrisCoordinate.COORDINATE_UNDEFINIED
+				&& diameterLargest <= IrisCoordinate.COORDINATE_FFFF);
 	}
 }

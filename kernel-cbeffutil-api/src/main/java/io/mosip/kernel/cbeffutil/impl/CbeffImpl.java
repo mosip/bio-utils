@@ -1,15 +1,11 @@
 package io.mosip.kernel.cbeffutil.impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.PostConstruct;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,53 +15,68 @@ import io.mosip.kernel.biometrics.commons.CbeffValidator;
 import io.mosip.kernel.biometrics.entities.BIR;
 import io.mosip.kernel.biometrics.spi.CbeffUtil;
 import io.mosip.kernel.cbeffutil.container.impl.CbeffContainerImpl;
-import io.mosip.kernel.core.util.FileUtils;
+import jakarta.annotation.PostConstruct;
 
 /**
- * This class is used to create,update, validate and search Cbeff data.
+ * Implementation class for handling Common Biometric Exchange Formats Framework
+ * (CBEFF) operations.
  *
- * @author Ramadurai Pandian
+ * <p>
+ * This class provides methods to create, update, validate, and retrieve
+ * biometric data in CBEFF XML format. It initializes the XML schema (XSD) from
+ * a specified configuration server location and performs operations using the
+ * loaded XSD.
+ * </p>
+ *
+ * <p>
+ * This implementation uses {@link CbeffContainerImpl} for creating and updating
+ * CBEFF data containers, and {@link CbeffValidator} for XML validation and
+ * biometric data extraction operations.
+ * </p>
+ *
+ * <p>
+ * Authors: Ramadurai Pandian
+ * </p>
+ *
+ * @since 1.0.0
+ * @see BIR
+ * @see CbeffUtil
+ * @see CbeffContainerImpl
+ * @see CbeffValidator
  */
 @Component
 public class CbeffImpl implements CbeffUtil {
-
-	/*
-	 * XSD storage path from config server
-	 */
-
-	/** The config server file storage URL. */
+	/** The URL of the configuration server for XSD storage. */
 	@Value("${mosip.kernel.xsdstorage-uri}")
 	private String configServerFileStorageURL;
 
-	/*
-	 * XSD file name
-	 */
-
-	/** The schema name. */
+	/** The filename of the XSD schema. */
 	@Value("${mosip.kernel.xsdfile}")
 	private String schemaName;
 
-	/** The xsd. */
+	/** The byte array representation of the XSD schema. */
 	private byte[] xsd;
 
 	/**
-	 * Load XSD.
+	 * Initializes the XSD schema by loading it from the configured server URL.
 	 *
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws IOException        If an I/O error occurs while reading the XSD file.
+	 * @throws URISyntaxException If the URI syntax is invalid.
 	 */
 	@PostConstruct
-	public void loadXSD() throws IOException {
-		try (InputStream xsdBytes = new URL(configServerFileStorageURL + schemaName).openStream()) {
+	public void loadXSD() throws IOException, URISyntaxException {
+		try (InputStream xsdBytes = new URI(configServerFileStorageURL + schemaName).toURL().openStream()) {
 			xsd = IOUtils.toByteArray(xsdBytes);
 		}
 	}
 
 	/**
-	 * Method used for creating Cbeff XML.
+	 * Creates a CBEFF XML representation from the provided list of Biometric
+	 * Information Records (BIRs).
 	 *
-	 * @param birList pass List of BIR for creating Cbeff data
-	 * @return return byte array of XML data
-	 * @throws Exception exception
+	 * @param birList List of BIRs to create CBEFF XML.
+	 * @return Byte array of XML data representing the CBEFF format.
+	 * @throws Exception If there is an error during XML creation.
 	 */
 	@Override
 	public byte[] createXML(List<BIR> birList) throws Exception {
@@ -75,14 +86,14 @@ public class CbeffImpl implements CbeffUtil {
 	}
 
 	/**
-	 * Method used for creating Cbeff XML with xsd.
+	 * Creates a CBEFF XML representation from the provided list of Biometric
+	 * Information Records (BIRs) using the specified XSD schema.
 	 *
-	 * @param birList pass List of BIR for creating Cbeff data
-	 * @param xsd     byte array of XSD data
-	 * @return return byte array of XML data
-	 * @throws Exception Exception
+	 * @param birList List of BIRs to create CBEFF XML.
+	 * @param xsd     Byte array of XSD data.
+	 * @return Byte array of XML data representing the CBEFF format.
+	 * @throws Exception If there is an error during XML creation.
 	 */
-
 	@Override
 	public byte[] createXML(List<BIR> birList, byte[] xsd) throws Exception {
 		CbeffContainerImpl cbeffContainer = new CbeffContainerImpl();
@@ -91,12 +102,13 @@ public class CbeffImpl implements CbeffUtil {
 	}
 
 	/**
-	 * Method used for updating Cbeff XML.
+	 * Updates an existing CBEFF XML representation with the provided list of
+	 * Biometric Information Records (BIRs).
 	 *
-	 * @param birList   pass List of BIR for creating Cbeff data
-	 * @param fileBytes the file bytes
-	 * @return return byte array of XML data
-	 * @throws Exception Exception
+	 * @param birList   List of BIRs to update in the existing XML.
+	 * @param fileBytes Byte array of the existing XML file.
+	 * @return Byte array of XML data representing the updated CBEFF format.
+	 * @throws Exception If there is an error during XML update.
 	 */
 	@Override
 	public byte[] updateXML(List<BIR> birList, byte[] fileBytes) throws Exception {
@@ -106,12 +118,13 @@ public class CbeffImpl implements CbeffUtil {
 	}
 
 	/**
-	 * Method used for validating XML against XSD.
+	 * Validates the provided XML data against the specified XSD schema.
 	 *
-	 * @param xmlBytes byte array of XML data
-	 * @param xsdBytes byte array of XSD data
-	 * @return boolean if data is valid or not
-	 * @throws Exception Exception
+	 * @param xmlBytes Byte array of XML data to validate.
+	 * @param xsdBytes Byte array of XSD data for validation.
+	 * @return {@code true} if the XML is valid according to the XSD schema,
+	 *         {@code false} otherwise.
+	 * @throws Exception If there is an error during XML validation.
 	 */
 	@Override
 	public boolean validateXML(byte[] xmlBytes, byte[] xsdBytes) throws Exception {
@@ -120,7 +133,15 @@ public class CbeffImpl implements CbeffUtil {
 	}
 
 	/*
-	 * (non-Javadoc)
+	 * (non-Javadoc) Validates the provided XML data against the internally loaded
+	 * XSD schema.
+	 * 
+	 * @param xmlBytes Byte array of XML data to validate.
+	 * 
+	 * @return {@code true} if the XML is valid according to the loaded XSD schema,
+	 * {@code false} otherwise.
+	 * 
+	 * @throws Exception If there is an error during XML validation.
 	 * 
 	 * @see io.mosip.kernel.core.cbeffutil.spi.CbeffUtil#validateXML(byte[])
 	 */
@@ -130,13 +151,14 @@ public class CbeffImpl implements CbeffUtil {
 	}
 
 	/**
-	 * Method used for validating XML against XSD.
+	 * Retrieves Biometric Data Block (BDB) information based on the specified type
+	 * and subtype from the provided XML file bytes.
 	 *
-	 * @param fileBytes byte array of XML data
-	 * @param type      to be searched
-	 * @param subType   to be searched
-	 * @return bdbMap Map of type and String of encoded biometric data
-	 * @throws Exception Exception
+	 * @param fileBytes Byte array of the XML file containing biometric data.
+	 * @param type      Type of the BDB to retrieve.
+	 * @param subType   Subtype of the BDB to retrieve.
+	 * @return Map containing key-value pairs of BDB information.
+	 * @throws Exception If there is an error while retrieving BDB information.
 	 */
 	@Override
 	public Map<String, String> getBDBBasedOnType(byte[] fileBytes, String type, String subType) throws Exception {
@@ -145,10 +167,12 @@ public class CbeffImpl implements CbeffUtil {
 	}
 
 	/**
-	 * Method used for getting list of BIR from XML bytes	 *
-	 * @param xmlBytes byte array of XML data
-	 * @return List of BIR data extracted from XML
-	 * @throws Exception Exception
+	 * Retrieves Biometric Information Records (BIRs) from the provided XML byte
+	 * array.
+	 *
+	 * @param xmlBytes Byte array of the XML content.
+	 * @return List of BIRs extracted from the XML.
+	 * @throws Exception If there is an error while extracting BIR data from XML.
 	 */
 	@Override
 	public List<BIR> getBIRDataFromXML(byte[] xmlBytes) throws Exception {
@@ -157,13 +181,14 @@ public class CbeffImpl implements CbeffUtil {
 	}
 
 	/**
-	 * Method used for getting Map of BIR from XML bytes with type and subType.
+	 * Retrieves all Biometric Data Block (BDB) data based on the specified type and
+	 * subtype from the provided XML byte array.
 	 *
-	 * @param xmlBytes byte array of XML data
-	 * @param type     type
-	 * @param subType  subType
-	 * @return bdbMap Map of BIR data extracted from XML
-	 * @throws Exception Exception
+	 * @param xmlBytes Byte array of the XML content.
+	 * @param type     Type of the BDBs to retrieve.
+	 * @param subType  Subtype of the BDBs to retrieve.
+	 * @return Map containing all BDB data as key-value pairs.
+	 * @throws Exception If there is an error while retrieving BDB data from XML.
 	 */
 	@Override
 	public Map<String, String> getAllBDBData(byte[] xmlBytes, String type, String subType) throws Exception {
@@ -171,37 +196,20 @@ public class CbeffImpl implements CbeffUtil {
 		return CbeffValidator.getAllBDBData(bir, type, subType);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * io.mosip.kernel.core.cbeffutil.spi.CbeffUtil#getBIRDataFromXMLType(byte[],
-	 * java.lang.String)
+	/**
+	 * (non-Javadoc) Retrieves Biometric Information Records (BIRs) of a specific
+	 * type from the provided XML byte array.
+	 *
+	 * @param xmlBytes Byte array of the XML content.
+	 * @param type     Type of the BIRs to retrieve.
+	 * @return List of BIRs extracted from the XML based on the specified type.
+	 * @throws Exception If there is an error while extracting BIR data from XML.
+	 *                   io.mosip.kernel.core.cbeffutil.spi.CbeffUtil#getBIRDataFromXMLType(byte[],
+	 *                   java.lang.String)
 	 */
+
 	@Override
 	public List<BIR> getBIRDataFromXMLType(byte[] xmlBytes, String type) throws Exception {
 		return CbeffValidator.getBIRDataFromXMLType(xmlBytes, type);
 	}
-
-	
-
-	/*
-	 * public static void main(String arg[]) throws Exception { byte[] xsd =
-	 * Files.readAllBytes(Paths.get("C:\\Users\\M1044287\\Desktop\\cbeff.xsd"));
-	 * CbeffImpl cbeffImpl = new CbeffImpl(); List<BIR> birs =
-	 * cbeffImpl.getBIRDataFromXML(readCreatedXML());
-	 * 
-	 * 
-	 * byte[] ac = new CbeffImpl().createXML(birs, xsd);
-	 * FileUtils.writeByteArrayToFile(new
-	 * File("C:\\Users\\M1044287\\Desktop\\a.xml"), ac);
-	 * 
-	 * }
-	 * 
-	 * private static byte[] readCreatedXML() throws IOException { byte[]
-	 * fileContent =
-	 * Files.readAllBytes(Paths.get("C:\\Users\\M1044287\\Desktop\\cbeff-dev.xml"));
-	 * return fileContent; }
-	 */
-
 }

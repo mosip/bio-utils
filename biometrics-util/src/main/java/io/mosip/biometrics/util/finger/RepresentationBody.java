@@ -34,8 +34,9 @@ public class RepresentationBody extends AbstractImageInfo {
 	public RepresentationBody(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
 		readObject(inputStream, onlyImageInformation);
 	}
-	
+
 	@Override
+	@SuppressWarnings({ "java:S3776" })
 	protected void readObject(DataInputStream inputStream) throws IOException {
 		setImageData(new ImageData(inputStream));
 		try {
@@ -74,18 +75,18 @@ public class RepresentationBody extends AbstractImageInfo {
 	@Override
 	protected void readObject(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
 		setImageData(new ImageData(inputStream, onlyImageInformation));
-		//Rest of data not required so not reading
+		// Rest of data not required so not reading
 	}
 
 	private void readCommentBlocks(DataInputStream inputStream) throws IOException {
 		try {
-			List<CommentBlock> commentBlockList = new ArrayList<CommentBlock>();
+			List<CommentBlock> commentBlockList = new ArrayList<>();
 			int extendedDataBlockIdentificationCodeValue = ExtendedDataBlockIdentificationCode.COMMENT_03;
 			while (inputStream.available() > 0) {
 				commentBlockList.add(new CommentBlock(inputStream, extendedDataBlockIdentificationCodeValue));
 				extendedDataBlockIdentificationCodeValue++;
 			}
-			if (commentBlockList.size() > 0)
+			if (!commentBlockList.isEmpty())
 				setCommentBlocks(commentBlockList.toArray(new CommentBlock[commentBlockList.size()]));
 		} catch (Exception ex) {
 			LOGGER.error("readCommentBlocks :: Error ::", ex);

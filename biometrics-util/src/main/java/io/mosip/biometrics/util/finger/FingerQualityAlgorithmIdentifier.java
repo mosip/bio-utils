@@ -8,7 +8,7 @@ public class FingerQualityAlgorithmIdentifier {
 	public static final int UNSPECIFIED = 0x0000;
 	public static final int NIST = 0x000F;
 	public static final int GREEN_BIT_AMERICAS_INC = 0x0040;
-	public static final int VENDOR_FFFF = (int) 0xFFFF;// Maximum
+	public static final int VENDOR_FFFF = 0xFFFF;// Maximum
 
 	private int value;
 

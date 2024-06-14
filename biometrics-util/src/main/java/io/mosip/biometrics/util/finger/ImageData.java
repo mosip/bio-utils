@@ -5,12 +5,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import io.mosip.biometrics.util.AbstractImageInfo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ImageData extends AbstractImageInfo {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ImageData.class);
-
 	private long imageLength;
 	private byte[] image;
 
@@ -23,6 +19,7 @@ public class ImageData extends AbstractImageInfo {
 		readObject(inputStream);
 	}
 
+	@SuppressWarnings({ "java:S1172" })
 	public ImageData(DataInputStream inputStream, boolean onlyImageInformation) throws IOException {
 		readObject(inputStream);
 	}
