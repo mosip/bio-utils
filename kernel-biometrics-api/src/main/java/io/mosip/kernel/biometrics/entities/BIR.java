@@ -62,7 +62,7 @@ public class BIR implements Serializable {
 	private SBInfo sbInfo;
 	@XmlJavaTypeAdapter(AdapterOthersListToHashMap.class)
 	@JsonDeserialize(using = MapEntryDeserializer.class)
-	private Map<String, String> others;
+	private HashMap<String, String> others;
 
 	/**
 	 * Constructs a new instance of BIR using a builder pattern.
@@ -91,7 +91,7 @@ public class BIR implements Serializable {
 		private byte[] bdb;
 		private byte[] sb;
 		private SBInfo sbInfo;
-		private Map<String, String> others = new HashMap<>();
+		private HashMap<String, String> others = new HashMap<>();
 
 		/**
 		 * Sets the additional key-value pairs for the BIR.
@@ -99,7 +99,7 @@ public class BIR implements Serializable {
 		 * @param others the additional key-value pairs
 		 * @return this builder instance
 		 */
-		public BIRBuilder withOthers(Map<String, String> others) {
+		public BIRBuilder withOthers(HashMap<String, String> others) {
 			this.others = others;
 			return this;
 		}
