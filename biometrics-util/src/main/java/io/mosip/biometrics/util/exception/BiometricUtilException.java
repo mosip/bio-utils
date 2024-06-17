@@ -1,6 +1,5 @@
 package io.mosip.biometrics.util.exception;
 
-
 import io.mosip.kernel.core.exception.BaseUncheckedException;
 
 /**
