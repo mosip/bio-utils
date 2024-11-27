@@ -24,7 +24,7 @@ on:
 
 jobs:
   build-bio-utils:
-    uses: mosip/kattu/.github/workflows/maven-build.yml@master-java21
+    uses: Prafulrakhade/kattu/.github/workflows/maven-build-java17.yml@master-java21
     with:
       SERVICE_LOCATION: ./
       BUILD_ARTIFACT: bio-utils
