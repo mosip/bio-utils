@@ -5,7 +5,7 @@
 
 	<artifactId>kernel-biosdk-provider</artifactId>
 	<groupId>io.mosip.kernel</groupId>
-	<version>1.3.0-beta.1</version>
+	<version>1.3.0-java17.beta.1-SNAPSHOT</version>
 	<name>kernel-biosdk-provider</name>
 	<description>Implementation of biosdk provider</description>
 	<url>https://github.com/mosip/bio-utils</url>
@@ -13,7 +13,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>21</java.version>
+		<java.version>17</java.version>
 
 		<!-- maven -->
 		<maven.compiler.source>${java.version}</maven.compiler.source>
@@ -46,10 +46,11 @@
 
 		<!-- Mosip  -->
 		<kernel.bom.version>1.3.0-beta.1</kernel.bom.version>
-		<kernel.core.version>1.3.0-beta.1</kernel.core.version>
+		<!-- We cannot use 1.3.0-beta.1 for kernel core version as it's using java-21 -->
+		<kernel.core.version>1.2.0.1</kernel.core.version>
 		<kernel.biometricsdk.version>1.3.0-beta.1</kernel.biometricsdk.version>
 		<kernel.biometrics.api.version>1.3.0-beta.1</kernel.biometrics.api.version>
-		<kernel.logger.logback.version>1.3.0-beta.1</kernel.logger.logback.version>
+		<kernel.logger.logback.version>1.2.0.1</kernel.logger.logback.version>
 	</properties>
 
 	<dependencyManagement>
