@@ -5,7 +5,7 @@
 	<groupId>io.mosip.kernel</groupId>
 	<artifactId>kernel-biometrics-api</artifactId>
 
-	<version>1.2.0.2</version>
+	<version>1.2.0.3-SNAPSHOT</version>
 	<name>kernel-biometrics-api</name>
 	<description>biometrics api definitions</description>
 	<url>https://github.com/mosip/commons</url>
@@ -60,7 +60,7 @@
 		<hibernate.validator.version>6.0.12.Final</hibernate.validator.version>
 
 		<!-- test -->
-		<junit.version>4.12</junit.version>
+		<junit.version>5.10.3</junit.version>
 		<mockito.version>2.23.4</mockito.version>
 		<powermock.version>1.7.4</powermock.version>
 		<powermock.beta.version>2.0.7</powermock.beta.version>
@@ -72,7 +72,7 @@
 		<jcl.to.slf4j.version>1.7.25</jcl.to.slf4j.version>
 
 		<!-- json -->
-		<jackson.version>2.9.5</jackson.version>
+		<jackson.version>2.15.0</jackson.version>
 		<jackson.datatype.version>2.9.8</jackson.datatype.version>
 		<jackson.databind>2.9.6</jackson.databind>
 		<json.utility.version>20180130</json.utility.version>
@@ -164,7 +164,7 @@
 		<hibernate.validator.version>6.0.12.Final</hibernate.validator.version>
 
 		<!-- test -->
-		<junit.version>4.12</junit.version>
+		<junit.version>5.10.3</junit.version>
 		<mockito.version>2.23.4</mockito.version>
 		<powermock.version>1.7.4</powermock.version>
 		<powermock.beta.version>2.0.7</powermock.beta.version>
@@ -176,7 +176,7 @@
 		<jcl.to.slf4j.version>1.7.25</jcl.to.slf4j.version>
 
 		<!-- json -->
-		<jackson.version>2.9.5</jackson.version>
+		<jackson.version>2.15.0</jackson.version>
 		<jackson.datatype.version>2.9.8</jackson.datatype.version>
 		<jackson.databind>2.9.6</jackson.databind>
 		<json.utility.version>20180130</json.utility.version>
@@ -194,7 +194,7 @@
 		<commons.configuration2.version>2.2</commons.configuration2.version>
 		<apache.httpcomponents.version>4.5.6</apache.httpcomponents.version>
 		<guava.version>19.0</guava.version>
-		<lombok.version>1.18.8</lombok.version>
+		<lombok.version>1.18.24</lombok.version>
 		<jsch.version>0.1.54</jsch.version>
 		<sshd.version>1.4.0</sshd.version>
 		<itextcore.version>7.1.0</itextcore.version>
@@ -244,12 +244,12 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>${jackson.databind}</version>
+			<version>${jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>${jackson.databind}</version>
+			<version>${jackson.version}</version>
 		</dependency>
 	</dependencies>
 	<distributionManagement>
