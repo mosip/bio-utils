@@ -39,6 +39,9 @@
 		<!-- Mosip  -->
 		<kernel.bom.version>1.2.1-SNAPSHOT</kernel.bom.version>
 		<kernel.core.version>1.2.1-SNAPSHOT</kernel.core.version>
+
+		<!--Sonar coverage -->
+		<sonar.coverage.exclusions>**/constant/**,**/entities/**,**/model/**</sonar.coverage.exclusions>
 	</properties>
 
 	<dependencyManagement>
