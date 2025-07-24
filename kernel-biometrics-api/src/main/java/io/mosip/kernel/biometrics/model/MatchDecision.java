@@ -21,7 +21,13 @@ public class MatchDecision {
 	
 	/** The analytics info - detailed breakdown and other information. */
 	private Map<String, String> analyticsInfo;
-	
+
+	// Empty constructor
+	public MatchDecision() {
+		this.decisions = new HashMap<>();
+		this.analyticsInfo = new HashMap<>();
+	}
+
 	public MatchDecision(int galleryIndex) {
 		this.analyticsInfo = new HashMap<String, String>();
 		this.decisions = new HashMap<BiometricType, Decision>();

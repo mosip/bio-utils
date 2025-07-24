@@ -23,7 +23,17 @@ public class SDKInfo {
 	 */
 	private Map<String, String> otherInfo;
 	private RegistryIDType productOwner;
-	
+
+	// Empty constructor
+	public SDKInfo() {
+		this.apiVersion = "";
+		this.sdkVersion = "";
+		this.supportedModalities = new ArrayList<>();
+		this.supportedMethods = new HashMap<>();
+		this.otherInfo = new HashMap<>();
+		this.productOwner = new RegistryIDType("", "");
+	}
+
 	public SDKInfo(String apiVersion, String sdkVersion, String organization, String type) {
 		this.apiVersion = apiVersion;
 		this.sdkVersion = sdkVersion;
