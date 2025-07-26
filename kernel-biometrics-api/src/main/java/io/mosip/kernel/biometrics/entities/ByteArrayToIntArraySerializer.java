@@ -1,4 +1,4 @@
-package io.mosip.biosdk.client.utils;
+package io.mosip.kernel.biometrics.entities;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
