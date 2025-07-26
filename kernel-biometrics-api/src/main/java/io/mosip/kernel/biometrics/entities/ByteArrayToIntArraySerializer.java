@@ -17,7 +17,7 @@ public class ByteArrayToIntArraySerializer extends StdSerializer<byte[]> {
     private final boolean useUnsigned;
 
     /**
-     * Constructs a serializer for byte arrays with default unsigned integer conversion.
+     * Constructs a serializer for byte arrays with default signed integer conversion.
      */
     public ByteArrayToIntArraySerializer() {
         this(byte[].class, false);
