@@ -1,4 +1,4 @@
-package io.mosip.biosdk.client.utils;
+package io.mosip.kernel.biometrics.entities;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
@@ -23,10 +23,10 @@ public class IntArrayToByteArrayDeserializer extends StdDeserializer<byte[]> {
     private final boolean useUnsigned;
 
     /**
-     * Constructs a deserializer for byte arrays with default unsigned integer conversion.
+     * Constructs a deserializer for byte arrays with default signed integer conversion.
      */
     public IntArrayToByteArrayDeserializer() {
-        this(byte[].class, true);
+        this(byte[].class, false);
     }
 
     /**

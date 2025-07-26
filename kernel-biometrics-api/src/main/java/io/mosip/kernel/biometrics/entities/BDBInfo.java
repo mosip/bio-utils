@@ -16,6 +16,9 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.mosip.kernel.biometrics.constant.BiometricType;
 import io.mosip.kernel.biometrics.constant.ProcessedLevelType;
@@ -50,14 +53,20 @@ public class BDBInfo implements Serializable {
 	@XmlElement(name = "CreationDate")
 	@XmlSchemaType(name = "dateTime")
 	@XmlJavaTypeAdapter(DateAdapter.class)
+	@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 	private LocalDateTime creationDate;
 	@XmlElement(name = "NotValidBefore")
 	@XmlSchemaType(name = "dateTime")
 	@XmlJavaTypeAdapter(DateAdapter.class)
+	@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 	private LocalDateTime notValidBefore;
 	@XmlElement(name = "NotValidAfter")
 	@XmlSchemaType(name = "dateTime")
 	@XmlJavaTypeAdapter(DateAdapter.class)
+	@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 	private LocalDateTime notValidAfter;
 	@XmlList
 	@XmlElement(name = "Type")
@@ -109,6 +118,7 @@ public class BDBInfo implements Serializable {
 	}
 	
 
+	@JsonPOJOBuilder(withPrefix = "with")
 	public static class BDBInfoBuilder {
 		private byte[] challengeResponse;
 		private String index;
@@ -128,94 +138,119 @@ public class BDBInfo implements Serializable {
 		private RegistryIDType comparisonAlgorithm;
 		private RegistryIDType compressionAlgorithm;
 
+		public BDBInfoBuilder() {
+		}
+
+		@JsonProperty("challengeResponse")
 		public BDBInfoBuilder withChallengeResponse(byte[] challengeResponse) {
 			this.challengeResponse = challengeResponse;
 			return this;
 		}
 
+		@JsonProperty("index")
 		public BDBInfoBuilder withIndex(String index) {
 			this.index = index;
 			return this;
 		}
 
+		@JsonProperty("format")
 		public BDBInfoBuilder withFormat(RegistryIDType format) {
 			this.format = format;
 			return this;
 		}
 
+		@JsonProperty("encryption")
 		public BDBInfoBuilder withEncryption(Boolean encryption) {
 			this.encryption = encryption;
 			return this;
 		}
 
+		@JsonProperty("creationDate")
+		@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+		@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 		public BDBInfoBuilder withCreationDate(LocalDateTime creationDate) {
 			this.creationDate = creationDate;
 			return this;
 		}
 
+		@JsonProperty("notValidBefore")
+		@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+		@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 		public BDBInfoBuilder withNotValidBefore(LocalDateTime notValidBefore) {
 			this.notValidBefore = notValidBefore;
 			return this;
 		}
 
+		@JsonProperty("notValidAfter")
+		@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+		@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 		public BDBInfoBuilder withNotValidAfter(LocalDateTime notValidAfter) {
 			this.notValidAfter = notValidAfter;
 			return this;
 		}
 
+		@JsonProperty("type")
 		public BDBInfoBuilder withType(List<BiometricType> type) {
 			this.type = type;
 			return this;
 		}
 
+		@JsonProperty("subtype")
 		public BDBInfoBuilder withSubtype(List<String> subtype) {
 			this.subtype = subtype;
 			return this;
 		}
 
+		@JsonProperty("level")
 		public BDBInfoBuilder withLevel(ProcessedLevelType level) {
 			this.level = level;
 			return this;
 		}
 
+		@JsonProperty("product")
 		public BDBInfoBuilder withProduct(RegistryIDType product) {
 			this.product = product;
 			return this;
 		}
 
+		@JsonProperty("purpose")
 		public BDBInfoBuilder withPurpose(PurposeType purpose) {
 			this.purpose = purpose;
 			return this;
 		}
 
+		@JsonProperty("quality")
 		public BDBInfoBuilder withQuality(QualityType quality) {
 			this.quality = quality;
 			return this;
 		}
 
-		public BDBInfo build() {
-			//TODO
-			return new BDBInfo(this);
-		}
-
+		@JsonProperty("captureDevice")
 		public BDBInfoBuilder withCaptureDevice(RegistryIDType captureDevice) {
 			this.captureDevice = captureDevice;
 			return this;
 		}
 
+		@JsonProperty("featureExtractionAlgorithm")
 		public BDBInfoBuilder withFeatureExtractionAlgorithm(RegistryIDType featureExtractionAlgorithm) {
 			this.featureExtractionAlgorithm = featureExtractionAlgorithm;
 			return this;
 		}
 
+		@JsonProperty("comparisonAlgorithm")
 		public BDBInfoBuilder withComparisonAlgorithm(RegistryIDType comparisonAlgorithm) {
 			this.comparisonAlgorithm = comparisonAlgorithm;
 			return this;
 		}
 
+		@JsonProperty("compressionAlgorithm")
 		public BDBInfoBuilder withCompressionAlgorithm(RegistryIDType compressionAlgorithm) {
 			this.compressionAlgorithm = compressionAlgorithm;
 			return this;
+		}
+
+		public BDBInfo build() {
+			return new BDBInfo(this);
 		}
 	}
 }
