@@ -20,7 +20,7 @@ public class ByteArrayToIntArraySerializer extends StdSerializer<byte[]> {
      * Constructs a serializer for byte arrays with default unsigned integer conversion.
      */
     public ByteArrayToIntArraySerializer() {
-        this(byte[].class, true);
+        this(byte[].class, false);
     }
 
     /**

@@ -26,7 +26,7 @@ public class IntArrayToByteArrayDeserializer extends StdDeserializer<byte[]> {
      * Constructs a deserializer for byte arrays with default unsigned integer conversion.
      */
     public IntArrayToByteArrayDeserializer() {
-        this(byte[].class, true);
+        this(byte[].class, false);
     }
 
     /**
