@@ -22,8 +22,88 @@ public class DateTimeObjectToLocalDateTimeDeserializer extends StdDeserializer<L
 
     @Override
     public LocalDateTime deserialize(JsonParser parser, DeserializationContext context) throws IOException {
+        JsonToken currentToken = parser.getCurrentToken();
+        // Handle array format: [year, month, day, hour, minute, second, nano]
+        if (currentToken == JsonToken.START_ARRAY) {
+            int[] values = new int[7];
+            int index = 0;
+            while (parser.nextToken() != JsonToken.END_ARRAY) {
+                if (parser.getCurrentToken() != JsonToken.VALUE_NUMBER_INT) {
+                    String errorMsg = "Expected integer in array at index " + index + ", found: " + parser.getCurrentToken();
+                    LOGGER.error("Deserialization", "Invalid Value", errorMsg);
+                    throw new IOException(errorMsg);
+                }
+                int value = parser.getIntValue();
+                if (index < values.length) {
+                    values[index] = value;
+                } else {
+                    String errorMsg = "Too many values in array, expected 7, found more at index: " + index;
+                    LOGGER.error("Deserialization", "Invalid Array Length", errorMsg);
+                    throw new IOException(errorMsg);
+                }
+                index++;
+            }
+            if (index != 7) {
+                String errorMsg = "Expected 7 values in array for LocalDateTime, found: " + index;
+                LOGGER.error("Deserialization", "Invalid Array Length", errorMsg);
+                throw new IOException(errorMsg);
+            }
+            // Extract values
+            int year = values[0];
+            int month = values[1];
+            int day = values[2];
+            int hour = values[3];
+            int minute = values[4];
+            int second = values[5];
+            int nano = values[6];
+            // Validate values
+            if (year < 1 || year > 9999) {
+                String errorMsg = "Year out of range (1-9999): " + year;
+                LOGGER.error("Deserialization", "Invalid Year", errorMsg);
+                throw new IOException(errorMsg);
+            }
+            if (month < 1 || month > 12) {
+                String errorMsg = "Month out of range (1-12): " + month;
+                LOGGER.error("Deserialization", "Invalid Month", errorMsg);
+                throw new IOException(errorMsg);
+            }
+            if (day < 1 || day > 31) {
+                String errorMsg = "Day out of range (1-31): " + day;
+                LOGGER.error("Deserialization", "Invalid Day", errorMsg);
+                throw new IOException(errorMsg);
+            }
+            if (hour < 0 || hour > 23) {
+                String errorMsg = "Hour out of range (0-23): " + hour;
+                LOGGER.error("Deserialization", "Invalid Hour", errorMsg);
+                throw new IOException(errorMsg);
+            }
+            if (minute < 0 || minute > 59) {
+                String errorMsg = "Minute out of range (0-59): " + minute;
+                LOGGER.error("Deserialization", "Invalid Minute", errorMsg);
+                throw new IOException(errorMsg);
+            }
+            if (second < 0 || second > 59) {
+                String errorMsg = "Second out of range (0-59): " + second;
+                LOGGER.error("Deserialization", "Invalid Second", errorMsg);
+                throw new IOException(errorMsg);
+            }
+            if (nano < 0 || nano > 999_999_999) {
+                String errorMsg = "Nano out of range (0-999999999): " + nano;
+                LOGGER.error("Deserialization", "Invalid Nano", errorMsg);
+                throw new IOException(errorMsg);
+            }
+            try {
+                LocalDateTime result = LocalDateTime.of(year, month, day, hour, minute, second, nano);
+                LOGGER.debug("Deserialization", "Array Success", "Deserialized LocalDateTime: " + result);
+                return result;
+            } catch (DateTimeException e) {
+                String errorMsg = "Invalid date/time values from array: " + e.getMessage();
+                LOGGER.error("Deserialization", "Invalid DateTime", errorMsg, e);
+                throw new IOException(errorMsg, e);
+            }
+        }
 
-        if (parser.getCurrentToken() != JsonToken.START_OBJECT) {
+        if (currentToken != JsonToken.START_OBJECT) {
             String errorMsg = "Expected JSON object for LocalDateTime deserialization, found: " + parser.getCurrentToken();
             LOGGER.error("Deserialization", "Invalid Token", errorMsg);
             throw new IOException(errorMsg);
