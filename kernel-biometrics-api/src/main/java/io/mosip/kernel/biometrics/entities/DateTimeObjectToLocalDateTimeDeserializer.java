@@ -24,6 +24,7 @@ public class DateTimeObjectToLocalDateTimeDeserializer extends StdDeserializer<L
     public LocalDateTime deserialize(JsonParser parser, DeserializationContext context) throws IOException {
         JsonToken currentToken = parser.getCurrentToken();
         // Handle array format: [year, month, day, hour, minute, second, nano]
+        System.out.println("Deserializing currentTokenType : " + currentToken);
         if (currentToken == JsonToken.START_ARRAY) {
             int[] values = new int[7];
             int index = 0;
