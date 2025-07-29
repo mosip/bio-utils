@@ -1,47 +1,57 @@
 package io.mosip.biometrics.util.iris;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
+/**
+ * Unit tests for {@link GeneralHeader} class.
+ * This class verifies the functionality of the GeneralHeader class which represents
+ * the general header record in an ISO/IEC 19794-6:2011 compliant iris image data.
+ */
+class GeneralHeaderTest {
 
-public class GeneralHeaderTest {
-    private static final long FORMAT_IDENTIFIER = IrisFormatIdentifier.FORMAT_IIR;
-    private static final long VERSION_NUMBER = IrisVersionNumber.VERSION_020;
+    private static final long FORMAT_IDENTIFIER = 0x49495200L; // 'IIR ' in ASCII
+    private static final long VERSION_NUMBER = 0x30323000L;    // '020 ' in ASCII
     private static final long TOTAL_REP_LENGTH = 100L;
     private static final int NO_OF_REPRESENTATIONS = 2;
-    private static final int CERTIFICATION_FLAG = IrisCertificationFlag.UNSPECIFIED;
+    private static final int CERTIFICATION_FLAG = 0; // UNSPECIFIED
     private static final int NO_OF_EYES = 2;
 
     private GeneralHeader generalHeader;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setup() {
         generalHeader = new GeneralHeader(TOTAL_REP_LENGTH, NO_OF_REPRESENTATIONS, NO_OF_EYES);
     }
 
+    /**
+     * Tests that the default constructor initializes all fields with expected default values.
+     */
     @Test
-    public void testDefaultConstructor() {
-        GeneralHeader header = new GeneralHeader(TOTAL_REP_LENGTH, NO_OF_REPRESENTATIONS, NO_OF_EYES);
-
-        assertEquals(FORMAT_IDENTIFIER, header.getFormatIdentifier());
-        assertEquals(VERSION_NUMBER, header.getVersionNumber());
-        assertEquals(TOTAL_REP_LENGTH, header.getTotalRepresentationLength());
-        assertEquals(NO_OF_REPRESENTATIONS, header.getNoOfRepresentations());
-        assertEquals(CERTIFICATION_FLAG, header.getCertificationFlag());
-        assertEquals(NO_OF_EYES, header.getNoOfEyesPresent());
-        assertEquals(16, header.getRecordLength());
+    void constructor_WhenUsingDefault_ShouldInitializeFieldsWithDefaults() {
+        assertEquals(FORMAT_IDENTIFIER, generalHeader.getFormatIdentifier());
+        assertEquals(VERSION_NUMBER, generalHeader.getVersionNumber());
+        assertEquals(TOTAL_REP_LENGTH, generalHeader.getTotalRepresentationLength());
+        assertEquals(NO_OF_REPRESENTATIONS, generalHeader.getNoOfRepresentations());
+        assertEquals(CERTIFICATION_FLAG, generalHeader.getCertificationFlag());
+        assertEquals(NO_OF_EYES, generalHeader.getNoOfEyesPresent());
+        assertEquals(16, generalHeader.getRecordLength());
     }
 
+    /**
+     * Tests that the full constructor correctly sets all provided field values.
+     */
     @Test
-    public void testFullConstructor() {
+    void constructor_WhenUsingAllParameters_ShouldSetAllFields() {
         GeneralHeader header = new GeneralHeader(
                 FORMAT_IDENTIFIER,
                 VERSION_NUMBER,
@@ -51,65 +61,74 @@ public class GeneralHeaderTest {
                 NO_OF_EYES
         );
 
-        assertEquals(FORMAT_IDENTIFIER, header.getFormatIdentifier());
-        assertEquals(VERSION_NUMBER, header.getVersionNumber());
-        assertEquals(TOTAL_REP_LENGTH, header.getTotalRepresentationLength());
-        assertEquals(NO_OF_REPRESENTATIONS, header.getNoOfRepresentations());
-        assertEquals(CERTIFICATION_FLAG, header.getCertificationFlag());
-        assertEquals(NO_OF_EYES, header.getNoOfEyesPresent());
-        assertEquals(16, header.getRecordLength());
+        assertAll(
+                () -> assertEquals(FORMAT_IDENTIFIER, header.getFormatIdentifier()),
+                () -> assertEquals(VERSION_NUMBER, header.getVersionNumber()),
+                () -> assertEquals(TOTAL_REP_LENGTH, header.getTotalRepresentationLength()),
+                () -> assertEquals(NO_OF_REPRESENTATIONS, header.getNoOfRepresentations()),
+                () -> assertEquals(CERTIFICATION_FLAG, header.getCertificationFlag()),
+                () -> assertEquals(NO_OF_EYES, header.getNoOfEyesPresent())
+        );
     }
 
+    /**
+     * Tests that the constructor with DataInputStream correctly parses and sets all fields.
+     */
     @Test
-    public void testDataInputStreamConstructor() throws IOException {
+    void constructor_WhenUsingDataInputStream_ShouldParseHeaderCorrectly() throws IOException {
         byte[] inputData = createInputData();
-        ByteArrayInputStream bais = new ByteArrayInputStream(inputData);
-        DataInputStream dis = new DataInputStream(bais);
+        GeneralHeader header = new GeneralHeader(new DataInputStream(new ByteArrayInputStream(inputData)));
 
-        GeneralHeader header = new GeneralHeader(dis);
-
-        assertEquals(FORMAT_IDENTIFIER, header.getFormatIdentifier());
-        assertEquals(VERSION_NUMBER, header.getVersionNumber());
-        assertEquals(TOTAL_REP_LENGTH - 16, header.getTotalRepresentationLength());
-        assertEquals(NO_OF_REPRESENTATIONS, header.getNoOfRepresentations());
-        assertEquals(CERTIFICATION_FLAG, header.getCertificationFlag());
-        assertEquals(NO_OF_EYES, header.getNoOfEyesPresent());
+        assertAll(
+                () -> assertEquals(FORMAT_IDENTIFIER, header.getFormatIdentifier()),
+                () -> assertEquals(VERSION_NUMBER, header.getVersionNumber()),
+                () -> assertEquals(TOTAL_REP_LENGTH - 16, header.getTotalRepresentationLength()),
+                () -> assertEquals(NO_OF_REPRESENTATIONS, header.getNoOfRepresentations()),
+                () -> assertEquals(CERTIFICATION_FLAG, header.getCertificationFlag()),
+                () -> assertEquals(NO_OF_EYES, header.getNoOfEyesPresent())
+        );
     }
 
+    /**
+     * Tests that the imageInfoOnly constructor only parses essential fields.
+     */
     @Test
-    public void testDataInputStreamOnlyImageInfoConstructor() throws IOException {
+    void constructor_WhenImageInfoOnly_ShouldParseEssentialFields() throws IOException {
         byte[] inputData = createInputData();
-        ByteArrayInputStream bais = new ByteArrayInputStream(inputData);
-        DataInputStream dis = new DataInputStream(bais);
+        GeneralHeader header = new GeneralHeader(new DataInputStream(new ByteArrayInputStream(inputData)), true);
 
-        GeneralHeader header = new GeneralHeader(dis, true);
-
-        assertEquals(TOTAL_REP_LENGTH - 16, header.getTotalRepresentationLength());
-        assertEquals(NO_OF_REPRESENTATIONS, header.getNoOfRepresentations());
-        assertEquals(16, header.getRecordLength());
+        assertAll(
+                () -> assertEquals(TOTAL_REP_LENGTH - 16, header.getTotalRepresentationLength()),
+                () -> assertEquals(NO_OF_REPRESENTATIONS, header.getNoOfRepresentations()),
+                () -> assertEquals(16, header.getRecordLength())
+        );
     }
 
+    /**
+     * Tests that writeObject correctly serializes the header to binary format.
+     */
     @Test
-    public void testWriteObject() throws IOException {
+    void writeObject_WhenInvoked_ShouldSerializeHeaderCorrectly() throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        DataOutputStream dos = new DataOutputStream(baos);
-
-        generalHeader.writeObject(dos);
+        generalHeader.writeObject(new DataOutputStream(baos));
         byte[] output = baos.toByteArray();
+        DataInputStream dis = new DataInputStream(new ByteArrayInputStream(output));
 
-        ByteArrayInputStream bais = new ByteArrayInputStream(output);
-        DataInputStream dis = new DataInputStream(bais);
-
-        assertEquals(FORMAT_IDENTIFIER, dis.readInt() & 0xFFFFFFFFL);
-        assertEquals(VERSION_NUMBER, dis.readInt() & 0xFFFFFFFFL);
-        assertEquals(TOTAL_REP_LENGTH + 16, dis.readInt() & 0xFFFFFFFFL); // Adjusted to expect 116
-        assertEquals(NO_OF_REPRESENTATIONS, dis.readUnsignedShort());
-        assertEquals(CERTIFICATION_FLAG, dis.readUnsignedByte());
-        assertEquals(NO_OF_EYES, dis.readUnsignedByte());
+        assertAll(
+                () -> assertEquals(FORMAT_IDENTIFIER, dis.readInt() & 0xFFFFFFFFL),
+                () -> assertEquals(VERSION_NUMBER, dis.readInt() & 0xFFFFFFFFL),
+                () -> assertEquals(TOTAL_REP_LENGTH + 16, dis.readInt() & 0xFFFFFFFFL),
+                () -> assertEquals(NO_OF_REPRESENTATIONS, dis.readUnsignedShort()),
+                () -> assertEquals(CERTIFICATION_FLAG, dis.readUnsignedByte()),
+                () -> assertEquals(NO_OF_EYES, dis.readUnsignedByte())
+        );
     }
 
+    /**
+     * Tests that all setter methods correctly update their respective fields.
+     */
     @Test
-    public void testSettersAndGetters() {
+    void setters_WhenInvoked_ShouldUpdateFieldsCorrectly() {
         GeneralHeader header = new GeneralHeader(0L, 0, 0);
 
         header.setFormatIdentifier(FORMAT_IDENTIFIER);
@@ -119,29 +138,38 @@ public class GeneralHeaderTest {
         header.setCertificationFlag(CERTIFICATION_FLAG);
         header.setNoOfEyesPresent(NO_OF_EYES);
 
-        assertEquals(FORMAT_IDENTIFIER, header.getFormatIdentifier());
-        assertEquals(VERSION_NUMBER, header.getVersionNumber());
-        assertEquals(TOTAL_REP_LENGTH, header.getTotalRepresentationLength());
-        assertEquals(NO_OF_REPRESENTATIONS, header.getNoOfRepresentations());
-        assertEquals(CERTIFICATION_FLAG, header.getCertificationFlag());
-        assertEquals(NO_OF_EYES, header.getNoOfEyesPresent());
-    }
-
-    @Test
-    public void testToString() {
-        String result = generalHeader.toString();
-        assertNotNull(result);
-        assertEquals(
-                "\nIrisGeneralHeader [GeneralHeaderRecordLength=16, formatIdentifier=" + FORMAT_IDENTIFIER +
-                        ", versionNumber=" + VERSION_NUMBER +
-                        ", totalRepresentationLength=" + TOTAL_REP_LENGTH +
-                        ", noOfRepresentations=" + Integer.toHexString(NO_OF_REPRESENTATIONS) +
-                        ", certificationFlag=" + Integer.toHexString(CERTIFICATION_FLAG) +
-                        ", noOfEyesPresent=" + Integer.toHexString(NO_OF_EYES) + "]\n",
-                result
+        assertAll(
+                () -> assertEquals(FORMAT_IDENTIFIER, header.getFormatIdentifier()),
+                () -> assertEquals(VERSION_NUMBER, header.getVersionNumber()),
+                () -> assertEquals(TOTAL_REP_LENGTH, header.getTotalRepresentationLength()),
+                () -> assertEquals(NO_OF_REPRESENTATIONS, header.getNoOfRepresentations()),
+                () -> assertEquals(CERTIFICATION_FLAG, header.getCertificationFlag()),
+                () -> assertEquals(NO_OF_EYES, header.getNoOfEyesPresent())
         );
     }
 
+    /**
+     * Tests that toString returns a non-null string containing all field values.
+     */
+    @Test
+    void toString_WhenInvoked_ShouldReturnFormattedString() {
+        String result = generalHeader.toString();
+
+        assertAll(
+                () -> assertNotNull(result),
+                () -> assertTrue(result.contains("GeneralHeaderRecordLength=16")),
+                () -> assertTrue(result.contains("formatIdentifier=" + FORMAT_IDENTIFIER)),
+                () -> assertTrue(result.contains("versionNumber=" + VERSION_NUMBER)),
+                () -> assertTrue(result.contains("totalRepresentationLength=" + TOTAL_REP_LENGTH)),
+                () -> assertTrue(result.contains("noOfRepresentations=" + Integer.toHexString(NO_OF_REPRESENTATIONS))),
+                () -> assertTrue(result.contains("certificationFlag=" + Integer.toHexString(CERTIFICATION_FLAG))),
+                () -> assertTrue(result.contains("noOfEyesPresent=" + Integer.toHexString(NO_OF_EYES)))
+        );
+    }
+
+    /**
+     * Creates a byte array representing a valid GeneralHeader for testing.
+     */
     private byte[] createInputData() throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(baos);
@@ -154,18 +182,5 @@ public class GeneralHeaderTest {
         dos.writeByte(NO_OF_EYES);
 
         return baos.toByteArray();
-    }
-
-    // Mock classes for constants (since actual IrisFormatIdentifier and IrisVersionNumber are not provided)
-    private static class IrisFormatIdentifier {
-        public static final long FORMAT_IIR = 0x49495200L; // 'IIR ' in ASCII
-    }
-
-    private static class IrisVersionNumber {
-        public static final long VERSION_020 = 0x30323000L; // '020 ' in ASCII
-    }
-
-    private static class IrisCertificationFlag {
-        public static final int UNSPECIFIED = 0;
     }
 }

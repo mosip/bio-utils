@@ -1,7 +1,10 @@
 package io.mosip.biometrics.util.iris;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit tests for {@link IrisCoordinate}.
@@ -9,62 +12,62 @@ import static org.junit.Assert.*;
 public class IrisCoordinateTest {
 
     /**
-     * Test constructor and value() method with valid value.
+     * value_withValidConstructorInput_returnsCorrectValue
      */
     @Test
-    public void testConstructorAndValue_Valid() {
+    public void value_withValidConstructorInput_returnsCorrectValue() {
         IrisCoordinate coordinate = new IrisCoordinate(IrisCoordinate.COORDINATE_0001);
         assertEquals(IrisCoordinate.COORDINATE_0001, coordinate.value());
     }
 
     /**
-     * Test fromValue() with minimum valid value.
+     * fromValue_withMinValidValue_returnsCoordinateUndefined
      */
     @Test
-    public void testFromValue_MinValid() {
+    public void fromValue_withMinValidValue_returnsCoordinateUndefined() {
         assertEquals(IrisCoordinate.COORDINATE_UNDEFINIED, IrisCoordinate.fromValue(IrisCoordinate.COORDINATE_UNDEFINIED));
     }
 
     /**
-     * Test fromValue() with maximum valid value.
+     * fromValue_withMaxValidValue_returnsCoordinateFFFF
      */
     @Test
-    public void testFromValue_MaxValid() {
+    public void fromValue_withMaxValidValue_returnsCoordinateFFFF() {
         assertEquals(IrisCoordinate.COORDINATE_FFFF, IrisCoordinate.fromValue(IrisCoordinate.COORDINATE_FFFF));
     }
 
     /**
-     * Test fromValue() with a valid middle value.
+     * fromValue_withMiddleValidValue_returnsCoordinate0001
      */
     @Test
-    public void testFromValue_MiddleValid() {
+    public void fromValue_withMiddleValidValue_returnsCoordinate0001() {
         assertEquals(IrisCoordinate.COORDINATE_0001, IrisCoordinate.fromValue(IrisCoordinate.COORDINATE_0001));
     }
 
     /**
-     * Test fromValue() throws IllegalArgumentException for value below range.
+     * fromValue_withValueBelowRange_throwsIllegalArgumentException
      */
     @Test(expected = IllegalArgumentException.class)
-    public void testFromValue_BelowRange() {
+    public void fromValue_withValueBelowRange_throwsIllegalArgumentException() {
         IrisCoordinate.fromValue(-1);
     }
 
     /**
-     * Test fromValue() throws IllegalArgumentException for value above range.
+     * fromValue_withValueAboveRange_throwsIllegalArgumentException
      */
     @Test(expected = IllegalArgumentException.class)
-    public void testFromValue_AboveRange() {
+    public void fromValue_withValueAboveRange_throwsIllegalArgumentException() {
         IrisCoordinate.fromValue(0x10000);
     }
 
     /**
-     * Test toString() returns a non-null string containing the value in hex.
+     * toString_withValidCoordinate_returnsNonNullHexString
      */
     @Test
-    public void testToString() {
+    public void toString_withValidCoordinate_returnsNonNullHexString() {
         IrisCoordinate coordinate = new IrisCoordinate(IrisCoordinate.COORDINATE_0001);
-        String str = coordinate.toString();
-        assertNotNull(str);
-        assertTrue(str.contains(Integer.toHexString(IrisCoordinate.COORDINATE_0001)));
+        String result = coordinate.toString();
+        assertNotNull(result);
+        assertTrue(result.contains(Integer.toHexString(IrisCoordinate.COORDINATE_0001)));
     }
-} 
+}

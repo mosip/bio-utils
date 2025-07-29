@@ -1,7 +1,9 @@
 package io.mosip.biometrics.util.iris;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit tests for {@link IrisRange}.
@@ -12,7 +14,7 @@ public class IrisRangeTest {
      * Test constructor and value() method with valid value.
      */
     @Test
-    public void testConstructorAndValue_Valid() {
+    public void constructorAndValue_validInput_returnsSameValue() {
         IrisRange range = new IrisRange(IrisRange.UNASSIGNED);
         assertEquals(IrisRange.UNASSIGNED, range.value());
     }
@@ -21,7 +23,7 @@ public class IrisRangeTest {
      * Test fromValue() with minimum valid value.
      */
     @Test
-    public void testFromValue_MinValid() {
+    public void fromValue_minValidValue_returnsInstance() {
         assertEquals(IrisRange.UNASSIGNED, IrisRange.fromValue(IrisRange.UNASSIGNED));
     }
 
@@ -29,7 +31,7 @@ public class IrisRangeTest {
      * Test fromValue() with maximum valid value.
      */
     @Test
-    public void testFromValue_MaxValid() {
+    public void fromValue_maxValidValue_returnsInstance() {
         assertEquals(IrisRange.OVERFLOW_FFFF, IrisRange.fromValue(IrisRange.OVERFLOW_FFFF));
     }
 
@@ -37,7 +39,7 @@ public class IrisRangeTest {
      * Test fromValue() with a valid middle value.
      */
     @Test
-    public void testFromValue_MiddleValid() {
+    public void fromValue_middleValidValue_returnsInstance() {
         assertEquals(IrisRange.FAILED, IrisRange.fromValue(IrisRange.FAILED));
     }
 
@@ -45,7 +47,7 @@ public class IrisRangeTest {
      * Test fromValue() throws IllegalArgumentException for value below range.
      */
     @Test(expected = IllegalArgumentException.class)
-    public void testFromValue_BelowRange() {
+    public void fromValue_valueBelowRange_throwsIllegalArgumentException() {
         IrisRange.fromValue(-1);
     }
 
@@ -53,7 +55,7 @@ public class IrisRangeTest {
      * Test fromValue() throws IllegalArgumentException for value above range.
      */
     @Test(expected = IllegalArgumentException.class)
-    public void testFromValue_AboveRange() {
+    public void fromValue_valueAboveRange_throwsIllegalArgumentException() {
         IrisRange.fromValue(0x10000);
     }
 
@@ -61,10 +63,10 @@ public class IrisRangeTest {
      * Test toString() returns a non-null string containing the value in hex.
      */
     @Test
-    public void testToString() {
+    public void toString_validRangeValue_containsHexRepresentation() {
         IrisRange range = new IrisRange(IrisRange.OVERFLOW_0002);
         String str = range.toString();
         assertNotNull(str);
         assertTrue(str.contains(Integer.toHexString(IrisRange.OVERFLOW_0002)));
     }
-} 
+}

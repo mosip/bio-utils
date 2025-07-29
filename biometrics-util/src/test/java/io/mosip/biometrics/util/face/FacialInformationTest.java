@@ -1,6 +1,9 @@
 package io.mosip.biometrics.util.face;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertArrayEquals;
 import org.junit.Test;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -28,7 +31,6 @@ public class FacialInformationTest {
         assertEquals(HeightCodes.UNSPECIFIED, facialInfo.getSubjectHeight());
         assertEquals(Features.FEATURES_ARE_SPECIFIED, facialInfo.getFeaturesMask());
         assertEquals(0, facialInfo.getExpressionMask());
-//        assertArrayEquals(poseAngleUncertainty, facialInfo.getPoseAngleUncertainty());
     }
 
     /**

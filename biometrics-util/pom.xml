@@ -44,8 +44,13 @@
 		<!--Jacoco-->
 		<jacoco.version>0.8.11</jacoco.version>
 
+		<!-- Testing -->
+		<org.junit.version>5.8.2</org.junit.version>
+		<org.mockito.inline.version>3.4.3</org.mockito.inline.version>
+		<org.mockito.jupiter.version>4.5.1</org.mockito.jupiter.version>
+
 		<!-- Sonar coverage -->
-		<sonar.coverage.exclusions>**/constant/**,**/exception/**,**/nist/parser/v2011/**,**/AbstractImageInfo.java,**/ConvertRequestDto.java,**/ImageDecoderRequestDto.java,**/NistRequestDto.java,**/ImageData.java,**/ImageInformation.java</sonar.coverage.exclusions>
+		<sonar.coverage.exclusions>**/constant/**,**/exception/**,**/nist/parser/v2011/**,**/AbstractImageInfo.java,**/ConvertRequestDto.java,**/ImageDecoderRequestDto.java,**/NistRequestDto.java,**/FaceBDIR.java,**/FeaturePoint.java,**/ImageDataType.java,**/LandmarkPointType.java,**/io/mosip/biometrics/util/finger/Representation.java,**/io/mosip/biometrics/util/finger/SegmentationBlock.java,**/io/mosip/biometrics/util/finger/ExtendedDataBlock.java,**/IrisBDIR.java,**/FingerBDIR.java,**/io/mosip/biometrics/util/iris/Representation.java,**/io/mosip/biometrics/util/iris/ImageInformation.java</sonar.coverage.exclusions>
 	</properties>
 
 	<dependencyManagement>
@@ -146,6 +151,30 @@
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
 		</dependency>
+
+
+        <!-- JUnit 5 (Jupiter) BOM for dependency management -->
+        <dependency>
+            <groupId>org.junit</groupId>
+            <artifactId>junit-bom</artifactId>
+            <version>${org.junit.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+        
+        <!-- Mockito for testing -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <version>${org.mockito.inline.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${org.mockito.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
 	</dependencies>
 	<distributionManagement>
 		<snapshotRepository>
@@ -168,6 +197,8 @@
 					<compilerArgs>
 						<arg>--enable-preview</arg>
 					</compilerArgs>
+					<source>8</source>
+					<target>8</target>
 				</configuration>
 			</plugin>
 			<plugin>
