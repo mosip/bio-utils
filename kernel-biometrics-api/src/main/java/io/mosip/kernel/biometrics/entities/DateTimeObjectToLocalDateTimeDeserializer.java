@@ -23,8 +23,23 @@ public class DateTimeObjectToLocalDateTimeDeserializer extends StdDeserializer<L
     @Override
     public LocalDateTime deserialize(JsonParser parser, DeserializationContext context) throws IOException {
         JsonToken currentToken = parser.getCurrentToken();
-        // Handle array format: [year, month, day, hour, minute, second, nano]
         System.out.println("Deserializing currentTokenType : " + currentToken);
+
+        // Handle string format: "2025-07-29T11:30:40.628"
+        if (currentToken == JsonToken.VALUE_STRING) {
+            String dateTimeString = parser.getText();
+            try {
+                LocalDateTime result = LocalDateTime.parse(dateTimeString, ISO_FORMATTER);
+                LOGGER.debug("Deserialization", "String Success", "Deserialized LocalDateTime: " + result);
+                return result;
+            } catch (DateTimeException e) {
+                String errorMsg = "Invalid ISO-8601 date/time string: " + dateTimeString + ", error: " + e.getMessage();
+                LOGGER.error("Deserialization", "Invalid String", errorMsg, e);
+                throw new IOException(errorMsg, e);
+            }
+        }
+
+        // Handle array format: [year, month, day, hour, minute, second, nano]
         if (currentToken == JsonToken.START_ARRAY) {
             int[] values = new int[7];
             int index = 0;
