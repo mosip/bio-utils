@@ -9,9 +9,11 @@ import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.time.format.DateTimeFormatter;
 
 public class DateTimeObjectToLocalDateTimeDeserializer extends StdDeserializer<LocalDateTime> {
     private static final Logger LOGGER = LoggerFactory.getLogger(DateTimeObjectToLocalDateTimeDeserializer.class);
+    private static final DateTimeFormatter ISO_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
     public DateTimeObjectToLocalDateTimeDeserializer() {
         this(null);
     }
