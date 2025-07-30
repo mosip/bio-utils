@@ -72,7 +72,7 @@ public class DateTimeObjectToLocalDateTimeDeserializer extends StdDeserializer<L
 
         // Handle array format: [year, month, day, hour, minute, second, nano]
         if (currentToken == JsonToken.START_ARRAY) {
-            int[] values = new int[7];
+            int[] values = new int[7];  // Allocate for max 7 elements
             int index = 0;
             while (parser.nextToken() != JsonToken.END_ARRAY) {
                 if (parser.getCurrentToken() != JsonToken.VALUE_NUMBER_INT) {
@@ -90,7 +90,8 @@ public class DateTimeObjectToLocalDateTimeDeserializer extends StdDeserializer<L
                 }
                 index++;
             }
-            if (index != 7) {
+            // Accept 6 or 7 elements
+            if (index != 6 && index != 7) {
                 String errorMsg = "Expected 7 values in array for LocalDateTime, found: " + index;
                 LOGGER.error("Deserialization", "Invalid Array Length", errorMsg);
                 throw new IOException(errorMsg);
@@ -102,7 +103,7 @@ public class DateTimeObjectToLocalDateTimeDeserializer extends StdDeserializer<L
             int hour = values[3];
             int minute = values[4];
             int second = values[5];
-            int nano = values[6];
+            int nano = (index == 7) ? values[6] : 0; // Default nano to 0 if only 6 elements
             // Validate values
             if (year < 1 || year > 9999) {
                 String errorMsg = "Year out of range (1-9999): " + year;
