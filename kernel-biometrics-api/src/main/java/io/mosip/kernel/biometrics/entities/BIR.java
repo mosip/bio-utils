@@ -97,6 +97,8 @@ public class BIR implements Serializable {
 		private SBInfo sbInfo;
 		private HashMap<String, String> others = new HashMap<>();
 
+		public BIRBuilder(){
+		}
 		/**
 		 * Sets the additional key-value pairs for the BIR.
 		 * 

@@ -97,6 +97,8 @@ public class BIRInfo implements Serializable {
 		private LocalDateTime notValidBefore;
 		private LocalDateTime notValidAfter;
 
+		public BIRInfoBuilder(){
+		}
 		/**
 		 * Sets the creator of the BIR.
 		 * 

@@ -245,6 +245,9 @@ public class BDBInfo implements Serializable {
 		private RegistryIDType comparisonAlgorithm;
 		private RegistryIDType compressionAlgorithm;
 
+		public BDBInfoBuilder(){
+		}
+
 		/**
 		 * Sets the challenge response associated with the BDB.
 		 *
