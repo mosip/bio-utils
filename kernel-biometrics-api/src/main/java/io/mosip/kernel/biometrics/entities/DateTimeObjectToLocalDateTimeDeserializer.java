@@ -111,38 +111,52 @@ public class DateTimeObjectToLocalDateTimeDeserializer extends StdDeserializer<L
 			return LocalDateTime.of(values[0], values[1], values[2], values[3], values[4], values[5], index == 7 ? values[6] : 0);
 		}
 
-		// Handle object with separate date and time fields
 		if (currentToken == JsonToken.START_OBJECT) {
 			int year = 0, month = 0, day = 0, hour = 0, minute = 0, second = 0, nano = 0;
 			boolean dateFound = false, timeFound = false;
 
 			while (parser.nextToken() != JsonToken.END_OBJECT) {
 				String fieldName = parser.getCurrentName();
-				parser.nextToken();
-				if ("date".equalsIgnoreCase(fieldName)) {
+				if (fieldName == null) continue;
+
+				parser.nextToken(); // move to value or START_OBJECT
+
+				if ("date".equalsIgnoreCase(fieldName) && parser.currentToken() == JsonToken.START_OBJECT) {
 					dateFound = true;
 					while (parser.nextToken() != JsonToken.END_OBJECT) {
-						switch (parser.getCurrentName()) {
-							case "year": year = parser.getIntValue(); break;
+						String subField = parser.getCurrentName();
+						if (subField == null) continue;
+
+						parser.nextToken(); // move to value
+						switch (subField) {
+							case "year":  year = parser.getIntValue(); break;
 							case "month": month = parser.getIntValue(); break;
-							case "day": day = parser.getIntValue(); break;
+							case "day":   day = parser.getIntValue(); break;
 						}
 					}
-				} else if ("time".equalsIgnoreCase(fieldName)) {
+				} else if ("time".equalsIgnoreCase(fieldName) && parser.currentToken() == JsonToken.START_OBJECT) {
 					timeFound = true;
 					while (parser.nextToken() != JsonToken.END_OBJECT) {
-						switch (parser.getCurrentName()) {
-							case "hour": hour = parser.getIntValue(); break;
+						String subField = parser.getCurrentName();
+						if (subField == null) continue;
+
+						parser.nextToken(); // move to value
+						switch (subField) {
+							case "hour":   hour = parser.getIntValue(); break;
 							case "minute": minute = parser.getIntValue(); break;
 							case "second": second = parser.getIntValue(); break;
-							case "nano": nano = parser.getIntValue(); break;
+							case "nano":   nano = parser.getIntValue(); break;
 						}
 					}
+				} else {
+					parser.skipChildren(); // skip any unknown objects
 				}
 			}
+
 			if (!dateFound || !timeFound) {
-				throw new IOException("Missing required date or time fields");
+				throw new IOException("Missing required 'date' or 'time' fields for LocalDateTime deserialization");
 			}
+
 			return LocalDateTime.of(year, month, day, hour, minute, second, nano);
 		}
 

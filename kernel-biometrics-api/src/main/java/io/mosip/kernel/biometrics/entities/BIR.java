@@ -46,23 +46,35 @@ import lombok.NoArgsConstructor;
 public class BIR implements Serializable {
 	@XmlElement(name = "Version")
 	private VersionType version;
+
 	@XmlElement(name = "CBEFFVersion")
 	private VersionType cbeffversion;
+
 	@XmlElement(name = "BIRInfo", required = true)
 	private BIRInfo birInfo;
+
 	@XmlElement(name = "BDBInfo")
 	private BDBInfo bdbInfo;
+
 	@XmlElement(name = "BDB")
 	@XmlJavaTypeAdapter(Base64Adapter.class)
+	@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
+	@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 	private byte[] bdb;
+
 	@XmlElement(name = "SB")
 	@XmlJavaTypeAdapter(Base64Adapter.class)
+	@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
+	@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 	private byte[] sb;
+
 	@SuppressWarnings({ "java:S1948" })
 	@XmlElement(name = "BIR")
 	protected List<BIR> birs;
+
 	@XmlElement(name = "SBInfo")
 	private SBInfo sbInfo;
+
 	@XmlJavaTypeAdapter(AdapterOthersListToHashMap.class)
 	@JsonDeserialize(using = MapEntryDeserializer.class)
 	private HashMap<String, String> others;
