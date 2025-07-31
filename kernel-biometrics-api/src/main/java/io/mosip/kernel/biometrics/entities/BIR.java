@@ -13,7 +13,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.MapEntryDeserializer;
 
 import io.mosip.kernel.core.cbeffutil.common.Base64Adapter;
@@ -83,6 +86,7 @@ public class BIR implements Serializable {
 	/**
 	 * Builder pattern class for constructing instances of BIR.
 	 */
+	@JsonPOJOBuilder(withPrefix = "with")
 	public static class BIRBuilder {
 		private VersionType version;
 		private VersionType cbeffversion;
@@ -99,6 +103,7 @@ public class BIR implements Serializable {
 		 * @param others the additional key-value pairs
 		 * @return this builder instance
 		 */
+		@JsonProperty("others")
 		public BIRBuilder withOthers(HashMap<String, String> others) {
 			this.others = others;
 			return this;
@@ -125,6 +130,7 @@ public class BIR implements Serializable {
 		 * @param version the version of the BIR
 		 * @return this builder instance
 		 */
+		@JsonProperty("version")
 		public BIRBuilder withVersion(VersionType version) {
 			this.version = version;
 			return this;
@@ -136,6 +142,7 @@ public class BIR implements Serializable {
 		 * @param cbeffversion the CBEFF version of the BIR
 		 * @return this builder instance
 		 */
+		@JsonProperty("cbeffversion")
 		public BIRBuilder withCbeffversion(VersionType cbeffversion) {
 			this.cbeffversion = cbeffversion;
 			return this;
@@ -147,6 +154,7 @@ public class BIR implements Serializable {
 		 * @param birInfo the BIR information
 		 * @return this builder instance
 		 */
+		@JsonProperty("birInfo")
 		public BIRBuilder withBirInfo(BIRInfo birInfo) {
 			this.birInfo = birInfo;
 			return this;
@@ -158,6 +166,7 @@ public class BIR implements Serializable {
 		 * @param bdbInfo the BDBInfo
 		 * @return this builder instance
 		 */
+		@JsonProperty("bdbInfo")
 		public BIRBuilder withBdbInfo(BDBInfo bdbInfo) {
 			this.bdbInfo = bdbInfo;
 			return this;
@@ -169,6 +178,9 @@ public class BIR implements Serializable {
 		 * @param bdb the BDB
 		 * @return this builder instance
 		 */
+		@JsonProperty("bdb")
+		@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
+		@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 		public BIRBuilder withBdb(byte[] bdb) {
 			this.bdb = bdb;
 			return this;
@@ -180,6 +192,9 @@ public class BIR implements Serializable {
 		 * @param sb the SB
 		 * @return this builder instance
 		 */
+		@JsonProperty("sb")
+		@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
+		@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 		public BIRBuilder withSb(byte[] sb) {
 			this.sb = sb == null ? new byte[0] : sb;
 			return this;
@@ -191,6 +206,7 @@ public class BIR implements Serializable {
 		 * @param sbInfo the SBInfo
 		 * @return this builder instance
 		 */
+		@JsonProperty("sbInfo")
 		public BIRBuilder withSbInfo(SBInfo sbInfo) {
 			this.sbInfo = sbInfo;
 			return this;
