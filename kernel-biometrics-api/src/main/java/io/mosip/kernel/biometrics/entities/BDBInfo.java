@@ -245,6 +245,9 @@ public class BDBInfo implements Serializable {
 		private RegistryIDType comparisonAlgorithm;
 		private RegistryIDType compressionAlgorithm;
 
+		public BDBInfoBuilder(){
+		}
+
 		/**
 		 * Sets the challenge response associated with the BDB.
 		 *
@@ -252,6 +255,8 @@ public class BDBInfo implements Serializable {
 		 * @return this builder instance
 		 */
 		@JsonProperty("challengeResponse")
+		@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
+		@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 		public BDBInfoBuilder withChallengeResponse(byte[] challengeResponse) {
 			this.challengeResponse = challengeResponse;
 			return this;
