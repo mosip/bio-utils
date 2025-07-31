@@ -48,14 +48,20 @@ public class BIRInfo implements Serializable {
 	@XmlElement(name = "CreationDate")
 	@XmlSchemaType(name = "dateTime")
 	@XmlJavaTypeAdapter(DateAdapter.class)
+	@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 	private LocalDateTime creationDate;
 	@XmlElement(name = "NotValidBefore")
 	@XmlSchemaType(name = "dateTime")
 	@XmlJavaTypeAdapter(DateAdapter.class)
+	@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 	private LocalDateTime notValidBefore;
 	@XmlElement(name = "NotValidAfter")
 	@XmlSchemaType(name = "dateTime")
 	@XmlJavaTypeAdapter(DateAdapter.class)
+	@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 	private LocalDateTime notValidAfter;
 
 	/**
@@ -94,6 +100,9 @@ public class BIRInfo implements Serializable {
 		 * @param creator the creator of the BIR
 		 * @return this builder instance
 		 */
+		public BIRInfoBuilder() {
+		}
+
 		@JsonProperty("creator")
 		public BIRInfoBuilder withCreator(String creator) {
 			this.creator = creator;
@@ -119,6 +128,8 @@ public class BIRInfo implements Serializable {
 		 * @return this builder instance
 		 */
 		@JsonProperty("payload")
+		@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
+		@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 		public BIRInfoBuilder withPayload(byte[] payload) {
 			this.payload = payload;
 			return this;
