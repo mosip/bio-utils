@@ -14,6 +14,9 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import io.mosip.kernel.core.cbeffutil.common.DateAdapter;
 import lombok.Data;
@@ -54,8 +57,14 @@ public class BIRInfo implements Serializable {
 	@XmlSchemaType(name = "dateTime")
 	@XmlJavaTypeAdapter(DateAdapter.class)
 	private LocalDateTime notValidAfter;
-	
-	
+
+	/**
+
+	 * Constructs a new instance of BIRInfo using a builder pattern.
+	 *
+
+	 * @param bIRInfoBuilder the builder used for constructing this BIRInfo object
+	 */
 	public BIRInfo(BIRInfoBuilder bIRInfoBuilder) {
 		this.creator = bIRInfoBuilder.creator;
 		this.index = bIRInfoBuilder.index;
@@ -66,6 +75,10 @@ public class BIRInfo implements Serializable {
 		this.notValidAfter = bIRInfoBuilder.notValidAfter;
 	}
 
+	/**
+	 * Builder pattern class for constructing instances of BIRInfo.
+	 */
+	@JsonPOJOBuilder(withPrefix = "with")
 	public static class BIRInfoBuilder {
 		private String creator;
 		private String index;
@@ -75,41 +88,101 @@ public class BIRInfo implements Serializable {
 		private LocalDateTime notValidBefore;
 		private LocalDateTime notValidAfter;
 
+		/**
+		 * Sets the creator of the BIR.
+		 *
+		 * @param creator the creator of the BIR
+		 * @return this builder instance
+		 */
+		@JsonProperty("creator")
 		public BIRInfoBuilder withCreator(String creator) {
 			this.creator = creator;
 			return this;
 		}
 
+		/**
+		 * Sets the index of the BIR.
+		 *
+		 * @param index the index of the BIR
+		 * @return this builder instance
+		 */
+		@JsonProperty("index")
 		public BIRInfoBuilder withIndex(String index) {
 			this.index = index;
 			return this;
 		}
 
+		/**
+		 * Sets the payload (data) of the BIR.
+		 *
+		 * @param payload the payload (data) of the BIR
+		 * @return this builder instance
+		 */
+		@JsonProperty("payload")
 		public BIRInfoBuilder withPayload(byte[] payload) {
 			this.payload = payload;
 			return this;
 		}
 
+		/**
+		 * Sets the integrity status of the BIR.
+		 *
+		 * @param integrity the integrity status of the BIR
+		 * @return this builder instance
+		 */
+		@JsonProperty("integrity")
 		public BIRInfoBuilder withIntegrity(Boolean integrity) {
 			this.integrity = integrity;
 			return this;
 		}
 
+		/**
+		 * Sets the creation date of the BIR.
+		 *
+		 * @param creationDate the creation date of the BIR
+		 * @return this builder instance
+		 */
+		@JsonProperty("creationDate")
+		@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+		@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 		public BIRInfoBuilder withCreationDate(LocalDateTime creationDate) {
 			this.creationDate = creationDate;
 			return this;
 		}
 
+		/**
+		 * Sets the start date of validity of the BIR.
+		 *
+		 * @param notValidBefore the start date of validity of the BIR
+		 * @return this builder instance
+		 */
+		@JsonProperty("notValidBefore")
+		@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+		@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 		public BIRInfoBuilder withNotValidBefore(LocalDateTime notValidBefore) {
 			this.notValidBefore = notValidBefore;
 			return this;
 		}
 
+		/**
+		 * Sets the end date of validity of the BIR.
+		 *
+		 * @param notValidAfter the end date of validity of the BIR
+		 * @return this builder instance
+		 */
+		@JsonProperty("notValidAfter")
+		@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+		@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 		public BIRInfoBuilder withNotValidAfter(LocalDateTime notValidAfter) {
 			this.notValidAfter = notValidAfter;
 			return this;
 		}
 
+		/**
+		 * Builds and returns a new instance of BIRInfo using this builder.
+		 *
+		 * @return a new instance of BIRInfo
+		 */
 		public BIRInfo build() {
 			return new BIRInfo(this);
 		}
