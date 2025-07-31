@@ -50,23 +50,37 @@ public class BIRInfo implements Serializable {
 	private static final long serialVersionUID = -2466414332099574792L;
 	@XmlElement(name = "Creator")
 	private String creator;
+
 	@XmlElement(name = "Index")
 	private String index;
+
 	@XmlElement(name = "Payload")
+	@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
+	@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 	private byte[] payload;
+
 	@XmlElement(name = "Integrity")
 	private Boolean integrity;
+
 	@XmlElement(name = "CreationDate")
 	@XmlSchemaType(name = "dateTime")
 	@XmlJavaTypeAdapter(DateAdapter.class)
+	@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 	private LocalDateTime creationDate;
+
 	@XmlElement(name = "NotValidBefore")
 	@XmlSchemaType(name = "dateTime")
 	@XmlJavaTypeAdapter(DateAdapter.class)
+	@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 	private LocalDateTime notValidBefore;
+
 	@XmlElement(name = "NotValidAfter")
 	@XmlSchemaType(name = "dateTime")
 	@XmlJavaTypeAdapter(DateAdapter.class)
+	@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 	private LocalDateTime notValidAfter;
 
 	/**

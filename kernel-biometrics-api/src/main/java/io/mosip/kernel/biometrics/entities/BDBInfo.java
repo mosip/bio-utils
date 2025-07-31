@@ -89,6 +89,8 @@ public class BDBInfo implements Serializable {
 	 * Challenge response associated with the BDB.
 	 */
 	@XmlElement(name = "ChallengeResponse")
+	@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
+	@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 	private byte[] challengeResponse;
 
 	/**
@@ -115,6 +117,8 @@ public class BDBInfo implements Serializable {
 	@XmlElement(name = "CreationDate")
 	@XmlSchemaType(name = "dateTime")
 	@XmlJavaTypeAdapter(DateAdapter.class)
+	@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 	private LocalDateTime creationDate;
 
 	/**
@@ -123,6 +127,8 @@ public class BDBInfo implements Serializable {
 	@XmlElement(name = "NotValidBefore")
 	@XmlSchemaType(name = "dateTime")
 	@XmlJavaTypeAdapter(DateAdapter.class)
+	@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 	private LocalDateTime notValidBefore;
 
 	/**
@@ -131,6 +137,8 @@ public class BDBInfo implements Serializable {
 	@XmlElement(name = "NotValidAfter")
 	@XmlSchemaType(name = "dateTime")
 	@XmlJavaTypeAdapter(DateAdapter.class)
+	@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 	private LocalDateTime notValidAfter;
 
 	/**
@@ -231,8 +239,15 @@ public class BDBInfo implements Serializable {
 		private String index;
 		private RegistryIDType format;
 		private Boolean encryption;
+
+		@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+		@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 		private LocalDateTime creationDate;
+		@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+		@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 		private LocalDateTime notValidBefore;
+		@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+		@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 		private LocalDateTime notValidAfter;
 		private List<BiometricType> type;
 		private List<String> subtype;
