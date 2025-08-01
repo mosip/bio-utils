@@ -128,8 +128,6 @@ public class BIRInfo implements Serializable {
 		 * @return this builder instance
 		 */
 		@JsonProperty("payload")
-		@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
-		@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 		public BIRInfoBuilder withPayload(byte[] payload) {
 			this.payload = payload;
 			return this;
