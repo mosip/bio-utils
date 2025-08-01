@@ -56,45 +56,51 @@ public class IntArrayToByteArrayDeserializer extends StdDeserializer<byte[]> {
 	 */
 	@Override
 	public byte[] deserialize(JsonParser parser, DeserializationContext context) throws IOException {
+		JsonToken token = parser.getCurrentToken();
+
+		if (token == JsonToken.VALUE_STRING) {
+			// Handle Base64-encoded string
+			return parser.getBinaryValue();
+		}
+
 		// Ensure the current token is the start of an array
-		if (parser.getCurrentToken() != JsonToken.START_ARRAY) {
-			String errorMsg = "Expected JSON array for byte[] deserialization, found: " + parser.getCurrentToken();
-			throw new IOException(errorMsg);
-		}
+		if (token == JsonToken.START_ARRAY) {
 
-		List<Byte> byteList = new ArrayList<>();
-		int index = 0;
+			List<Byte> byteList = new ArrayList<>();
+			int index = 0;
 
-		// Iterate through each element in the JSON array
-		while (parser.nextToken() != JsonToken.END_ARRAY) {
-			if (parser.getCurrentToken() != JsonToken.VALUE_NUMBER_INT) {
-				throw new IOException("Expected integer value in JSON array at index " + index + ", found: " + parser.getCurrentToken());
+			// Iterate through each element in the JSON array
+			while (parser.nextToken() != JsonToken.END_ARRAY) {
+				if (parser.getCurrentToken() != JsonToken.VALUE_NUMBER_INT) {
+					throw new IOException("deserialize::Expected integer value in JSON array at index " + index + ", found: " + parser.getCurrentToken());
+				}
+
+				int value = parser.getIntValue();
+
+				// Validate the integer based on signed/unsigned configuration
+				if (useUnsigned) {
+					if (value < 0 || value > 255) {
+						throw new IOException("deserialize::Unsigned byte value out of range (0 to 255): " + value);
+					}
+				} else {
+					if (value < -128 || value > 127) {
+						throw new IOException("deserialize::Signed byte value out of range (-128 to 127): " + value);
+					}
+				}
+
+				// Convert integer to byte and add to list
+				byteList.add((byte) value);
+				index++;
 			}
 
-			int value = parser.getIntValue();
-
-			// Validate the integer based on signed/unsigned configuration
-			if (useUnsigned) {
-				if (value < 0 || value > 255) {
-					throw new IOException("Unsigned byte value out of range (0 to 255): " + value);
-				}
-			} else {
-				if (value < -128 || value > 127) {
-					throw new IOException("Signed byte value out of range (-128 to 127): " + value);
-				}
+			// Convert list to byte array
+			byte[] result = new byte[byteList.size()];
+			for (int i = 0; i < byteList.size(); i++) {
+				result[i] = byteList.get(i);
 			}
 
-			// Convert integer to byte and add to list
-			byteList.add((byte) value);
-			index++;
+			return result;
 		}
-
-		// Convert list to byte array
-		byte[] result = new byte[byteList.size()];
-		for (int i = 0; i < byteList.size(); i++) {
-			result[i] = byteList.get(i);
-		}
-
-		return result;
+		throw new IOException("deserialize::Unsupported token for byte[]: " + token);
 	}
 }

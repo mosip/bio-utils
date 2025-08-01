@@ -64,6 +64,11 @@ public class ByteArrayToIntArraySerializer extends StdSerializer<byte[]> {
 	 */
 	@Override
 	public void serialize(byte[] value, JsonGenerator gen, SerializerProvider provider) throws IOException {
+		if (value == null) {
+			gen.writeNull();
+			return;
+		}
+
 		gen.writeStartArray();
 		for (byte b : value) {
 			int intValue = useUnsigned ? Byte.toUnsignedInt(b) : b;
