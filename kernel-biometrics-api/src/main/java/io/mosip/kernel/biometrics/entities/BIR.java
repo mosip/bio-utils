@@ -3,7 +3,6 @@ package io.mosip.kernel.biometrics.entities;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -16,7 +15,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.MapEntryDeserializer;
 
 import io.mosip.kernel.core.cbeffutil.common.Base64Adapter;
@@ -58,14 +56,10 @@ public class BIR implements Serializable {
 
 	@XmlElement(name = "BDB")
 	@XmlJavaTypeAdapter(Base64Adapter.class)
-	@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
-	@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 	private byte[] bdb;
 
 	@XmlElement(name = "SB")
 	@XmlJavaTypeAdapter(Base64Adapter.class)
-	@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
-	@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 	private byte[] sb;
 
 	@SuppressWarnings({ "java:S1948" })
@@ -193,8 +187,6 @@ public class BIR implements Serializable {
 		 * @return this builder instance
 		 */
 		@JsonProperty("bdb")
-		@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
-		@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 		public BIRBuilder withBdb(byte[] bdb) {
 			this.bdb = bdb;
 			return this;
@@ -207,8 +199,6 @@ public class BIR implements Serializable {
 		 * @return this builder instance
 		 */
 		@JsonProperty("sb")
-		@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
-		@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 		public BIRBuilder withSb(byte[] sb) {
 			this.sb = sb == null ? new byte[0] : sb;
 			return this;

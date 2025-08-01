@@ -55,8 +55,6 @@ public class BIRInfo implements Serializable {
 	private String index;
 
 	@XmlElement(name = "Payload")
-	@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
-	@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 	private byte[] payload;
 
 	@XmlElement(name = "Integrity")
@@ -144,8 +142,6 @@ public class BIRInfo implements Serializable {
 		 * @return this builder instance
 		 */
 		@JsonProperty("payload")
-		@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
-		@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 		public BIRInfoBuilder withPayload(byte[] payload) {
 			this.payload = payload;
 			return this;

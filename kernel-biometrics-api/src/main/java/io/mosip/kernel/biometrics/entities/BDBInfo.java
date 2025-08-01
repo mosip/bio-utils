@@ -89,8 +89,6 @@ public class BDBInfo implements Serializable {
 	 * Challenge response associated with the BDB.
 	 */
 	@XmlElement(name = "ChallengeResponse")
-	@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
-	@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 	private byte[] challengeResponse;
 
 	/**
@@ -270,8 +268,6 @@ public class BDBInfo implements Serializable {
 		 * @return this builder instance
 		 */
 		@JsonProperty("challengeResponse")
-		@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
-		@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 		public BDBInfoBuilder withChallengeResponse(byte[] challengeResponse) {
 			this.challengeResponse = challengeResponse;
 			return this;
