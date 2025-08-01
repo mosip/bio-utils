@@ -13,17 +13,33 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import io.mosip.kernel.core.cbeffutil.common.DateAdapter;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 /**
- * @author Ramadurai Pandian
+ * Represents Biometric Information Record (BIR) information.
+ * <p>
+ * This class encapsulates details about a biometric record including its
+ * creator, index, payload, integrity status, creation date, validity period
+ * (not valid before and not valid after).
+ * </p>
+ * <p>
+ * It supports XML and JSON serialization, using JAXB and Jackson annotations.
+ * </p>
+ * <p>
+ * This class also provides a builder pattern {@link BIRInfo.BIRInfoBuilder} for
+ * convenient object construction.
+ * </p>
  *
+ * @author Ramadurai Pandian
+ * @since 1.0.0
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "BIRInfoType", propOrder = { "creator", "index", "payload", "integrity", "creationDate",
@@ -32,31 +48,34 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonDeserialize(builder = BIRInfo.BIRInfoBuilder.class)
 public class BIRInfo implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2466414332099574792L;
 	@XmlElement(name = "Creator")
 	private String creator;
+
 	@XmlElement(name = "Index")
 	private String index;
+
 	@XmlElement(name = "Payload")
+	@JsonFormat(shape = JsonFormat.Shape.ARRAY)
 	private byte[] payload;
+
 	@XmlElement(name = "Integrity")
 	private Boolean integrity;
+
 	@XmlElement(name = "CreationDate")
 	@XmlSchemaType(name = "dateTime")
 	@XmlJavaTypeAdapter(DateAdapter.class)
 	@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
 	@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 	private LocalDateTime creationDate;
+
 	@XmlElement(name = "NotValidBefore")
 	@XmlSchemaType(name = "dateTime")
 	@XmlJavaTypeAdapter(DateAdapter.class)
 	@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
 	@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 	private LocalDateTime notValidBefore;
+
 	@XmlElement(name = "NotValidAfter")
 	@XmlSchemaType(name = "dateTime")
 	@XmlJavaTypeAdapter(DateAdapter.class)
@@ -65,10 +84,8 @@ public class BIRInfo implements Serializable {
 	private LocalDateTime notValidAfter;
 
 	/**
-
 	 * Constructs a new instance of BIRInfo using a builder pattern.
-	 *
-
+	 * 
 	 * @param bIRInfoBuilder the builder used for constructing this BIRInfo object
 	 */
 	public BIRInfo(BIRInfoBuilder bIRInfoBuilder) {
@@ -94,15 +111,14 @@ public class BIRInfo implements Serializable {
 		private LocalDateTime notValidBefore;
 		private LocalDateTime notValidAfter;
 
+		public BIRInfoBuilder(){
+		}
 		/**
 		 * Sets the creator of the BIR.
-		 *
+		 * 
 		 * @param creator the creator of the BIR
 		 * @return this builder instance
 		 */
-		public BIRInfoBuilder() {
-		}
-
 		@JsonProperty("creator")
 		public BIRInfoBuilder withCreator(String creator) {
 			this.creator = creator;
@@ -111,7 +127,7 @@ public class BIRInfo implements Serializable {
 
 		/**
 		 * Sets the index of the BIR.
-		 *
+		 * 
 		 * @param index the index of the BIR
 		 * @return this builder instance
 		 */
@@ -123,11 +139,12 @@ public class BIRInfo implements Serializable {
 
 		/**
 		 * Sets the payload (data) of the BIR.
-		 *
+		 * 
 		 * @param payload the payload (data) of the BIR
 		 * @return this builder instance
 		 */
 		@JsonProperty("payload")
+		@JsonFormat(shape = JsonFormat.Shape.ARRAY)
 		public BIRInfoBuilder withPayload(byte[] payload) {
 			this.payload = payload;
 			return this;
@@ -135,7 +152,7 @@ public class BIRInfo implements Serializable {
 
 		/**
 		 * Sets the integrity status of the BIR.
-		 *
+		 * 
 		 * @param integrity the integrity status of the BIR
 		 * @return this builder instance
 		 */
@@ -147,7 +164,7 @@ public class BIRInfo implements Serializable {
 
 		/**
 		 * Sets the creation date of the BIR.
-		 *
+		 * 
 		 * @param creationDate the creation date of the BIR
 		 * @return this builder instance
 		 */
@@ -161,7 +178,7 @@ public class BIRInfo implements Serializable {
 
 		/**
 		 * Sets the start date of validity of the BIR.
-		 *
+		 * 
 		 * @param notValidBefore the start date of validity of the BIR
 		 * @return this builder instance
 		 */
@@ -175,7 +192,7 @@ public class BIRInfo implements Serializable {
 
 		/**
 		 * Sets the end date of validity of the BIR.
-		 *
+		 * 
 		 * @param notValidAfter the end date of validity of the BIR
 		 * @return this builder instance
 		 */
@@ -189,12 +206,11 @@ public class BIRInfo implements Serializable {
 
 		/**
 		 * Builds and returns a new instance of BIRInfo using this builder.
-		 *
+		 * 
 		 * @return a new instance of BIRInfo
 		 */
 		public BIRInfo build() {
 			return new BIRInfo(this);
 		}
-
 	}
 }
