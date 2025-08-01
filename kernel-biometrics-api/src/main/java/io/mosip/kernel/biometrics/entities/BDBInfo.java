@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package io.mosip.kernel.biometrics.entities;
 
@@ -92,9 +92,9 @@ public class BDBInfo implements Serializable {
 	private PurposeType purpose;
 	@XmlElement(name = "Quality")
 	private QualityType quality;
-	
-	
-	
+
+
+
 
 
 	public BDBInfo(BDBInfoBuilder bDBInfoBuilder) {
@@ -116,7 +116,7 @@ public class BDBInfo implements Serializable {
 		this.comparisonAlgorithm = bDBInfoBuilder.comparisonAlgorithm;
 		this.compressionAlgorithm = bDBInfoBuilder.compressionAlgorithm;
 	}
-	
+
 
 	@JsonPOJOBuilder(withPrefix = "with")
 	public static class BDBInfoBuilder {
@@ -142,6 +142,8 @@ public class BDBInfo implements Serializable {
 		}
 
 		@JsonProperty("challengeResponse")
+		@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
+		@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 		public BDBInfoBuilder withChallengeResponse(byte[] challengeResponse) {
 			this.challengeResponse = challengeResponse;
 			return this;

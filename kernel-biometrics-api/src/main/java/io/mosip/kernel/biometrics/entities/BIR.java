@@ -11,7 +11,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.MapEntryDeserializer;
 
@@ -50,6 +52,7 @@ public class BIR implements Serializable {
 	@XmlElement(name = "SB")
 	@XmlJavaTypeAdapter(Base64Adapter.class)
 	private byte[] sb;
+	@SuppressWarnings({ "java:S1948" })
 	@XmlElement(name = "BIR")
 	protected List<BIR> birs;
 	@XmlElement(name = "SBInfo")
@@ -69,6 +72,7 @@ public class BIR implements Serializable {
 		this.others = birBuilder.others;
 	}
 
+	@JsonPOJOBuilder(withPrefix = "with")
 	public static class BIRBuilder {
 		private VersionType version;
 		private VersionType cbeffversion;
@@ -79,11 +83,28 @@ public class BIR implements Serializable {
 		private SBInfo sbInfo;
 		private HashMap<String, String> others = new HashMap<>();
 
+		public BIRBuilder() {
+		}
+
+		/**
+		 * Sets the additional key-value pairs for the BIR.
+		 *
+		 * @param others the additional key-value pairs
+		 * @return this builder instance
+		 */
+		@JsonProperty("others")
 		public BIRBuilder withOthers(HashMap<String, String> others) {
 			this.others = others;
 			return this;
 		}
 
+		/**
+		 * Adds a key-value pair to the additional key-value pairs for the BIR.
+		 *
+		 * @param key   the key of the additional pair
+		 * @param value the value of the additional pair
+		 * @return this builder instance
+		 */
 		public BIRBuilder withOthers(String key, String value) {
 			if(Objects.isNull(this.others))
 				this.others = new HashMap<>();
@@ -92,41 +113,99 @@ public class BIR implements Serializable {
 			return this;
 		}
 
+		/**
+		 * Sets the version of the BIR.
+		 *
+		 * @param version the version of the BIR
+		 * @return this builder instance
+		 */
+		@JsonProperty("version")
 		public BIRBuilder withVersion(VersionType version) {
 			this.version = version;
 			return this;
 		}
 
+		/**
+		 * Sets the CBEFF version of the BIR.
+		 *
+		 * @param cbeffversion the CBEFF version of the BIR
+		 * @return this builder instance
+		 */
+		@JsonProperty("cbeffversion")
 		public BIRBuilder withCbeffversion(VersionType cbeffversion) {
 			this.cbeffversion = cbeffversion;
 			return this;
 		}
 
+		/**
+		 * Sets the BIR information.
+		 *
+		 * @param birInfo the BIR information
+		 * @return this builder instance
+		 */
+		@JsonProperty("birInfo")
 		public BIRBuilder withBirInfo(BIRInfo birInfo) {
 			this.birInfo = birInfo;
 			return this;
 		}
 
+		/**
+		 * Sets the BDBInfo (Biometric Data Block information).
+		 *
+		 * @param bdbInfo the BDBInfo
+		 * @return this builder instance
+		 */
+		@JsonProperty("bdbInfo")
 		public BIRBuilder withBdbInfo(BDBInfo bdbInfo) {
 			this.bdbInfo = bdbInfo;
 			return this;
 		}
 
+		/**
+		 * Sets the BDB (Biometric Data Block).
+		 *
+		 * @param bdb the BDB
+		 * @return this builder instance
+		 */
+		@JsonProperty("bdb")
+		@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
+		@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 		public BIRBuilder withBdb(byte[] bdb) {
 			this.bdb = bdb;
 			return this;
 		}
 
+		/**
+		 * Sets the SB (Structured Biometric Data).
+		 *
+		 * @param sb the SB
+		 * @return this builder instance
+		 */
+		@JsonProperty("sb")
+		@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
+		@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 		public BIRBuilder withSb(byte[] sb) {
 			this.sb = sb == null ? new byte[0] : sb;
 			return this;
 		}
 
+		/**
+		 * Sets the SBInfo (Structured Biometric Data information).
+		 *
+		 * @param sbInfo the SBInfo
+		 * @return this builder instance
+		 */
+		@JsonProperty("sbInfo")
 		public BIRBuilder withSbInfo(SBInfo sbInfo) {
 			this.sbInfo = sbInfo;
 			return this;
 		}
 
+		/**
+		 * Builds and returns a new instance of BIR using this builder.
+		 *
+		 * @return a new instance of BIR
+		 */
 		public BIR build() {
 			return new BIR(this);
 		}
