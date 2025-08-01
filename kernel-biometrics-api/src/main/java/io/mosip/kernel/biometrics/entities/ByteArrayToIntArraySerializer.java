@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import java.io.IOException;
-import java.util.Objects;
 
 /**
  * A Jackson serializer that converts a byte array to a JSON array of integers.
@@ -44,9 +43,12 @@ public class ByteArrayToIntArraySerializer extends StdSerializer<byte[]> {
      */
     @Override
     public void serialize(byte[] value, JsonGenerator gen, SerializerProvider provider) throws IOException {
+        if (value == null) {
+            gen.writeNull();
+            return;
+        }
         gen.writeStartArray();
         for (byte b : value) {
-            // Convert byte to int: unsigned (0 to 255) or signed (-128 to 127)
             int intValue = useUnsigned ? Byte.toUnsignedInt(b) : b;
             gen.writeNumber(intValue);
         }
