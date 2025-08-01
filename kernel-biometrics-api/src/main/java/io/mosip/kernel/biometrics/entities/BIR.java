@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
@@ -56,10 +57,12 @@ public class BIR implements Serializable {
 
 	@XmlElement(name = "BDB")
 	@XmlJavaTypeAdapter(Base64Adapter.class)
+	@JsonFormat(shape = JsonFormat.Shape.ARRAY)
 	private byte[] bdb;
 
 	@XmlElement(name = "SB")
 	@XmlJavaTypeAdapter(Base64Adapter.class)
+	@JsonFormat(shape = JsonFormat.Shape.ARRAY)
 	private byte[] sb;
 
 	@SuppressWarnings({ "java:S1948" })
@@ -187,6 +190,7 @@ public class BIR implements Serializable {
 		 * @return this builder instance
 		 */
 		@JsonProperty("bdb")
+		@JsonFormat(shape = JsonFormat.Shape.ARRAY)
 		public BIRBuilder withBdb(byte[] bdb) {
 			this.bdb = bdb;
 			return this;
@@ -199,6 +203,7 @@ public class BIR implements Serializable {
 		 * @return this builder instance
 		 */
 		@JsonProperty("sb")
+		@JsonFormat(shape = JsonFormat.Shape.ARRAY)
 		public BIRBuilder withSb(byte[] sb) {
 			this.sb = sb == null ? new byte[0] : sb;
 			return this;

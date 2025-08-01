@@ -15,6 +15,7 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -89,6 +90,7 @@ public class BDBInfo implements Serializable {
 	 * Challenge response associated with the BDB.
 	 */
 	@XmlElement(name = "ChallengeResponse")
+	@JsonFormat(shape = JsonFormat.Shape.ARRAY)
 	private byte[] challengeResponse;
 
 	/**
@@ -268,6 +270,7 @@ public class BDBInfo implements Serializable {
 		 * @return this builder instance
 		 */
 		@JsonProperty("challengeResponse")
+		@JsonFormat(shape = JsonFormat.Shape.ARRAY)
 		public BDBInfoBuilder withChallengeResponse(byte[] challengeResponse) {
 			this.challengeResponse = challengeResponse;
 			return this;
