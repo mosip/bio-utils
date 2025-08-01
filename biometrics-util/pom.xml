@@ -197,8 +197,6 @@
 					<compilerArgs>
 						<arg>--enable-preview</arg>
 					</compilerArgs>
-					<source>8</source>
-					<target>8</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -226,7 +224,7 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
+			<artifactId>maven-source-plugin</artifactId>
 				<inherited>true</inherited>
 				<version>${maven.source.plugin.version}</version>
 				<executions>
