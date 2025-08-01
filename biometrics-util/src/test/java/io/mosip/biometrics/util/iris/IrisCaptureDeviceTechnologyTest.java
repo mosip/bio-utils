@@ -11,7 +11,7 @@ public class IrisCaptureDeviceTechnologyTest {
      * Tests constructor with valid value
      */
     @Test
-    public void constructor_validValue_createsIrisCaptureDeviceTechnology() {
+    public void constructorCreatesTechnologyCorrectly() {
         IrisCaptureDeviceTechnology technology = new IrisCaptureDeviceTechnology(IrisCaptureDeviceTechnology.CMOS_OR_CCD);
 
         assertEquals(IrisCaptureDeviceTechnology.CMOS_OR_CCD, technology.value());
@@ -21,7 +21,7 @@ public class IrisCaptureDeviceTechnologyTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validTechnology_returnsCorrectValue() {
+    public void valueReturnsCorrectValue() {
         IrisCaptureDeviceTechnology technology = new IrisCaptureDeviceTechnology(IrisCaptureDeviceTechnology.UNSPECIFIED);
 
         int result = technology.value();
@@ -33,7 +33,7 @@ public class IrisCaptureDeviceTechnologyTest {
      * Tests fromValue method with valid minimum value
      */
     @Test
-    public void fromValue_validMinimumValue_returnsValue() {
+    public void fromValueWithMinimumReturnsValue() {
         int result = IrisCaptureDeviceTechnology.fromValue(IrisCaptureDeviceTechnology.UNSPECIFIED);
 
         assertEquals(IrisCaptureDeviceTechnology.UNSPECIFIED, result);
@@ -43,7 +43,7 @@ public class IrisCaptureDeviceTechnologyTest {
      * Tests fromValue method with valid maximum value
      */
     @Test
-    public void fromValue_validMaximumValue_returnsValue() {
+    public void fromValueWithMaximumReturnsValue() {
         int result = IrisCaptureDeviceTechnology.fromValue(IrisCaptureDeviceTechnology.CMOS_OR_CCD);
 
         assertEquals(IrisCaptureDeviceTechnology.CMOS_OR_CCD, result);
@@ -53,7 +53,7 @@ public class IrisCaptureDeviceTechnologyTest {
      * Tests fromValue method with invalid value below range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueBelowRange_throwsIllegalArgumentException() {
+    public void fromValueBelowRangeThrowsException() {
         IrisCaptureDeviceTechnology.fromValue(-1);
     }
 
@@ -61,7 +61,7 @@ public class IrisCaptureDeviceTechnologyTest {
      * Tests fromValue method with invalid value above range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueAboveRange_throwsIllegalArgumentException() {
+    public void fromValueAboveRangeThrowsException() {
         IrisCaptureDeviceTechnology.fromValue(0x02);
     }
 
@@ -69,7 +69,7 @@ public class IrisCaptureDeviceTechnologyTest {
      * Tests toString method returns formatted string
      */
     @Test
-    public void toString_validTechnology_returnsFormattedString() {
+    public void toStringReturnsFormattedString() {
         IrisCaptureDeviceTechnology technology = new IrisCaptureDeviceTechnology(IrisCaptureDeviceTechnology.CMOS_OR_CCD);
 
         String result = technology.toString();

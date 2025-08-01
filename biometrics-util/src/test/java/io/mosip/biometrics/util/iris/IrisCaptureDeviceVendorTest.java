@@ -11,7 +11,7 @@ public class IrisCaptureDeviceVendorTest {
      * Tests constructor with valid value
      */
     @Test
-    public void constructor_validValue_createsIrisCaptureDeviceVendor() {
+    public void constructorCreatesVendorCorrectly() {
         IrisCaptureDeviceVendor vendor = new IrisCaptureDeviceVendor(IrisCaptureDeviceVendor.UNSPECIFIED);
 
         assertEquals(IrisCaptureDeviceVendor.UNSPECIFIED, vendor.value());
@@ -21,7 +21,7 @@ public class IrisCaptureDeviceVendorTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validVendor_returnsCorrectValue() {
+    public void valueReturnsCorrectValue() {
         IrisCaptureDeviceVendor vendor = new IrisCaptureDeviceVendor(0x1234);
 
         int result = vendor.value();
@@ -33,7 +33,7 @@ public class IrisCaptureDeviceVendorTest {
      * Tests fromValue method with valid minimum value
      */
     @Test
-    public void fromValue_validMinimumValue_returnsValue() {
+    public void fromValueWithMinimumReturnsValue() {
         int result = IrisCaptureDeviceVendor.fromValue(IrisCaptureDeviceVendor.UNSPECIFIED);
 
         assertEquals(IrisCaptureDeviceVendor.UNSPECIFIED, result);
@@ -43,7 +43,7 @@ public class IrisCaptureDeviceVendorTest {
      * Tests fromValue method with valid maximum value
      */
     @Test
-    public void fromValue_validMaximumValue_returnsValue() {
+    public void fromValueWithMaximumReturnsValue() {
         int result = IrisCaptureDeviceVendor.fromValue(IrisCaptureDeviceVendor.VENDOR_FFFF);
 
         assertEquals(IrisCaptureDeviceVendor.VENDOR_FFFF, result);
@@ -53,7 +53,7 @@ public class IrisCaptureDeviceVendorTest {
      * Tests fromValue method with valid middle value
      */
     @Test
-    public void fromValue_validMiddleValue_returnsValue() {
+    public void fromValueWithMiddleReturnsValue() {
         int result = IrisCaptureDeviceVendor.fromValue(0x8000);
 
         assertEquals(0x8000, result);
@@ -63,7 +63,7 @@ public class IrisCaptureDeviceVendorTest {
      * Tests fromValue method with invalid value below range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueBelowRange_throwsIllegalArgumentException() {
+    public void fromValueBelowRangeThrowsException() {
         IrisCaptureDeviceVendor.fromValue(-1);
     }
 
@@ -71,7 +71,7 @@ public class IrisCaptureDeviceVendorTest {
      * Tests fromValue method with invalid value above range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueAboveRange_throwsIllegalArgumentException() {
+    public void fromValueAboveRangeThrowsException() {
         IrisCaptureDeviceVendor.fromValue(0x10000);
     }
 
@@ -79,7 +79,7 @@ public class IrisCaptureDeviceVendorTest {
      * Tests toString method returns formatted string
      */
     @Test
-    public void toString_validVendor_returnsFormattedString() {
+    public void toStringReturnsFormattedString() {
         IrisCaptureDeviceVendor vendor = new IrisCaptureDeviceVendor(0xABCD);
 
         String result = vendor.toString();

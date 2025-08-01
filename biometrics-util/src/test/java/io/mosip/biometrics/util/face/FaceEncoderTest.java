@@ -16,7 +16,7 @@ class FaceEncoderTest {
      * Expects a generic exception due to invalid image data.
      */
     @Test
-    void convertFaceImageToISO_dummyBytes_throwsException() {
+    void convertFaceImageToISOWithDummyBytes() {
         ConvertRequestDto dto = new ConvertRequestDto();
         dto.setVersion("ISO19794_5_2011");
         dto.setPurpose("Registration");
@@ -31,7 +31,7 @@ class FaceEncoderTest {
      * Expects UnsupportedOperationException to be thrown.
      */
     @Test
-    void convertFaceImageToISO_unsupportedVersion_throwsException() {
+    void convertFaceImageToISOWithUnsupportedVersion() {
         ConvertRequestDto dto = new ConvertRequestDto();
         dto.setVersion("OTHER");
         dto.setPurpose("Registration");

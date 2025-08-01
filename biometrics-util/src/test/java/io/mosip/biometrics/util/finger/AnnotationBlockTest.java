@@ -16,9 +16,9 @@ public class AnnotationBlockTest {
      * Tests constructor with annotation data
      */
     @Test
-    public void constructor_withAnnotationData_createsAnnotationBlock() {
+    public void constructorWithAnnotationDataCreatesAnnotationBlock() {
         AnnotationData[] annotationData = {new AnnotationData(FingerPosition.RIGHT_THUMB, AnnotationCode.AMPUTATED_FINGER)};
-        
+
         AnnotationBlock annotationBlock = new AnnotationBlock(1, annotationData);
 
         assertNotNull(annotationBlock);
@@ -31,7 +31,7 @@ public class AnnotationBlockTest {
      * Tests constructor with DataInputStream
      */
     @Test
-    public void constructor_dataInputStream_createsAnnotationBlock() throws Exception {
+    public void constructorDataInputStreamCreatesAnnotationBlock() throws Exception {
         byte[] testData = {0x00, 0x05, 0x01, 0x01, 0x01};
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
         DataInputStream inputStream = new DataInputStream(bais);
@@ -46,7 +46,7 @@ public class AnnotationBlockTest {
      * Tests constructor with DataInputStream and onlyImageInformation flag
      */
     @Test
-    public void constructor_dataInputStreamWithImageInfoFlag_createsAnnotationBlock() throws Exception {
+    public void constructorDataInputStreamWithImageInfoFlagCreatesAnnotationBlock() throws Exception {
         byte[] testData = {0x00, 0x05, 0x01, 0x01, 0x01};
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
         DataInputStream inputStream = new DataInputStream(bais);
@@ -60,7 +60,7 @@ public class AnnotationBlockTest {
      * Tests getRecordLength method returns correct length
      */
     @Test
-    public void getRecordLength_validAnnotationBlock_returnsCorrectLength() {
+    public void getRecordLengthValidAnnotationBlockReturnsCorrectLength() {
         AnnotationData[] annotationData = {new AnnotationData(FingerPosition.LEFT_INDEX_FINGER, AnnotationCode.UNUSABLE_IMAGE)};
         AnnotationBlock annotationBlock = new AnnotationBlock(1, annotationData);
 
@@ -73,7 +73,7 @@ public class AnnotationBlockTest {
      * Tests writeObject method writes data correctly
      */
     @Test
-    public void writeObject_validAnnotationBlock_writesDataSuccessfully() throws Exception {
+    public void writeObjectValidAnnotationBlockWritesDataSuccessfully() throws Exception {
         AnnotationData[] annotationData = {new AnnotationData(FingerPosition.RIGHT_MIDDLE_FINGER, AnnotationCode.AMPUTATED_FINGER)};
         AnnotationBlock annotationBlock = new AnnotationBlock(1, annotationData);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -90,7 +90,7 @@ public class AnnotationBlockTest {
      * Tests setNoOfAnnotationData method sets value correctly
      */
     @Test
-    public void setNoOfAnnotationData_validCount_setsValueCorrectly() {
+    public void setNoOfAnnotationDataValidCountSetsValueCorrectly() {
         AnnotationData[] annotationData = {new AnnotationData()};
         AnnotationBlock annotationBlock = new AnnotationBlock(1, annotationData);
         int newCount = 2;
@@ -104,7 +104,7 @@ public class AnnotationBlockTest {
      * Tests setAnnotationData method sets array correctly
      */
     @Test
-    public void setAnnotationData_validArray_setsArrayCorrectly() {
+    public void setAnnotationDataValidArraySetsArrayCorrectly() {
         AnnotationData[] originalData = {new AnnotationData()};
         AnnotationBlock annotationBlock = new AnnotationBlock(1, originalData);
         AnnotationData[] newData = {new AnnotationData(FingerPosition.LEFT_THUMB, AnnotationCode.UNUSABLE_IMAGE)};
@@ -118,7 +118,7 @@ public class AnnotationBlockTest {
      * Tests toString method returns non-null string
      */
     @Test
-    public void toString_validAnnotationBlock_returnsNonNullString() {
+    public void toStringValidAnnotationBlockReturnsNonNullString() {
         AnnotationData[] annotationData = {new AnnotationData(FingerPosition.RIGHT_RING_FINGER, AnnotationCode.AMPUTATED_FINGER)};
         AnnotationBlock annotationBlock = new AnnotationBlock(1, annotationData);
 

@@ -11,7 +11,7 @@ public class ImageTypeTest {
      * Tests constructor with valid value
      */
     @Test
-    public void constructor_validValue_createsImageType() {
+    public void constructorCreatesImageTypeCorrectly() {
         ImageType imageType = new ImageType(ImageType.UNCROPPED);
 
         assertEquals(ImageType.UNCROPPED, imageType.value());
@@ -21,7 +21,7 @@ public class ImageTypeTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validImageType_returnsCorrectValue() {
+    public void valueReturnsCorrectValue() {
         ImageType imageType = new ImageType(ImageType.VGA);
 
         int result = imageType.value();
@@ -33,7 +33,7 @@ public class ImageTypeTest {
      * Tests fromValue method with valid minimum value
      */
     @Test
-    public void fromValue_validMinimumValue_returnsValue() {
+    public void fromValueWithMinimumReturnsValue() {
         int result = ImageType.fromValue(ImageType.UNCROPPED);
 
         assertEquals(ImageType.UNCROPPED, result);
@@ -43,7 +43,7 @@ public class ImageTypeTest {
      * Tests fromValue method with valid maximum value
      */
     @Test
-    public void fromValue_validMaximumValue_returnsValue() {
+    public void fromValueWithMaximumReturnsValue() {
         int result = ImageType.fromValue(ImageType.CROPPED_AND_MASKED);
 
         assertEquals(ImageType.CROPPED_AND_MASKED, result);
@@ -53,7 +53,7 @@ public class ImageTypeTest {
      * Tests fromValue method with valid cropped value
      */
     @Test
-    public void fromValue_validCroppedValue_returnsValue() {
+    public void fromValueWithCroppedReturnsValue() {
         int result = ImageType.fromValue(ImageType.CROPPED);
 
         assertEquals(ImageType.CROPPED, result);
@@ -63,7 +63,7 @@ public class ImageTypeTest {
      * Tests fromValue method with invalid value below range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueBelowRange_throwsIllegalArgumentException() {
+    public void fromValueBelowRangeThrowsException() {
         ImageType.fromValue(0x00);
     }
 
@@ -71,7 +71,7 @@ public class ImageTypeTest {
      * Tests fromValue method with invalid value above range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueAboveRange_throwsIllegalArgumentException() {
+    public void fromValueAboveRangeThrowsException() {
         ImageType.fromValue(0x08);
     }
 
@@ -79,7 +79,7 @@ public class ImageTypeTest {
      * Tests toString method returns formatted string
      */
     @Test
-    public void toString_validImageType_returnsFormattedString() {
+    public void toStringReturnsFormattedString() {
         ImageType imageType = new ImageType(ImageType.CROPPED_AND_MASKED);
 
         String result = imageType.toString();

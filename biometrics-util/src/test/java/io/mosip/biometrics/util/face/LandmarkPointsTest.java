@@ -37,7 +37,7 @@ class LandmarkPointsTest {
      * Verifies that the constructor properly initializes all landmark point values.
      */
     @Test
-    void constructor_WithValidParameters_InitializesCorrectly() {
+    void constructorWithValidParametersInitializesCorrectly() {
         assertNotNull(landmarkPoints);
         assertEquals(testType, landmarkPoints.getLandmarkPointType());
         assertEquals(testCode, landmarkPoints.getLandmarkPointCode());
@@ -50,7 +50,7 @@ class LandmarkPointsTest {
      * Verifies that getRecordLength returns the correct byte count.
      */
     @Test
-    void getRecordLength_WhenCalled_ReturnsEightBytes() {
+    void getRecordLengthWhenCalledReturnsEightBytes() {
         assertEquals(8L, landmarkPoints.getRecordLength());
     }
 
@@ -58,7 +58,7 @@ class LandmarkPointsTest {
      * Verifies object serialization and deserialization.
      */
     @Test
-    void writeAndReadObject_WithValidData_PreservesValues() throws IOException {
+    void writeAndReadObjectWithValidDataPreservesValues() throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try (DataOutputStream dos = new DataOutputStream(baos)) {
             landmarkPoints.writeObject(dos);
@@ -84,7 +84,7 @@ class LandmarkPointsTest {
      * Verifies that reading with onlyImageInformation flag returns default values.
      */
     @Test
-    void readObject_WithOnlyImageInformationFlag_ReturnsDefaultValues() throws IOException {
+    void readObjectWithOnlyImageInformationFlagReturnsDefaultValues() throws IOException {
         byte[] testData = new byte[8];
         testData[0] = 0x01;
         testData[1] = 0x02;
@@ -109,7 +109,7 @@ class LandmarkPointsTest {
      * Verifies that setters and getters work correctly.
      */
     @Test
-    void settersAndGetters_WithValidValues_UpdateFieldsCorrectly() {
+    void settersAndGettersWithValidValuesUpdateFieldsCorrectly() {
         int newType = 0x03;
         int newCode = 0x04;
         int newX = 0x1111;
@@ -133,7 +133,7 @@ class LandmarkPointsTest {
      * Verifies that toString includes all required fields.
      */
     @Test
-    void toString_WhenCalled_ContainsAllFields() {
+    void toStringWhenCalledContainsAllFields() {
         String str = landmarkPoints.toString();
         assertTrue(str.contains("LandmarkPointRecordLength=8"));
         assertTrue(str.contains("landmarkPointType=1"));
@@ -147,7 +147,7 @@ class LandmarkPointsTest {
      * Verifies handling of minimum and maximum boundary values.
      */
     @Test
-    void setters_WithBoundaryValues_StoreCorrectly() {
+    void settersWithBoundaryValuesStoreCorrectly() {
         landmarkPoints.setLandmarkPointType(0);
         landmarkPoints.setLandmarkPointCode(0);
         landmarkPoints.setXCoordinate(0);
@@ -177,7 +177,7 @@ class LandmarkPointsTest {
      * Verifies that negative values are handled as unsigned values.
      */
     @Test
-    void setters_WithNegativeValues_HandleAsUnsigned() {
+    void settersWithNegativeValuesHandleAsUnsigned() {
         landmarkPoints.setLandmarkPointType(-1);
         landmarkPoints.setLandmarkPointCode(-1);
         landmarkPoints.setXCoordinate(-1);

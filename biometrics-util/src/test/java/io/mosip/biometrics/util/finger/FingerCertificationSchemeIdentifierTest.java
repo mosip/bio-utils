@@ -11,7 +11,7 @@ public class FingerCertificationSchemeIdentifierTest {
      * Tests constructor with valid value
      */
     @Test
-    public void constructor_validValue_createsFingerCertificationSchemeIdentifier() {
+    public void constructorCreatesIdentifierCorrectly() {
         FingerCertificationSchemeIdentifier identifier = new FingerCertificationSchemeIdentifier(FingerCertificationSchemeIdentifier.IMAGE_QUALITY_SPECIFICATION_FOR_AFIS_SYSTEM);
 
         assertEquals(FingerCertificationSchemeIdentifier.IMAGE_QUALITY_SPECIFICATION_FOR_AFIS_SYSTEM, identifier.value());
@@ -21,7 +21,7 @@ public class FingerCertificationSchemeIdentifierTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validIdentifier_returnsCorrectValue() {
+    public void valueReturnsCorrectValue() {
         FingerCertificationSchemeIdentifier identifier = new FingerCertificationSchemeIdentifier(FingerCertificationSchemeIdentifier.IMAGE_QUALITY_SPECIFICATION_FOR_PERSONAL_VERIFICATION);
 
         int result = identifier.value();
@@ -33,7 +33,7 @@ public class FingerCertificationSchemeIdentifierTest {
      * Tests fromValue method with valid minimum value
      */
     @Test
-    public void fromValue_validMinimumValue_returnsValue() {
+    public void fromValueWithMinimumReturnsValue() {
         int result = FingerCertificationSchemeIdentifier.fromValue(FingerCertificationSchemeIdentifier.UNSPECIFIED);
 
         assertEquals(FingerCertificationSchemeIdentifier.UNSPECIFIED, result);
@@ -43,7 +43,7 @@ public class FingerCertificationSchemeIdentifierTest {
      * Tests fromValue method with valid maximum value
      */
     @Test
-    public void fromValue_validMaximumValue_returnsValue() {
+    public void fromValueWithMaximumReturnsValue() {
         int result = FingerCertificationSchemeIdentifier.fromValue(FingerCertificationSchemeIdentifier.REQUIREMENTS_AND_TEST_PROCEDURES_FOR_OPTICAL_FINGERPRINT_SCANNER);
 
         assertEquals(FingerCertificationSchemeIdentifier.REQUIREMENTS_AND_TEST_PROCEDURES_FOR_OPTICAL_FINGERPRINT_SCANNER, result);
@@ -53,7 +53,7 @@ public class FingerCertificationSchemeIdentifierTest {
      * Tests fromValue method with invalid value above range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueAboveRange_throwsIllegalArgumentException() {
+    public void fromValueAboveRangeThrowsException() {
         FingerCertificationSchemeIdentifier.fromValue(0x04);
     }
 
@@ -61,7 +61,7 @@ public class FingerCertificationSchemeIdentifierTest {
      * Tests fromValue method with invalid value below range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueBelowRange_throwsIllegalArgumentException() {
+    public void fromValueBelowRangeThrowsException() {
         FingerCertificationSchemeIdentifier.fromValue(-1);
     }
 
@@ -69,7 +69,7 @@ public class FingerCertificationSchemeIdentifierTest {
      * Tests toString method returns formatted string
      */
     @Test
-    public void toString_validIdentifier_returnsFormattedString() {
+    public void toStringReturnsFormattedString() {
         FingerCertificationSchemeIdentifier identifier = new FingerCertificationSchemeIdentifier(FingerCertificationSchemeIdentifier.REQUIREMENTS_AND_TEST_PROCEDURES_FOR_OPTICAL_FINGERPRINT_SCANNER);
 
         String result = identifier.toString();

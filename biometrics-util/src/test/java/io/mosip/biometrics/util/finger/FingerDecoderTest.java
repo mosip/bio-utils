@@ -1,10 +1,11 @@
 package io.mosip.biometrics.util.finger;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -30,7 +31,7 @@ import io.mosip.biometrics.util.ConvertRequestDto;
 class FingerDecoderTest {
     private static final String ISO_VERSION = "ISO19794_4_2011";
     private static final byte[] TEST_ISO_DATA = new byte[100]; // Minimal test data
-    
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -40,7 +41,7 @@ class FingerDecoderTest {
      * Tests convertFingerISOToImageBytes throws UnsupportedOperationException for unsupported version.
      */
     @Test
-    void convertFingerISOToImageBytes_unsupportedVersion_throwsException() {
+    void convertIsoToImageBytesUnsupportedVersionThrowsException() {
         ConvertRequestDto dto = mock(ConvertRequestDto.class);
         when(dto.getVersion()).thenReturn("UNSUPPORTED");
         assertThrows(UnsupportedOperationException.class, () -> FingerDecoder.convertFingerISOToImageBytes(dto));
@@ -50,7 +51,7 @@ class FingerDecoderTest {
      * Tests convertFingerISOToBufferedImage throws UnsupportedOperationException for unsupported version.
      */
     @Test
-    void convertFingerISOToBufferedImage_unsupportedVersion_throwsException() {
+    void convertIsoToBufferedImageUnsupportedVersionThrowsException() {
         ConvertRequestDto dto = mock(ConvertRequestDto.class);
         when(dto.getVersion()).thenReturn("UNSUPPORTED");
         assertThrows(UnsupportedOperationException.class, () -> FingerDecoder.convertFingerISOToBufferedImage(dto));
@@ -61,7 +62,7 @@ class FingerDecoderTest {
      * This simulates a processing error in the FingerDecoder implementation.
      */
     @Test
-    void getFingerBDIR_isoVersionWithImageBytes_throwsException() throws Exception {
+    void getFingerBdirWithIsoVersionThrowsException() throws Exception {
         ConvertRequestDto dto = Mockito.mock(ConvertRequestDto.class);
         Mockito.when(dto.getVersion()).thenReturn("ISO19794_4_2011");
         Mockito.when(dto.getInputBytes()).thenReturn(new byte[]{1, 2, 3});
@@ -74,7 +75,7 @@ class FingerDecoderTest {
      * Tests that an UnsupportedOperationException is thrown when an unsupported version is passed.
      */
     @Test
-    void getFingerBDIR_unsupportedVersion_throwsUnsupportedOperationException() {
+    void getFingerBdirUnsupportedVersionThrowsException() {
         ConvertRequestDto dto = Mockito.mock(ConvertRequestDto.class);
         Mockito.when(dto.getVersion()).thenReturn("OTHER");
 
@@ -86,7 +87,7 @@ class FingerDecoderTest {
      * It mocks the static method CommonUtil.convertJP2ToJPEGUsingOpenCV and the private static method getFingerBDIRISO19794_4_2011.
      */
     @Test
-    void convertFingerISOToImageBytes_jpeg2000LossyOrLossless_returnsJpegBytes() throws Exception {
+    void convertIsoToImageBytesJpeg2000ReturnsJpegBytes() throws Exception {
         byte[] jpegBytes = new byte[]{9, 8, 7};
         byte[] imageBytes = new byte[]{1, 2, 3};
         ConvertRequestDto dto = createTestRequest("ISO19794_4_2011", new byte[]{1, 2, 3}, 0);
@@ -113,7 +114,7 @@ class FingerDecoderTest {
      * It mocks the private static method getFingerBDIRISO19794_4_2011 to return a FingerBDIR with a non-JPEG2000 compression type.
      */
     @Test
-    void convertFingerISOToImageBytes_nonJpeg2000_returnsRawBytes() throws Exception {
+    void convertIsoToImageBytesNonJpeg2000ReturnsRawBytes() throws Exception {
         byte[] imageBytes = new byte[]{1, 2, 3};
         ConvertRequestDto dto = createTestRequest("ISO19794_4_2011", new byte[]{1, 2, 3}, 0);
         FingerBDIR fingerBDIR = createMockFingerBDIR(1234, imageBytes); // 1234 is not a JPEG2000 type
@@ -140,20 +141,20 @@ class FingerDecoderTest {
         when(dto.getCompressionRatio()).thenReturn(80);
         return dto;
     }
-    
+
     private FingerBDIR createMockFingerBDIR(int compressionType, byte[] imageData) {
         FingerBDIR fingerBDIR = mock(FingerBDIR.class);
         Representation representation = mock(Representation.class);
         RepresentationHeader header = mock(RepresentationHeader.class);
         RepresentationBody body = mock(RepresentationBody.class);
         ImageData imgData = new ImageData(imageData);
-        
+
         when(fingerBDIR.getRepresentation()).thenReturn(representation);
         when(representation.getRepresentationHeader()).thenReturn(header);
         when(representation.getRepresentationBody()).thenReturn(body);
         when(header.getCompressionType()).thenReturn(compressionType);
         when(body.getImageData()).thenReturn(imgData);
-        
+
         return fingerBDIR;
     }
 }

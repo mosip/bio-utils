@@ -34,7 +34,7 @@ class CommentBlockTest {
      * when provided with comment data and identification code.
      */
     @Test
-    void constructor_WithByteArrayAndIdCode_InitializesFieldsCorrectly() {
+    void constructorWithByteArrayInitializesCorrectly() {
         CommentBlock block = new CommentBlock(sampleComment, IDENTIFICATION_CODE);
 
         assertArrayEquals(sampleComment, block.getComment());
@@ -47,7 +47,7 @@ class CommentBlockTest {
      * from a DataInputStream.
      */
     @Test
-    void constructor_WithDataInputStream_ReadsCommentCorrectly() throws IOException {
+    void constructorWithDataInputStreamReadsCorrectly() throws IOException {
         int lengthField = sampleComment.length + 4;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(baos);
@@ -67,7 +67,7 @@ class CommentBlockTest {
      * maintains null comment state.
      */
     @Test
-    void constructor_WithOnlyImageInformationFlag_MaintainsNullState() throws IOException {
+    void constructorWithImageInfoFlagMaintainsNullState() throws IOException {
         int lengthField = sampleComment.length + 4;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(baos);
@@ -86,7 +86,7 @@ class CommentBlockTest {
      * including header and comment content.
      */
     @Test
-    void writeObject_WithValidData_SerializesCorrectly() throws IOException {
+    void writeObjectSerializesCorrectly() throws IOException {
         CommentBlock block = new CommentBlock(sampleComment, IDENTIFICATION_CODE);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(baos);
@@ -108,7 +108,7 @@ class CommentBlockTest {
      * in its string representation.
      */
     @Test
-    void toString_WithValidComment_IncludesCommentContent() {
+    void toStringIncludesCommentContent() {
         CommentBlock block = new CommentBlock(sampleComment, IDENTIFICATION_CODE);
         String str = block.toString();
 
@@ -120,7 +120,7 @@ class CommentBlockTest {
      * when comment is empty.
      */
     @Test
-    void getRecordLength_WithEmptyComment_ReturnsHeaderLength() {
+    void getRecordLengthWithEmptyCommentReturnsHeaderLength() {
         CommentBlock block = new CommentBlock(new byte[0], IDENTIFICATION_CODE);
 
         assertEquals(4, block.getRecordLength());

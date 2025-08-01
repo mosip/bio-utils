@@ -11,7 +11,7 @@ public class IrisCaptureDeviceTypeTest {
      * Tests constructor with valid value
      */
     @Test
-    public void constructor_validValue_createsIrisCaptureDeviceType() {
+    public void constructorCreatesDeviceTypeCorrectly() {
         IrisCaptureDeviceType deviceType = new IrisCaptureDeviceType(IrisCaptureDeviceType.UNSPECIFIED);
 
         assertEquals(IrisCaptureDeviceType.UNSPECIFIED, deviceType.value());
@@ -21,7 +21,7 @@ public class IrisCaptureDeviceTypeTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validDeviceType_returnsCorrectValue() {
+    public void valueReturnsCorrectValue() {
         IrisCaptureDeviceType deviceType = new IrisCaptureDeviceType(0x5678);
 
         int result = deviceType.value();
@@ -33,7 +33,7 @@ public class IrisCaptureDeviceTypeTest {
      * Tests fromValue method with valid minimum value
      */
     @Test
-    public void fromValue_validMinimumValue_returnsValue() {
+    public void fromValueWithMinimumReturnsValue() {
         int result = IrisCaptureDeviceType.fromValue(IrisCaptureDeviceType.UNSPECIFIED);
 
         assertEquals(IrisCaptureDeviceType.UNSPECIFIED, result);
@@ -43,7 +43,7 @@ public class IrisCaptureDeviceTypeTest {
      * Tests fromValue method with valid maximum value
      */
     @Test
-    public void fromValue_validMaximumValue_returnsValue() {
+    public void fromValueWithMaximumReturnsValue() {
         int result = IrisCaptureDeviceType.fromValue(IrisCaptureDeviceType.VENDOR_FFFF);
 
         assertEquals(IrisCaptureDeviceType.VENDOR_FFFF, result);
@@ -53,7 +53,7 @@ public class IrisCaptureDeviceTypeTest {
      * Tests fromValue method with valid middle value
      */
     @Test
-    public void fromValue_validMiddleValue_returnsValue() {
+    public void fromValueWithMiddleReturnsValue() {
         int result = IrisCaptureDeviceType.fromValue(0x7FFF);
 
         assertEquals(0x7FFF, result);
@@ -63,7 +63,7 @@ public class IrisCaptureDeviceTypeTest {
      * Tests fromValue method with invalid value below range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueBelowRange_throwsIllegalArgumentException() {
+    public void fromValueBelowRangeThrowsException() {
         IrisCaptureDeviceType.fromValue(-1);
     }
 
@@ -71,7 +71,7 @@ public class IrisCaptureDeviceTypeTest {
      * Tests fromValue method with invalid value above range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueAboveRange_throwsIllegalArgumentException() {
+    public void fromValueAboveRangeThrowsException() {
         IrisCaptureDeviceType.fromValue(0x10000);
     }
 
@@ -79,7 +79,7 @@ public class IrisCaptureDeviceTypeTest {
      * Tests toString method returns formatted string
      */
     @Test
-    public void toString_validDeviceType_returnsFormattedString() {
+    public void toStringReturnsFormattedString() {
         IrisCaptureDeviceType deviceType = new IrisCaptureDeviceType(0x9ABC);
 
         String result = deviceType.toString();

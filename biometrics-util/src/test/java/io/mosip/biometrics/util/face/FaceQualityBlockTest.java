@@ -15,24 +15,24 @@ public class FaceQualityBlockTest {
      * Tests FaceQualityBlock constructor with quality score only
      */
     @Test
-    public void constructor_qualityScoreOnly_createsFaceQualityBlock() {
+    public void constructorWithQualityScoreOnly() {
         int qualityScore = 80;
 
         FaceQualityBlock qualityBlock = new FaceQualityBlock(qualityScore);
 
         assertNotNull(qualityBlock);
         assertEquals(qualityScore, qualityBlock.getQualityScore());
-        assertEquals(FaceQualityAlgorithmVendorIdentifier.UNSPECIFIED, 
-            qualityBlock.getQualityAlgorithmVendorIdentifier());
-        assertEquals(FaceQualityAlgorithmIdentifier.UNSPECIFIED, 
-            qualityBlock.getQualityAlgorithmIdentifier());
+        assertEquals(FaceQualityAlgorithmVendorIdentifier.UNSPECIFIED,
+                qualityBlock.getQualityAlgorithmVendorIdentifier());
+        assertEquals(FaceQualityAlgorithmIdentifier.UNSPECIFIED,
+                qualityBlock.getQualityAlgorithmIdentifier());
     }
 
     /**
      * Tests FaceQualityBlock constructor with all parameters
      */
     @Test
-    public void constructor_allParameters_createsFaceQualityBlock() {
+    public void constructorWithAllParameters() {
         int qualityScore = 90;
         int vendorIdentifier = FaceQualityAlgorithmVendorIdentifier.ALGORITHM_VENDOR_IDENTIFIER_0001;
         int algorithmIdentifier = FaceQualityAlgorithmIdentifier.ALGORITHM_IDENTIFIER_0001;
@@ -50,7 +50,7 @@ public class FaceQualityBlockTest {
      * @throws Exception if stream reading fails
      */
     @Test
-    public void constructor_dataInputStream_createsFaceQualityBlock() throws Exception {
+    public void constructorWithDataInputStream() throws Exception {
         byte[] testData = createQualityBlockData();
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
         DataInputStream inputStream = new DataInputStream(bais);
@@ -65,7 +65,7 @@ public class FaceQualityBlockTest {
      * @throws Exception if stream reading fails
      */
     @Test
-    public void constructor_dataInputStreamWithImageInfoFlag_createsFaceQualityBlock() throws Exception {
+    public void constructorWithDataInputStreamAndImageInfoFlag() throws Exception {
         byte[] testData = createQualityBlockData();
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
         DataInputStream inputStream = new DataInputStream(bais);
@@ -79,7 +79,7 @@ public class FaceQualityBlockTest {
      * Tests getRecordLength method returns correct length
      */
     @Test
-    public void getRecordLength_validQualityBlock_returnsCorrectLength() {
+    public void getRecordLengthReturnsCorrectLength() {
         FaceQualityBlock qualityBlock = new FaceQualityBlock(50);
 
         long recordLength = qualityBlock.getRecordLength();
@@ -92,10 +92,10 @@ public class FaceQualityBlockTest {
      * @throws Exception if writing fails
      */
     @Test
-    public void writeObject_validQualityBlock_writesDataSuccessfully() throws Exception {
-        FaceQualityBlock qualityBlock = new FaceQualityBlock(75, 
-            FaceQualityAlgorithmVendorIdentifier.ALGORITHM_VENDOR_IDENTIFIER_0001,
-            FaceQualityAlgorithmIdentifier.ALGORITHM_IDENTIFIER_0001);
+    public void writeObjectWritesDataSuccessfully() throws Exception {
+        FaceQualityBlock qualityBlock = new FaceQualityBlock(75,
+                FaceQualityAlgorithmVendorIdentifier.ALGORITHM_VENDOR_IDENTIFIER_0001,
+                FaceQualityAlgorithmIdentifier.ALGORITHM_IDENTIFIER_0001);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream outputStream = new DataOutputStream(baos);
 
@@ -110,7 +110,7 @@ public class FaceQualityBlockTest {
      * Tests setQualityScore method sets value correctly
      */
     @Test
-    public void setQualityScore_validScore_setsValueCorrectly() {
+    public void setQualityScoreSetsValueCorrectly() {
         FaceQualityBlock qualityBlock = new FaceQualityBlock(50);
         int newScore = 85;
 
@@ -123,7 +123,7 @@ public class FaceQualityBlockTest {
      * Tests setQualityAlgorithmVendorIdentifier method sets value correctly
      */
     @Test
-    public void setQualityAlgorithmVendorIdentifier_validIdentifier_setsValueCorrectly() {
+    public void setQualityAlgorithmVendorIdentifierSetsValueCorrectly() {
         FaceQualityBlock qualityBlock = new FaceQualityBlock(50);
         int newIdentifier = FaceQualityAlgorithmVendorIdentifier.ALGORITHM_VENDOR_IDENTIFIER_0001;
 
@@ -136,7 +136,7 @@ public class FaceQualityBlockTest {
      * Tests setQualityAlgorithmIdentifier method sets value correctly
      */
     @Test
-    public void setQualityAlgorithmIdentifier_validIdentifier_setsValueCorrectly() {
+    public void setQualityAlgorithmIdentifierSetsValueCorrectly() {
         FaceQualityBlock qualityBlock = new FaceQualityBlock(50);
         int newIdentifier = FaceQualityAlgorithmIdentifier.ALGORITHM_IDENTIFIER_0001;
 
@@ -149,7 +149,7 @@ public class FaceQualityBlockTest {
      * Tests toString method returns non-null string
      */
     @Test
-    public void toString_validQualityBlock_returnsNonNullString() {
+    public void toStringReturnsNonNullString() {
         FaceQualityBlock qualityBlock = new FaceQualityBlock(60);
 
         String result = qualityBlock.toString();
@@ -162,7 +162,7 @@ public class FaceQualityBlockTest {
      * Tests quality score boundary values
      */
     @Test
-    public void qualityScore_boundaryValues_handledCorrectly() {
+    public void qualityScoreBoundaryValuesHandledCorrectly() {
         FaceQualityBlock qualityBlock1 = new FaceQualityBlock(0);
         FaceQualityBlock qualityBlock2 = new FaceQualityBlock(100);
         FaceQualityBlock qualityBlock3 = new FaceQualityBlock(255);

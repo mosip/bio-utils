@@ -11,7 +11,7 @@ public class FingerImageCompressionTypeTest {
      * Tests constructor with valid value
      */
     @Test
-    public void constructor_validValue_createsFingerImageCompressionType() {
+    public void constructorCreatesCompressionTypeCorrectly() {
         FingerImageCompressionType compressionType = new FingerImageCompressionType(FingerImageCompressionType.WSQ);
 
         assertEquals(FingerImageCompressionType.WSQ, compressionType.value());
@@ -21,7 +21,7 @@ public class FingerImageCompressionTypeTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validCompressionType_returnsCorrectValue() {
+    public void valueReturnsCorrectValue() {
         FingerImageCompressionType compressionType = new FingerImageCompressionType(FingerImageCompressionType.JPEG_LOSSY);
 
         int result = compressionType.value();
@@ -33,7 +33,7 @@ public class FingerImageCompressionTypeTest {
      * Tests fromValue method with valid minimum value
      */
     @Test
-    public void fromValue_validMinimumValue_returnsValue() {
+    public void fromValueWithMinimumReturnsValue() {
         int result = FingerImageCompressionType.fromValue(FingerImageCompressionType.NONE_NO_BIT_PACKING);
 
         assertEquals(FingerImageCompressionType.NONE_NO_BIT_PACKING, result);
@@ -43,7 +43,7 @@ public class FingerImageCompressionTypeTest {
      * Tests fromValue method with valid maximum value
      */
     @Test
-    public void fromValue_validMaximumValue_returnsValue() {
+    public void fromValueWithMaximumReturnsValue() {
         int result = FingerImageCompressionType.fromValue(FingerImageCompressionType.PNG);
 
         assertEquals(FingerImageCompressionType.PNG, result);
@@ -53,7 +53,7 @@ public class FingerImageCompressionTypeTest {
      * Tests fromValue method with invalid value below range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueBelowRange_throwsIllegalArgumentException() {
+    public void fromValueBelowRangeThrowsException() {
         FingerImageCompressionType.fromValue(-1);
     }
 
@@ -61,7 +61,7 @@ public class FingerImageCompressionTypeTest {
      * Tests fromValue method with invalid value above range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueAboveRange_throwsIllegalArgumentException() {
+    public void fromValueAboveRangeThrowsException() {
         FingerImageCompressionType.fromValue(0x07);
     }
 
@@ -69,7 +69,7 @@ public class FingerImageCompressionTypeTest {
      * Tests toString method returns formatted string
      */
     @Test
-    public void toString_validCompressionType_returnsFormattedString() {
+    public void toStringReturnsFormattedString() {
         FingerImageCompressionType compressionType = new FingerImageCompressionType(FingerImageCompressionType.JPEG_2000_LOSSY);
 
         String result = compressionType.toString();

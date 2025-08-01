@@ -304,7 +304,7 @@ public class CbeffImplTest {
 	 * Verifies that XML validation returns true when valid XML is provided.
 	 */
 	@Test
-	public void validateXML_withSingleParameter_returnsTrue() throws Exception {
+	public void validateXmlWithSingleParameterReturnsTrue() throws Exception {
 		PowerMockito.mockStatic(CbeffValidator.class);
 		PowerMockito.mockStatic(io.mosip.kernel.core.cbeffutil.common.CbeffXSDValidator.class);
 
@@ -321,7 +321,7 @@ public class CbeffImplTest {
 	 * Verifies that XML validation returns true when valid XML and XSD are provided.
 	 */
 	@Test
-	public void validateXML_withTwoParameters_returnsTrue() throws Exception {
+	public void validateXmlWithTwoParametersReturnsTrue() throws Exception {
 		PowerMockito.mockStatic(io.mosip.kernel.core.cbeffutil.common.CbeffXSDValidator.class);
 
 		byte[] xmlBytes = "<xml>test</xml>".getBytes();
@@ -339,7 +339,7 @@ public class CbeffImplTest {
 	 * Verifies that BDB data is retrieved correctly based on biometric type and subtype.
 	 */
 	@Test
-	public void getBDBBasedOnType_withValidTypeAndSubtype_returnsExpectedMap() throws Exception {
+	public void getBdbBasedOnTypeWithValidTypeAndSubtypeReturnsExpectedMap() throws Exception {
 		PowerMockito.mockStatic(CbeffValidator.class);
 		BIR mockBIR = new BIR();
 		Map<String, String> expectedMap = new HashMap<>();
@@ -358,7 +358,7 @@ public class CbeffImplTest {
 	 * Verifies that BIR list is extracted correctly from XML data.
 	 */
 	@Test
-	public void getBIRDataFromXML_withValidXML_returnsBIRList() throws Exception {
+	public void getBirDataFromXmlWithValidXmlReturnsBirList() throws Exception {
 		PowerMockito.mockStatic(CbeffValidator.class);
 		BIR mockBIR = new BIR();
 		mockBIR.setBirs(createList);
@@ -375,7 +375,7 @@ public class CbeffImplTest {
 	 * Verifies that all BDB data is retrieved correctly based on biometric type and subtype.
 	 */
 	@Test
-	public void getAllBDBData_withValidTypeAndSubtype_returnsAllBDBMap() throws Exception {
+	public void getAllBdbDataWithValidTypeAndSubtypeReturnsAllBdbMap() throws Exception {
 		PowerMockito.mockStatic(CbeffValidator.class);
 		BIR mockBIR = new BIR();
 		Map<String, String> expectedMap = new HashMap<>();
@@ -394,7 +394,7 @@ public class CbeffImplTest {
 	 * Verifies that BIR list is filtered correctly based on biometric type.
 	 */
 	@Test
-	public void getBIRDataFromXMLType_withValidType_returnsBIRList() throws Exception {
+	public void getBirDataFromXmlTypeWithValidTypeReturnsBirList() throws Exception {
 		PowerMockito.mockStatic(CbeffValidator.class);
 		when(CbeffValidator.getBIRDataFromXMLType(any(), eq("FINGER"))).thenReturn(createList);
 
@@ -408,7 +408,7 @@ public class CbeffImplTest {
 	 * Verifies that exception is thrown when XML parsing fails.
 	 */
 	@Test(expected = Exception.class)
-	public void getBDBBasedOnType_withInvalidXML_throwsException() throws Exception {
+	public void getBdbBasedOnTypeWithInvalidXmlThrowsException() throws Exception {
 		PowerMockito.mockStatic(CbeffValidator.class);
 		when(CbeffValidator.getBIRFromXML(any())).thenThrow(new Exception("XML parsing error"));
 
@@ -420,7 +420,7 @@ public class CbeffImplTest {
 	 * Verifies that exception is thrown when XML parsing fails.
 	 */
 	@Test(expected = Exception.class)
-	public void getBIRDataFromXML_withInvalidXML_throwsException() throws Exception {
+	public void getBirDataFromXmlWithInvalidXmlThrowsException() throws Exception {
 		PowerMockito.mockStatic(CbeffValidator.class);
 		when(CbeffValidator.getBIRFromXML(any())).thenThrow(new Exception("XML parsing error"));
 
@@ -432,7 +432,7 @@ public class CbeffImplTest {
 	 * Verifies that BIR list is added to existing biometric record successfully.
 	 */
 	@Test
-	public void updateBIRType_withValidBIRListAndXML_returnsUpdatedBIR() throws Exception {
+	public void updateBirTypeWithValidBirListAndXmlReturnsUpdatedBir() throws Exception {
 		PowerMockito.mockStatic(CbeffValidator.class);
 		BIR mockBIR = new BIR();
 		mockBIR.setBirs(new ArrayList<>());
@@ -450,7 +450,7 @@ public class CbeffImplTest {
 	 * Verifies that no BIRs are added when empty list is provided.
 	 */
 	@Test
-	public void updateBIRType_withEmptyBIRList_returnsUnchangedBIR() throws Exception {
+	public void updateBirTypeWithEmptyBirListReturnsUnchangedBir() throws Exception {
 		PowerMockito.mockStatic(CbeffValidator.class);
 		BIR mockBIR = new BIR();
 		mockBIR.setBirs(new ArrayList<>());
@@ -468,12 +468,11 @@ public class CbeffImplTest {
 	 * Verifies that exception is thrown when XML parsing fails during update.
 	 */
 	@Test(expected = Exception.class)
-	public void updateBIRType_withInvalidXML_throwsException() throws Exception {
+	public void updateBirTypeWithInvalidXmlThrowsException() throws Exception {
 		PowerMockito.mockStatic(CbeffValidator.class);
 		when(CbeffValidator.getBIRFromXML(any())).thenThrow(new Exception("XML error"));
 
 		CbeffContainerImpl container = new CbeffContainerImpl();
 		container.updateBIRType(createList, new byte[0]);
 	}
-
 }

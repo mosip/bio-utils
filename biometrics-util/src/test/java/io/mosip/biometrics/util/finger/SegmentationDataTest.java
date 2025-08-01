@@ -16,7 +16,7 @@ public class SegmentationDataTest {
      * Tests constructor with quality score only
      */
     @Test
-    public void constructor_qualityScoreOnly_createsSegmentationData() {
+    public void constructorWithQualityScoreCreatesSegmentationData() {
         int qualityScore = 80;
 
         SegmentationData segmentationData = new SegmentationData(qualityScore);
@@ -36,7 +36,7 @@ public class SegmentationDataTest {
      * Tests constructor with all parameters
      */
     @Test
-    public void constructor_allParameters_createsSegmentationData() {
+    public void constructorWithAllParametersCreatesSegmentationData() {
         int fingerPosition = FingerPosition.RIGHT_THUMB;
         int qualityScore = 90;
         int noOfCoordinates = 3;
@@ -44,8 +44,8 @@ public class SegmentationDataTest {
         int[] yCoordinates = {40, 50, 60};
         int fingerOrientation = 45;
 
-        SegmentationData segmentationData = new SegmentationData(fingerPosition, qualityScore, 
-            noOfCoordinates, xCoordinates, yCoordinates, fingerOrientation);
+        SegmentationData segmentationData = new SegmentationData(fingerPosition, qualityScore,
+                noOfCoordinates, xCoordinates, yCoordinates, fingerOrientation);
 
         assertNotNull(segmentationData);
         assertEquals(fingerPosition, segmentationData.getFingerPosition());
@@ -60,7 +60,7 @@ public class SegmentationDataTest {
      * Tests constructor with DataInputStream
      */
     @Test
-    public void constructor_dataInputStream_createsSegmentationData() throws Exception {
+    public void constructorDataInputStreamCreatesSegmentationData() throws Exception {
         byte[] testData = {0x01, 0x50, 0x02, 0x00, 0x0A, 0x00, 0x14, 0x00, 0x1E, 0x00, 0x28, 0x2D};
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
         DataInputStream inputStream = new DataInputStream(bais);
@@ -78,7 +78,7 @@ public class SegmentationDataTest {
      * Tests constructor with DataInputStream and onlyImageInformation flag
      */
     @Test
-    public void constructor_dataInputStreamWithImageInfoFlag_createsSegmentationData() throws Exception {
+    public void constructorDataInputStreamWithImageInfoFlagCreatesSegmentationData() throws Exception {
         byte[] testData = {0x02, 0x60, 0x03, 0x00, 0x05, 0x00, 0x0F, 0x00, 0x19, 0x00, 0x23, 0x00, 0x2D, 0x00, 0x37, 0x3C};
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
         DataInputStream inputStream = new DataInputStream(bais);
@@ -92,7 +92,7 @@ public class SegmentationDataTest {
      * Tests getRecordLength method returns correct length
      */
     @Test
-    public void getRecordLength_validSegmentationData_returnsCorrectLength() {
+    public void getRecordLengthReturnsCorrectLength() {
         SegmentationData segmentationData = new SegmentationData(75);
 
         long recordLength = segmentationData.getRecordLength();
@@ -104,7 +104,7 @@ public class SegmentationDataTest {
      * Tests getRecordLength method with custom coordinates
      */
     @Test
-    public void getRecordLength_customCoordinates_returnsCorrectLength() {
+    public void getRecordLengthWithCustomCoordinatesReturnsCorrectLength() {
         int[] xCoords = {1, 2, 3};
         int[] yCoords = {4, 5, 6};
         SegmentationData segmentationData = new SegmentationData(FingerPosition.LEFT_INDEX_FINGER, 85, 3, xCoords, yCoords, 90);
@@ -118,9 +118,9 @@ public class SegmentationDataTest {
      * Tests writeObject method writes data correctly
      */
     @Test
-    public void writeObject_validSegmentationData_writesDataSuccessfully() throws Exception {
-        SegmentationData segmentationData = new SegmentationData(FingerPosition.RIGHT_MIDDLE_FINGER, 95, 2, 
-            new int[]{100, 200}, new int[]{300, 400}, 180);
+    public void writeObjectWritesDataSuccessfully() throws Exception {
+        SegmentationData segmentationData = new SegmentationData(FingerPosition.RIGHT_MIDDLE_FINGER, 95, 2,
+                new int[]{100, 200}, new int[]{300, 400}, 180);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream outputStream = new DataOutputStream(baos);
 
@@ -138,7 +138,7 @@ public class SegmentationDataTest {
      * Tests setter and getter methods
      */
     @Test
-    public void settersAndGetters_validValues_workCorrectly() {
+    public void settersAndGettersWorkCorrectly() {
         SegmentationData segmentationData = new SegmentationData(70);
 
         segmentationData.setFingerPosition(FingerPosition.LEFT_THUMB);
@@ -162,9 +162,9 @@ public class SegmentationDataTest {
      * Tests toString method returns non-null string
      */
     @Test
-    public void toString_validSegmentationData_returnsNonNullString() {
-        SegmentationData segmentationData = new SegmentationData(FingerPosition.RIGHT_RING_FINGER, 88, 2, 
-            new int[]{50, 100}, new int[]{150, 200}, 135);
+    public void toStringReturnsNonNullString() {
+        SegmentationData segmentationData = new SegmentationData(FingerPosition.RIGHT_RING_FINGER, 88, 2,
+                new int[]{50, 100}, new int[]{150, 200}, 135);
 
         String result = segmentationData.toString();
 

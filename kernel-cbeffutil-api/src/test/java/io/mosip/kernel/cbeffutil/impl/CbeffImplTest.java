@@ -71,7 +71,7 @@ public class CbeffImplTest {
      * @throws Exception if XML creation fails
      */
     @Test
-    public void createXML_withDefaultXsd_returnsXmlBytes() throws Exception {
+    public void createXmlWithDefaultXsdReturnsXmlBytes() throws Exception {
         PowerMockito.mockStatic(CbeffValidator.class);
         when(CbeffValidator.createXMLBytes(any(), any())).thenReturn(xmlBytes);
 
@@ -84,7 +84,7 @@ public class CbeffImplTest {
      * @throws Exception if XML creation fails
      */
     @Test
-    public void createXML_withCustomXsd_returnsXmlBytes() throws Exception {
+    public void createXmlWithCustomXsdReturnsXmlBytes() throws Exception {
         PowerMockito.mockStatic(CbeffValidator.class);
         when(CbeffValidator.createXMLBytes(any(), eq(xsdBytes))).thenReturn(xmlBytes);
 
@@ -97,7 +97,7 @@ public class CbeffImplTest {
      * @throws Exception if XML update fails
      */
     @Test
-    public void updateXML_withNewBirList_returnsUpdatedXmlBytes() throws Exception {
+    public void updateXmlWithNewBirListReturnsUpdatedXmlBytes() throws Exception {
         PowerMockito.mockStatic(CbeffValidator.class);
         BIR mockBIR = new BIR();
         mockBIR.setBirs(new ArrayList<>());
@@ -113,7 +113,7 @@ public class CbeffImplTest {
      * @throws Exception if BDB retrieval fails
      */
     @Test
-    public void getBDBBasedOnType_withValidInput_returnsExpectedMap() throws Exception {
+    public void getBdbBasedOnTypeWithValidInputReturnsExpectedMap() throws Exception {
         PowerMockito.mockStatic(CbeffValidator.class);
         BIR mockBIR = new BIR();
         Map<String, String> expectedMap = new HashMap<>();
@@ -131,7 +131,7 @@ public class CbeffImplTest {
      * @throws Exception if BIR data retrieval fails
      */
     @Test
-    public void getBIRDataFromXML_withValidXml_returnsBirList() throws Exception {
+    public void getBirDataFromXmlWithValidXmlReturnsBirList() throws Exception {
         PowerMockito.mockStatic(CbeffValidator.class);
         BIR mockBIR = new BIR();
         mockBIR.setBirs(birList);
@@ -147,7 +147,7 @@ public class CbeffImplTest {
      * @throws Exception if BDB data retrieval fails
      */
     @Test
-    public void getAllBDBData_withValidInput_returnsExpectedMap() throws Exception {
+    public void getAllBdbDataWithValidInputReturnsExpectedMap() throws Exception {
         PowerMockito.mockStatic(CbeffValidator.class);
         BIR mockBIR = new BIR();
         Map<String, String> expectedMap = new HashMap<>();
@@ -165,7 +165,7 @@ public class CbeffImplTest {
      * @throws Exception if BIR data retrieval fails
      */
     @Test
-    public void getBIRDataFromXMLType_withValidInput_returnsBirList() throws Exception {
+    public void getBirDataFromXmlTypeWithValidInputReturnsBirList() throws Exception {
         PowerMockito.mockStatic(CbeffValidator.class);
         when(CbeffValidator.getBIRDataFromXMLType(xmlBytes, "FINGER")).thenReturn(birList);
 
@@ -178,7 +178,7 @@ public class CbeffImplTest {
      * @throws Exception expected XML parsing exception
      */
     @Test(expected = Exception.class)
-    public void getBDBBasedOnType_withInvalidXml_throwsException() throws Exception {
+    public void getBdbBasedOnTypeWithInvalidXmlThrowsException() throws Exception {
         PowerMockito.mockStatic(CbeffValidator.class);
         when(CbeffValidator.getBIRFromXML(any())).thenThrow(new Exception("XML parsing failed"));
 
@@ -190,7 +190,7 @@ public class CbeffImplTest {
      * @throws Exception expected XML parsing exception
      */
     @Test(expected = Exception.class)
-    public void getBIRDataFromXML_withInvalidXml_throwsException() throws Exception {
+    public void getBirDataFromXmlWithInvalidXmlThrowsException() throws Exception {
         PowerMockito.mockStatic(CbeffValidator.class);
         when(CbeffValidator.getBIRFromXML(any())).thenThrow(new Exception("XML parsing failed"));
 
@@ -202,7 +202,7 @@ public class CbeffImplTest {
      * @throws Exception if XSD loading fails
      */
     @Test
-    public void loadXSD_withValidConfig_success() throws Exception {
+    public void loadXsdWithValidConfigSuccess() throws Exception {
         ReflectionTestUtils.setField(cbeffImpl, "configServerFileStorageURL", "http://test.com/");
         ReflectionTestUtils.setField(cbeffImpl, "schemaName", "test.xsd");
         ReflectionTestUtils.setField(cbeffImpl, "xsd", xsdBytes);
@@ -216,7 +216,7 @@ public class CbeffImplTest {
      * @throws Exception expected URISyntaxException
      */
     @Test
-    public void loadXSD_withInvalidUri_throwsURISyntaxException() throws Exception {
+    public void loadXsdWithInvalidUriThrowsUriSyntaxException() throws Exception {
         ReflectionTestUtils.setField(cbeffImpl, "configServerFileStorageURL", "invalid uri with spaces");
         ReflectionTestUtils.setField(cbeffImpl, "schemaName", "test.xsd");
 
@@ -233,7 +233,7 @@ public class CbeffImplTest {
      * @throws Exception expected IOException
      */
     @Test
-    public void loadXSD_withNonexistentHost_throwsIOException() throws Exception {
+    public void loadXsdWithNonexistentHostThrowsIoException() throws Exception {
         ReflectionTestUtils.setField(cbeffImpl, "configServerFileStorageURL", "http://nonexistent.invalid/");
         ReflectionTestUtils.setField(cbeffImpl, "schemaName", "test.xsd");
 

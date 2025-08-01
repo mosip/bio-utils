@@ -15,7 +15,7 @@ public class GeneralHeaderTest {
      * Tests constructor with basic parameters
      */
     @Test
-    public void constructor_basicParameters_createsGeneralHeader() {
+    public void constructorWithBasicParametersCreatesHeader() {
         long totalRepresentationLength = 1000L;
         int noOfRepresentations = 2;
         int noOfFingerPresent = 5;
@@ -35,7 +35,7 @@ public class GeneralHeaderTest {
      * Tests constructor with all parameters
      */
     @Test
-    public void constructor_allParameters_createsGeneralHeader() {
+    public void constructorWithAllParametersCreatesHeader() {
         long formatIdentifier = FingerFormatIdentifier.FORMAT_FIR;
         long versionNumber = FingerVersionNumber.VERSION_020;
         long totalRepresentationLength = 2000L;
@@ -43,8 +43,8 @@ public class GeneralHeaderTest {
         int certificationFlag = FingerCertificationFlag.ONE;
         int noOfFingerPresent = 10;
 
-        GeneralHeader generalHeader = new GeneralHeader(formatIdentifier, versionNumber, 
-            totalRepresentationLength, noOfRepresentations, certificationFlag, noOfFingerPresent);
+        GeneralHeader generalHeader = new GeneralHeader(formatIdentifier, versionNumber,
+                totalRepresentationLength, noOfRepresentations, certificationFlag, noOfFingerPresent);
 
         assertNotNull(generalHeader);
         assertEquals(formatIdentifier, generalHeader.getFormatIdentifier());
@@ -59,7 +59,7 @@ public class GeneralHeaderTest {
      * Tests constructor with DataInputStream
      */
     @Test
-    public void constructor_dataInputStream_createsGeneralHeader() throws Exception {
+    public void constructorDataInputStreamCreatesHeader() throws Exception {
         byte[] testData = createTestData();
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
         DataInputStream inputStream = new DataInputStream(bais);
@@ -73,7 +73,7 @@ public class GeneralHeaderTest {
      * Tests constructor with DataInputStream and onlyImageInformation flag
      */
     @Test
-    public void constructor_dataInputStreamWithImageInfoFlag_createsGeneralHeader() throws Exception {
+    public void constructorDataInputStreamWithImageInfoFlagCreatesHeader() throws Exception {
         byte[] testData = createTestData();
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
         DataInputStream inputStream = new DataInputStream(bais);
@@ -87,7 +87,7 @@ public class GeneralHeaderTest {
      * Tests getRecordLength method returns correct length
      */
     @Test
-    public void getRecordLength_validGeneralHeader_returnsCorrectLength() {
+    public void getRecordLengthReturnsCorrectLength() {
         GeneralHeader generalHeader = new GeneralHeader(1500L, 1, 3);
 
         long recordLength = generalHeader.getRecordLength();
@@ -99,7 +99,7 @@ public class GeneralHeaderTest {
      * Tests writeObject method writes data correctly
      */
     @Test
-    public void writeObject_validGeneralHeader_writesDataSuccessfully() throws Exception {
+    public void writeObjectWritesDataSuccessfully() throws Exception {
         GeneralHeader generalHeader = new GeneralHeader(800L, 2, 4);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream outputStream = new DataOutputStream(baos);
@@ -115,7 +115,7 @@ public class GeneralHeaderTest {
      * Tests setter and getter methods
      */
     @Test
-    public void settersAndGetters_validValues_workCorrectly() {
+    public void settersAndGettersWorkCorrectly() {
         GeneralHeader generalHeader = new GeneralHeader(1000L, 1, 2);
 
         generalHeader.setFormatIdentifier(0x12345678L);
@@ -137,7 +137,7 @@ public class GeneralHeaderTest {
      * Tests toString method returns non-null string
      */
     @Test
-    public void toString_validGeneralHeader_returnsNonNullString() {
+    public void toStringReturnsNonNullString() {
         GeneralHeader generalHeader = new GeneralHeader(1200L, 3, 6);
 
         String result = generalHeader.toString();
@@ -148,12 +148,12 @@ public class GeneralHeaderTest {
 
     private byte[] createTestData() {
         return new byte[]{
-            0x46, 0x49, 0x52, 0x00, // Format identifier
-            0x30, 0x32, 0x30, 0x00, // Version number
-            0x00, 0x00, 0x04, 0x00, // Total representation length
-            0x00, 0x02, // Number of representations
-            0x00, // Certification flag
-            0x05  // Number of fingers present
+                0x46, 0x49, 0x52, 0x00, // Format identifier
+                0x30, 0x32, 0x30, 0x00, // Version number
+                0x00, 0x00, 0x04, 0x00, // Total representation length
+                0x00, 0x02, // Number of representations
+                0x00, // Certification flag
+                0x05  // Number of fingers present
         };
     }
 }

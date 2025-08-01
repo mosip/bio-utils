@@ -11,7 +11,7 @@ public class FingerImpressionTypeTest {
      * Tests constructor with valid value
      */
     @Test
-    public void constructor_validValue_createsFingerImpressionType() {
+    public void constructorCreatesImpressionTypeCorrectly() {
         FingerImpressionType impressionType = new FingerImpressionType(FingerImpressionType.LIVE_SCAN_PLAIN);
 
         assertEquals(FingerImpressionType.LIVE_SCAN_PLAIN, impressionType.value());
@@ -21,7 +21,7 @@ public class FingerImpressionTypeTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validImpressionType_returnsCorrectValue() {
+    public void valueReturnsCorrectValue() {
         FingerImpressionType impressionType = new FingerImpressionType(FingerImpressionType.LIVE_SCAN_ROLLED);
 
         int result = impressionType.value();
@@ -33,7 +33,7 @@ public class FingerImpressionTypeTest {
      * Tests fromValue method with valid minimum value
      */
     @Test
-    public void fromValue_validMinimumValue_returnsValue() {
+    public void fromValueWithMinimumReturnsValue() {
         int result = FingerImpressionType.fromValue(FingerImpressionType.LIVE_SCAN_PLAIN);
 
         assertEquals(FingerImpressionType.LIVE_SCAN_PLAIN, result);
@@ -43,7 +43,7 @@ public class FingerImpressionTypeTest {
      * Tests fromValue method with valid maximum value in first range
      */
     @Test
-    public void fromValue_validMaximumValueInFirstRange_returnsValue() {
+    public void fromValueWithMaximumInFirstRangeReturnsValue() {
         int result = FingerImpressionType.fromValue(FingerImpressionType.LATENT_PALM_LIFT);
 
         assertEquals(FingerImpressionType.LATENT_PALM_LIFT, result);
@@ -53,7 +53,7 @@ public class FingerImpressionTypeTest {
      * Tests fromValue method with valid optical contactless value
      */
     @Test
-    public void fromValue_validOpticalContactlessValue_returnsValue() {
+    public void fromValueWithOpticalContactlessReturnsValue() {
         int result = FingerImpressionType.fromValue(FingerImpressionType.LIVE_SCAN_OPTICAL_CONTACTLESS_PLAIN);
 
         assertEquals(FingerImpressionType.LIVE_SCAN_OPTICAL_CONTACTLESS_PLAIN, result);
@@ -63,7 +63,7 @@ public class FingerImpressionTypeTest {
      * Tests fromValue method with valid other value
      */
     @Test
-    public void fromValue_validOtherValue_returnsValue() {
+    public void fromValueWithOtherReturnsValue() {
         int result = FingerImpressionType.fromValue(FingerImpressionType.OTHER);
 
         assertEquals(FingerImpressionType.OTHER, result);
@@ -73,7 +73,7 @@ public class FingerImpressionTypeTest {
      * Tests fromValue method with valid unknown value
      */
     @Test
-    public void fromValue_validUnknownValue_returnsValue() {
+    public void fromValueWithUnknownReturnsValue() {
         int result = FingerImpressionType.fromValue(FingerImpressionType.UNKNOWN);
 
         assertEquals(FingerImpressionType.UNKNOWN, result);
@@ -83,7 +83,7 @@ public class FingerImpressionTypeTest {
      * Tests fromValue method with invalid value in reserved range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueInReservedRange_throwsIllegalArgumentException() {
+    public void fromValueInReservedRangeThrowsException() {
         FingerImpressionType.fromValue(0x14);
     }
 
@@ -91,7 +91,7 @@ public class FingerImpressionTypeTest {
      * Tests fromValue method with invalid value above range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueAboveRange_throwsIllegalArgumentException() {
+    public void fromValueAboveRangeThrowsException() {
         FingerImpressionType.fromValue(0x1E);
     }
 
@@ -99,7 +99,7 @@ public class FingerImpressionTypeTest {
      * Tests toString method returns formatted string
      */
     @Test
-    public void toString_validImpressionType_returnsFormattedString() {
+    public void toStringReturnsFormattedString() {
         FingerImpressionType impressionType = new FingerImpressionType(FingerImpressionType.LATENT_IMPRESSION);
 
         String result = impressionType.toString();

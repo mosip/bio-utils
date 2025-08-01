@@ -15,7 +15,7 @@ public class ImageInformationTest {
      * Tests ImageInformation constructor with basic parameters
      */
     @Test
-    public void constructor_basicParameters_createsImageInformation() {
+    public void constructorBasicParametersCreatesImageInformation() {
         int width = 640;
         int height = 480;
 
@@ -26,8 +26,8 @@ public class ImageInformationTest {
         assertEquals(height, imageInfo.getHeight());
         assertEquals(FaceImageType.BASIC, imageInfo.getFaceImageType());
         assertEquals(ImageDataType.JPEG2000_LOSS_LESS, imageInfo.getImageDataType());
-        assertEquals(SpatialSamplingRateLevel.SPATIAL_SAMPLING_RATE_LEVEL_180, 
-            imageInfo.getSpatialSamplingRateLevel());
+        assertEquals(SpatialSamplingRateLevel.SPATIAL_SAMPLING_RATE_LEVEL_180,
+                imageInfo.getSpatialSamplingRateLevel());
         assertEquals(0, imageInfo.getPostAcquistionProcessing());
         assertEquals(CrossReference.BASIC, imageInfo.getCrossReference());
         assertEquals(ImageColourSpace.UNSPECIFIED, imageInfo.getImageColorSpace());
@@ -37,7 +37,7 @@ public class ImageInformationTest {
      * Tests ImageInformation constructor with all parameters
      */
     @Test
-    public void constructor_allParameters_createsImageInformation() {
+    public void constructorAllParametersCreatesImageInformation() {
         int faceImageType = FaceImageType.FULL_FRONTAL;
         int imageDataType = ImageDataType.JPEG2000_LOSSY;
         int width = 800;
@@ -48,7 +48,7 @@ public class ImageInformationTest {
         int imageColorSpace = ImageColourSpace.BIT_24_RGB;
 
         ImageInformation imageInfo = new ImageInformation(faceImageType, imageDataType, width, height,
-            spatialSamplingRateLevel, postAcquisitionProcessing, crossReference, imageColorSpace);
+                spatialSamplingRateLevel, postAcquisitionProcessing, crossReference, imageColorSpace);
 
         assertNotNull(imageInfo);
         assertEquals(faceImageType, imageInfo.getFaceImageType());
@@ -66,7 +66,7 @@ public class ImageInformationTest {
      * @throws Exception if stream reading fails
      */
     @Test
-    public void constructor_dataInputStream_createsImageInformation() throws Exception {
+    public void constructorDataInputStreamCreatesImageInformation() throws Exception {
         byte[] testData = createImageInformationData();
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
         DataInputStream inputStream = new DataInputStream(bais);
@@ -81,7 +81,7 @@ public class ImageInformationTest {
      * @throws Exception if stream reading fails
      */
     @Test
-    public void constructor_dataInputStreamWithImageInfoFlag_createsImageInformation() throws Exception {
+    public void constructorDataInputStreamWithImageInfoFlagCreatesImageInformation() throws Exception {
         byte[] testData = createImageInformationData();
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
         DataInputStream inputStream = new DataInputStream(bais);
@@ -95,7 +95,7 @@ public class ImageInformationTest {
      * Tests getRecordLength method returns correct length
      */
     @Test
-    public void getRecordLength_validImageInformation_returnsCorrectLength() {
+    public void getRecordLengthValidImageInformationReturnsCorrectLength() {
         ImageInformation imageInfo = new ImageInformation(640, 480);
 
         long recordLength = imageInfo.getRecordLength();
@@ -108,7 +108,7 @@ public class ImageInformationTest {
      * @throws Exception if writing fails
      */
     @Test
-    public void writeObject_validImageInformation_writesDataSuccessfully() throws Exception {
+    public void writeObjectValidImageInformationWritesDataSuccessfully() throws Exception {
         ImageInformation imageInfo = new ImageInformation(1024, 768);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream outputStream = new DataOutputStream(baos);
@@ -124,7 +124,7 @@ public class ImageInformationTest {
      * Tests setFaceImageType method sets value correctly
      */
     @Test
-    public void setFaceImageType_validType_setsValueCorrectly() {
+    public void setFaceImageTypeValidTypeSetsValueCorrectly() {
         ImageInformation imageInfo = new ImageInformation(640, 480);
         int newType = FaceImageType.FULL_FRONTAL;
 
@@ -137,7 +137,7 @@ public class ImageInformationTest {
      * Tests setImageDataType method sets value correctly
      */
     @Test
-    public void setImageDataType_validType_setsValueCorrectly() {
+    public void setImageDataTypeValidTypeSetsValueCorrectly() {
         ImageInformation imageInfo = new ImageInformation(640, 480);
         int newType = ImageDataType.JPEG2000_LOSSY;
 
@@ -150,7 +150,7 @@ public class ImageInformationTest {
      * Tests setWidth method sets value correctly
      */
     @Test
-    public void setWidth_validWidth_setsValueCorrectly() {
+    public void setWidthValidWidthSetsValueCorrectly() {
         ImageInformation imageInfo = new ImageInformation(640, 480);
         int newWidth = 1920;
 
@@ -163,7 +163,7 @@ public class ImageInformationTest {
      * Tests setHeight method sets value correctly
      */
     @Test
-    public void setHeight_validHeight_setsValueCorrectly() {
+    public void setHeightValidHeightSetsValueCorrectly() {
         ImageInformation imageInfo = new ImageInformation(640, 480);
         int newHeight = 1080;
 
@@ -176,7 +176,7 @@ public class ImageInformationTest {
      * Tests setSpatialSamplingRateLevel method sets value correctly
      */
     @Test
-    public void setSpatialSamplingRateLevel_validLevel_setsValueCorrectly() {
+    public void setSpatialSamplingRateLevelValidLevelSetsValueCorrectly() {
         ImageInformation imageInfo = new ImageInformation(640, 480);
         int newLevel = SpatialSamplingRateLevel.SPATIAL_SAMPLING_RATE_LEVEL_300_TO_370;
 
@@ -189,7 +189,7 @@ public class ImageInformationTest {
      * Tests setPostAcquistionProcessing method sets value correctly
      */
     @Test
-    public void setPostAcquistionProcessing_validProcessing_setsValueCorrectly() {
+    public void setPostAcquistionProcessingValidProcessingSetsValueCorrectly() {
         ImageInformation imageInfo = new ImageInformation(640, 480);
         int newProcessing = 5;
 
@@ -202,7 +202,7 @@ public class ImageInformationTest {
      * Tests setCrossReference method sets value correctly
      */
     @Test
-    public void setCrossReference_validReference_setsValueCorrectly() {
+    public void setCrossReferenceValidReferenceSetsValueCorrectly() {
         ImageInformation imageInfo = new ImageInformation(640, 480);
         int newReference = CrossReference.CROSSREFERENCE_FF;
 
@@ -215,7 +215,7 @@ public class ImageInformationTest {
      * Tests setImageColorSpace method sets value correctly
      */
     @Test
-    public void setImageColorSpace_validColorSpace_setsValueCorrectly() {
+    public void setImageColorSpaceValidColorSpaceSetsValueCorrectly() {
         ImageInformation imageInfo = new ImageInformation(640, 480);
         int newColorSpace = ImageColourSpace.BIT_24_RGB;
 
@@ -228,7 +228,7 @@ public class ImageInformationTest {
      * Tests toString method returns non-null string
      */
     @Test
-    public void toString_validImageInformation_returnsNonNullString() {
+    public void toStringValidImageInformationReturnsNonNullString() {
         ImageInformation imageInfo = new ImageInformation(640, 480);
 
         String result = imageInfo.toString();
@@ -239,12 +239,12 @@ public class ImageInformationTest {
 
     private byte[] createImageInformationData() {
         return new byte[]{
-            0x01, 0x02,
-            0x02, (byte) 0x80,
-            0x01, (byte) 0xE0,
-            (byte) 0xB4,
-            0x00, 0x00,
-            0x00, 0x01
+                0x01, 0x02,
+                0x02, (byte) 0x80,
+                0x01, (byte) 0xE0,
+                (byte) 0xB4,
+                0x00, 0x00,
+                0x00, 0x01
         };
     }
 }

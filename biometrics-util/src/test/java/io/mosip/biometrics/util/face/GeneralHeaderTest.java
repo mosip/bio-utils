@@ -15,7 +15,7 @@ public class GeneralHeaderTest {
      * Tests GeneralHeader constructor with basic parameters
      */
     @Test
-    public void constructor_basicParameters_createsGeneralHeader() {
+    public void constructorBasicParametersCreatesGeneralHeader() {
         long totalRepresentationLength = 1000L;
         int noOfRepresentations = 1;
 
@@ -34,7 +34,7 @@ public class GeneralHeaderTest {
      * Tests GeneralHeader constructor with all parameters
      */
     @Test
-    public void constructor_allParameters_createsGeneralHeader() {
+    public void constructorAllParametersCreatesGeneralHeader() {
         long formatIdentifier = FaceFormatIdentifier.FORMAT_FAC;
         long versionNumber = FaceVersionNumber.VERSION_030;
         long totalRepresentationLength = 2000L;
@@ -43,7 +43,7 @@ public class GeneralHeaderTest {
         int temporalSemantics = TemporalSequenceFlags.ONE_REPRESENTATION;
 
         GeneralHeader header = new GeneralHeader(formatIdentifier, versionNumber,
-            totalRepresentationLength, noOfRepresentations, certificationFlag, temporalSemantics);
+                totalRepresentationLength, noOfRepresentations, certificationFlag, temporalSemantics);
 
         assertNotNull(header);
         assertEquals(formatIdentifier, header.getFormatIdentifier());
@@ -59,7 +59,7 @@ public class GeneralHeaderTest {
      * @throws Exception if stream reading fails
      */
     @Test
-    public void constructor_dataInputStream_createsGeneralHeader() throws Exception {
+    public void constructorDataInputStreamCreatesGeneralHeader() throws Exception {
         byte[] testData = createGeneralHeaderData();
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
         DataInputStream inputStream = new DataInputStream(bais);
@@ -74,7 +74,7 @@ public class GeneralHeaderTest {
      * @throws Exception if stream reading fails
      */
     @Test
-    public void constructor_dataInputStreamWithImageInfoFlag_createsGeneralHeader() throws Exception {
+    public void constructorDataInputStreamWithImageInfoFlagCreatesGeneralHeader() throws Exception {
         byte[] testData = createGeneralHeaderData();
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
         DataInputStream inputStream = new DataInputStream(bais);
@@ -88,7 +88,7 @@ public class GeneralHeaderTest {
      * Tests getRecordLength method returns correct length
      */
     @Test
-    public void getRecordLength_validHeader_returnsCorrectLength() {
+    public void getRecordLengthValidHeaderReturnsCorrectLength() {
         GeneralHeader header = new GeneralHeader(1000L, 1);
 
         long recordLength = header.getRecordLength();
@@ -101,7 +101,7 @@ public class GeneralHeaderTest {
      * @throws Exception if writing fails
      */
     @Test
-    public void writeObject_validHeader_writesDataSuccessfully() throws Exception {
+    public void writeObjectValidHeaderWritesDataSuccessfully() throws Exception {
         GeneralHeader header = new GeneralHeader(1500L, 1);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream outputStream = new DataOutputStream(baos);
@@ -117,7 +117,7 @@ public class GeneralHeaderTest {
      * Tests setFormatIdentifier method sets value correctly
      */
     @Test
-    public void setFormatIdentifier_validIdentifier_setsValueCorrectly() {
+    public void setFormatIdentifierValidIdentifierSetsValueCorrectly() {
         GeneralHeader header = new GeneralHeader(1000L, 1);
         long newIdentifier = 0x46414300L;
 
@@ -130,7 +130,7 @@ public class GeneralHeaderTest {
      * Tests setVersionNumber method sets value correctly
      */
     @Test
-    public void setVersionNumber_validVersion_setsValueCorrectly() {
+    public void setVersionNumberValidVersionSetsValueCorrectly() {
         GeneralHeader header = new GeneralHeader(1000L, 1);
         long newVersion = 0x30313000L;
 
@@ -143,7 +143,7 @@ public class GeneralHeaderTest {
      * Tests setTotalRepresentationLength method sets value correctly
      */
     @Test
-    public void setTotalRepresentationLength_validLength_setsValueCorrectly() {
+    public void setTotalRepresentationLengthValidLengthSetsValueCorrectly() {
         GeneralHeader header = new GeneralHeader(1000L, 1);
         long newLength = 2500L;
 
@@ -156,7 +156,7 @@ public class GeneralHeaderTest {
      * Tests setNoOfRepresentations method sets value correctly
      */
     @Test
-    public void setNoOfRepresentations_validCount_setsValueCorrectly() {
+    public void setNoOfRepresentationsValidCountSetsValueCorrectly() {
         GeneralHeader header = new GeneralHeader(1000L, 1);
         int newCount = 2;
 
@@ -169,7 +169,7 @@ public class GeneralHeaderTest {
      * Tests setCertificationFlag method sets value correctly
      */
     @Test
-    public void setCertificationFlag_validFlag_setsValueCorrectly() {
+    public void setCertificationFlagValidFlagSetsValueCorrectly() {
         GeneralHeader header = new GeneralHeader(1000L, 1);
         int newFlag = 0x01;
 
@@ -182,7 +182,7 @@ public class GeneralHeaderTest {
      * Tests setTemporalSemantics method sets value correctly
      */
     @Test
-    public void setTemporalSemantics_validSemantics_setsValueCorrectly() {
+    public void setTemporalSemanticsValidSemanticsSetsValueCorrectly() {
         GeneralHeader header = new GeneralHeader(1000L, 1);
         int newSemantics = 0x0002;
 
@@ -195,7 +195,7 @@ public class GeneralHeaderTest {
      * Tests toString method returns non-null string
      */
     @Test
-    public void toString_validHeader_returnsNonNullString() {
+    public void toStringValidHeaderReturnsNonNullString() {
         GeneralHeader header = new GeneralHeader(1000L, 1);
 
         String result = header.toString();
@@ -206,12 +206,12 @@ public class GeneralHeaderTest {
 
     private byte[] createGeneralHeaderData() {
         return new byte[]{
-            0x46, 0x41, 0x43, 0x00,
-            0x30, 0x31, 0x30, 0x00,
-            0x00, 0x00, 0x04, 0x00,
-            0x00, 0x01,
-            0x00,
-            0x00, 0x01
+                0x46, 0x41, 0x43, 0x00,
+                0x30, 0x31, 0x30, 0x00,
+                0x00, 0x00, 0x04, 0x00,
+                0x00, 0x01,
+                0x00,
+                0x00, 0x01
         };
     }
 }

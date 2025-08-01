@@ -11,7 +11,7 @@ public class FingerSegmentationAlgorithmVendorIdentifierTest {
      * Tests constructor with valid value
      */
     @Test
-    public void constructor_validValue_createsFingerSegmentationAlgorithmVendorIdentifier() {
+    public void constructorCreatesVendorIdentifierCorrectly() {
         FingerSegmentationAlgorithmVendorIdentifier identifier = new FingerSegmentationAlgorithmVendorIdentifier(FingerSegmentationAlgorithmVendorIdentifier.GREEN_BIT_AMERICAS_INC);
 
         assertEquals(FingerSegmentationAlgorithmVendorIdentifier.GREEN_BIT_AMERICAS_INC, identifier.value());
@@ -21,7 +21,7 @@ public class FingerSegmentationAlgorithmVendorIdentifierTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validIdentifier_returnsCorrectValue() {
+    public void valueReturnsCorrectValue() {
         FingerSegmentationAlgorithmVendorIdentifier identifier = new FingerSegmentationAlgorithmVendorIdentifier(FingerSegmentationAlgorithmVendorIdentifier.UNSPECIFIED);
 
         int result = identifier.value();
@@ -33,7 +33,7 @@ public class FingerSegmentationAlgorithmVendorIdentifierTest {
      * Tests fromValue method with valid unspecified value
      */
     @Test
-    public void fromValue_validUnspecifiedValue_returnsValue() {
+    public void fromValueWithUnspecifiedReturnsValue() {
         int result = FingerSegmentationAlgorithmVendorIdentifier.fromValue(FingerSegmentationAlgorithmVendorIdentifier.UNSPECIFIED);
 
         assertEquals(FingerSegmentationAlgorithmVendorIdentifier.UNSPECIFIED, result);
@@ -43,7 +43,7 @@ public class FingerSegmentationAlgorithmVendorIdentifierTest {
      * Tests fromValue method with valid maximum value
      */
     @Test
-    public void fromValue_validMaximumValue_returnsValue() {
+    public void fromValueWithMaximumReturnsValue() {
         int result = FingerSegmentationAlgorithmVendorIdentifier.fromValue(FingerSegmentationAlgorithmVendorIdentifier.VENDOR_FFFF);
 
         assertEquals(FingerSegmentationAlgorithmVendorIdentifier.VENDOR_FFFF, result);
@@ -53,7 +53,7 @@ public class FingerSegmentationAlgorithmVendorIdentifierTest {
      * Tests fromValue method with valid middle value
      */
     @Test
-    public void fromValue_validMiddleValue_returnsValue() {
+    public void fromValueWithMiddleReturnsValue() {
         int result = FingerSegmentationAlgorithmVendorIdentifier.fromValue(0x5000);
 
         assertEquals(0x5000, result);
@@ -63,7 +63,7 @@ public class FingerSegmentationAlgorithmVendorIdentifierTest {
      * Tests toString method returns formatted string
      */
     @Test
-    public void toString_validIdentifier_returnsFormattedString() {
+    public void toStringReturnsFormattedString() {
         FingerSegmentationAlgorithmVendorIdentifier identifier = new FingerSegmentationAlgorithmVendorIdentifier(FingerSegmentationAlgorithmVendorIdentifier.GREEN_BIT_AMERICAS_INC);
 
         String result = identifier.toString();

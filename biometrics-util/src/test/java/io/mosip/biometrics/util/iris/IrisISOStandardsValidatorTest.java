@@ -18,7 +18,7 @@ class IrisISOStandardsValidatorTest {
      * Test for valid format identifier.
      */
     @Test
-    void isValidFormatIdentifier_validFormatIdentifier_true() {
+    void isValidFormatIdentifierReturnsTrue() {
         assertTrue(validator.isValidFormatIdentifier(IrisFormatIdentifier.FORMAT_IIR));
     }
 
@@ -26,7 +26,7 @@ class IrisISOStandardsValidatorTest {
      * Test for invalid version number.
      */
     @Test
-    void isValidVersionNumber_invalidVersion_false() {
+    void isValidVersionNumberInvalidVersionReturnsFalse() {
         assertFalse(validator.isValidVersionNumber(1));
     }
 
@@ -34,7 +34,7 @@ class IrisISOStandardsValidatorTest {
      * Test for record lengths that match.
      */
     @Test
-    void isValidRecordLength_matchingLengths_true() {
+    void isValidRecordLengthMatchingLengthsReturnsTrue() {
         assertTrue(validator.isValidRecordLength(100L, 100L));
     }
 
@@ -42,7 +42,7 @@ class IrisISOStandardsValidatorTest {
      * Test for a valid number of representations.
      */
     @Test
-    void isValidNoOfRepresentations_validRepresentation_true() {
+    void isValidNoOfRepresentationsValidReturnsTrue() {
         assertTrue(validator.isValidNoOfRepresentations(0x0001));
     }
 
@@ -50,7 +50,7 @@ class IrisISOStandardsValidatorTest {
      * Test for a valid certification flag.
      */
     @Test
-    void isValidCertificationFlag_unspecifiedFlag_true() {
+    void isValidCertificationFlagUnspecifiedReturnsTrue() {
         assertTrue(validator.isValidCertificationFlag(IrisCertificationFlag.UNSPECIFIED));
     }
 
@@ -58,7 +58,7 @@ class IrisISOStandardsValidatorTest {
      * Test for a valid representation length.
      */
     @Test
-    void isValidRepresentationLength_withinValidRange_true() {
+    void isValidRepresentationLengthWithinRangeReturnsTrue() {
         assertTrue(validator.isValidRepresentationLength(0x00000035));
     }
 
@@ -66,7 +66,7 @@ class IrisISOStandardsValidatorTest {
      * Test for valid capture device technology identifier.
      */
     @Test
-    void isValidCaptureDeviceTechnologyIdentifier_inRange_true() {
+    void isValidCaptureDeviceTechnologyIdentifierInRangeReturnsTrue() {
         assertTrue(validator.isValidCaptureDeviceTechnologyIdentifier(IrisCaptureDeviceTechnology.CMOS_OR_CCD));
     }
 
@@ -74,7 +74,7 @@ class IrisISOStandardsValidatorTest {
      * Test for invalid capture device vendor.
      */
     @Test
-    void isValidCaptureDeviceVendor_outOfRange_false() {
+    void isValidCaptureDeviceVendorOutOfRangeReturnsFalse() {
         assertFalse(validator.isValidCaptureDeviceVendor(999999));
     }
 
@@ -82,7 +82,7 @@ class IrisISOStandardsValidatorTest {
      * Tests isValidCaptureDeviceType for valid and invalid combinations.
      */
     @Test
-    void isValidCaptureDeviceType_variousCases() {
+    void isValidCaptureDeviceTypeVariousCases() {
         assertTrue(validator.isValidCaptureDeviceType(IrisCaptureDeviceType.UNSPECIFIED, IrisCaptureDeviceVendor.UNSPECIFIED));
         assertTrue(validator.isValidCaptureDeviceType(IrisCaptureDeviceType.VENDOR_FFFF, IrisCaptureDeviceVendor.UNSPECIFIED));
         assertFalse(validator.isValidCaptureDeviceType(-1, -1));
@@ -92,7 +92,7 @@ class IrisISOStandardsValidatorTest {
      * Tests isValidNoOfQualityBlocks for boundary values.
      */
     @Test
-    void isValidNoOfQualityBlocks_boundaries() {
+    void isValidNoOfQualityBlocksBoundaries() {
         assertTrue(validator.isValidNoOfQualityBlocks(0x00));
         assertTrue(validator.isValidNoOfQualityBlocks(0xFF));
         assertFalse(validator.isValidNoOfQualityBlocks(-1));
@@ -103,7 +103,7 @@ class IrisISOStandardsValidatorTest {
      * Tests isValidQualityAlgorithmIdentifier for valid and invalid values.
      */
     @Test
-    void isValidQualityAlgorithmIdentifier_variousCases() {
+    void isValidQualityAlgorithmIdentifierVariousCases() {
         assertTrue(validator.isValidQualityAlgorithmIdentifier(IrisQualityAlgorithmIdentifier.UNSPECIFIED));
         assertTrue(validator.isValidQualityAlgorithmIdentifier(IrisQualityAlgorithmIdentifier.VENDOR_FFFF));
         assertFalse(validator.isValidQualityAlgorithmIdentifier(-1));
@@ -113,7 +113,7 @@ class IrisISOStandardsValidatorTest {
      * Tests isValidQualityAlgorithmVendorIdentifier for valid and invalid values.
      */
     @Test
-    void isValidQualityAlgorithmVendorIdentifier_variousCases() {
+    void isValidQualityAlgorithmVendorIdentifierVariousCases() {
         assertTrue(validator.isValidQualityAlgorithmVendorIdentifier(IrisQualityAlgorithmVendorIdentifier.UNSPECIFIED));
         assertTrue(validator.isValidQualityAlgorithmVendorIdentifier(IrisQualityAlgorithmVendorIdentifier.VENDOR_FFFF));
         assertFalse(validator.isValidQualityAlgorithmVendorIdentifier(-1));
@@ -123,7 +123,7 @@ class IrisISOStandardsValidatorTest {
      * Tests isValidQualityScore for valid and invalid values.
      */
     @Test
-    void isValidQualityScore_variousCases() {
+    void isValidQualityScoreVariousCases() {
         assertTrue(validator.isValidQualityScore(0x00));
         assertTrue(validator.isValidQualityScore(0x64));
         assertTrue(validator.isValidQualityScore(0xFF));
@@ -135,7 +135,7 @@ class IrisISOStandardsValidatorTest {
      * Tests isValidNoOfRepresentation for valid and invalid values.
      */
     @Test
-    void isValidNoOfRepresentation_variousCases() {
+    void isValidNoOfRepresentationVariousCases() {
         assertTrue(validator.isValidNoOfRepresentation(0x0001));
         assertFalse(validator.isValidNoOfRepresentation(0x0002));
     }
@@ -144,7 +144,7 @@ class IrisISOStandardsValidatorTest {
      * Tests isValidImageFromat for valid and invalid values.
      */
     @Test
-    void isValidImageFromat_variousCases() {
+    void isValidImageFromatVariousCases() {
         assertTrue(validator.isValidImageFromat(ImageFormat.MONO_JPEG2000));
         assertFalse(validator.isValidImageFromat(1234));
     }
@@ -153,7 +153,7 @@ class IrisISOStandardsValidatorTest {
      * Tests isValidImageHorizontalOrientation for valid and invalid values.
      */
     @Test
-    void isValidImageHorizontalOrientation_variousCases() {
+    void isValidImageHorizontalOrientationVariousCases() {
         assertTrue(validator.isValidImageHorizontalOrientation(HorizontalOrientation.ORIENTATION_UNDEFINIED));
         assertTrue(validator.isValidImageHorizontalOrientation(HorizontalOrientation.ORIENTATION_FLIPPED));
         assertFalse(validator.isValidImageHorizontalOrientation(-1));
@@ -164,7 +164,7 @@ class IrisISOStandardsValidatorTest {
      * Tests isValidImageVerticalOrientation for valid and invalid values.
      */
     @Test
-    void isValidImageVerticalOrientation_variousCases() {
+    void isValidImageVerticalOrientationVariousCases() {
         assertTrue(validator.isValidImageVerticalOrientation(VerticalOrientation.ORIENTATION_UNDEFINIED));
         assertTrue(validator.isValidImageVerticalOrientation(VerticalOrientation.ORIENTATION_FLIPPED));
         assertFalse(validator.isValidImageVerticalOrientation(-1));
@@ -175,7 +175,7 @@ class IrisISOStandardsValidatorTest {
      * Tests isValidBitDepth(int, ImageDecoderRequestDto) for valid and invalid values.
      */
     @Test
-    void isValidBitDepth_withDto_variousCases() {
+    void isValidBitDepthWithDtoVariousCases() {
         ImageDecoderRequestDto dto = Mockito.mock(ImageDecoderRequestDto.class);
         Mockito.when(dto.getDepth()).thenReturn(IrisImageBitDepth.BPP_08);
         assertTrue(validator.isValidBitDepth(IrisImageBitDepth.BPP_08, dto));
@@ -187,7 +187,7 @@ class IrisISOStandardsValidatorTest {
      * Tests isValidRange for valid and invalid values.
      */
     @Test
-    void isValidRange_variousCases() {
+    void isValidRangeVariousCases() {
         assertTrue(validator.isValidRange(IrisRange.UNASSIGNED));
         assertTrue(validator.isValidRange(IrisRange.OVERFLOW_FFFF));
         assertFalse(validator.isValidRange(-1));
@@ -198,7 +198,7 @@ class IrisISOStandardsValidatorTest {
      * Tests isValidRollAngleOfEye for valid and invalid values.
      */
     @Test
-    void isValidRollAngleOfEye_variousCases() {
+    void isValidRollAngleOfEyeVariousCases() {
         assertTrue(validator.isValidRollAngleOfEye(IrisRangeRollAngleOfEye.ROLL_ANGLE_0000));
         assertTrue(validator.isValidRollAngleOfEye(IrisRangeRollAngleOfEye.ROLL_ANGLE_UNDEFINIED));
         assertFalse(validator.isValidRollAngleOfEye(-1));
@@ -209,7 +209,7 @@ class IrisISOStandardsValidatorTest {
      * Tests isValidRollAngleUncertainty for valid and invalid values.
      */
     @Test
-    void isValidRollAngleUncertainty_variousCases() {
+    void isValidRollAngleUncertaintyVariousCases() {
         assertTrue(validator.isValidRollAngleUncertainty(IrisRangeRollAngleUncertainty.ROLL_UNCERTAIN_0000));
         assertTrue(validator.isValidRollAngleUncertainty(IrisRangeRollAngleUncertainty.ROLL_UNCERTAIN_UNDEFINIED));
         assertFalse(validator.isValidRollAngleUncertainty(-1));
@@ -220,7 +220,7 @@ class IrisISOStandardsValidatorTest {
      * Tests isValidIrisCenterSmallestX for valid and invalid values.
      */
     @Test
-    void isValidIrisCenterSmallestX_variousCases() {
+    void isValidIrisCenterSmallestXVariousCases() {
         assertTrue(validator.isValidIrisCenterSmallestX(IrisCoordinate.COORDINATE_UNDEFINIED));
         assertTrue(validator.isValidIrisCenterSmallestX(IrisCoordinate.COORDINATE_FFFF));
         assertFalse(validator.isValidIrisCenterSmallestX(-1));
@@ -231,7 +231,7 @@ class IrisISOStandardsValidatorTest {
      * Tests isValidIrisCenterLargestX for valid and invalid values.
      */
     @Test
-    void isValidIrisCenterLargestX_variousCases() {
+    void isValidIrisCenterLargestXVariousCases() {
         assertTrue(validator.isValidIrisCenterLargestX(IrisCoordinate.COORDINATE_UNDEFINIED));
         assertTrue(validator.isValidIrisCenterLargestX(IrisCoordinate.COORDINATE_FFFF));
         assertFalse(validator.isValidIrisCenterLargestX(-1));
@@ -242,7 +242,7 @@ class IrisISOStandardsValidatorTest {
      * Tests isValidIrisCenterSmallestY for valid and invalid values.
      */
     @Test
-    void isValidIrisCenterSmallestY_variousCases() {
+    void isValidIrisCenterSmallestYVariousCases() {
         assertTrue(validator.isValidIrisCenterSmallestY(IrisCoordinate.COORDINATE_UNDEFINIED));
         assertTrue(validator.isValidIrisCenterSmallestY(IrisCoordinate.COORDINATE_FFFF));
         assertFalse(validator.isValidIrisCenterSmallestY(-1));
@@ -253,7 +253,7 @@ class IrisISOStandardsValidatorTest {
      * Tests isValidIrisCenterLargestY for valid and invalid values.
      */
     @Test
-    void isValidIrisCenterLargestY_variousCases() {
+    void isValidIrisCenterLargestYVariousCases() {
         assertTrue(validator.isValidIrisCenterLargestY(IrisCoordinate.COORDINATE_UNDEFINIED));
         assertTrue(validator.isValidIrisCenterLargestY(IrisCoordinate.COORDINATE_FFFF));
         assertFalse(validator.isValidIrisCenterLargestY(-1));
@@ -264,7 +264,7 @@ class IrisISOStandardsValidatorTest {
      * Tests isValidIrisDiameterSmallest for valid and invalid values.
      */
     @Test
-    void isValidIrisDiameterSmallest_variousCases() {
+    void isValidIrisDiameterSmallestVariousCases() {
         assertTrue(validator.isValidIrisDiameterSmallest(IrisCoordinate.COORDINATE_UNDEFINIED));
         assertTrue(validator.isValidIrisDiameterSmallest(IrisCoordinate.COORDINATE_FFFF));
         assertFalse(validator.isValidIrisDiameterSmallest(-1));
@@ -275,7 +275,7 @@ class IrisISOStandardsValidatorTest {
      * Tests isValidIrisDiameterLargest for valid and invalid values.
      */
     @Test
-    void isValidIrisDiameterLargest_variousCases() {
+    void isValidIrisDiameterLargestVariousCases() {
         assertTrue(validator.isValidIrisDiameterLargest(IrisCoordinate.COORDINATE_UNDEFINIED));
         assertTrue(validator.isValidIrisDiameterLargest(IrisCoordinate.COORDINATE_FFFF));
         assertFalse(validator.isValidIrisDiameterLargest(-1));

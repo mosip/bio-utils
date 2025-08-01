@@ -37,7 +37,7 @@ class GeneralHeaderTest {
      * Tests that the default constructor initializes all fields with expected default values.
      */
     @Test
-    void constructor_WhenUsingDefault_ShouldInitializeFieldsWithDefaults() {
+    void constructorUsingDefaultInitializesFieldsWithDefaults() {
         assertEquals(FORMAT_IDENTIFIER, generalHeader.getFormatIdentifier());
         assertEquals(VERSION_NUMBER, generalHeader.getVersionNumber());
         assertEquals(TOTAL_REP_LENGTH, generalHeader.getTotalRepresentationLength());
@@ -51,7 +51,7 @@ class GeneralHeaderTest {
      * Tests that the full constructor correctly sets all provided field values.
      */
     @Test
-    void constructor_WhenUsingAllParameters_ShouldSetAllFields() {
+    void constructorUsingAllParametersSetsAllFields() {
         GeneralHeader header = new GeneralHeader(
                 FORMAT_IDENTIFIER,
                 VERSION_NUMBER,
@@ -75,7 +75,7 @@ class GeneralHeaderTest {
      * Tests that the constructor with DataInputStream correctly parses and sets all fields.
      */
     @Test
-    void constructor_WhenUsingDataInputStream_ShouldParseHeaderCorrectly() throws IOException {
+    void constructorUsingDataInputStreamParsesHeaderCorrectly() throws IOException {
         byte[] inputData = createInputData();
         GeneralHeader header = new GeneralHeader(new DataInputStream(new ByteArrayInputStream(inputData)));
 
@@ -93,7 +93,7 @@ class GeneralHeaderTest {
      * Tests that the imageInfoOnly constructor only parses essential fields.
      */
     @Test
-    void constructor_WhenImageInfoOnly_ShouldParseEssentialFields() throws IOException {
+    void constructorImageInfoOnlyParsesEssentialFields() throws IOException {
         byte[] inputData = createInputData();
         GeneralHeader header = new GeneralHeader(new DataInputStream(new ByteArrayInputStream(inputData)), true);
 
@@ -108,7 +108,7 @@ class GeneralHeaderTest {
      * Tests that writeObject correctly serializes the header to binary format.
      */
     @Test
-    void writeObject_WhenInvoked_ShouldSerializeHeaderCorrectly() throws IOException {
+    void writeObjectSerializesHeaderCorrectly() throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         generalHeader.writeObject(new DataOutputStream(baos));
         byte[] output = baos.toByteArray();
@@ -128,7 +128,7 @@ class GeneralHeaderTest {
      * Tests that all setter methods correctly update their respective fields.
      */
     @Test
-    void setters_WhenInvoked_ShouldUpdateFieldsCorrectly() {
+    void settersUpdateFieldsCorrectly() {
         GeneralHeader header = new GeneralHeader(0L, 0, 0);
 
         header.setFormatIdentifier(FORMAT_IDENTIFIER);
@@ -152,7 +152,7 @@ class GeneralHeaderTest {
      * Tests that toString returns a non-null string containing all field values.
      */
     @Test
-    void toString_WhenInvoked_ShouldReturnFormattedString() {
+    void toStringReturnsFormattedString() {
         String result = generalHeader.toString();
 
         assertAll(

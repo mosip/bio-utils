@@ -11,7 +11,7 @@ public class FingerScaleUnitTypeTest {
      * Tests constructor with valid value
      */
     @Test
-    public void constructor_validValue_createsFingerScaleUnitType() {
+    public void constructorCreatesScaleUnitTypeCorrectly() {
         FingerScaleUnitType scaleUnitType = new FingerScaleUnitType(FingerScaleUnitType.PIXELS_PER_INCH);
 
         assertEquals(FingerScaleUnitType.PIXELS_PER_INCH, scaleUnitType.value());
@@ -21,7 +21,7 @@ public class FingerScaleUnitTypeTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validScaleUnitType_returnsCorrectValue() {
+    public void valueReturnsCorrectValue() {
         FingerScaleUnitType scaleUnitType = new FingerScaleUnitType(FingerScaleUnitType.PIXELS_PER_CM);
 
         int result = scaleUnitType.value();
@@ -33,7 +33,7 @@ public class FingerScaleUnitTypeTest {
      * Tests fromValue method with valid pixels per inch value
      */
     @Test
-    public void fromValue_validPixelsPerInchValue_returnsValue() {
+    public void fromValueWithPixelsPerInchReturnsValue() {
         int result = FingerScaleUnitType.fromValue(FingerScaleUnitType.PIXELS_PER_INCH);
 
         assertEquals(FingerScaleUnitType.PIXELS_PER_INCH, result);
@@ -43,7 +43,7 @@ public class FingerScaleUnitTypeTest {
      * Tests fromValue method with valid pixels per cm value
      */
     @Test
-    public void fromValue_validPixelsPerCmValue_returnsValue() {
+    public void fromValueWithPixelsPerCmReturnsValue() {
         int result = FingerScaleUnitType.fromValue(FingerScaleUnitType.PIXELS_PER_CM);
 
         assertEquals(FingerScaleUnitType.PIXELS_PER_CM, result);
@@ -53,7 +53,7 @@ public class FingerScaleUnitTypeTest {
      * Tests fromValue method with invalid value
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValue_throwsIllegalArgumentException() {
+    public void fromValueInvalidValueThrowsException() {
         FingerScaleUnitType.fromValue(0x03);
     }
 
@@ -61,7 +61,7 @@ public class FingerScaleUnitTypeTest {
      * Tests toString method returns formatted string
      */
     @Test
-    public void toString_validScaleUnitType_returnsFormattedString() {
+    public void toStringReturnsFormattedString() {
         FingerScaleUnitType scaleUnitType = new FingerScaleUnitType(FingerScaleUnitType.PIXELS_PER_INCH);
 
         String result = scaleUnitType.toString();

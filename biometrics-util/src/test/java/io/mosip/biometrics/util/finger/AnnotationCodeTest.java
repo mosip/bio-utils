@@ -11,7 +11,7 @@ public class AnnotationCodeTest {
      * Tests constructor with valid value
      */
     @Test
-    public void constructor_validValue_createsAnnotationCode() {
+    public void constructorValidValueCreatesAnnotationCode() {
         AnnotationCode annotationCode = new AnnotationCode(AnnotationCode.AMPUTATED_FINGER);
 
         assertEquals(AnnotationCode.AMPUTATED_FINGER, annotationCode.value());
@@ -21,7 +21,7 @@ public class AnnotationCodeTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validAnnotationCode_returnsCorrectValue() {
+    public void valueValidAnnotationCodeReturnsCorrectValue() {
         AnnotationCode annotationCode = new AnnotationCode(AnnotationCode.UNUSABLE_IMAGE);
 
         int result = annotationCode.value();
@@ -33,7 +33,7 @@ public class AnnotationCodeTest {
      * Tests fromValue method with valid amputated finger value
      */
     @Test
-    public void fromValue_validAmputatedFingerValue_returnsValue() {
+    public void fromValueValidAmputatedFingerValueReturnsValue() {
         int result = AnnotationCode.fromValue(AnnotationCode.AMPUTATED_FINGER);
 
         assertEquals(AnnotationCode.AMPUTATED_FINGER, result);
@@ -43,7 +43,7 @@ public class AnnotationCodeTest {
      * Tests fromValue method with valid unusable image value
      */
     @Test
-    public void fromValue_validUnusableImageValue_returnsValue() {
+    public void fromValueValidUnusableImageValueReturnsValue() {
         int result = AnnotationCode.fromValue(AnnotationCode.UNUSABLE_IMAGE);
 
         assertEquals(AnnotationCode.UNUSABLE_IMAGE, result);
@@ -53,7 +53,7 @@ public class AnnotationCodeTest {
      * Tests fromValue method with invalid value
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValue_throwsIllegalArgumentException() {
+    public void fromValueInvalidValueThrowsIllegalArgumentException() {
         AnnotationCode.fromValue(0x03);
     }
 
@@ -61,7 +61,7 @@ public class AnnotationCodeTest {
      * Tests toString method returns formatted string
      */
     @Test
-    public void toString_validAnnotationCode_returnsFormattedString() {
+    public void toStringValidAnnotationCodeReturnsFormattedString() {
         AnnotationCode annotationCode = new AnnotationCode(AnnotationCode.AMPUTATED_FINGER);
 
         String result = annotationCode.toString();

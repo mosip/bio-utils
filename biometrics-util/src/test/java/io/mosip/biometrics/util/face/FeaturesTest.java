@@ -11,7 +11,7 @@ public class FeaturesTest {
      * Tests constructor with valid value
      */
     @Test
-    public void constructor_validValue_createsFeatures() {
+    public void constructorValidValueCreatesFeatures() {
         Features features = new Features(Features.FEATURES_ARE_SPECIFIED);
 
         assertEquals(Features.FEATURES_ARE_SPECIFIED, features.value());
@@ -21,7 +21,7 @@ public class FeaturesTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validFeatures_returnsCorrectValue() {
+    public void valueValidFeaturesReturnsCorrectValue() {
         Features features = new Features(Features.GLASSES);
 
         int result = features.value();
@@ -33,7 +33,7 @@ public class FeaturesTest {
      * Tests fromValue method with valid minimum value
      */
     @Test
-    public void fromValue_validMinimumValue_returnsValue() {
+    public void fromValueValidMinimumValueReturnsValue() {
         int result = Features.fromValue(Features.FEATURES_ARE_SPECIFIED);
 
         assertEquals(Features.FEATURES_ARE_SPECIFIED, result);
@@ -43,7 +43,7 @@ public class FeaturesTest {
      * Tests fromValue method with valid maximum value
      */
     @Test
-    public void fromValue_validMaximumValue_returnsValue() {
+    public void fromValueValidMaximumValueReturnsValue() {
         int result = Features.fromValue(Features.DISTORTING_MEDICAL_CONDITION);
 
         assertEquals(Features.DISTORTING_MEDICAL_CONDITION, result);
@@ -53,7 +53,7 @@ public class FeaturesTest {
      * Tests fromValue method with invalid value below range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueBelowRange_throwsIllegalArgumentException() {
+    public void fromValueInvalidValueBelowRangeThrowsIllegalArgumentException() {
         Features.fromValue(-1);
     }
 
@@ -61,7 +61,7 @@ public class FeaturesTest {
      * Tests fromValue method with invalid value above range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueAboveRange_throwsIllegalArgumentException() {
+    public void fromValueInvalidValueAboveRangeThrowsIllegalArgumentException() {
         Features.fromValue(0x000020);
     }
 
@@ -69,7 +69,7 @@ public class FeaturesTest {
      * Tests toString method returns formatted string
      */
     @Test
-    public void toString_validFeatures_returnsFormattedString() {
+    public void toStringValidFeaturesReturnsFormattedString() {
         Features features = new Features(Features.MOUSTACHE);
 
         String result = features.toString();

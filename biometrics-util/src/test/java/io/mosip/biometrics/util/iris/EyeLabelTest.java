@@ -11,7 +11,7 @@ public class EyeLabelTest {
      * Tests constructor with valid value
      */
     @Test
-    public void constructor_validValue_createsEyeLabel() {
+    public void constructorCreatesEyeLabelCorrectly() {
         EyeLabel eyeLabel = new EyeLabel(EyeLabel.RIGHT);
 
         assertEquals(EyeLabel.RIGHT, eyeLabel.value());
@@ -21,7 +21,7 @@ public class EyeLabelTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validEyeLabel_returnsCorrectValue() {
+    public void valueReturnsCorrectValue() {
         EyeLabel eyeLabel = new EyeLabel(EyeLabel.LEFT);
 
         int result = eyeLabel.value();
@@ -33,7 +33,7 @@ public class EyeLabelTest {
      * Tests fromValue method with valid minimum value
      */
     @Test
-    public void fromValue_validMinimumValue_returnsValue() {
+    public void fromValueWithMinimumReturnsValue() {
         int result = EyeLabel.fromValue(EyeLabel.UNSPECIFIED);
 
         assertEquals(EyeLabel.UNSPECIFIED, result);
@@ -43,7 +43,7 @@ public class EyeLabelTest {
      * Tests fromValue method with valid maximum value
      */
     @Test
-    public void fromValue_validMaximumValue_returnsValue() {
+    public void fromValueWithMaximumReturnsValue() {
         int result = EyeLabel.fromValue(EyeLabel.LEFT);
 
         assertEquals(EyeLabel.LEFT, result);
@@ -53,7 +53,7 @@ public class EyeLabelTest {
      * Tests fromValue method with invalid value below range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueBelowRange_throwsIllegalArgumentException() {
+    public void fromValueBelowRangeThrowsException() {
         EyeLabel.fromValue(-1);
     }
 
@@ -61,7 +61,7 @@ public class EyeLabelTest {
      * Tests fromValue method with invalid value above range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueAboveRange_throwsIllegalArgumentException() {
+    public void fromValueAboveRangeThrowsException() {
         EyeLabel.fromValue(0x03);
     }
 
@@ -69,7 +69,7 @@ public class EyeLabelTest {
      * Tests toString method returns formatted string
      */
     @Test
-    public void toString_validEyeLabel_returnsFormattedString() {
+    public void toStringReturnsFormattedString() {
         EyeLabel eyeLabel = new EyeLabel(EyeLabel.RIGHT);
 
         String result = eyeLabel.toString();

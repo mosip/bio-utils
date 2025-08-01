@@ -14,7 +14,7 @@ public class IrisRangeTest {
      * Test constructor and value() method with valid value.
      */
     @Test
-    public void constructorAndValue_validInput_returnsSameValue() {
+    public void constructorAndValueReturnsSameValue() {
         IrisRange range = new IrisRange(IrisRange.UNASSIGNED);
         assertEquals(IrisRange.UNASSIGNED, range.value());
     }
@@ -23,7 +23,7 @@ public class IrisRangeTest {
      * Test fromValue() with minimum valid value.
      */
     @Test
-    public void fromValue_minValidValue_returnsInstance() {
+    public void fromValueWithMinimumReturnsValue() {
         assertEquals(IrisRange.UNASSIGNED, IrisRange.fromValue(IrisRange.UNASSIGNED));
     }
 
@@ -31,7 +31,7 @@ public class IrisRangeTest {
      * Test fromValue() with maximum valid value.
      */
     @Test
-    public void fromValue_maxValidValue_returnsInstance() {
+    public void fromValueWithMaximumReturnsValue() {
         assertEquals(IrisRange.OVERFLOW_FFFF, IrisRange.fromValue(IrisRange.OVERFLOW_FFFF));
     }
 
@@ -39,7 +39,7 @@ public class IrisRangeTest {
      * Test fromValue() with a valid middle value.
      */
     @Test
-    public void fromValue_middleValidValue_returnsInstance() {
+    public void fromValueWithMiddleReturnsValue() {
         assertEquals(IrisRange.FAILED, IrisRange.fromValue(IrisRange.FAILED));
     }
 
@@ -47,7 +47,7 @@ public class IrisRangeTest {
      * Test fromValue() throws IllegalArgumentException for value below range.
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_valueBelowRange_throwsIllegalArgumentException() {
+    public void fromValueBelowRangeThrowsException() {
         IrisRange.fromValue(-1);
     }
 
@@ -55,7 +55,7 @@ public class IrisRangeTest {
      * Test fromValue() throws IllegalArgumentException for value above range.
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_valueAboveRange_throwsIllegalArgumentException() {
+    public void fromValueAboveRangeThrowsException() {
         IrisRange.fromValue(0x10000);
     }
 
@@ -63,7 +63,7 @@ public class IrisRangeTest {
      * Test toString() returns a non-null string containing the value in hex.
      */
     @Test
-    public void toString_validRangeValue_containsHexRepresentation() {
+    public void toStringReturnsNonNullHexString() {
         IrisRange range = new IrisRange(IrisRange.OVERFLOW_0002);
         String str = range.toString();
         assertNotNull(str);

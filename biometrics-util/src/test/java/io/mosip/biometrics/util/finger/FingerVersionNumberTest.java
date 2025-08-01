@@ -11,7 +11,7 @@ public class FingerVersionNumberTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validVersionNumber_returnsCorrectValue() {
+    public void valueReturnsCorrectValue() {
         FingerVersionNumber versionNumber = new FingerVersionNumber(FingerVersionNumber.VERSION_020);
 
         int result = versionNumber.value();
@@ -23,7 +23,7 @@ public class FingerVersionNumberTest {
      * Tests fromValue method with valid value
      */
     @Test
-    public void fromValue_validValue_returnsValue() {
+    public void fromValueWithValidValueReturnsValue() {
         int result = FingerVersionNumber.fromValue(FingerVersionNumber.VERSION_020);
 
         assertEquals(FingerVersionNumber.VERSION_020, result);
@@ -33,7 +33,7 @@ public class FingerVersionNumberTest {
      * Tests fromValue method with invalid value
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValue_throwsIllegalArgumentException() {
+    public void fromValueInvalidValueThrowsException() {
         FingerVersionNumber.fromValue(0x12345678);
     }
 
@@ -41,7 +41,7 @@ public class FingerVersionNumberTest {
      * Tests toString method returns formatted string
      */
     @Test
-    public void toString_validVersionNumber_returnsFormattedString() {
+    public void toStringReturnsFormattedString() {
         FingerVersionNumber versionNumber = new FingerVersionNumber(FingerVersionNumber.VERSION_020);
 
         String result = versionNumber.toString();

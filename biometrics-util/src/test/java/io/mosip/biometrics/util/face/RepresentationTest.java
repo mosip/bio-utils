@@ -38,7 +38,7 @@ class RepresentationTest {
      * Verifies that the minimal constructor properly initializes all required fields.
      */
     @Test
-    void constructor_WithMinimalParameters_InitializesFields() {
+    void constructorWithMinimalParametersInitializesFields() {
         Representation rep = buildMinimal();
 
         assertNotNull(rep.getRepresentationHeader());
@@ -51,7 +51,7 @@ class RepresentationTest {
      * Verifies that object serialization and deserialization preserves all data.
      */
     @Test
-    void writeAndReadObject_WithValidData_PreservesAllFields() throws Exception {
+    void writeAndReadObjectWithValidDataPreservesAllFields() throws Exception {
         Representation original = buildMinimal();
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -74,7 +74,7 @@ class RepresentationTest {
      * Verifies that the constructor with source information initializes correctly.
      */
     @Test
-    void constructor_WithSourceInformation_InitializesCorrectly() {
+    void constructorWithSourceInformationInitializesCorrectly() {
         int[] zeros = {0,0,0};
         Representation rep = new Representation(new Date(), 0, 0, 0, new FaceQualityBlock[0],
                 new FacialInformation(0, zeros, zeros), null, new ImageInformation(1,1),

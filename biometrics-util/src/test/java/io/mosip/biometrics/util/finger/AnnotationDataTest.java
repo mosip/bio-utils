@@ -15,7 +15,7 @@ public class AnnotationDataTest {
      * Tests default constructor
      */
     @Test
-    public void constructor_default_createsAnnotationData() {
+    public void constructorDefaultCreatesAnnotationData() {
         AnnotationData annotationData = new AnnotationData();
 
         assertNotNull(annotationData);
@@ -27,7 +27,7 @@ public class AnnotationDataTest {
      * Tests constructor with parameters
      */
     @Test
-    public void constructor_withParameters_createsAnnotationData() {
+    public void constructorWithParametersCreatesAnnotationData() {
         int fingerPosition = FingerPosition.RIGHT_THUMB;
         int annotationCode = AnnotationCode.UNUSABLE_IMAGE;
 
@@ -42,7 +42,7 @@ public class AnnotationDataTest {
      * Tests constructor with DataInputStream
      */
     @Test
-    public void constructor_dataInputStream_createsAnnotationData() throws Exception {
+    public void constructorDataInputStreamCreatesAnnotationData() throws Exception {
         byte[] testData = {0x01, 0x02};
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
         DataInputStream inputStream = new DataInputStream(bais);
@@ -58,7 +58,7 @@ public class AnnotationDataTest {
      * Tests constructor with DataInputStream and onlyImageInformation flag
      */
     @Test
-    public void constructor_dataInputStreamWithImageInfoFlag_createsAnnotationData() throws Exception {
+    public void constructorDataInputStreamWithImageInfoFlagCreatesAnnotationData() throws Exception {
         byte[] testData = {0x03, 0x01};
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
         DataInputStream inputStream = new DataInputStream(bais);
@@ -72,7 +72,7 @@ public class AnnotationDataTest {
      * Tests getRecordLength method returns correct length
      */
     @Test
-    public void getRecordLength_validAnnotationData_returnsCorrectLength() {
+    public void getRecordLengthValidAnnotationDataReturnsCorrectLength() {
         AnnotationData annotationData = new AnnotationData(FingerPosition.LEFT_INDEX_FINGER, AnnotationCode.AMPUTATED_FINGER);
 
         long recordLength = annotationData.getRecordLength();
@@ -84,7 +84,7 @@ public class AnnotationDataTest {
      * Tests writeObject method writes data correctly
      */
     @Test
-    public void writeObject_validAnnotationData_writesDataSuccessfully() throws Exception {
+    public void writeObjectValidAnnotationDataWritesDataSuccessfully() throws Exception {
         AnnotationData annotationData = new AnnotationData(FingerPosition.RIGHT_MIDDLE_FINGER, AnnotationCode.UNUSABLE_IMAGE);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream outputStream = new DataOutputStream(baos);
@@ -102,7 +102,7 @@ public class AnnotationDataTest {
      * Tests setFingerPosition method sets value correctly
      */
     @Test
-    public void setFingerPosition_validPosition_setsValueCorrectly() {
+    public void setFingerPositionValidPositionSetsValueCorrectly() {
         AnnotationData annotationData = new AnnotationData();
         int newPosition = FingerPosition.LEFT_THUMB;
 
@@ -115,7 +115,7 @@ public class AnnotationDataTest {
      * Tests setAnnotationCode method sets value correctly
      */
     @Test
-    public void setAnnotationCode_validCode_setsValueCorrectly() {
+    public void setAnnotationCodeValidCodeSetsValueCorrectly() {
         AnnotationData annotationData = new AnnotationData();
         int newCode = AnnotationCode.UNUSABLE_IMAGE;
 
@@ -128,7 +128,7 @@ public class AnnotationDataTest {
      * Tests toString method returns non-null string
      */
     @Test
-    public void toString_validAnnotationData_returnsNonNullString() {
+    public void toStringValidAnnotationDataReturnsNonNullString() {
         AnnotationData annotationData = new AnnotationData(FingerPosition.RIGHT_RING_FINGER, AnnotationCode.AMPUTATED_FINGER);
 
         String result = annotationData.toString();

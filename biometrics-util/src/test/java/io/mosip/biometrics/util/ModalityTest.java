@@ -15,7 +15,7 @@ public class ModalityTest {
      * Tests that all enum values are correctly defined.
      */
     @Test
-    public void testEnumValues_AllValuesDefined() {
+    public void enumValuesAllValuesDefined() {
         assertEquals(4, Modality.values().length);
         assertEquals(Modality.UnSpecified, Modality.valueOf("UnSpecified"));
         assertEquals(Modality.Finger, Modality.valueOf("Finger"));
@@ -27,7 +27,7 @@ public class ModalityTest {
      * Tests that the value() method returns the correct integer value for each enum constant.
      */
     @Test
-    public void testValue_ReturnsCorrectValue() {
+    public void valueReturnsCorrectValue() {
         assertEquals(0x0000, Modality.UnSpecified.value());
         assertEquals(0x0001, Modality.Finger.value());
         assertEquals(0x0002, Modality.Face.value());
@@ -38,7 +38,7 @@ public class ModalityTest {
      * Tests that fromValue() returns the correct enum constant for valid input values.
      */
     @Test
-    public void testFromValue_WithValidValue_ReturnsCorrespondingModality() {
+    public void fromValueWithValidValueReturnsCorrespondingModality() {
         assertEquals(Modality.UnSpecified, Modality.fromValue(0x0000));
         assertEquals(Modality.Finger, Modality.fromValue(0x0001));
         assertEquals(Modality.Face, Modality.fromValue(0x0002));
@@ -49,11 +49,11 @@ public class ModalityTest {
      * Tests that fromValue() throws IllegalArgumentException for invalid input values.
      */
     @Test
-    public void testFromValue_WithInvalidValue_ThrowsIllegalArgumentException() {
+    public void fromValueWithInvalidValueThrowsException() {
         int invalidValue = 999;
         IllegalArgumentException exception = assertThrows(
-            IllegalArgumentException.class,
-            () -> Modality.fromValue(invalidValue)
+                IllegalArgumentException.class,
+                () -> Modality.fromValue(invalidValue)
         );
         assertEquals(String.valueOf(invalidValue), exception.getMessage());
     }
@@ -62,7 +62,7 @@ public class ModalityTest {
      * Tests that toString() returns the expected string representation for each enum constant.
      */
     @Test
-    public void testToString_ReturnsExpectedFormat() {
+    public void toStringReturnsExpectedFormat() {
         assertEquals("UnSpecified(0)", Modality.UnSpecified.toString());
         assertEquals("Finger(1)", Modality.Finger.toString());
         assertEquals("Face(2)", Modality.Face.toString());
@@ -73,7 +73,7 @@ public class ModalityTest {
      * Tests that the enum constants are not null.
      */
     @Test
-    public void testEnumConstants_NotNull() {
+    public void enumConstantsNotNull() {
         assertNotNull(Modality.UnSpecified);
         assertNotNull(Modality.Finger);
         assertNotNull(Modality.Face);

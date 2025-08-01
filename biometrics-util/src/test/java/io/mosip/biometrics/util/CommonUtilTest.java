@@ -17,7 +17,7 @@ class CommonUtilTest {
      * Test getBufferedImage() with valid JP2000 (treated as JPEG) input.
      */
     @Test
-    void getBufferedImage_validJp2000Image_returnsBufferedImage() throws Exception {
+    void getBufferedImageValidJp2000ReturnsBufferedImage() throws Exception {
         BufferedImage dummy = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(dummy, "jpg", baos);
@@ -34,7 +34,7 @@ class CommonUtilTest {
      * Test getBufferedImage() with WSQ type throws exception.
      */
     @Test
-    void getBufferedImage_wsqImage_throwsException() {
+    void getBufferedImageWsqThrowsException() {
         ConvertRequestDto dto = new ConvertRequestDto();
         dto.setImageType(1);
         dto.setInputBytes(new byte[]{0x00, 0x01, 0x02});
@@ -45,7 +45,7 @@ class CommonUtilTest {
      * Test getBufferedImage() with unsupported image type throws exception.
      */
     @Test
-    void getBufferedImage_unsupportedType_throwsException() {
+    void getBufferedImageUnsupportedTypeThrowsException() {
         ConvertRequestDto dto = new ConvertRequestDto();
         dto.setImageType(99);
         Exception ex = assertThrows(Exception.class, () -> CommonUtil.getBufferedImage(dto));
@@ -56,7 +56,7 @@ class CommonUtilTest {
      * Test isNullEmpty() for byte array with various scenarios.
      */
     @Test
-    void isNullEmpty_byteArray_nullOrEmpty_returnsTrue() {
+    void isNullEmptyByteArrayNullOrEmptyReturnsTrue() {
         assertTrue(CommonUtil.isNullEmpty((byte[]) null));
         assertTrue(CommonUtil.isNullEmpty(new byte[]{}));
         assertFalse(CommonUtil.isNullEmpty(new byte[]{1}));
@@ -66,7 +66,7 @@ class CommonUtilTest {
      * Test isNullEmpty() for String with various scenarios.
      */
     @Test
-    void isNullEmpty_string_nullOrBlank_returnsTrue() {
+    void isNullEmptyStringNullOrBlankReturnsTrue() {
         assertTrue(CommonUtil.isNullEmpty((String) null));
         assertTrue(CommonUtil.isNullEmpty("   "));
         assertFalse(CommonUtil.isNullEmpty("data"));
@@ -76,7 +76,7 @@ class CommonUtilTest {
      * Test concatByteArrays() concatenates arrays in correct order.
      */
     @Test
-    void concatByteArrays_multipleArrays_returnsConcatenatedArray() {
+    void concatByteArraysMultipleArraysReturnsConcatenatedArray() {
         byte[] a = {1};
         byte[] b = {2};
         byte[] c = {3};
@@ -90,7 +90,7 @@ class CommonUtilTest {
      * Test getLastBytes() with valid length returns correct bytes.
      */
     @Test
-    void getLastBytes_validLength_returnsLastBytes() {
+    void getLastBytesValidLengthReturnsLastBytes() {
         byte[] src = {1, 2, 3, 4, 5};
         byte[] result = CommonUtil.getLastBytes(src, 3);
         assertArrayEquals(new byte[]{3, 4, 5}, result);
@@ -100,7 +100,7 @@ class CommonUtilTest {
      * Test getLastBytes() with invalid length throws exception.
      */
     @Test
-    void getLastBytes_invalidLength_throwsException() {
+    void getLastBytesInvalidLengthThrowsException() {
         byte[] src = {1};
         assertThrows(Exception.class, () -> CommonUtil.getLastBytes(src, 3));
     }
@@ -109,7 +109,7 @@ class CommonUtilTest {
      * Test conversion of BufferedImage to JPEG and PNG bytes.
      */
     @Test
-    void convertBufferedImage_validImage_returnsNonEmptyJpegAndPngBytes() {
+    void convertBufferedImageValidImageReturnsNonEmptyBytes() {
         BufferedImage dummy = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
         byte[] jpeg = CommonUtil.convertBufferedImageToJPEGBytes(dummy);
         byte[] png = CommonUtil.convertBufferedImageToPNGBytes(dummy);

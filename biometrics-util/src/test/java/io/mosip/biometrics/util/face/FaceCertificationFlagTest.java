@@ -11,7 +11,7 @@ public class FaceCertificationFlagTest {
      * Tests constructor with valid value
      */
     @Test
-    public void constructor_validValue_createsFaceCertificationFlag() {
+    public void constructorWithValidValue() {
         FaceCertificationFlag flag = new FaceCertificationFlag(FaceCertificationFlag.UNSPECIFIED);
 
         assertEquals(FaceCertificationFlag.UNSPECIFIED, flag.value());
@@ -21,7 +21,7 @@ public class FaceCertificationFlagTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validFlag_returnsCorrectValue() {
+    public void valueReturnsCorrectValue() {
         FaceCertificationFlag flag = new FaceCertificationFlag(0x00);
 
         int result = flag.value();
@@ -33,7 +33,7 @@ public class FaceCertificationFlagTest {
      * Tests fromValue method with valid value
      */
     @Test
-    public void fromValue_validValue_returnsValue() {
+    public void fromValueWithValidValue() {
         int result = FaceCertificationFlag.fromValue(FaceCertificationFlag.UNSPECIFIED);
 
         assertEquals(FaceCertificationFlag.UNSPECIFIED, result);
@@ -43,7 +43,7 @@ public class FaceCertificationFlagTest {
      * Tests fromValue method with invalid value
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValue_throwsIllegalArgumentException() {
+    public void fromValueWithInvalidValue() {
         FaceCertificationFlag.fromValue(0x01);
     }
 
@@ -51,7 +51,7 @@ public class FaceCertificationFlagTest {
      * Tests toString method returns formatted string
      */
     @Test
-    public void toString_validFlag_returnsFormattedString() {
+    public void toStringReturnsFormattedString() {
         FaceCertificationFlag flag = new FaceCertificationFlag(FaceCertificationFlag.UNSPECIFIED);
 
         String result = flag.toString();

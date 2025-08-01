@@ -11,7 +11,7 @@ public class IrisFormatIdentifierTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validFormatIdentifier_returnsCorrectValue() {
+    public void valueReturnsCorrectValue() {
         IrisFormatIdentifier formatIdentifier = new IrisFormatIdentifier(IrisFormatIdentifier.FORMAT_IIR);
 
         int result = formatIdentifier.value();
@@ -23,7 +23,7 @@ public class IrisFormatIdentifierTest {
      * Tests fromValue method with valid value
      */
     @Test
-    public void fromValue_validValue_returnsValue() {
+    public void fromValueWithValidValueReturnsValue() {
         int result = IrisFormatIdentifier.fromValue(IrisFormatIdentifier.FORMAT_IIR);
 
         assertEquals(IrisFormatIdentifier.FORMAT_IIR, result);
@@ -33,7 +33,7 @@ public class IrisFormatIdentifierTest {
      * Tests fromValue method with invalid value
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValue_throwsIllegalArgumentException() {
+    public void fromValueInvalidValueThrowsException() {
         IrisFormatIdentifier.fromValue(0x12345678);
     }
 
@@ -41,7 +41,7 @@ public class IrisFormatIdentifierTest {
      * Tests toString method returns formatted string
      */
     @Test
-    public void toString_validFormatIdentifier_returnsFormattedString() {
+    public void toStringReturnsFormattedString() {
         IrisFormatIdentifier formatIdentifier = new IrisFormatIdentifier(IrisFormatIdentifier.FORMAT_IIR);
 
         String result = formatIdentifier.toString();

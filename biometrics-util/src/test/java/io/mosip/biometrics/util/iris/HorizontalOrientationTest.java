@@ -11,7 +11,7 @@ public class HorizontalOrientationTest {
      * Tests constructor with valid value
      */
     @Test
-    public void constructor_validValue_createsHorizontalOrientation() {
+    public void constructorCreatesOrientationCorrectly() {
         HorizontalOrientation orientation = new HorizontalOrientation(HorizontalOrientation.ORIENTATION_BASE);
 
         assertEquals(HorizontalOrientation.ORIENTATION_BASE, orientation.value());
@@ -21,7 +21,7 @@ public class HorizontalOrientationTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validOrientation_returnsCorrectValue() {
+    public void valueReturnsCorrectValue() {
         HorizontalOrientation orientation = new HorizontalOrientation(HorizontalOrientation.ORIENTATION_FLIPPED);
 
         int result = orientation.value();
@@ -33,7 +33,7 @@ public class HorizontalOrientationTest {
      * Tests fromValue method with valid minimum value
      */
     @Test
-    public void fromValue_validMinimumValue_returnsValue() {
+    public void fromValueWithMinimumReturnsValue() {
         int result = HorizontalOrientation.fromValue(HorizontalOrientation.ORIENTATION_UNDEFINIED);
 
         assertEquals(HorizontalOrientation.ORIENTATION_UNDEFINIED, result);
@@ -43,7 +43,7 @@ public class HorizontalOrientationTest {
      * Tests fromValue method with valid maximum value
      */
     @Test
-    public void fromValue_validMaximumValue_returnsValue() {
+    public void fromValueWithMaximumReturnsValue() {
         int result = HorizontalOrientation.fromValue(HorizontalOrientation.ORIENTATION_FLIPPED);
 
         assertEquals(HorizontalOrientation.ORIENTATION_FLIPPED, result);
@@ -53,7 +53,7 @@ public class HorizontalOrientationTest {
      * Tests fromValue method with invalid value below range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueBelowRange_throwsIllegalArgumentException() {
+    public void fromValueBelowRangeThrowsException() {
         HorizontalOrientation.fromValue(-1);
     }
 
@@ -61,7 +61,7 @@ public class HorizontalOrientationTest {
      * Tests fromValue method with invalid value above range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueAboveRange_throwsIllegalArgumentException() {
+    public void fromValueAboveRangeThrowsException() {
         HorizontalOrientation.fromValue(0x03);
     }
 
@@ -69,7 +69,7 @@ public class HorizontalOrientationTest {
      * Tests toString method returns formatted string
      */
     @Test
-    public void toString_validOrientation_returnsFormattedString() {
+    public void toStringReturnsFormattedString() {
         HorizontalOrientation orientation = new HorizontalOrientation(HorizontalOrientation.ORIENTATION_BASE);
 
         String result = orientation.toString();

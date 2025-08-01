@@ -17,7 +17,7 @@ class SpatialSamplingRateLevelTest {
      * valid sampling rate level (0x00 through 0x07).
      */
     @Test
-    void fromValue_WithValidRangeValues_ReturnsSameValue() {
+    void fromValueWithValidRangeValuesReturnsSameValue() {
         for (int i = SpatialSamplingRateLevel.SPATIAL_SAMPLING_RATE_LEVEL_180;
              i <= SpatialSamplingRateLevel.SPATIAL_SAMPLING_RATE_LEVEL_750; i++) {
             int val = SpatialSamplingRateLevel.fromValue(i);
@@ -34,7 +34,7 @@ class SpatialSamplingRateLevelTest {
      * outside the valid range (below 0x00 or above 0x07).
      */
     @Test
-    void fromValue_WithInvalidValues_ThrowsIllegalArgumentException() {
+    void fromValueWithInvalidValuesThrowsIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class, () -> SpatialSamplingRateLevel.fromValue(-1));
         assertThrows(IllegalArgumentException.class, () -> SpatialSamplingRateLevel.fromValue(0x09));
     }

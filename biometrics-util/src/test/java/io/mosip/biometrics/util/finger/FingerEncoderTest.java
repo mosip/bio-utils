@@ -14,9 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
-
 import static org.mockito.Mockito.doAnswer;
-
 
 /**
  * Unit tests for {@link FingerEncoder}.
@@ -35,7 +33,7 @@ class FingerEncoderTest {
      * when provided with invalid byte array input.
      */
     @Test
-    void convertFingerImageToISO_invalidBytes_throwsException() {
+    void convertFingerImageToIsoInvalidBytesThrowsException() {
         when(dto.getVersion()).thenReturn("ISO19794_4_2011");
         when(dto.getPurpose()).thenReturn("Registration");
         when(dto.getModality()).thenReturn("Finger");
@@ -51,7 +49,7 @@ class FingerEncoderTest {
      * for unsupported version.
      */
     @Test
-    void convertFingerImageToISO_unsupportedVersion_throwsException() {
+    void convertFingerImageToIsoUnsupportedVersionThrowsException() {
         when(dto.getVersion()).thenReturn("UNSUPPORTED_VERSION");
 
         assertThrows(UnsupportedOperationException.class, () -> FingerEncoder.convertFingerImageToISO(dto));
@@ -61,7 +59,7 @@ class FingerEncoderTest {
      * Tests that returns the expected constant for a known value.
      */
     @Test
-    void getFingerPosition_knownType_returnsCorrectConstant() throws Exception {
+    void getFingerPositionKnownTypeReturnsCorrectConstant() throws Exception {
         Method method = FingerEncoder.class.getDeclaredMethod("getFingerPosition", String.class);
         method.setAccessible(true);
         int pos = (int) method.invoke(null, "Left IndexFinger");
@@ -72,7 +70,7 @@ class FingerEncoderTest {
      * Tests that returns UNKNOWN for a null input.
      */
     @Test
-    void getFingerPosition_nullInput_returnsUnknown() throws Exception {
+    void getFingerPositionNullInputReturnsUnknown() throws Exception {
         Method method = FingerEncoder.class.getDeclaredMethod("getFingerPosition", String.class);
         method.setAccessible(true);
         int pos = (int) method.invoke(null, (String) null);
@@ -83,7 +81,7 @@ class FingerEncoderTest {
      * Tests that returns UNKNOWN for an invalid string.
      */
     @Test
-    void getFingerPosition_invalidType_returnsUnknown() throws Exception {
+    void getFingerPositionInvalidTypeReturnsUnknown() throws Exception {
         Method method = FingerEncoder.class.getDeclaredMethod("getFingerPosition", String.class);
         method.setAccessible(true);
         int pos = (int) method.invoke(null, "SomeInvalidFinger");
@@ -94,7 +92,7 @@ class FingerEncoderTest {
      * Tests handling of AUTH purpose with JPEG2000 lossy compression.
      */
     @Test
-    void convertFingerImageToISO_authWithJP2Lossy_throwsException() {
+    void convertFingerImageToIsoAuthWithJp2LossyThrowsException() {
         when(dto.getVersion()).thenReturn("ISO19794_4_2011");
         when(dto.getPurpose()).thenReturn("AUTH");
         when(dto.getImageType()).thenReturn(0);
@@ -109,7 +107,7 @@ class FingerEncoderTest {
      * Tests AUTH purpose with WSQ compression.
      */
     @Test
-    void convertFingerImageToISO_authWithWSQ_throwsException() {
+    void convertFingerImageToIsoAuthWithWsqThrowsException() {
         when(dto.getVersion()).thenReturn("ISO19794_4_2011");
         when(dto.getPurpose()).thenReturn("AUTH");
         when(dto.getImageType()).thenReturn(1); // non-zero means WSQ
@@ -124,7 +122,7 @@ class FingerEncoderTest {
      * Tests registration purpose with JPEG2000 lossless compression.
      */
     @Test
-    void convertFingerImageToISO_registrationWithJP2Lossless_throwsException() {
+    void convertFingerImageToIsoRegistrationWithJp2LosslessThrowsException() {
         when(dto.getVersion()).thenReturn("ISO19794_4_2011");
         when(dto.getPurpose()).thenReturn("Registration");
         when(dto.getImageType()).thenReturn(0);
@@ -139,7 +137,7 @@ class FingerEncoderTest {
      * Tests that writeObject returns the correct byte array for a mocked FingerBDIR.
      */
     @Test
-    void writeObject_validBDIR_returnsByteArray() throws Exception {
+    void writeObjectValidBdirReturnsByteArray() throws Exception {
         FingerBDIR bdir = mock(FingerBDIR.class);
         doAnswer(invocation -> {
             DataOutputStream out = invocation.getArgument(0);
@@ -160,7 +158,7 @@ class FingerEncoderTest {
      * Tests that lineLengthHorizontal and lineLengthVertical are calculated from BufferedImage dimensions.
      */
     @Test
-    void calculateLineLengths_fromBufferedImage_returnsCorrectValues() {
+    void calculateLineLengthsFromBufferedImageReturnsCorrectValues() {
         int width = 120;
         int height = 80;
         java.awt.image.BufferedImage bufferedImage = new java.awt.image.BufferedImage(width, height, java.awt.image.BufferedImage.TYPE_INT_RGB);
@@ -174,7 +172,7 @@ class FingerEncoderTest {
      * Tests that getFingerPosition returns RIGHT_INDEX_FINGER for 'Right IndexFinger'.
      */
     @Test
-    void getFingerPosition_rightIndexFinger_returnsRightIndexFinger() throws Exception {
+    void getFingerPositionRightIndexFingerReturnsRightIndexFinger() throws Exception {
         Method method = FingerEncoder.class.getDeclaredMethod("getFingerPosition", String.class);
         method.setAccessible(true);
         int pos = (int) method.invoke(null, "Right IndexFinger");
@@ -185,7 +183,7 @@ class FingerEncoderTest {
      * Tests that getFingerPosition returns RIGHT_MIDDLE_FINGER for 'Right MiddleFinger'.
      */
     @Test
-    void getFingerPosition_rightMiddleFinger_returnsRightMiddleFinger() throws Exception {
+    void getFingerPositionRightMiddleFingerReturnsRightMiddleFinger() throws Exception {
         Method method = FingerEncoder.class.getDeclaredMethod("getFingerPosition", String.class);
         method.setAccessible(true);
         int pos = (int) method.invoke(null, "Right MiddleFinger");
@@ -196,7 +194,7 @@ class FingerEncoderTest {
      * Tests that getFingerPosition returns RIGHT_RING_FINGER for 'Right RingFinger'.
      */
     @Test
-    void getFingerPosition_rightRingFinger_returnsRightRingFinger() throws Exception {
+    void getFingerPositionRightRingFingerReturnsRightRingFinger() throws Exception {
         Method method = FingerEncoder.class.getDeclaredMethod("getFingerPosition", String.class);
         method.setAccessible(true);
         int pos = (int) method.invoke(null, "Right RingFinger");
@@ -207,7 +205,7 @@ class FingerEncoderTest {
      * Tests that getFingerPosition returns RIGHT_LITTLE_FINGER for 'Right LittleFinger'.
      */
     @Test
-    void getFingerPosition_rightLittleFinger_returnsRightLittleFinger() throws Exception {
+    void getFingerPositionRightLittleFingerReturnsRightLittleFinger() throws Exception {
         Method method = FingerEncoder.class.getDeclaredMethod("getFingerPosition", String.class);
         method.setAccessible(true);
         int pos = (int) method.invoke(null, "Right LittleFinger");
@@ -218,7 +216,7 @@ class FingerEncoderTest {
      * Tests that getFingerPosition returns LEFT_THUMB for 'Left Thumb'.
      */
     @Test
-    void getFingerPosition_leftThumb_returnsLeftThumb() throws Exception {
+    void getFingerPositionLeftThumbReturnsLeftThumb() throws Exception {
         Method method = FingerEncoder.class.getDeclaredMethod("getFingerPosition", String.class);
         method.setAccessible(true);
         int pos = (int) method.invoke(null, "Left Thumb");
@@ -230,7 +228,7 @@ class FingerEncoderTest {
      * flushes the stream, and returns the correct byte array.
      */
     @Test
-    void convertFingerImageToISO19794_4_2011_validBDIR_returnsByteArray() throws Exception {
+    void convertFingerImageToIso19794ValidBdirReturnsByteArray() throws Exception {
         byte[] expectedBytes = new byte[]{1, 2, 3, 4};
         FingerBDIR bdir = mock(FingerBDIR.class);
         doAnswer(invocation -> {

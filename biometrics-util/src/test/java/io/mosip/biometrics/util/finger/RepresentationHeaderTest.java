@@ -16,7 +16,7 @@ public class RepresentationHeaderTest {
      * Tests constructor with basic parameters
      */
     @Test
-    public void constructor_basicParameters_createsRepresentationHeader() {
+    public void constructorWithBasicParametersCreatesHeader() {
         long representationDataLength = 1000L;
         Date captureDate = new Date();
         FingerQualityBlock[] qualityBlocks = {new FingerQualityBlock(80)};
@@ -26,8 +26,8 @@ public class RepresentationHeaderTest {
         int representationNo = 1;
         int scaleUnitType = FingerScaleUnitType.PIXELS_PER_INCH;
 
-        RepresentationHeader header = new RepresentationHeader(representationDataLength, captureDate, 
-            qualityBlocks, certificationFlag, certificationBlocks, fingerPosition, representationNo, scaleUnitType);
+        RepresentationHeader header = new RepresentationHeader(representationDataLength, captureDate,
+                qualityBlocks, certificationFlag, certificationBlocks, fingerPosition, representationNo, scaleUnitType);
 
         assertNotNull(header);
         assertEquals(representationDataLength, header.getRepresentationDataLength());
@@ -40,7 +40,7 @@ public class RepresentationHeaderTest {
      * Tests constructor with all parameters
      */
     @Test
-    public void constructor_allParameters_createsRepresentationHeader() {
+    public void constructorWithAllParametersCreatesHeader() {
         long representationDataLength = 2000L;
         Date captureDate = new Date();
         int captureDeviceTechnologyIdentifier = FingerCaptureDeviceTechnology.WHITE_LIGHT_OPTICAL_TIR;
@@ -63,11 +63,11 @@ public class RepresentationHeaderTest {
         int lineLengthVertical = 480;
 
         RepresentationHeader header = new RepresentationHeader(representationDataLength, captureDate,
-            captureDeviceTechnologyIdentifier, captureDeviceVendorIdentifier, captureDeviceTypeIdentifier,
-            qualityBlocks, certificationFlag, certificationBlocks, fingerPosition, representationNo,
-            scaleUnitType, captureDeviceSpatialSamplingRateHorizontal, captureDeviceSpatialSamplingRateVertical,
-            imageSpatialSamplingRateHorizontal, imageSpatialSamplingRateVertical, bitDepth, compressionType,
-            impressionType, lineLengthHorizontal, lineLengthVertical);
+                captureDeviceTechnologyIdentifier, captureDeviceVendorIdentifier, captureDeviceTypeIdentifier,
+                qualityBlocks, certificationFlag, certificationBlocks, fingerPosition, representationNo,
+                scaleUnitType, captureDeviceSpatialSamplingRateHorizontal, captureDeviceSpatialSamplingRateVertical,
+                imageSpatialSamplingRateHorizontal, imageSpatialSamplingRateVertical, bitDepth, compressionType,
+                impressionType, lineLengthHorizontal, lineLengthVertical);
 
         assertNotNull(header);
         assertEquals(representationDataLength, header.getRepresentationDataLength());
@@ -86,7 +86,7 @@ public class RepresentationHeaderTest {
      * Tests constructor with DataInputStream and onlyImageInformation flag
      */
     @Test
-    public void constructor_dataInputStreamWithImageInfoFlag_createsRepresentationHeader() throws Exception {
+    public void constructorDataInputStreamWithImageInfoFlagCreatesHeader() throws Exception {
         byte[] testData = createTestData();
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
         DataInputStream inputStream = new DataInputStream(bais);
@@ -101,14 +101,14 @@ public class RepresentationHeaderTest {
      * Tests getRecordLength method returns correct length
      */
     @Test
-    public void getRecordLength_validHeader_returnsCorrectLength() {
+    public void getRecordLengthReturnsCorrectLength() {
         Date captureDate = new Date();
         FingerQualityBlock[] qualityBlocks = {new FingerQualityBlock(75)};
         FingerCertificationBlock[] certificationBlocks = {};
 
         RepresentationHeader header = new RepresentationHeader(1000L, captureDate, qualityBlocks,
-            FingerCertificationFlag.UNSPECIFIED, certificationBlocks, FingerPosition.RIGHT_THUMB, 1,
-            FingerScaleUnitType.PIXELS_PER_INCH);
+                FingerCertificationFlag.UNSPECIFIED, certificationBlocks, FingerPosition.RIGHT_THUMB, 1,
+                FingerScaleUnitType.PIXELS_PER_INCH);
 
         long recordLength = header.getRecordLength();
 
@@ -119,14 +119,14 @@ public class RepresentationHeaderTest {
      * Tests writeObject method writes data correctly
      */
     @Test
-    public void writeObject_validHeader_writesDataSuccessfully() throws Exception {
+    public void writeObjectWritesDataSuccessfully() throws Exception {
         Date captureDate = new Date();
         FingerQualityBlock[] qualityBlocks = {new FingerQualityBlock(85)};
         FingerCertificationBlock[] certificationBlocks = {};
 
         RepresentationHeader header = new RepresentationHeader(1500L, captureDate, qualityBlocks,
-            FingerCertificationFlag.UNSPECIFIED, certificationBlocks, FingerPosition.LEFT_THUMB, 1,
-            FingerScaleUnitType.PIXELS_PER_CM);
+                FingerCertificationFlag.UNSPECIFIED, certificationBlocks, FingerPosition.LEFT_THUMB, 1,
+                FingerScaleUnitType.PIXELS_PER_CM);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream outputStream = new DataOutputStream(baos);
@@ -142,14 +142,14 @@ public class RepresentationHeaderTest {
      * Tests setter and getter methods
      */
     @Test
-    public void settersAndGetters_validValues_workCorrectly() {
+    public void settersAndGettersWorkCorrectly() {
         Date captureDate = new Date();
         FingerQualityBlock[] qualityBlocks = {new FingerQualityBlock(70)};
         FingerCertificationBlock[] certificationBlocks = {};
 
         RepresentationHeader header = new RepresentationHeader(800L, captureDate, qualityBlocks,
-            FingerCertificationFlag.UNSPECIFIED, certificationBlocks, FingerPosition.RIGHT_INDEX_FINGER, 1,
-            FingerScaleUnitType.PIXELS_PER_INCH);
+                FingerCertificationFlag.UNSPECIFIED, certificationBlocks, FingerPosition.RIGHT_INDEX_FINGER, 1,
+                FingerScaleUnitType.PIXELS_PER_INCH);
 
         header.setFingerPosition(FingerPosition.LEFT_MIDDLE_FINGER);
         header.setBitDepth(FingerImageBitDepth.BPP_0A);
@@ -170,14 +170,14 @@ public class RepresentationHeaderTest {
      * Tests toString method returns non-null string
      */
     @Test
-    public void toString_validHeader_returnsNonNullString() {
+    public void toStringReturnsNonNullString() {
         Date captureDate = new Date();
         FingerQualityBlock[] qualityBlocks = {new FingerQualityBlock(65)};
         FingerCertificationBlock[] certificationBlocks = {};
 
         RepresentationHeader header = new RepresentationHeader(1200L, captureDate, qualityBlocks,
-            FingerCertificationFlag.UNSPECIFIED, certificationBlocks, FingerPosition.RIGHT_RING_FINGER, 1,
-            FingerScaleUnitType.PIXELS_PER_INCH);
+                FingerCertificationFlag.UNSPECIFIED, certificationBlocks, FingerPosition.RIGHT_RING_FINGER, 1,
+                FingerScaleUnitType.PIXELS_PER_INCH);
 
         String result = header.toString();
 
@@ -187,12 +187,12 @@ public class RepresentationHeaderTest {
 
     private byte[] createTestData() {
         return new byte[]{
-            0x00, 0x00, 0x03, (byte) 0xE8, // representationDataLength
-            0x07, (byte) 0xE8, 0x0C, 0x1F, 0x0A, 0x1E, 0x2D, 0x00, 0x64, // date/time
-            0x01, 0x00, 0x01, 0x00, 0x02, // device info
-            0x01, 0x50, 0x00, 0x01, 0x00, 0x02, // quality block
-            0x01, 0x01, 0x01, 0x01, 0x01, (byte) 0xF4, (byte) 0xF4, (byte) 0xF4, (byte) 0xF4, // finger info
-            0x08, 0x05, 0x1D, 0x02, (byte) 0x80, 0x01, (byte) 0xE0 // image info
+                0x00, 0x00, 0x03, (byte) 0xE8, // representationDataLength
+                0x07, (byte) 0xE8, 0x0C, 0x1F, 0x0A, 0x1E, 0x2D, 0x00, 0x64, // date/time
+                0x01, 0x00, 0x01, 0x00, 0x02, // device info
+                0x01, 0x50, 0x00, 0x01, 0x00, 0x02, // quality block
+                0x01, 0x01, 0x01, 0x01, 0x01, (byte) 0xF4, (byte) 0xF4, (byte) 0xF4, (byte) 0xF4, // finger info
+                0x08, 0x05, 0x1D, 0x02, (byte) 0x80, 0x01, (byte) 0xE0 // image info
         };
     }
 }

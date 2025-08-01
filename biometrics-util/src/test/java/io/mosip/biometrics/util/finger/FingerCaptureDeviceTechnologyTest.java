@@ -11,7 +11,7 @@ public class FingerCaptureDeviceTechnologyTest {
      * Tests constructor with valid value
      */
     @Test
-    public void constructor_validValue_createsFingerCaptureDeviceTechnology() {
+    public void constructorCreatesTechnologyCorrectly() {
         FingerCaptureDeviceTechnology technology = new FingerCaptureDeviceTechnology(FingerCaptureDeviceTechnology.WHITE_LIGHT_OPTICAL_TIR);
 
         assertEquals(FingerCaptureDeviceTechnology.WHITE_LIGHT_OPTICAL_TIR, technology.value());
@@ -21,7 +21,7 @@ public class FingerCaptureDeviceTechnologyTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validTechnology_returnsCorrectValue() {
+    public void valueReturnsCorrectValue() {
         FingerCaptureDeviceTechnology technology = new FingerCaptureDeviceTechnology(FingerCaptureDeviceTechnology.SEMICONDUCTOR_CAPACITIVE);
 
         int result = technology.value();
@@ -33,7 +33,7 @@ public class FingerCaptureDeviceTechnologyTest {
      * Tests fromValue method with valid minimum value
      */
     @Test
-    public void fromValue_validMinimumValue_returnsValue() {
+    public void fromValueWithMinimumReturnsValue() {
         int result = FingerCaptureDeviceTechnology.fromValue(FingerCaptureDeviceTechnology.UNSPECIFIED);
 
         assertEquals(FingerCaptureDeviceTechnology.UNSPECIFIED, result);
@@ -43,7 +43,7 @@ public class FingerCaptureDeviceTechnologyTest {
      * Tests fromValue method with valid maximum value
      */
     @Test
-    public void fromValue_validMaximumValue_returnsValue() {
+    public void fromValueWithMaximumReturnsValue() {
         int result = FingerCaptureDeviceTechnology.fromValue(FingerCaptureDeviceTechnology.GLASS_FIBER);
 
         assertEquals(FingerCaptureDeviceTechnology.GLASS_FIBER, result);
@@ -53,7 +53,7 @@ public class FingerCaptureDeviceTechnologyTest {
      * Tests fromValue method with invalid value below range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueBelowRange_throwsIllegalArgumentException() {
+    public void fromValueBelowRangeThrowsException() {
         FingerCaptureDeviceTechnology.fromValue(-1);
     }
 
@@ -61,7 +61,7 @@ public class FingerCaptureDeviceTechnologyTest {
      * Tests fromValue method with invalid value above range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueAboveRange_throwsIllegalArgumentException() {
+    public void fromValueAboveRangeThrowsException() {
         FingerCaptureDeviceTechnology.fromValue(0x15);
     }
 
@@ -69,7 +69,7 @@ public class FingerCaptureDeviceTechnologyTest {
      * Tests toString method returns formatted string
      */
     @Test
-    public void toString_validTechnology_returnsFormattedString() {
+    public void toStringReturnsFormattedString() {
         FingerCaptureDeviceTechnology technology = new FingerCaptureDeviceTechnology(FingerCaptureDeviceTechnology.ULTRASOUND);
 
         String result = technology.toString();

@@ -28,7 +28,7 @@ class RepresentationBodyTest {
      * </p>
      */
     @Test
-    void constructor_withAllArgs_success() {
+    void constructorWithAllArgsSuccess() {
         ImageData imageData = new ImageData(new byte[]{1, 2, 3});
         SegmentationBlock segmentationBlock = null;
         AnnotationBlock annotationBlock = null;
@@ -53,7 +53,7 @@ class RepresentationBodyTest {
      * @throws IOException if any I/O error occurs during test
      */
     @Test
-    void constructor_fromInputStream_success() throws IOException {
+    void constructorFromInputStreamSuccess() throws IOException {
         byte[] imageBytes = new byte[]{1, 2, 3};
         byte[] data = new byte[4 + imageBytes.length];
         int len = imageBytes.length;
@@ -83,7 +83,7 @@ class RepresentationBodyTest {
      * @throws IOException if any I/O error occurs during test
      */
     @Test
-    void constructor_fromInputStreamWithFlag_success() throws IOException {
+    void constructorFromInputStreamWithFlagSuccess() throws IOException {
         byte[] imageBytes = new byte[]{1, 2, 3};
         byte[] data = new byte[4 + imageBytes.length];
         int len = imageBytes.length;
@@ -104,7 +104,7 @@ class RepresentationBodyTest {
     }
 
     @Test
-    void readObject_withSegmentationAnnotationAndCommentBlocks() throws IOException {
+    void readObjectWithSegmentationAnnotationCommentBlocks() throws IOException {
         // Prepare a DataInputStream with image data and type codes for segmentation, annotation, and comment blocks
         byte[] imageBytes = new byte[]{1, 2, 3};
         byte[] data = new byte[4 + imageBytes.length + 2 * 3]; // 4 for length, 3 for type codes
@@ -132,7 +132,7 @@ class RepresentationBodyTest {
     }
 
     @Test
-    void readObject_withException() throws IOException {
+    void readObjectWithExceptionCoverage() throws IOException {
         // Simulate an exception in readObject
         DataInputStream dis = new DataInputStream(new ByteArrayInputStream(new byte[0]));
         RepresentationBody body = new RepresentationBody(new ImageData(new byte[]{1}), null, null, null);
@@ -146,7 +146,7 @@ class RepresentationBodyTest {
     }
 
     @Test
-    void readObject_withOnlyImageInformation() throws IOException {
+    void readObjectWithOnlyImageInformation() throws IOException {
         byte[] imageBytes = new byte[]{1, 2, 3};
         byte[] data = new byte[4 + imageBytes.length];
         int len = imageBytes.length;
@@ -161,7 +161,7 @@ class RepresentationBodyTest {
     }
 
     @Test
-    void getRecordLength_withAllBlocks() {
+    void getRecordLengthWithAllBlocks() {
         ImageData imageData = new ImageData(new byte[]{1, 2, 3});
         SegmentationBlock segmentationBlock = org.mockito.Mockito.mock(SegmentationBlock.class);
         org.mockito.Mockito.when(segmentationBlock.getRecordLength()).thenReturn(5L);
@@ -176,7 +176,7 @@ class RepresentationBodyTest {
     }
 
     @Test
-    void writeObject_withAllBlocks() throws IOException {
+    void writeObjectWithAllBlocks() throws IOException {
         ImageData imageData = new ImageData(new byte[]{1, 2, 3});
         SegmentationBlock segmentationBlock = org.mockito.Mockito.mock(SegmentationBlock.class);
         AnnotationBlock annotationBlock = org.mockito.Mockito.mock(AnnotationBlock.class);
@@ -192,7 +192,7 @@ class RepresentationBodyTest {
     }
 
     @Test
-    void settersAndGetters() {
+    void settersAndGettersWork() {
         RepresentationBody body = new RepresentationBody(new ImageData(new byte[]{1}), null, null, null);
         ImageData imageData = new ImageData(new byte[]{2});
         body.setImageData(imageData);
@@ -209,7 +209,7 @@ class RepresentationBodyTest {
     }
 
     @Test
-    void toString_includesAllFields() {
+    void toStringIncludesAllFields() {
         ImageData imageData = new ImageData(new byte[]{1, 2, 3});
         SegmentationBlock segmentationBlock = org.mockito.Mockito.mock(SegmentationBlock.class);
         AnnotationBlock annotationBlock = org.mockito.Mockito.mock(AnnotationBlock.class);

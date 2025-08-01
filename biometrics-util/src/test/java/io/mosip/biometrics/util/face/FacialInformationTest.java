@@ -16,7 +16,7 @@ public class FacialInformationTest {
      * Tests FacialInformation constructor with basic parameters
      */
     @Test
-    public void constructor_basicParameters_createsFacialInformation() {
+    public void constructorWithBasicParameters() {
         int noOfLandMarkPoints = 5;
         int[] poseAngle = {10, 20, 30};
         int[] poseAngleUncertainty = {5, 5, 5};
@@ -37,7 +37,7 @@ public class FacialInformationTest {
      * Tests FacialInformation constructor with all parameters
      */
     @Test
-    public void constructor_allParameters_createsFacialInformation() {
+    public void constructorWithAllParameters() {
         int noOfLandMarkPoints = 10;
         int gender = Gender.MALE;
         int eyeColor = EyeColour.BLUE;
@@ -49,7 +49,7 @@ public class FacialInformationTest {
         int[] poseAngleUncertainty = {3, 3, 3};
 
         FacialInformation facialInfo = new FacialInformation(noOfLandMarkPoints, gender, eyeColor,
-            hairColor, subjectHeight, propertyMask, expressionMask, poseAngle, poseAngleUncertainty);
+                hairColor, subjectHeight, propertyMask, expressionMask, poseAngle, poseAngleUncertainty);
 
         assertNotNull(facialInfo);
         assertEquals(noOfLandMarkPoints, facialInfo.getNoOfLandMarkPoints());
@@ -67,7 +67,7 @@ public class FacialInformationTest {
      * @throws Exception if stream reading fails
      */
     @Test
-    public void constructor_dataInputStream_createsFacialInformation() throws Exception {
+    public void constructorWithDataInputStream() throws Exception {
         byte[] testData = createFacialInformationData();
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
         DataInputStream inputStream = new DataInputStream(bais);
@@ -82,7 +82,7 @@ public class FacialInformationTest {
      * @throws Exception if stream reading fails
      */
     @Test
-    public void constructor_dataInputStreamWithImageInfoFlag_createsFacialInformation() throws Exception {
+    public void constructorWithDataInputStreamAndImageInfoFlag() throws Exception {
         byte[] testData = createFacialInformationData();
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
         DataInputStream inputStream = new DataInputStream(bais);
@@ -96,7 +96,7 @@ public class FacialInformationTest {
      * Tests getRecordLength method returns correct length
      */
     @Test
-    public void getRecordLength_validFacialInformation_returnsCorrectLength() {
+    public void getRecordLengthReturnsCorrectLength() {
         FacialInformation facialInfo = new FacialInformation(5, new int[]{0, 0, 0}, new int[]{0, 0, 0});
 
         long recordLength = facialInfo.getRecordLength();
@@ -109,10 +109,10 @@ public class FacialInformationTest {
      * @throws Exception if writing fails
      */
     @Test
-    public void writeObject_validFacialInformation_writesDataSuccessfully() throws Exception {
+    public void writeObjectWritesDataSuccessfully() throws Exception {
         FacialInformation facialInfo = new FacialInformation(8, Gender.FEMALE, EyeColour.GREEN,
-            HairColour.BLACK, 165, Features.FEATURES_ARE_SPECIFIED, Expression.SMILE_OPEN,
-            new int[]{5, 10, 15}, new int[]{2, 2, 2});
+                HairColour.BLACK, 165, Features.FEATURES_ARE_SPECIFIED, Expression.SMILE_OPEN,
+                new int[]{5, 10, 15}, new int[]{2, 2, 2});
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream outputStream = new DataOutputStream(baos);
 
@@ -127,7 +127,7 @@ public class FacialInformationTest {
      * Tests setNoOfLandMarkPoints method sets value correctly
      */
     @Test
-    public void setNoOfLandMarkPoints_validCount_setsValueCorrectly() {
+    public void setNoOfLandMarkPointsSetsValueCorrectly() {
         FacialInformation facialInfo = new FacialInformation(5, new int[]{0, 0, 0}, new int[]{0, 0, 0});
         int newCount = 12;
 
@@ -140,7 +140,7 @@ public class FacialInformationTest {
      * Tests setGender method sets value correctly
      */
     @Test
-    public void setGender_validGender_setsValueCorrectly() {
+    public void setGenderSetsValueCorrectly() {
         FacialInformation facialInfo = new FacialInformation(5, new int[]{0, 0, 0}, new int[]{0, 0, 0});
         int newGender = Gender.FEMALE;
 
@@ -153,7 +153,7 @@ public class FacialInformationTest {
      * Tests setEyeColor method sets value correctly
      */
     @Test
-    public void setEyeColor_validColor_setsValueCorrectly() {
+    public void setEyeColorSetsValueCorrectly() {
         FacialInformation facialInfo = new FacialInformation(5, new int[]{0, 0, 0}, new int[]{0, 0, 0});
         int newColor = EyeColour.BROWN;
 
@@ -166,7 +166,7 @@ public class FacialInformationTest {
      * Tests setHairColor method sets value correctly
      */
     @Test
-    public void setHairColor_validColor_setsValueCorrectly() {
+    public void setHairColorSetsValueCorrectly() {
         FacialInformation facialInfo = new FacialInformation(5, new int[]{0, 0, 0}, new int[]{0, 0, 0});
         int newColor = HairColour.BLONDE;
 
@@ -179,7 +179,7 @@ public class FacialInformationTest {
      * Tests setSubjectHeight method sets value correctly
      */
     @Test
-    public void setSubjectHeight_validHeight_setsValueCorrectly() {
+    public void setSubjectHeightSetsValueCorrectly() {
         FacialInformation facialInfo = new FacialInformation(5, new int[]{0, 0, 0}, new int[]{0, 0, 0});
         int newHeight = 175;
 
@@ -192,7 +192,7 @@ public class FacialInformationTest {
      * Tests setFeaturesMask method sets value correctly
      */
     @Test
-    public void setFeaturesMask_validMask_setsValueCorrectly() {
+    public void setFeaturesMaskSetsValueCorrectly() {
         FacialInformation facialInfo = new FacialInformation(5, new int[]{0, 0, 0}, new int[]{0, 0, 0});
         int newMask = 0x123456;
 
@@ -205,7 +205,7 @@ public class FacialInformationTest {
      * Tests setExpressionMask method sets value correctly
      */
     @Test
-    public void setExpressionMask_validMask_setsValueCorrectly() {
+    public void setExpressionMaskSetsValueCorrectly() {
         FacialInformation facialInfo = new FacialInformation(5, new int[]{0, 0, 0}, new int[]{0, 0, 0});
         int newMask = Expression.FROWNING;
 
@@ -218,7 +218,7 @@ public class FacialInformationTest {
      * Tests setPoseAngle method sets values correctly
      */
     @Test
-    public void setPoseAngle_validAngles_setsValuesCorrectly() {
+    public void setPoseAngleSetsValuesCorrectly() {
         FacialInformation facialInfo = new FacialInformation(5, new int[]{0, 0, 0}, new int[]{0, 0, 0});
         int[] newAngles = {45, 90, 135};
 
@@ -231,7 +231,7 @@ public class FacialInformationTest {
      * Tests setPoseAngleUncertainty method sets values correctly
      */
     @Test
-    public void setPoseAngleUncertainty_validUncertainties_setsValuesCorrectly() {
+    public void setPoseAngleUncertaintySetsValuesCorrectly() {
         FacialInformation facialInfo = new FacialInformation(5, new int[]{0, 0, 0}, new int[]{0, 0, 0});
         int[] newUncertainties = {1, 2, 3};
 
@@ -244,7 +244,7 @@ public class FacialInformationTest {
      * Tests toString method returns non-null string
      */
     @Test
-    public void toString_validFacialInformation_returnsNonNullString() {
+    public void toStringReturnsNonNullString() {
         FacialInformation facialInfo = new FacialInformation(5, new int[]{0, 0, 0}, new int[]{0, 0, 0});
 
         String result = facialInfo.toString();
@@ -255,12 +255,12 @@ public class FacialInformationTest {
 
     private byte[] createFacialInformationData() {
         return new byte[]{
-            0x00, 0x05,
-            0x01, 0x02, 0x03, (byte) 0xB4,
-            0x00, 0x00, 0x01,
-            0x00, 0x00,
-            0x0A, 0x14, 0x1E,
-            0x02, 0x02, 0x02
+                0x00, 0x05,
+                0x01, 0x02, 0x03, (byte) 0xB4,
+                0x00, 0x00, 0x01,
+                0x00, 0x00,
+                0x0A, 0x14, 0x1E,
+                0x02, 0x02, 0x02
         };
     }
 }

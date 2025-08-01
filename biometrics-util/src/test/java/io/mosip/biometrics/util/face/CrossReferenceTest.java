@@ -8,10 +8,10 @@ import org.junit.Test;
 public class CrossReferenceTest {
 
     /**
-     * Tests constructor with valid value
+     * Tests constructor with valid value creates CrossReference instance
      */
     @Test
-    public void constructor_validValue_createsCrossReference() {
+    public void constructorWithValidValueCreatesCrossReference() {
         CrossReference crossReference = new CrossReference(CrossReference.BASIC);
 
         assertEquals(CrossReference.BASIC, crossReference.value());
@@ -21,7 +21,7 @@ public class CrossReferenceTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validCrossReference_returnsCorrectValue() {
+    public void valueWithValidCrossReferenceReturnsCorrectValue() {
         CrossReference crossReference = new CrossReference(0x50);
 
         int result = crossReference.value();
@@ -33,7 +33,7 @@ public class CrossReferenceTest {
      * Tests fromValue method with valid minimum value
      */
     @Test
-    public void fromValue_validMinimumValue_returnsValue() {
+    public void fromValueWithValidMinimumValueReturnsCorrectValue() {
         int result = CrossReference.fromValue(CrossReference.BASIC);
 
         assertEquals(CrossReference.BASIC, result);
@@ -43,33 +43,33 @@ public class CrossReferenceTest {
      * Tests fromValue method with valid maximum value
      */
     @Test
-    public void fromValue_validMaximumValue_returnsValue() {
+    public void fromValueWithValidMaximumValueReturnsCorrectValue() {
         int result = CrossReference.fromValue(CrossReference.CROSSREFERENCE_FF);
 
         assertEquals(CrossReference.CROSSREFERENCE_FF, result);
     }
 
     /**
-     * Tests fromValue method with invalid value below range
+     * Tests fromValue method with invalid value below valid range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueBelowRange_throwsIllegalArgumentException() {
+    public void fromValueWithInvalidValueBelowRangeThrowsIllegalArgumentException() {
         CrossReference.fromValue(-1);
     }
 
     /**
-     * Tests fromValue method with invalid value above range
+     * Tests fromValue method with invalid value above valid range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueAboveRange_throwsIllegalArgumentException() {
+    public void fromValueWithInvalidValueAboveRangeThrowsIllegalArgumentException() {
         CrossReference.fromValue(0x100);
     }
 
     /**
-     * Tests toString method returns formatted string
+     * Tests toString method returns properly formatted string representation
      */
     @Test
-    public void toString_validCrossReference_returnsFormattedString() {
+    public void toStringWithValidCrossReferenceReturnsFormattedString() {
         CrossReference crossReference = new CrossReference(0xAB);
 
         String result = crossReference.toString();

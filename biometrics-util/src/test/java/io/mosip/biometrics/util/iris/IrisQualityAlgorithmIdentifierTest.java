@@ -11,7 +11,7 @@ public class IrisQualityAlgorithmIdentifierTest {
      * Tests constructor with valid value
      */
     @Test
-    public void constructor_validValue_createsIrisQualityAlgorithmIdentifier() {
+    public void constructorCreatesIdentifierCorrectly() {
         IrisQualityAlgorithmIdentifier identifier = new IrisQualityAlgorithmIdentifier(IrisQualityAlgorithmIdentifier.ALGORITHM_IDENTIFIER_0001);
 
         assertEquals(IrisQualityAlgorithmIdentifier.ALGORITHM_IDENTIFIER_0001, identifier.value());
@@ -21,7 +21,7 @@ public class IrisQualityAlgorithmIdentifierTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validIdentifier_returnsCorrectValue() {
+    public void valueReturnsCorrectValue() {
         IrisQualityAlgorithmIdentifier identifier = new IrisQualityAlgorithmIdentifier(IrisQualityAlgorithmIdentifier.UNSPECIFIED);
 
         int result = identifier.value();
@@ -33,7 +33,7 @@ public class IrisQualityAlgorithmIdentifierTest {
      * Tests fromValue method with valid minimum value
      */
     @Test
-    public void fromValue_validMinimumValue_returnsValue() {
+    public void fromValueWithMinimumReturnsValue() {
         int result = IrisQualityAlgorithmIdentifier.fromValue(IrisQualityAlgorithmIdentifier.UNSPECIFIED);
 
         assertEquals(IrisQualityAlgorithmIdentifier.UNSPECIFIED, result);
@@ -43,7 +43,7 @@ public class IrisQualityAlgorithmIdentifierTest {
      * Tests fromValue method with valid maximum value
      */
     @Test
-    public void fromValue_validMaximumValue_returnsValue() {
+    public void fromValueWithMaximumReturnsValue() {
         int result = IrisQualityAlgorithmIdentifier.fromValue(IrisQualityAlgorithmIdentifier.VENDOR_FFFF);
 
         assertEquals(IrisQualityAlgorithmIdentifier.VENDOR_FFFF, result);
@@ -53,7 +53,7 @@ public class IrisQualityAlgorithmIdentifierTest {
      * Tests fromValue method with valid algorithm identifier value
      */
     @Test
-    public void fromValue_validAlgorithmIdentifierValue_returnsValue() {
+    public void fromValueWithAlgorithmIdentifierReturnsValue() {
         int result = IrisQualityAlgorithmIdentifier.fromValue(IrisQualityAlgorithmIdentifier.ALGORITHM_IDENTIFIER_0001);
 
         assertEquals(IrisQualityAlgorithmIdentifier.ALGORITHM_IDENTIFIER_0001, result);
@@ -63,7 +63,7 @@ public class IrisQualityAlgorithmIdentifierTest {
      * Tests fromValue method with valid middle value
      */
     @Test
-    public void fromValue_validMiddleValue_returnsValue() {
+    public void fromValueWithMiddleReturnsValue() {
         int result = IrisQualityAlgorithmIdentifier.fromValue(0x8000);
 
         assertEquals(0x8000, result);
@@ -73,7 +73,7 @@ public class IrisQualityAlgorithmIdentifierTest {
      * Tests fromValue method with invalid value below range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueBelowRange_throwsIllegalArgumentException() {
+    public void fromValueBelowRangeThrowsException() {
         IrisQualityAlgorithmIdentifier.fromValue(-1);
     }
 
@@ -81,7 +81,7 @@ public class IrisQualityAlgorithmIdentifierTest {
      * Tests fromValue method with invalid value above range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueAboveRange_throwsIllegalArgumentException() {
+    public void fromValueAboveRangeThrowsException() {
         IrisQualityAlgorithmIdentifier.fromValue(0x10000);
     }
 
@@ -89,7 +89,7 @@ public class IrisQualityAlgorithmIdentifierTest {
      * Tests toString method returns formatted string
      */
     @Test
-    public void toString_validIdentifier_returnsFormattedString() {
+    public void toStringReturnsFormattedString() {
         IrisQualityAlgorithmIdentifier identifier = new IrisQualityAlgorithmIdentifier(IrisQualityAlgorithmIdentifier.ALGORITHM_IDENTIFIER_0001);
 
         String result = identifier.toString();

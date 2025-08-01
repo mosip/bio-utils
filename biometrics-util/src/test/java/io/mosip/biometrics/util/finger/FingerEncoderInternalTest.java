@@ -31,13 +31,13 @@ class FingerEncoderInternalTest {
     class GetFingerPositionMapping {
 
         @Test
-        void getFingerPosition_nullSubType_returnsUnknown() throws Exception {
+        void getFingerPositionNullSubTypeReturnsUnknown() throws Exception {
             int pos = callGetFingerPosition(null);
             assertEquals(FingerPosition.UNKNOWN, pos);
         }
 
         @Test
-        void getFingerPosition_knownSubTypes_returnCorrectConstants() throws Exception {
+        void getFingerPositionKnownSubTypesReturnCorrectConstants() throws Exception {
             assertAll(
                     () -> assertEquals(FingerPosition.RIGHT_THUMB, callGetFingerPosition("Right Thumb")),
                     () -> assertEquals(FingerPosition.LEFT_INDEX_FINGER, callGetFingerPosition("Left IndexFinger")),
@@ -46,7 +46,7 @@ class FingerEncoderInternalTest {
         }
 
         @Test
-        void getFingerPosition_invalidSubType_returnsUnknown() throws Exception {
+        void getFingerPositionInvalidSubTypeReturnsUnknown() throws Exception {
             int pos = callGetFingerPosition("SomeRandomValue");
             assertEquals(FingerPosition.UNKNOWN, pos);
         }

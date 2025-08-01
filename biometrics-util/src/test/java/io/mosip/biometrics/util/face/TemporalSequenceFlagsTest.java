@@ -17,7 +17,7 @@ class TemporalSequenceFlagsTest {
      * Tests edge cases (0x0000, 0xFFFF) and a middle value (0x7FFF).
      */
     @Test
-    void fromValue_WithValidRangeValues_ReturnsSameValue() {
+    void fromValueWithValidRangeValuesReturnsSameValue() {
         int[] samples = {
                 TemporalSequenceFlags.ONE_REPRESENTATION,
                 0x7FFF,
@@ -39,7 +39,7 @@ class TemporalSequenceFlagsTest {
      * outside the valid range (below 0x0000 or above 0xFFFF).
      */
     @Test
-    void fromValue_WithInvalidValues_ThrowsIllegalArgumentException() {
+    void fromValueWithInvalidValuesThrowsIllegalArgumentException() {
         assertThrows(IllegalArgumentException.class, () -> TemporalSequenceFlags.fromValue(-1));
         assertThrows(IllegalArgumentException.class, () -> TemporalSequenceFlags.fromValue(0x1_0000));
     }

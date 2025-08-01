@@ -11,7 +11,7 @@ public class IrisImageCompressionTypeTest {
      * Tests constructor with valid value
      */
     @Test
-    public void constructor_validValue_createsIrisImageCompressionType() {
+    public void constructorCreatesCompressionTypeCorrectly() {
         IrisImageCompressionType compressionType = new IrisImageCompressionType(IrisImageCompressionType.JPEG_LOSSLESS_OR_NONE);
 
         assertEquals(IrisImageCompressionType.JPEG_LOSSLESS_OR_NONE, compressionType.value());
@@ -21,7 +21,7 @@ public class IrisImageCompressionTypeTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validCompressionType_returnsCorrectValue() {
+    public void valueReturnsCorrectValue() {
         IrisImageCompressionType compressionType = new IrisImageCompressionType(IrisImageCompressionType.JPEG_LOSSY);
 
         int result = compressionType.value();
@@ -33,7 +33,7 @@ public class IrisImageCompressionTypeTest {
      * Tests fromValue method with valid minimum value
      */
     @Test
-    public void fromValue_validMinimumValue_returnsValue() {
+    public void fromValueWithMinimumReturnsValue() {
         int result = IrisImageCompressionType.fromValue(IrisImageCompressionType.UNDEFINED);
 
         assertEquals(IrisImageCompressionType.UNDEFINED, result);
@@ -43,7 +43,7 @@ public class IrisImageCompressionTypeTest {
      * Tests fromValue method with valid maximum value
      */
     @Test
-    public void fromValue_validMaximumValue_returnsValue() {
+    public void fromValueWithMaximumReturnsValue() {
         int result = IrisImageCompressionType.fromValue(IrisImageCompressionType.JPEG_LOSSY);
 
         assertEquals(IrisImageCompressionType.JPEG_LOSSY, result);
@@ -53,7 +53,7 @@ public class IrisImageCompressionTypeTest {
      * Tests fromValue method with valid lossless value
      */
     @Test
-    public void fromValue_validLosslessValue_returnsValue() {
+    public void fromValueWithLosslessReturnsValue() {
         int result = IrisImageCompressionType.fromValue(IrisImageCompressionType.JPEG_LOSSLESS_OR_NONE);
 
         assertEquals(IrisImageCompressionType.JPEG_LOSSLESS_OR_NONE, result);
@@ -63,7 +63,7 @@ public class IrisImageCompressionTypeTest {
      * Tests fromValue method with invalid value below range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueBelowRange_throwsIllegalArgumentException() {
+    public void fromValueBelowRangeThrowsException() {
         IrisImageCompressionType.fromValue(-1);
     }
 
@@ -71,7 +71,7 @@ public class IrisImageCompressionTypeTest {
      * Tests fromValue method with invalid value above range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueAboveRange_throwsIllegalArgumentException() {
+    public void fromValueAboveRangeThrowsException() {
         IrisImageCompressionType.fromValue(0x03);
     }
 
@@ -79,7 +79,7 @@ public class IrisImageCompressionTypeTest {
      * Tests toString method returns formatted string
      */
     @Test
-    public void toString_validCompressionType_returnsFormattedString() {
+    public void toStringReturnsFormattedString() {
         IrisImageCompressionType compressionType = new IrisImageCompressionType(IrisImageCompressionType.JPEG_LOSSY);
 
         String result = compressionType.toString();

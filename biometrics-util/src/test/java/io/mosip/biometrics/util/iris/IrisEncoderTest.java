@@ -15,18 +15,16 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.mockStatic;
 
-
 /**
  * Unit tests for {@link IrisEncoder}.
  */
 class IrisEncoderTest {
 
     /**
-     * convertIrisImageToISO_withInvalidInputBytes_throwsException
      * Verifies that an exception is thrown when invalid byte data is passed.
      */
     @Test
-    void convertIrisImageToISO_withInvalidInputBytes_throwsException() {
+    void convertIrisImageToIsoInvalidBytesThrowsException() {
         ConvertRequestDto dto = new ConvertRequestDto();
         dto.setVersion("ISO19794_6_2011");
         dto.setPurpose("Registration");
@@ -37,11 +35,10 @@ class IrisEncoderTest {
     }
 
     /**
-     * convertIrisImageToISO_withUnsupportedVersion_throwsUnsupportedOperationException
      * Verifies that an UnsupportedOperationException is thrown for an unsupported version.
      */
     @Test
-    void convertIrisImageToISO_withUnsupportedVersion_throwsUnsupportedOperationException() {
+    void convertIrisImageToIsoUnsupportedVersionThrowsException() {
         ConvertRequestDto dto = new ConvertRequestDto();
         dto.setVersion("OTHER");
 
@@ -49,11 +46,10 @@ class IrisEncoderTest {
     }
 
     /**
-     * convertIrisImageToISO_withValidInputs_returnsISOByteArray
      * Verifies successful conversion to ISO byte array when valid inputs are provided.
      */
     @Test
-    void convertIrisImageToISO_withValidInputs_returnsISOByteArray() throws Exception {
+    void convertIrisImageToIsoValidInputsReturnsIsoByteArray() throws Exception {
         ConvertRequestDto dto = mock(ConvertRequestDto.class);
         when(dto.getVersion()).thenReturn("ISO19794_6_2011");
         when(dto.getPurpose()).thenReturn("Registration");
@@ -72,37 +68,37 @@ class IrisEncoderTest {
     }
 
     /**
-     * getEyeLabel_withRight_returnsRightEyeLabel
+     * Tests getEyeLabel with Right input returns right eye label.
      */
     @Test
-    void getEyeLabel_withRight_returnsRightEyeLabel() {
+    void getEyeLabelWithRightReturnsRightEyeLabel() {
         byte label = invokeGetEyeLabel("Right");
         assertEquals(EyeLabel.RIGHT, label);
     }
 
     /**
-     * getEyeLabel_withLeft_returnsLeftEyeLabel
+     * Tests getEyeLabel with Left input returns left eye label.
      */
     @Test
-    void getEyeLabel_withLeft_returnsLeftEyeLabel() {
+    void getEyeLabelWithLeftReturnsLeftEyeLabel() {
         byte label = invokeGetEyeLabel("Left");
         assertEquals(EyeLabel.LEFT, label);
     }
 
     /**
-     * getEyeLabel_withNull_returnsUnspecifiedEyeLabel
+     * Tests getEyeLabel with null input returns unspecified eye label.
      */
     @Test
-    void getEyeLabel_withNull_returnsUnspecifiedEyeLabel() {
+    void getEyeLabelWithNullReturnsUnspecifiedEyeLabel() {
         byte label = invokeGetEyeLabel(null);
         assertEquals(EyeLabel.UNSPECIFIED, label);
     }
 
     /**
-     * getEyeLabel_withUnknown_returnsUnspecifiedEyeLabel
+     * Tests getEyeLabel with unknown input returns unspecified eye label.
      */
     @Test
-    void getEyeLabel_withUnknown_returnsUnspecifiedEyeLabel() {
+    void getEyeLabelWithUnknownReturnsUnspecifiedEyeLabel() {
         byte label = invokeGetEyeLabel("Unknown");
         assertEquals(EyeLabel.UNSPECIFIED, label);
     }

@@ -38,7 +38,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies that getInstance() returns the same singleton instance.
      */
     @Test
-    void getInstance_WhenCalledMultipleTimes_ReturnsSameInstance() {
+    void getInstanceReturnsSameInstance() {
         FaceISOStandardsValidator anotherInstance = FaceISOStandardsValidator.getInstance();
 
         assertNotNull(anotherInstance);
@@ -49,7 +49,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies format identifier validation accepts FORMAT_FAC constant.
      */
     @Test
-    void isValidFormatIdentifier_WithValidFormatFAC_ReturnsTrue() {
+    void isValidFormatIdentifierWithValidFormatFAC() {
         assertTrue(validator.isValidFormatIdentifier(0x46414300L));
     }
 
@@ -57,7 +57,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies format identifier validation rejects invalid values.
      */
     @Test
-    void isValidFormatIdentifier_WithInvalidFormat_ReturnsFalse() {
+    void isValidFormatIdentifierWithInvalidFormat() {
         assertFalse(validator.isValidFormatIdentifier(0x12345678L));
     }
 
@@ -65,7 +65,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies version number validation accepts VERSION_030 constant.
      */
     @Test
-    void isValidVersionNumber_WithVersion030_ReturnsTrue() {
+    void isValidVersionNumberWithVersion030() {
         assertTrue(validator.isValidVersionNumber(0x30333000L));
     }
 
@@ -73,7 +73,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies version number validation rejects invalid values.
      */
     @Test
-    void isValidVersionNumber_WithInvalidVersion_ReturnsFalse() {
+    void isValidVersionNumberWithInvalidVersion() {
         assertFalse(validator.isValidVersionNumber(0x01020304L));
     }
 
@@ -81,7 +81,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies record length validation accepts matching lengths.
      */
     @Test
-    void isValidRecordLength_WithMatchingLengths_ReturnsTrue() {
+    void isValidRecordLengthWithMatchingLengths() {
         assertTrue(validator.isValidRecordLength(100L, 100L));
     }
 
@@ -89,7 +89,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies number of representations validation accepts 0x0001.
      */
     @Test
-    void isValidNoOfRepresentations_WithSingleRepresentation_ReturnsTrue() {
+    void isValidNoOfRepresentationsWithSingleRepresentation() {
         assertTrue(validator.isValidNoOfRepresentations(0x0001));
     }
 
@@ -97,7 +97,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies number of representations validation rejects invalid values.
      */
     @Test
-    void isValidNoOfRepresentations_WithInvalidValues_ReturnsFalse() {
+    void isValidNoOfRepresentationsWithInvalidValues() {
         assertFalse(validator.isValidNoOfRepresentations(0x0002));
         assertFalse(validator.isValidNoOfRepresentations(0x0000));
     }
@@ -106,7 +106,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies gender validation accepts all valid gender constants.
      */
     @Test
-    void isValidGender_WithValidGenderValues_ReturnsTrue() {
+    void isValidGenderWithValidGenderValues() {
         assertTrue(validator.isValidGender(Gender.UNSPECIFIED));
         assertTrue(validator.isValidGender(Gender.MALE));
         assertTrue(validator.isValidGender(Gender.FEMALE));
@@ -117,7 +117,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies gender validation rejects invalid values.
      */
     @Test
-    void isValidGender_WithInvalidGender_ReturnsFalse() {
+    void isValidGenderWithInvalidGender() {
         assertFalse(validator.isValidGender(0x0003));
     }
 
@@ -125,7 +125,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies eye color validation accepts all valid constants.
      */
     @Test
-    void isValidEyeColour_WithValidColors_ReturnsTrue() {
+    void isValidEyeColourWithValidColors() {
         assertTrue(validator.isValidEyeColour(EyeColour.UNSPECIFIED));
         assertTrue(validator.isValidEyeColour(EyeColour.BLACK));
         assertTrue(validator.isValidEyeColour(EyeColour.PINK));
@@ -136,7 +136,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies hair color validation accepts all valid constants.
      */
     @Test
-    void isValidHairColour_WithValidColors_ReturnsTrue() {
+    void isValidHairColourWithValidColors() {
         assertTrue(validator.isValidHairColour(HairColour.UNSPECIFIED));
         assertTrue(validator.isValidHairColour(HairColour.WHITE));
         assertTrue(validator.isValidHairColour(HairColour.RED));
@@ -147,7 +147,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies subject height validation accepts valid range and rejects invalid values.
      */
     @Test
-    void isValidSubjectHeight_WithValidAndInvalidValues_ValidatesCorrectly() {
+    void isValidSubjectHeightValidatesCorrectly() {
         assertTrue(validator.isValidSubjectHeight(0));
         assertTrue(validator.isValidSubjectHeight(128));
         assertTrue(validator.isValidSubjectHeight(255));
@@ -159,7 +159,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies face image type validation accepts valid ranges.
      */
     @Test
-    void isValidFaceImageType_WithValidRanges_ReturnsTrue() {
+    void isValidFaceImageTypeWithValidRanges() {
         for (int i = FaceImageType.BASIC; i <= FaceImageType.POST_PROCESSED_FRONTAL; i++) {
             assertTrue(validator.isValidFaceImageType(i));
         }
@@ -172,7 +172,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies image compression type validation based on purpose.
      */
     @Test
-    void isValidImageCompressionType_WithValidAndInvalidInputs_ValidatesCorrectly() {
+    void isValidImageCompressionTypeValidatesCorrectly() {
         assertTrue(validator.isValidImageCompressionType("Auth", ImageDataType.JPEG2000_LOSSY, decoderRequestDto));
         assertTrue(validator.isValidImageCompressionType("Registration", ImageDataType.JPEG2000_LOSS_LESS, decoderRequestDto));
         assertFalse(validator.isValidImageCompressionType("INVALID", ImageDataType.JPEG2000_LOSS_LESS, decoderRequestDto));
@@ -183,7 +183,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies image color space validation for RGB input.
      */
     @Test
-    void isValidImageColourSpace_WithRGBInput_ValidatesCorrectly() {
+    void isValidImageColourSpaceWithRGBInput() {
         when(decoderRequestDto.getImageColorSpace()).thenReturn("RGB");
 
         assertTrue(validator.isValidImageColourSpace("Registration", ImageColourSpace.BIT_24_RGB, decoderRequestDto));
@@ -195,7 +195,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies spatial sampling rate level validation.
      */
     @Test
-    void isValidSpatialSamplingRateLevel_WithValidAndInvalidInputs_ValidatesCorrectly() {
+    void isValidSpatialSamplingRateLevelValidatesCorrectly() {
         assertTrue(validator.isValidSpatialSamplingRateLevel(SpatialSamplingRateLevel.SPATIAL_SAMPLING_RATE_LEVEL_180));
         assertTrue(validator.isValidSpatialSamplingRateLevel(SpatialSamplingRateLevel.SPATIAL_SAMPLING_RATE_LEVEL_300_TO_370));
         assertTrue(validator.isValidSpatialSamplingRateLevel(SpatialSamplingRateLevel.SPATIAL_SAMPLING_RATE_LEVEL_480_TO_610));
@@ -209,7 +209,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies quality score validation.
      */
     @Test
-    void isValidQualityScore_WithValidAndInvalidScores_ValidatesCorrectly() {
+    void isValidQualityScoreValidatesCorrectly() {
         assertTrue(validator.isValidQualityScore(0));
         assertTrue(validator.isValidQualityScore(50));
         assertTrue(validator.isValidQualityScore(100));
@@ -223,7 +223,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies capture device type validation with vendor.
      */
     @Test
-    void isValidCaptureDeviceType_WithValidAndInvalidTypes_ValidatesCorrectly() {
+    void isValidCaptureDeviceTypeValidatesCorrectly() {
         assertTrue(validator.isValidCaptureDeviceType(FaceCaptureDeviceType.UNSPECIFIED, FaceCaptureDeviceVendor.UNSPECIFIED));
         assertTrue(validator.isValidCaptureDeviceType(FaceCaptureDeviceType.VENDOR_FFFF, FaceCaptureDeviceVendor.VENDOR_FFFF));
         assertTrue(validator.isValidCaptureDeviceType(FaceCaptureDeviceType.VENDOR_FFFF, FaceCaptureDeviceVendor.UNSPECIFIED));
@@ -235,7 +235,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies certification flag validation.
      */
     @Test
-    void isValidCertificationFlag_WithValidAndInvalidFlags_ValidatesCorrectly() {
+    void isValidCertificationFlagValidatesCorrectly() {
         assertTrue(validator.isValidCertificationFlag(FaceCertificationFlag.UNSPECIFIED));
         assertFalse(validator.isValidCertificationFlag(0x01));
     }
@@ -244,7 +244,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies temporal semantics validation.
      */
     @Test
-    void isValidTemporalSemantics_WithValidAndInvalidValues_ValidatesCorrectly() {
+    void isValidTemporalSemanticsValidatesCorrectly() {
         assertTrue(validator.isValidTemporalSemantics(TemporalSequenceFlags.ONE_REPRESENTATION));
         assertFalse(validator.isValidTemporalSemantics(0x02));
     }
@@ -253,7 +253,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies representation length validation.
      */
     @Test
-    void isValidRepresentationLength_WithValidAndInvalidLengths_ValidatesCorrectly() {
+    void isValidRepresentationLengthValidatesCorrectly() {
         assertTrue(validator.isValidRepresentationLength(0x33));
         assertTrue(validator.isValidRepresentationLength(0x1000));
         assertFalse(validator.isValidRepresentationLength(0x32));
@@ -265,7 +265,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies quality blocks count validation.
      */
     @Test
-    void isValidNoOfQualityBlocks_WithValidAndInvalidCounts_ValidatesCorrectly() {
+    void isValidNoOfQualityBlocksValidatesCorrectly() {
         assertTrue(validator.isValidNoOfQualityBlocks(0));
         assertTrue(validator.isValidNoOfQualityBlocks(128));
         assertTrue(validator.isValidNoOfQualityBlocks(255));
@@ -277,7 +277,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies quality algorithm identifier validation.
      */
     @Test
-    void isValidQualityAlgorithmIdentifier_WithValidAndInvalidIdentifiers_ValidatesCorrectly() {
+    void isValidQualityAlgorithmIdentifierValidatesCorrectly() {
         assertTrue(validator.isValidQualityAlgorithmIdentifier(FaceQualityAlgorithmIdentifier.UNSPECIFIED));
         assertTrue(validator.isValidQualityAlgorithmIdentifier(FaceQualityAlgorithmIdentifier.VENDOR_FFFF));
         assertFalse(validator.isValidQualityAlgorithmIdentifier(-1));
@@ -288,7 +288,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies feature mask validation.
      */
     @Test
-    void isValidFeatureMask_WithValidAndInvalidMasks_ValidatesCorrectly() {
+    void isValidFeatureMaskValidatesCorrectly() {
         assertTrue(validator.isValidFeatureMask(0x000000));
         assertTrue(validator.isValidFeatureMask(0x7FFFFF));
         assertTrue(validator.isValidFeatureMask(0xFFFFFF));
@@ -300,7 +300,7 @@ class FaceISOStandardsValidatorTest {
      * Verifies expression mask validation.
      */
     @Test
-    void isValidExpressionMask_WithValidAndInvalidMasks_ValidatesCorrectly() {
+    void isValidExpressionMaskValidatesCorrectly() {
         assertTrue(validator.isValidExpressionMask(0x0000));
         assertTrue(validator.isValidExpressionMask(0x7FFF));
         assertTrue(validator.isValidExpressionMask(0xFFFF));

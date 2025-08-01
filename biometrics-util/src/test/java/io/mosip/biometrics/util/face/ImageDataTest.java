@@ -16,7 +16,7 @@ public class ImageDataTest {
      * Tests ImageData constructor with byte array
      */
     @Test
-    public void constructor_byteArray_createsImageData() {
+    public void constructorByteArrayCreatesImageData() {
         byte[] image = createSampleImageData();
 
         ImageData imageData = new ImageData(image);
@@ -31,7 +31,7 @@ public class ImageDataTest {
      * @throws Exception if stream reading fails
      */
     @Test
-    public void constructor_dataInputStream_createsImageData() throws Exception {
+    public void constructorDataInputStreamCreatesImageData() throws Exception {
         byte[] testData = createImageDataStream();
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
         DataInputStream inputStream = new DataInputStream(bais);
@@ -47,7 +47,7 @@ public class ImageDataTest {
      * @throws Exception if stream reading fails
      */
     @Test
-    public void constructor_dataInputStreamWithImageInfoFlag_createsImageData() throws Exception {
+    public void constructorDataInputStreamWithImageInfoFlagCreatesImageData() throws Exception {
         byte[] testData = createImageDataStream();
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
         DataInputStream inputStream = new DataInputStream(bais);
@@ -62,7 +62,7 @@ public class ImageDataTest {
      * Tests getRecordLength method returns correct length
      */
     @Test
-    public void getRecordLength_validImageData_returnsCorrectLength() {
+    public void getRecordLengthValidImageDataReturnsCorrectLength() {
         byte[] image = createSampleImageData();
         ImageData imageData = new ImageData(image);
 
@@ -76,7 +76,7 @@ public class ImageDataTest {
      * @throws Exception if writing fails
      */
     @Test
-    public void writeObject_validImageData_writesDataSuccessfully() throws Exception {
+    public void writeObjectValidImageDataWritesDataSuccessfully() throws Exception {
         byte[] image = createSampleImageData();
         ImageData imageData = new ImageData(image);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -94,7 +94,7 @@ public class ImageDataTest {
      * @throws Exception if writing fails
      */
     @Test
-    public void writeObject_nullImage_writesLengthOnly() throws Exception {
+    public void writeObjectNullImageWritesLengthOnly() throws Exception {
         ImageData imageData = new ImageData(new byte[0]);
         imageData.setImage(null);
         imageData.setImageLength(0);
@@ -112,7 +112,7 @@ public class ImageDataTest {
      * Tests setImageLength method sets value correctly
      */
     @Test
-    public void setImageLength_validLength_setsValueCorrectly() {
+    public void setImageLengthValidLengthSetsValueCorrectly() {
         ImageData imageData = new ImageData(createSampleImageData());
         long newLength = 2048L;
 
@@ -125,7 +125,7 @@ public class ImageDataTest {
      * Tests setImage method sets value correctly
      */
     @Test
-    public void setImage_validImage_setsValueCorrectly() {
+    public void setImageValidImageSetsValueCorrectly() {
         ImageData imageData = new ImageData(createSampleImageData());
         byte[] newImage = new byte[]{1, 2, 3, 4, 5};
 
@@ -138,7 +138,7 @@ public class ImageDataTest {
      * Tests toString method returns non-null string
      */
     @Test
-    public void toString_validImageData_returnsNonNullString() {
+    public void toStringValidImageDataReturnsNonNullString() {
         ImageData imageData = new ImageData(createSampleImageData());
 
         String result = imageData.toString();
@@ -151,7 +151,7 @@ public class ImageDataTest {
      * Tests ImageData with empty byte array
      */
     @Test
-    public void constructor_emptyByteArray_createsImageData() {
+    public void constructorEmptyByteArrayCreatesImageData() {
         byte[] emptyImage = new byte[0];
 
         ImageData imageData = new ImageData(emptyImage);
@@ -165,7 +165,7 @@ public class ImageDataTest {
      * Tests ImageData with large byte array
      */
     @Test
-    public void constructor_largeByteArray_createsImageData() {
+    public void constructorLargeByteArrayCreatesImageData() {
         byte[] largeImage = new byte[10000];
         for (int i = 0; i < largeImage.length; i++) {
             largeImage[i] = (byte) (i % 256);
@@ -185,14 +185,14 @@ public class ImageDataTest {
     private byte[] createImageDataStream() {
         byte[] imageData = createSampleImageData();
         byte[] stream = new byte[4 + imageData.length];
-        
+
         stream[0] = 0;
         stream[1] = 0;
         stream[2] = 0;
         stream[3] = (byte) imageData.length;
-        
+
         System.arraycopy(imageData, 0, stream, 4, imageData.length);
-        
+
         return stream;
     }
 }

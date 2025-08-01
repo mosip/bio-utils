@@ -15,7 +15,7 @@ public class IrisCoordinateTest {
      * value_withValidConstructorInput_returnsCorrectValue
      */
     @Test
-    public void value_withValidConstructorInput_returnsCorrectValue() {
+    public void valueReturnsCorrectValue() {
         IrisCoordinate coordinate = new IrisCoordinate(IrisCoordinate.COORDINATE_0001);
         assertEquals(IrisCoordinate.COORDINATE_0001, coordinate.value());
     }
@@ -24,7 +24,7 @@ public class IrisCoordinateTest {
      * fromValue_withMinValidValue_returnsCoordinateUndefined
      */
     @Test
-    public void fromValue_withMinValidValue_returnsCoordinateUndefined() {
+    public void fromValueWithMinimumReturnsUndefined() {
         assertEquals(IrisCoordinate.COORDINATE_UNDEFINIED, IrisCoordinate.fromValue(IrisCoordinate.COORDINATE_UNDEFINIED));
     }
 
@@ -32,7 +32,7 @@ public class IrisCoordinateTest {
      * fromValue_withMaxValidValue_returnsCoordinateFFFF
      */
     @Test
-    public void fromValue_withMaxValidValue_returnsCoordinateFFFF() {
+    public void fromValueWithMaximumReturnsCoordinateFFFF() {
         assertEquals(IrisCoordinate.COORDINATE_FFFF, IrisCoordinate.fromValue(IrisCoordinate.COORDINATE_FFFF));
     }
 
@@ -40,7 +40,7 @@ public class IrisCoordinateTest {
      * fromValue_withMiddleValidValue_returnsCoordinate0001
      */
     @Test
-    public void fromValue_withMiddleValidValue_returnsCoordinate0001() {
+    public void fromValueWithMiddleReturnsCoordinate0001() {
         assertEquals(IrisCoordinate.COORDINATE_0001, IrisCoordinate.fromValue(IrisCoordinate.COORDINATE_0001));
     }
 
@@ -48,7 +48,7 @@ public class IrisCoordinateTest {
      * fromValue_withValueBelowRange_throwsIllegalArgumentException
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_withValueBelowRange_throwsIllegalArgumentException() {
+    public void fromValueBelowRangeThrowsException() {
         IrisCoordinate.fromValue(-1);
     }
 
@@ -56,7 +56,7 @@ public class IrisCoordinateTest {
      * fromValue_withValueAboveRange_throwsIllegalArgumentException
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_withValueAboveRange_throwsIllegalArgumentException() {
+    public void fromValueAboveRangeThrowsException() {
         IrisCoordinate.fromValue(0x10000);
     }
 
@@ -64,7 +64,7 @@ public class IrisCoordinateTest {
      * toString_withValidCoordinate_returnsNonNullHexString
      */
     @Test
-    public void toString_withValidCoordinate_returnsNonNullHexString() {
+    public void toStringReturnsNonNullHexString() {
         IrisCoordinate coordinate = new IrisCoordinate(IrisCoordinate.COORDINATE_0001);
         String result = coordinate.toString();
         assertNotNull(result);

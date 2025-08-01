@@ -15,7 +15,7 @@ public class FingerQualityBlockTest {
      * Tests constructor with quality score only
      */
     @Test
-    public void constructor_qualityScoreOnly_createsFingerQualityBlock() {
+    public void constructorWithQualityScoreCreatesBlock() {
         FingerQualityBlock qualityBlock = new FingerQualityBlock(80);
 
         assertEquals(80, qualityBlock.getQualityScore());
@@ -27,7 +27,7 @@ public class FingerQualityBlockTest {
      * Tests constructor with all parameters
      */
     @Test
-    public void constructor_allParameters_createsFingerQualityBlock() {
+    public void constructorWithAllParametersCreatesBlock() {
         FingerQualityBlock qualityBlock = new FingerQualityBlock(90, 0x0001, 0x0002);
 
         assertEquals(90, qualityBlock.getQualityScore());
@@ -39,7 +39,7 @@ public class FingerQualityBlockTest {
      * Tests constructor with DataInputStream
      */
     @Test
-    public void constructor_dataInputStream_createsFingerQualityBlock() throws Exception {
+    public void constructorDataInputStreamCreatesBlock() throws Exception {
         byte[] testData = {0x50, 0x00, 0x01, 0x00, 0x02};
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
         DataInputStream inputStream = new DataInputStream(bais);
@@ -53,7 +53,7 @@ public class FingerQualityBlockTest {
      * Tests constructor with DataInputStream and onlyImageInformation flag
      */
     @Test
-    public void constructor_dataInputStreamWithImageInfoFlag_createsFingerQualityBlock() throws Exception {
+    public void constructorDataInputStreamWithImageInfoFlagCreatesBlock() throws Exception {
         byte[] testData = {0x50, 0x00, 0x01, 0x00, 0x02};
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
         DataInputStream inputStream = new DataInputStream(bais);
@@ -67,7 +67,7 @@ public class FingerQualityBlockTest {
      * Tests getRecordLength method returns correct length
      */
     @Test
-    public void getRecordLength_validQualityBlock_returnsCorrectLength() {
+    public void getRecordLengthReturnsCorrectLength() {
         FingerQualityBlock qualityBlock = new FingerQualityBlock(75);
 
         long recordLength = qualityBlock.getRecordLength();
@@ -79,7 +79,7 @@ public class FingerQualityBlockTest {
      * Tests writeObject method writes data correctly
      */
     @Test
-    public void writeObject_validQualityBlock_writesDataSuccessfully() throws Exception {
+    public void writeObjectWritesDataSuccessfully() throws Exception {
         FingerQualityBlock qualityBlock = new FingerQualityBlock(85, 0x0003, 0x0004);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream outputStream = new DataOutputStream(baos);
@@ -96,7 +96,7 @@ public class FingerQualityBlockTest {
      * Tests setQualityScore method sets value correctly
      */
     @Test
-    public void setQualityScore_validScore_setsValueCorrectly() {
+    public void setQualityScoreSetsValueCorrectly() {
         FingerQualityBlock qualityBlock = new FingerQualityBlock(50);
         int newScore = 95;
 
@@ -109,7 +109,7 @@ public class FingerQualityBlockTest {
      * Tests setQualityAlgorithmVendorIdentifier method sets value correctly
      */
     @Test
-    public void setQualityAlgorithmVendorIdentifier_validIdentifier_setsValueCorrectly() {
+    public void setQualityAlgorithmVendorIdentifierSetsValueCorrectly() {
         FingerQualityBlock qualityBlock = new FingerQualityBlock(60);
         int newIdentifier = 0x0005;
 
@@ -122,7 +122,7 @@ public class FingerQualityBlockTest {
      * Tests setQualityAlgorithmIdentifier method sets value correctly
      */
     @Test
-    public void setQualityAlgorithmIdentifier_validIdentifier_setsValueCorrectly() {
+    public void setQualityAlgorithmIdentifierSetsValueCorrectly() {
         FingerQualityBlock qualityBlock = new FingerQualityBlock(70);
         int newIdentifier = 0x0006;
 
@@ -135,7 +135,7 @@ public class FingerQualityBlockTest {
      * Tests toString method returns non-null string
      */
     @Test
-    public void toString_validQualityBlock_returnsNonNullString() {
+    public void toStringReturnsNonNullString() {
         FingerQualityBlock qualityBlock = new FingerQualityBlock(65);
 
         String result = qualityBlock.toString();

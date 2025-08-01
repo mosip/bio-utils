@@ -11,7 +11,7 @@ public class FingerSegmentationAlgorithmIdentifierTest {
      * Tests constructor with valid value
      */
     @Test
-    public void constructor_validValue_createsFingerSegmentationAlgorithmIdentifier() {
+    public void constructorCreatesIdentifierCorrectly() {
         FingerSegmentationAlgorithmIdentifier identifier = new FingerSegmentationAlgorithmIdentifier(FingerSegmentationAlgorithmIdentifier.VENDOR_0001);
 
         assertEquals(FingerSegmentationAlgorithmIdentifier.VENDOR_0001, identifier.value());
@@ -21,7 +21,7 @@ public class FingerSegmentationAlgorithmIdentifierTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validIdentifier_returnsCorrectValue() {
+    public void valueReturnsCorrectValue() {
         FingerSegmentationAlgorithmIdentifier identifier = new FingerSegmentationAlgorithmIdentifier(FingerSegmentationAlgorithmIdentifier.UNSPECIFIED);
 
         int result = identifier.value();
@@ -33,7 +33,7 @@ public class FingerSegmentationAlgorithmIdentifierTest {
      * Tests fromValue method with valid unspecified value
      */
     @Test
-    public void fromValue_validUnspecifiedValue_returnsValue() {
+    public void fromValueWithUnspecifiedReturnsValue() {
         int result = FingerSegmentationAlgorithmIdentifier.fromValue(FingerSegmentationAlgorithmIdentifier.UNSPECIFIED);
 
         assertEquals(FingerSegmentationAlgorithmIdentifier.UNSPECIFIED, result);
@@ -43,7 +43,7 @@ public class FingerSegmentationAlgorithmIdentifierTest {
      * Tests fromValue method with valid maximum value
      */
     @Test
-    public void fromValue_validMaximumValue_returnsValue() {
+    public void fromValueWithMaximumReturnsValue() {
         int result = FingerSegmentationAlgorithmIdentifier.fromValue(FingerSegmentationAlgorithmIdentifier.VENDOR_FFFF);
 
         assertEquals(FingerSegmentationAlgorithmIdentifier.VENDOR_FFFF, result);
@@ -53,7 +53,7 @@ public class FingerSegmentationAlgorithmIdentifierTest {
      * Tests fromValue method with valid middle value
      */
     @Test
-    public void fromValue_validMiddleValue_returnsValue() {
+    public void fromValueWithMiddleReturnsValue() {
         int result = FingerSegmentationAlgorithmIdentifier.fromValue(0x7FFF);
 
         assertEquals(0x7FFF, result);
@@ -63,7 +63,7 @@ public class FingerSegmentationAlgorithmIdentifierTest {
      * Tests toString method returns formatted string
      */
     @Test
-    public void toString_validIdentifier_returnsFormattedString() {
+    public void toStringReturnsFormattedString() {
         FingerSegmentationAlgorithmIdentifier identifier = new FingerSegmentationAlgorithmIdentifier(FingerSegmentationAlgorithmIdentifier.VENDOR_0001);
 
         String result = identifier.toString();

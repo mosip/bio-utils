@@ -11,7 +11,7 @@ public class ImageFormatTest {
      * Tests constructor with valid value
      */
     @Test
-    public void constructor_validValue_createsImageFormat() {
+    public void constructorCreatesImageFormatCorrectly() {
         ImageFormat imageFormat = new ImageFormat(ImageFormat.MONO_RAW);
 
         assertEquals(ImageFormat.MONO_RAW, imageFormat.value());
@@ -21,7 +21,7 @@ public class ImageFormatTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validImageFormat_returnsCorrectValue() {
+    public void valueReturnsCorrectValue() {
         ImageFormat imageFormat = new ImageFormat(ImageFormat.RGB_JPEG);
 
         int result = imageFormat.value();
@@ -33,7 +33,7 @@ public class ImageFormatTest {
      * Tests fromValue method with valid minimum value
      */
     @Test
-    public void fromValue_validMinimumValue_returnsValue() {
+    public void fromValueWithMinimumReturnsValue() {
         int result = ImageFormat.fromValue(ImageFormat.MONO_RAW);
 
         assertEquals(ImageFormat.MONO_RAW, result);
@@ -43,7 +43,7 @@ public class ImageFormatTest {
      * Tests fromValue method with valid maximum value
      */
     @Test
-    public void fromValue_validMaximumValue_returnsValue() {
+    public void fromValueWithMaximumReturnsValue() {
         int result = ImageFormat.fromValue(ImageFormat.RGB_PNG);
 
         assertEquals(ImageFormat.RGB_PNG, result);
@@ -53,7 +53,7 @@ public class ImageFormatTest {
      * Tests fromValue method with valid middle value
      */
     @Test
-    public void fromValue_validMiddleValue_returnsValue() {
+    public void fromValueWithMiddleReturnsValue() {
         int result = ImageFormat.fromValue(ImageFormat.MONO_JPEG2000);
 
         assertEquals(ImageFormat.MONO_JPEG2000, result);
@@ -63,7 +63,7 @@ public class ImageFormatTest {
      * Tests fromValue method with invalid value below range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueBelowRange_throwsIllegalArgumentException() {
+    public void fromValueBelowRangeThrowsException() {
         ImageFormat.fromValue(0x01);
     }
 
@@ -71,7 +71,7 @@ public class ImageFormatTest {
      * Tests fromValue method with invalid value above range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueAboveRange_throwsIllegalArgumentException() {
+    public void fromValueAboveRangeThrowsException() {
         ImageFormat.fromValue(0x11);
     }
 
@@ -79,7 +79,7 @@ public class ImageFormatTest {
      * Tests toString method returns formatted string
      */
     @Test
-    public void toString_validImageFormat_returnsFormattedString() {
+    public void toStringReturnsFormattedString() {
         ImageFormat imageFormat = new ImageFormat(ImageFormat.RGB_JPEG2000);
 
         String result = imageFormat.toString();

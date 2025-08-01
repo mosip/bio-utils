@@ -57,7 +57,7 @@ class FaceDecoderTest {
      * Test for unsupported version in getFaceBDIR().
      */
     @Test
-    void getFaceBDIR_whenUnsupportedVersion_thenThrowException() {
+    void getFaceBDIRWithUnsupportedVersion() {
         convertRequestDto.setVersion("UNSUPPORTED");
         assertThrows(UnsupportedOperationException.class, () ->
                 FaceDecoder.getFaceBDIR(convertRequestDto)
@@ -68,7 +68,7 @@ class FaceDecoderTest {
      * Test when input bytes are null in convertFaceISOToImageBytes().
      */
     @Test
-    void convertFaceISOToImageBytes_whenNullInputBytes_thenThrowException() {
+    void convertFaceISOToImageBytesWithNullInputBytes() {
         convertRequestDto.setInputBytes(null);
         assertThrows(NullPointerException.class, () ->
                 FaceDecoder.convertFaceISOToImageBytes(convertRequestDto)
@@ -79,7 +79,7 @@ class FaceDecoderTest {
      * Test private constructor throws IllegalStateException.
      */
     @Test
-    void constructor_whenPrivateAccess_thenThrowIllegalStateException() throws Exception {
+    void constructorWithPrivateAccess() throws Exception {
         Constructor<FaceDecoder> constructor = FaceDecoder.class.getDeclaredConstructor();
         constructor.setAccessible(true);
         Exception exception = assertThrows(Exception.class, constructor::newInstance);
@@ -90,7 +90,7 @@ class FaceDecoderTest {
      * Test convertFaceISOToBufferedImage with unsupported version.
      */
     @Test
-    void convertFaceISOToBufferedImage_whenUnsupportedVersion_thenThrowException() {
+    void convertFaceISOToBufferedImageWithUnsupportedVersion() {
         convertRequestDto.setVersion("INVALID");
         assertThrows(UnsupportedOperationException.class, () ->
                 FaceDecoder.convertFaceISOToBufferedImage(convertRequestDto)
@@ -101,7 +101,7 @@ class FaceDecoderTest {
      * Test convertFaceISOToImageBytes with unsupported version.
      */
     @Test
-    void convertFaceISOToImageBytes_whenUnsupportedVersion_thenThrowException() {
+    void convertFaceISOToImageBytesWithUnsupportedVersion() {
         convertRequestDto.setVersion("INVALID");
         assertThrows(UnsupportedOperationException.class, () ->
                 FaceDecoder.convertFaceISOToImageBytes(convertRequestDto)

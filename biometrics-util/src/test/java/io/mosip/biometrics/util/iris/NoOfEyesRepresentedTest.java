@@ -11,7 +11,7 @@ public class NoOfEyesRepresentedTest {
      * Tests constructor with valid value
      */
     @Test
-    public void constructor_validValue_createsNoOfEyesRepresented() {
+    public void constructorCreatesNoOfEyesCorrectly() {
         NoOfEyesRepresented noOfEyes = new NoOfEyesRepresented(NoOfEyesRepresented.LEFT_OR_RIGHT_EYE_PRESENT);
 
         assertEquals(NoOfEyesRepresented.LEFT_OR_RIGHT_EYE_PRESENT, noOfEyes.value());
@@ -21,7 +21,7 @@ public class NoOfEyesRepresentedTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validNoOfEyes_returnsCorrectValue() {
+    public void valueReturnsCorrectValue() {
         NoOfEyesRepresented noOfEyes = new NoOfEyesRepresented(NoOfEyesRepresented.LEFT_AND_RIGHT_EYE_PRESENT);
 
         int result = noOfEyes.value();
@@ -33,7 +33,7 @@ public class NoOfEyesRepresentedTest {
      * Tests fromValue method with valid minimum value
      */
     @Test
-    public void fromValue_validMinimumValue_returnsValue() {
+    public void fromValueWithMinimumReturnsValue() {
         int result = NoOfEyesRepresented.fromValue(NoOfEyesRepresented.UNKNOWN);
 
         assertEquals(NoOfEyesRepresented.UNKNOWN, result);
@@ -43,7 +43,7 @@ public class NoOfEyesRepresentedTest {
      * Tests fromValue method with valid maximum value
      */
     @Test
-    public void fromValue_validMaximumValue_returnsValue() {
+    public void fromValueWithMaximumReturnsValue() {
         int result = NoOfEyesRepresented.fromValue(NoOfEyesRepresented.LEFT_AND_RIGHT_EYE_PRESENT);
 
         assertEquals(NoOfEyesRepresented.LEFT_AND_RIGHT_EYE_PRESENT, result);
@@ -53,7 +53,7 @@ public class NoOfEyesRepresentedTest {
      * Tests fromValue method with valid single eye value
      */
     @Test
-    public void fromValue_validSingleEyeValue_returnsValue() {
+    public void fromValueWithSingleEyeReturnsValue() {
         int result = NoOfEyesRepresented.fromValue(NoOfEyesRepresented.LEFT_OR_RIGHT_EYE_PRESENT);
 
         assertEquals(NoOfEyesRepresented.LEFT_OR_RIGHT_EYE_PRESENT, result);
@@ -63,7 +63,7 @@ public class NoOfEyesRepresentedTest {
      * Tests fromValue method with invalid value below range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueBelowRange_throwsIllegalArgumentException() {
+    public void fromValueBelowRangeThrowsException() {
         NoOfEyesRepresented.fromValue(-1);
     }
 
@@ -71,7 +71,7 @@ public class NoOfEyesRepresentedTest {
      * Tests fromValue method with invalid value above range
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValueAboveRange_throwsIllegalArgumentException() {
+    public void fromValueAboveRangeThrowsException() {
         NoOfEyesRepresented.fromValue(0x03);
     }
 
@@ -79,7 +79,7 @@ public class NoOfEyesRepresentedTest {
      * Tests toString method returns formatted string
      */
     @Test
-    public void toString_validNoOfEyes_returnsFormattedString() {
+    public void toStringReturnsFormattedString() {
         NoOfEyesRepresented noOfEyes = new NoOfEyesRepresented(NoOfEyesRepresented.LEFT_AND_RIGHT_EYE_PRESENT);
 
         String result = noOfEyes.toString();

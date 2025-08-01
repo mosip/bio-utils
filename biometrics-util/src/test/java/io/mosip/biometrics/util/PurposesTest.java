@@ -18,7 +18,7 @@ public class PurposesTest {
      * Tests that all enum values are correctly defined.
      */
     @Test
-    public void testEnumValues_AllValuesDefined() {
+    public void enumValuesAllValuesDefined() {
         assertEquals(2, Purposes.values().length);
         assertEquals(Purposes.AUTH, Purposes.valueOf("AUTH"));
         assertEquals(Purposes.REGISTRATION, Purposes.valueOf("REGISTRATION"));
@@ -28,7 +28,7 @@ public class PurposesTest {
      * Tests that getCode() returns the correct string value for each enum constant.
      */
     @Test
-    public void testGetCode_ReturnsCorrectValue() {
+    public void getCodeReturnsCorrectValue() {
         assertEquals("Auth", Purposes.AUTH.getCode());
         assertEquals("Registration", Purposes.REGISTRATION.getCode());
     }
@@ -37,7 +37,7 @@ public class PurposesTest {
      * Tests that fromCode() returns the correct enum constant for valid input values.
      */
     @Test
-    public void testFromCode_WithValidCode_ReturnsCorrespondingPurpose() {
+    public void fromCodeWithValidCodeReturnsCorrespondingPurpose() {
         assertEquals(Purposes.AUTH, Purposes.fromCode("Auth"));
         assertEquals(Purposes.REGISTRATION, Purposes.fromCode("Registration"));
     }
@@ -46,24 +46,24 @@ public class PurposesTest {
      * Tests that fromCode() throws BiometricUtilException for invalid input values.
      */
     @Test
-    public void testFromCode_WithInvalidCode_ThrowsBiometricUtilException() {
+    public void fromCodeWithInvalidCodeThrowsException() {
         String invalidCode = "InvalidPurpose";
         BiometricUtilException exception = assertThrows(
-            BiometricUtilException.class,
-            () -> Purposes.fromCode(invalidCode)
+                BiometricUtilException.class,
+                () -> Purposes.fromCode(invalidCode)
         );
-        
-        assertEquals(BiometricUtilErrorCode.INVALID_PURPOSE_TYPE_EXCEPTION.getErrorCode(), 
-                    exception.getErrorCode());
-        assertEquals(BiometricUtilErrorCode.INVALID_PURPOSE_TYPE_EXCEPTION.getErrorMessage(), 
-                    exception.getErrorText());
+
+        assertEquals(BiometricUtilErrorCode.INVALID_PURPOSE_TYPE_EXCEPTION.getErrorCode(),
+                exception.getErrorCode());
+        assertEquals(BiometricUtilErrorCode.INVALID_PURPOSE_TYPE_EXCEPTION.getErrorMessage(),
+                exception.getErrorText());
     }
 
     /**
      * Tests that the enum constants are not null.
      */
     @Test
-    public void testEnumConstants_NotNull() {
+    public void enumConstantsNotNull() {
         assertNotNull(Purposes.AUTH);
         assertNotNull(Purposes.REGISTRATION);
     }
@@ -72,15 +72,15 @@ public class PurposesTest {
      * Tests that the error code and message in the exception match the expected values.
      */
     @Test
-    public void testErrorCodeAndMessage_AreAsExpected() {
+    public void errorCodeAndMessageAreAsExpected() {
         BiometricUtilException exception = assertThrows(
-            BiometricUtilException.class,
-            () -> Purposes.fromCode("InvalidCode")
+                BiometricUtilException.class,
+                () -> Purposes.fromCode("InvalidCode")
         );
-        
-        assertEquals(BiometricUtilErrorCode.INVALID_PURPOSE_TYPE_EXCEPTION.getErrorCode(), 
-                    exception.getErrorCode());
-        assertEquals(BiometricUtilErrorCode.INVALID_PURPOSE_TYPE_EXCEPTION.getErrorMessage(), 
-                    exception.getErrorText());
+
+        assertEquals(BiometricUtilErrorCode.INVALID_PURPOSE_TYPE_EXCEPTION.getErrorCode(),
+                exception.getErrorCode());
+        assertEquals(BiometricUtilErrorCode.INVALID_PURPOSE_TYPE_EXCEPTION.getErrorMessage(),
+                exception.getErrorText());
     }
 }

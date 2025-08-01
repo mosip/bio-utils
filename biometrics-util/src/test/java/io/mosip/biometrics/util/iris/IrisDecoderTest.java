@@ -24,11 +24,10 @@ import javax.imageio.ImageIO;
 class IrisDecoderTest {
 
     /**
-     * getIrisBDIR_withIsoVersionInput_throwsException
      * Verifies that an exception is thrown when processing ISO19794_6_2011 version.
      */
     @Test
-    void getIrisBDIR_withIsoVersionInput_throwsException() throws Exception {
+    void getIrisBdirWithIsoVersionThrowsException() throws Exception {
         ConvertRequestDto dto = mock(ConvertRequestDto.class);
         when(dto.getVersion()).thenReturn("ISO19794_6_2011");
         when(dto.getInputBytes()).thenReturn(new byte[]{1, 2, 3});
@@ -38,11 +37,10 @@ class IrisDecoderTest {
     }
 
     /**
-     * getIrisBDIR_withUnsupportedVersion_throwsUnsupportedOperationException
      * Verifies that UnsupportedOperationException is thrown for unsupported version.
      */
     @Test
-    void getIrisBDIR_withUnsupportedVersion_throwsUnsupportedOperationException() {
+    void getIrisBdirWithUnsupportedVersionThrowsException() {
         ConvertRequestDto dto = mock(ConvertRequestDto.class);
         when(dto.getVersion()).thenReturn("OTHER");
 
@@ -53,7 +51,7 @@ class IrisDecoderTest {
      * Tests that convertIrisISOToBufferedImage returns BufferedImage for valid ISO version.
      */
     @Test
-    void convertIrisISOToBufferedImage_validVersion_returnsBufferedImage() throws Exception {
+    void convertIrisIsoToBufferedImageReturnsImage() throws Exception {
         ConvertRequestDto dto = mock(ConvertRequestDto.class);
         when(dto.getVersion()).thenReturn("ISO19794_6_2011");
         when(dto.getInputBytes()).thenReturn(new byte[]{1, 2, 3});
@@ -80,7 +78,7 @@ class IrisDecoderTest {
      * Tests that convertIrisISOToBufferedImage throws UnsupportedOperationException for unsupported version.
      */
     @Test
-    void convertIrisISOToBufferedImage_unsupportedVersion_throwsException() {
+    void convertIrisIsoToBufferedImageUnsupportedVersionThrowsException() {
         ConvertRequestDto dto = mock(ConvertRequestDto.class);
         when(dto.getVersion()).thenReturn("UNSUPPORTED");
         assertThrows(UnsupportedOperationException.class, () -> IrisDecoder.convertIrisISOToBufferedImage(dto));
@@ -90,7 +88,7 @@ class IrisDecoderTest {
      * Tests that convertIrisISOToImageBytes returns JPEG bytes for JPEG2000 image format.
      */
     @Test
-    void convertIrisISOToImageBytes_jpeg2000Format_returnsJpegBytes() throws Exception {
+    void convertIrisIsoToImageBytesJpeg2000ReturnsJpegBytes() throws Exception {
         ConvertRequestDto dto = mock(ConvertRequestDto.class);
         when(dto.getVersion()).thenReturn("ISO19794_6_2011");
         when(dto.getInputBytes()).thenReturn(new byte[]{1, 2, 3});
@@ -123,7 +121,7 @@ class IrisDecoderTest {
      * Tests that convertIrisISOToImageBytes returns raw image bytes for non-JPEG2000 image format.
      */
     @Test
-    void convertIrisISOToImageBytes_nonJpeg2000Format_returnsRawBytes() throws Exception {
+    void convertIrisIsoToImageBytesNonJpeg2000ReturnsRawBytes() throws Exception {
         ConvertRequestDto dto = mock(ConvertRequestDto.class);
         when(dto.getVersion()).thenReturn("ISO19794_6_2011");
         when(dto.getInputBytes()).thenReturn(new byte[]{1, 2, 3});
@@ -151,10 +149,10 @@ class IrisDecoderTest {
     }
 
     /**
-     * Tests that convertIrisISOToImageBytes returns raw image bytes for non-JPEG2000 image format.
+     * Tests that convertIrisISOToImageBytes returns raw image bytes for unsupported format.
      */
     @Test
-    void convertIrisISOToImageBytes_unsupportedImageFormat_returnsOriginalImage() throws Exception {
+    void convertIrisIsoToImageBytesUnsupportedFormatReturnsOriginalImage() throws Exception {
         ConvertRequestDto dto = mock(ConvertRequestDto.class);
         when(dto.getVersion()).thenReturn("ISO19794_6_2011");
         when(dto.getInputBytes()).thenReturn(new byte[]{1, 2, 3});
@@ -184,47 +182,47 @@ class IrisDecoderTest {
      * Tests that convertIrisISO19794_6_2011ToImage successfully converts image data to JPG format.
      */
     @Test
-    void convertIrisISO19794_6_2011ToImage_validInput_returnsJpgImage() throws Exception {
+    void convertIrisIso19794ToImageValidInputReturnsJpgImage() throws Exception {
         // Mock the required objects
         byte[] mockImageData = new byte[]{1, 2, 3};
         byte[] expectedJpgData = new byte[]{4, 5, 6};
-        
+
         // Mock the BDIR and its components
         IrisBDIR irisBDIR = mock(IrisBDIR.class);
         Representation representation = mock(Representation.class);
         RepresentationData repData = mock(RepresentationData.class);
         ImageData imageData = mock(ImageData.class);
-        
+
         // Set up the mock behavior
         when(irisBDIR.getRepresentation()).thenReturn(representation);
         when(representation.getRepresentationData()).thenReturn(repData);
         when(repData.getImageData()).thenReturn(imageData);
         when(imageData.getImage()).thenReturn(mockImageData);
-        
+
         // Mock ImageIO to return a test image and capture the output
         BufferedImage testImage = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
         try (org.mockito.MockedStatic<IrisDecoder> irisDecoderMock = org.mockito.Mockito.mockStatic(IrisDecoder.class, org.mockito.Mockito.CALLS_REAL_METHODS);
              org.mockito.MockedStatic<ImageIO> imageIOMock = org.mockito.Mockito.mockStatic(ImageIO.class);
              ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-            
+
             // Mock the static method call
             irisDecoderMock.when(() -> invokeGetIrisBDIRISO19794_6_2011(any(byte[].class), anyInt()))
-                .thenReturn(irisBDIR);
-                
+                    .thenReturn(irisBDIR);
+
             // Mock ImageIO.read to return our test image
             imageIOMock.when(() -> ImageIO.read(any(ByteArrayInputStream.class))).thenReturn(testImage);
-            
+
             // Mock ImageIO.write to capture the output
             imageIOMock.when(() -> ImageIO.write(any(BufferedImage.class), any(String.class), any(ByteArrayOutputStream.class)))
-                .thenAnswer(invocation -> {
-                    ByteArrayOutputStream out = invocation.getArgument(2);
-                    out.write(expectedJpgData);
-                    return true;
-                });
-            
+                    .thenAnswer(invocation -> {
+                        ByteArrayOutputStream out = invocation.getArgument(2);
+                        out.write(expectedJpgData);
+                        return true;
+                    });
+
             // Call the method under test
             byte[] result = invokeConvertIrisISO19794_6_2011ToImage(new byte[]{1, 2, 3});
-            
+
             // Verify the result
             assertArrayEquals(expectedJpgData, result);
         }
@@ -234,41 +232,41 @@ class IrisDecoderTest {
      * Tests that convertIrisISO19794_6_2011ToImage returns original image data when ImageIO.write fails.
      */
     @Test
-    void convertIrisISO19794_6_2011ToImage_imageIOWriteFails_returnsOriginalImage() throws Exception {
+    void convertIrisIso19794ToImageWriteFailsReturnsOriginalImage() throws Exception {
         // Mock the required objects
         byte[] originalImageData = new byte[]{1, 2, 3};
-        
+
         // Mock the BDIR and its components
         IrisBDIR irisBDIR = mock(IrisBDIR.class);
         Representation representation = mock(Representation.class);
         RepresentationData repData = mock(RepresentationData.class);
         ImageData imageData = mock(ImageData.class);
-        
+
         // Set up the mock behavior
         when(irisBDIR.getRepresentation()).thenReturn(representation);
         when(representation.getRepresentationData()).thenReturn(repData);
         when(repData.getImageData()).thenReturn(imageData);
         when(imageData.getImage()).thenReturn(originalImageData);
-        
+
         // Mock ImageIO to throw an exception during write
         try (org.mockito.MockedStatic<IrisDecoder> irisDecoderMock = org.mockito.Mockito.mockStatic(IrisDecoder.class, org.mockito.Mockito.CALLS_REAL_METHODS);
              org.mockito.MockedStatic<ImageIO> imageIOMock = org.mockito.Mockito.mockStatic(ImageIO.class)) {
-            
+
             // Mock the static method call
             irisDecoderMock.when(() -> invokeGetIrisBDIRISO19794_6_2011(any(byte[].class), anyInt()))
-                .thenReturn(irisBDIR);
-                
+                    .thenReturn(irisBDIR);
+
             // Mock ImageIO.read to return a test image
             BufferedImage testImage = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
             imageIOMock.when(() -> ImageIO.read(any(ByteArrayInputStream.class))).thenReturn(testImage);
-            
+
             // Mock ImageIO.write to throw an exception
             imageIOMock.when(() -> ImageIO.write(any(BufferedImage.class), any(String.class), any(ByteArrayOutputStream.class)))
-                .thenThrow(new IOException("Test exception"));
-            
+                    .thenThrow(new IOException("Test exception"));
+
             // Call the method under test
             byte[] result = invokeConvertIrisISO19794_6_2011ToImage(new byte[]{1, 2, 3});
-            
+
             // Verify the result is the original image data
             assertArrayEquals(originalImageData, result);
         }
@@ -278,15 +276,15 @@ class IrisDecoderTest {
      * Tests that convertIrisISO19794_6_2011ToImage propagates IOExceptions from ImageIO.read.
      */
     @Test
-    void convertIrisISO19794_6_2011ToImage_imageIOReadThrows_throwsException() throws Exception {
+    void convertIrisIso19794ToImageReadThrowsException() throws Exception {
         try (org.mockito.MockedStatic<ImageIO> imageIOMock = org.mockito.Mockito.mockStatic(ImageIO.class)) {
             // Mock ImageIO.read to throw an exception
             imageIOMock.when(() -> ImageIO.read(any(ByteArrayInputStream.class)))
-                .thenThrow(new IOException("Test read exception"));
-            
+                    .thenThrow(new IOException("Test read exception"));
+
             // Call the method under test and verify it throws the expected exception
-            assertThrows(Exception.class, 
-                () -> invokeConvertIrisISO19794_6_2011ToImage(new byte[]{1, 2, 3}));
+            assertThrows(Exception.class,
+                    () -> invokeConvertIrisISO19794_6_2011ToImage(new byte[]{1, 2, 3}));
         }
     }
 
@@ -294,7 +292,7 @@ class IrisDecoderTest {
      * Tests that convertIrisISOToImageBytes throws UnsupportedOperationException for unsupported version.
      */
     @Test
-    void convertIrisISOToImageBytes_unsupportedVersion_throwsException() {
+    void convertIrisIsoToImageBytesUnsupportedVersionThrowsException() {
         ConvertRequestDto dto = mock(ConvertRequestDto.class);
         when(dto.getVersion()).thenReturn("UNSUPPORTED");
         assertThrows(UnsupportedOperationException.class, () -> IrisDecoder.convertIrisISOToImageBytes(dto));

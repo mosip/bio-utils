@@ -11,7 +11,7 @@ public class IrisCertificationFlagTest {
      * Tests constructor with valid value
      */
     @Test
-    public void constructor_validValue_createsIrisCertificationFlag() {
+    public void constructorCreatesFlagCorrectly() {
         IrisCertificationFlag flag = new IrisCertificationFlag(IrisCertificationFlag.UNSPECIFIED);
 
         assertEquals(IrisCertificationFlag.UNSPECIFIED, flag.value());
@@ -21,7 +21,7 @@ public class IrisCertificationFlagTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validFlag_returnsCorrectValue() {
+    public void valueReturnsCorrectValue() {
         IrisCertificationFlag flag = new IrisCertificationFlag(0x00);
 
         int result = flag.value();
@@ -33,7 +33,7 @@ public class IrisCertificationFlagTest {
      * Tests fromValue method with valid value
      */
     @Test
-    public void fromValue_validValue_returnsValue() {
+    public void fromValueWithValidValueReturnsValue() {
         int result = IrisCertificationFlag.fromValue(IrisCertificationFlag.UNSPECIFIED);
 
         assertEquals(IrisCertificationFlag.UNSPECIFIED, result);
@@ -43,7 +43,7 @@ public class IrisCertificationFlagTest {
      * Tests fromValue method with invalid value
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValue_throwsIllegalArgumentException() {
+    public void fromValueInvalidValueThrowsException() {
         IrisCertificationFlag.fromValue(0x01);
     }
 
@@ -51,7 +51,7 @@ public class IrisCertificationFlagTest {
      * Tests toString method returns formatted string
      */
     @Test
-    public void toString_validFlag_returnsFormattedString() {
+    public void toStringReturnsFormattedString() {
         IrisCertificationFlag flag = new IrisCertificationFlag(IrisCertificationFlag.UNSPECIFIED);
 
         String result = flag.toString();

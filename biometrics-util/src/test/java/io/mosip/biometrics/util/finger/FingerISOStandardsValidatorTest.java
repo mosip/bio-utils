@@ -19,7 +19,7 @@ import io.mosip.biometrics.util.ImageDecoderRequestDto;
 class FingerISOStandardsValidatorTest {
 
     private FingerISOStandardsValidator validator;
-    
+
     @Mock
     private ImageDecoderRequestDto decoderRequestDto;
 
@@ -35,10 +35,10 @@ class FingerISOStandardsValidatorTest {
      * Tests that getInstance returns the same instance (singleton pattern)
      */
     @Test
-    void getInstance_always_returnsSameInstance() {
+    void getInstanceReturnsSameInstance() {
         FingerISOStandardsValidator instance1 = FingerISOStandardsValidator.getInstance();
         FingerISOStandardsValidator instance2 = FingerISOStandardsValidator.getInstance();
-        
+
         assertSame(instance1, instance2, "Multiple instances of singleton created");
     }
 
@@ -46,7 +46,7 @@ class FingerISOStandardsValidatorTest {
      * Tests the isValidFormatIdentifier method with valid and invalid format identifiers
      */
     @Test
-    void isValidFormatIdentifier_withVariousValues_returnsExpectedResult() {
+    void isValidFormatIdentifierReturnsExpectedResult() {
         assertTrue(validator.isValidFormatIdentifier(FingerFormatIdentifier.FORMAT_FIR),
                 "Should return true for valid format identifier");
         assertFalse(validator.isValidFormatIdentifier(9999),
@@ -57,7 +57,7 @@ class FingerISOStandardsValidatorTest {
      * Tests the isValidVersionNumber method with valid and invalid version numbers
      */
     @Test
-    void isValidVersionNumber_withVariousValues_returnsExpectedResult() {
+    void isValidVersionNumberReturnsExpectedResult() {
         assertTrue(validator.isValidVersionNumber(FingerVersionNumber.VERSION_020),
                 "Should return true for valid version number");
         assertFalse(validator.isValidVersionNumber(123),
@@ -68,7 +68,7 @@ class FingerISOStandardsValidatorTest {
      * Tests the isValidRecordLength method with matching and non-matching lengths
      */
     @Test
-    void isValidRecordLength_withDifferentInputs_returnsExpectedResult() {
+    void isValidRecordLengthReturnsExpectedResult() {
         assertTrue(validator.isValidRecordLength(100, 100),
                 "Should return true when lengths match");
         assertFalse(validator.isValidRecordLength(100, 200),
@@ -79,7 +79,7 @@ class FingerISOStandardsValidatorTest {
      * Tests the isValidNoOfRepresentations method with valid and invalid values
      */
     @Test
-    void isValidNoOfRepresentations_withVariousValues_returnsExpectedResult() {
+    void isValidNoOfRepresentationsReturnsExpectedResult() {
         assertTrue(validator.isValidNoOfRepresentations(0x0001),
                 "Should return true for 0x0001");
         assertFalse(validator.isValidNoOfRepresentations(0x0002),
@@ -90,7 +90,7 @@ class FingerISOStandardsValidatorTest {
      * Tests the isValidCertificationFlag method with valid and invalid certification flags
      */
     @Test
-    void isValidCertificationFlag_withVariousValues_returnsExpectedResult() {
+    void isValidCertificationFlagReturnsExpectedResult() {
         assertTrue(validator.isValidCertificationFlag(FingerCertificationFlag.UNSPECIFIED),
                 "Should return true for UNSPECIFIED flag");
         assertTrue(validator.isValidCertificationFlag(FingerCertificationFlag.ONE),
@@ -103,7 +103,7 @@ class FingerISOStandardsValidatorTest {
      * Tests the isValidNoOfFingerPresent method with valid and invalid values
      */
     @Test
-    void isValidNoOfFingerPresent_withVariousValues_returnsExpectedResult() {
+    void isValidNoOfFingerPresentReturnsExpectedResult() {
         assertTrue(validator.isValidNoOfFingerPresent(0x01),
                 "Should return true for 0x01");
         assertFalse(validator.isValidNoOfFingerPresent(0x02),
@@ -114,7 +114,7 @@ class FingerISOStandardsValidatorTest {
      * Tests the isValidCaptureDeviceTechnologyIdentifier method with valid and invalid values
      */
     @Test
-    void isValidCaptureDeviceTechnologyIdentifier_withVariousValues_returnsExpectedResult() {
+    void isValidCaptureDeviceTechnologyIdentifierReturnsExpectedResult() {
         assertTrue(validator.isValidCaptureDeviceTechnologyIdentifier(FingerCaptureDeviceTechnology.UNSPECIFIED),
                 "Should return true for UNSPECIFIED technology");
         assertTrue(validator.isValidCaptureDeviceTechnologyIdentifier(FingerCaptureDeviceTechnology.GLASS_FIBER),
@@ -127,7 +127,7 @@ class FingerISOStandardsValidatorTest {
      * Tests the isValidCaptureDeviceVendor method with valid and invalid values
      */
     @Test
-    void isValidCaptureDeviceVendor_withVariousValues_returnsExpectedResult() {
+    void isValidCaptureDeviceVendorReturnsExpectedResult() {
         assertTrue(validator.isValidCaptureDeviceVendor(FingerCaptureDeviceVendor.UNSPECIFIED),
                 "Should return true for UNSPECIFIED vendor");
         assertTrue(validator.isValidCaptureDeviceVendor(FingerCaptureDeviceVendor.VENDOR_FFFF),
@@ -140,7 +140,7 @@ class FingerISOStandardsValidatorTest {
      * Tests the isValidNoOfQualityBlocks method with boundary and invalid values
      */
     @Test
-    void isValidNoOfQualityBlocks_withBoundaryValues_returnsExpectedResult() {
+    void isValidNoOfQualityBlocksReturnsBoundaryResults() {
         assertTrue(validator.isValidNoOfQualityBlocks(0),
                 "Should be valid for minimum value 0");
         assertTrue(validator.isValidNoOfQualityBlocks(0xFF),
@@ -155,7 +155,7 @@ class FingerISOStandardsValidatorTest {
      * Tests the isValidQualityScore method with valid and invalid score values
      */
     @Test
-    void isValidQualityScore_withVariousValues_returnsExpectedResult() {
+    void isValidQualityScoreReturnsExpectedResult() {
         assertTrue(validator.isValidQualityScore(0),
                 "Should be valid for minimum score 0");
         assertTrue(validator.isValidQualityScore(100),
@@ -172,7 +172,7 @@ class FingerISOStandardsValidatorTest {
      * Tests the isValidQualityAlgorithmIdentifier method with valid and invalid algorithm identifiers
      */
     @Test
-    void isValidQualityAlgorithmIdentifier_withVariousValues_returnsExpectedResult() {
+    void isValidQualityAlgorithmIdentifierReturnsExpectedResult() {
         assertTrue(validator.isValidQualityAlgorithmIdentifier(FingerQualityAlgorithmIdentifier.UNSPECIFIED),
                 "Should return true for UNSPECIFIED algorithm identifier");
         assertTrue(validator.isValidQualityAlgorithmIdentifier(FingerQualityAlgorithmIdentifier.VENDOR_FFFF),
@@ -185,7 +185,7 @@ class FingerISOStandardsValidatorTest {
      * Tests the isValidQualityAlgorithmVendorIdentifier method with valid and invalid vendor identifiers
      */
     @Test
-    void isValidQualityAlgorithmVendorIdentifier_withVariousValues_returnsExpectedResult() {
+    void isValidQualityAlgorithmVendorIdentifierReturnsExpectedResult() {
         assertTrue(validator.isValidQualityAlgorithmVendorIdentifier(FingerQualityAlgorithmVendorIdentifier.UNSPECIFIED),
                 "Should return true for UNSPECIFIED vendor identifier");
         assertTrue(validator.isValidQualityAlgorithmVendorIdentifier(FingerQualityAlgorithmVendorIdentifier.VENDOR_FFFF),
@@ -198,7 +198,7 @@ class FingerISOStandardsValidatorTest {
      * Tests the isValidNoOfCertificationBlocks method with boundary and invalid values
      */
     @Test
-    void isValidNoOfCertificationBlocks_withBoundaryValues_returnsExpectedResult() {
+    void isValidNoOfCertificationBlocksReturnsBoundaryResults() {
         assertTrue(validator.isValidNoOfCertificationBlocks(0),
                 "Should be valid for minimum value 0");
         assertTrue(validator.isValidNoOfCertificationBlocks(0xFF),
@@ -213,7 +213,7 @@ class FingerISOStandardsValidatorTest {
      * Tests the isValidCertificationAuthorityID method with valid and invalid authority IDs
      */
     @Test
-    void isValidCertificationAuthorityID_withVariousValues_returnsExpectedResult() {
+    void isValidCertificationAuthorityIdReturnsExpectedResult() {
         assertTrue(validator.isValidCertificationAuthorityID(FingerCertificationAuthorityID.UNSPECIFIED),
                 "Should return true for UNSPECIFIED authority ID");
         assertTrue(validator.isValidCertificationAuthorityID(FingerCertificationAuthorityID.VENDOR_FFFF),
@@ -226,11 +226,11 @@ class FingerISOStandardsValidatorTest {
      * Tests the isValidCertificationSchemeIdentifier method with valid and invalid scheme identifiers
      */
     @Test
-    void isValidCertificationSchemeIdentifier_withVariousValues_returnsExpectedResult() {
+    void isValidCertificationSchemeIdentifierReturnsExpectedResult() {
         assertTrue(validator.isValidCertificationSchemeIdentifier(FingerCertificationSchemeIdentifier.UNSPECIFIED),
                 "Should return true for UNSPECIFIED scheme identifier");
         assertTrue(validator.isValidCertificationSchemeIdentifier(
-                FingerCertificationSchemeIdentifier.REQUIREMENTS_AND_TEST_PROCEDURES_FOR_OPTICAL_FINGERPRINT_SCANNER),
+                        FingerCertificationSchemeIdentifier.REQUIREMENTS_AND_TEST_PROCEDURES_FOR_OPTICAL_FINGERPRINT_SCANNER),
                 "Should return true for valid scheme identifier");
         assertFalse(validator.isValidCertificationSchemeIdentifier(999),
                 "Should return false for invalid scheme identifier");
@@ -240,7 +240,7 @@ class FingerISOStandardsValidatorTest {
      * Tests the isValidFingerPosition method with an invalid purpose
      */
     @Test
-    void isValidFingerPosition_withInvalidPurpose_returnsFalse() {
+    void isValidFingerPositionWithInvalidPurposeReturnsFalse() {
         assertFalse(validator.isValidFingerPosition("INVALID_PURPOSE", FingerPosition.RIGHT_THUMB),
                 "Should return false for invalid purpose");
     }
@@ -249,7 +249,7 @@ class FingerISOStandardsValidatorTest {
      * Tests the isValidRepresentationsNo method with boundary and invalid values
      */
     @Test
-    void isValidRepresentationsNo_withBoundaryValues_returnsExpectedResult() {
+    void isValidRepresentationsNoReturnsBoundaryResults() {
         assertTrue(validator.isValidRepresentationsNo(0),
                 "Should be valid for minimum value 0");
         assertTrue(validator.isValidRepresentationsNo(0x0F),
@@ -264,7 +264,7 @@ class FingerISOStandardsValidatorTest {
      * Tests the isValidScaleUnits method with valid and invalid scale unit values
      */
     @Test
-    void isValidScaleUnits_withVariousValues_returnsExpectedResult() {
+    void isValidScaleUnitsReturnsExpectedResult() {
         assertTrue(validator.isValidScaleUnits(0x01),
                 "Should be valid for 0x01 (PPI)");
         assertTrue(validator.isValidScaleUnits(0x02),
@@ -279,14 +279,14 @@ class FingerISOStandardsValidatorTest {
      * Tests the isValidScanSpatialSamplingRateHorizontal method with boundary and invalid values
      */
     @Test
-    void isValidScanSpatialSamplingRateHorizontal_withBoundaryValues_returnsExpectedResult() {
+    void isValidScanSpatialSamplingRateHorizontalReturnsBoundaryResults() {
         assertTrue(validator.isValidScanSpatialSamplingRateHorizontal(490),
                 "Should be valid for minimum value 490");
         assertTrue(validator.isValidScanSpatialSamplingRateHorizontal(750),
                 "Should be valid for middle value 750");
         assertTrue(validator.isValidScanSpatialSamplingRateHorizontal(1010),
                 "Should be valid for maximum value 1010");
-        
+
         assertFalse(validator.isValidScanSpatialSamplingRateHorizontal(489),
                 "Should be invalid for value below minimum (489)");
         assertFalse(validator.isValidScanSpatialSamplingRateHorizontal(1011),
@@ -297,14 +297,14 @@ class FingerISOStandardsValidatorTest {
      * Tests the isValidScanSpatialSamplingRateVertical method with boundary and invalid values
      */
     @Test
-    void isValidScanSpatialSamplingRateVertical_withBoundaryValues_returnsExpectedResult() {
+    void isValidScanSpatialSamplingRateVerticalReturnsBoundaryResults() {
         assertTrue(validator.isValidScanSpatialSamplingRateVertical(490),
                 "Should be valid for minimum value 490");
         assertTrue(validator.isValidScanSpatialSamplingRateVertical(750),
                 "Should be valid for middle value 750");
         assertTrue(validator.isValidScanSpatialSamplingRateVertical(1010),
                 "Should be valid for maximum value 1010");
-        
+
         assertFalse(validator.isValidScanSpatialSamplingRateVertical(489),
                 "Should be invalid for value below minimum (489)");
         assertFalse(validator.isValidScanSpatialSamplingRateVertical(1011),
@@ -315,7 +315,7 @@ class FingerISOStandardsValidatorTest {
      * Tests the isValidImageImpressionType method with valid and invalid impression types
      */
     @Test
-    void isValidImageImpressionType_withVariousValues_returnsExpectedResult() {
+    void isValidImageImpressionTypeReturnsExpectedResult() {
         assertTrue(validator.isValidImageImpressionType(FingerImpressionType.LIVE_SCAN_PLAIN),
                 "Should be valid for LIVE_SCAN_PLAIN impression type");
         assertTrue(validator.isValidImageImpressionType(FingerImpressionType.LATENT_PALM_LIFT),
@@ -326,7 +326,7 @@ class FingerISOStandardsValidatorTest {
                 "Should be valid for OTHER impression type");
         assertTrue(validator.isValidImageImpressionType(FingerImpressionType.UNKNOWN),
                 "Should be valid for UNKNOWN impression type");
-        
+
         assertFalse(validator.isValidImageImpressionType(999),
                 "Should be invalid for unknown impression type");
     }

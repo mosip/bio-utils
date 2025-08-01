@@ -11,7 +11,7 @@ public class GenderTest {
      * Tests Gender constructor with valid value
      */
     @Test
-    public void constructor_validValue_createsGender() {
+    public void constructorValidValueCreatesGender() {
         int value = Gender.MALE;
 
         Gender gender = new Gender(value);
@@ -24,7 +24,7 @@ public class GenderTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validGender_returnsCorrectValue() {
+    public void valueValidGenderReturnsCorrectValue() {
         Gender gender = new Gender(Gender.FEMALE);
 
         int result = gender.value();
@@ -36,7 +36,7 @@ public class GenderTest {
      * Tests fromValue method with valid unspecified value
      */
     @Test
-    public void fromValue_validUnspecifiedValue_returnsValue() {
+    public void fromValueValidUnspecifiedValueReturnsValue() {
         int result = Gender.fromValue(Gender.UNSPECIFIED);
 
         assertEquals(Gender.UNSPECIFIED, result);
@@ -46,7 +46,7 @@ public class GenderTest {
      * Tests fromValue method with valid male value
      */
     @Test
-    public void fromValue_validMaleValue_returnsValue() {
+    public void fromValueValidMaleValueReturnsValue() {
         int result = Gender.fromValue(Gender.MALE);
 
         assertEquals(Gender.MALE, result);
@@ -56,7 +56,7 @@ public class GenderTest {
      * Tests fromValue method with valid female value
      */
     @Test
-    public void fromValue_validFemaleValue_returnsValue() {
+    public void fromValueValidFemaleValueReturnsValue() {
         int result = Gender.fromValue(Gender.FEMALE);
 
         assertEquals(Gender.FEMALE, result);
@@ -66,7 +66,7 @@ public class GenderTest {
      * Tests fromValue method with valid unknown value
      */
     @Test
-    public void fromValue_validUnknownValue_returnsValue() {
+    public void fromValueValidUnknownValueReturnsValue() {
         int result = Gender.fromValue(Gender.UNKNOWN);
 
         assertEquals(Gender.UNKNOWN, result);
@@ -76,7 +76,7 @@ public class GenderTest {
      * Tests fromValue method with invalid value throws exception
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValue_throwsIllegalArgumentException() {
+    public void fromValueInvalidValueThrowsIllegalArgumentException() {
         Gender.fromValue(0x99);
     }
 
@@ -84,7 +84,7 @@ public class GenderTest {
      * Tests toString method returns non-null string
      */
     @Test
-    public void toString_validGender_returnsNonNullString() {
+    public void toStringValidGenderReturnsNonNullString() {
         Gender gender = new Gender(Gender.MALE);
 
         String result = gender.toString();
@@ -97,7 +97,7 @@ public class GenderTest {
      * Tests all constant values are correct
      */
     @Test
-    public void constants_allValues_areCorrect() {
+    public void constantsAllValuesAreCorrect() {
         assertEquals(0x00, Gender.UNSPECIFIED);
         assertEquals(0x01, Gender.MALE);
         assertEquals(0x02, Gender.FEMALE);

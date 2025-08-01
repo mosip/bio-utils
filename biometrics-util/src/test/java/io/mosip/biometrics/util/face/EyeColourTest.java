@@ -11,7 +11,7 @@ public class EyeColourTest {
      * Tests EyeColour constructor with valid value
      */
     @Test
-    public void constructor_validValue_createsEyeColour() {
+    public void constructorWithValidValue() {
         int value = EyeColour.BLUE;
 
         EyeColour eyeColour = new EyeColour(value);
@@ -24,7 +24,7 @@ public class EyeColourTest {
      * Tests value method returns correct value
      */
     @Test
-    public void value_validEyeColour_returnsCorrectValue() {
+    public void valueReturnsCorrectValue() {
         EyeColour eyeColour = new EyeColour(EyeColour.GREEN);
 
         int result = eyeColour.value();
@@ -36,7 +36,7 @@ public class EyeColourTest {
      * Tests fromValue method with valid unspecified value
      */
     @Test
-    public void fromValue_validUnspecifiedValue_returnsValue() {
+    public void fromValueWithUnspecified() {
         int result = EyeColour.fromValue(EyeColour.UNSPECIFIED);
 
         assertEquals(EyeColour.UNSPECIFIED, result);
@@ -46,7 +46,7 @@ public class EyeColourTest {
      * Tests fromValue method with valid black value
      */
     @Test
-    public void fromValue_validBlackValue_returnsValue() {
+    public void fromValueWithBlack() {
         int result = EyeColour.fromValue(EyeColour.BLACK);
 
         assertEquals(EyeColour.BLACK, result);
@@ -56,7 +56,7 @@ public class EyeColourTest {
      * Tests fromValue method with valid blue value
      */
     @Test
-    public void fromValue_validBlueValue_returnsValue() {
+    public void fromValueWithBlue() {
         int result = EyeColour.fromValue(EyeColour.BLUE);
 
         assertEquals(EyeColour.BLUE, result);
@@ -66,7 +66,7 @@ public class EyeColourTest {
      * Tests fromValue method with valid brown value
      */
     @Test
-    public void fromValue_validBrownValue_returnsValue() {
+    public void fromValueWithBrown() {
         int result = EyeColour.fromValue(EyeColour.BROWN);
 
         assertEquals(EyeColour.BROWN, result);
@@ -76,7 +76,7 @@ public class EyeColourTest {
      * Tests fromValue method with valid gray value
      */
     @Test
-    public void fromValue_validGrayValue_returnsValue() {
+    public void fromValueWithGray() {
         int result = EyeColour.fromValue(EyeColour.GRAY);
 
         assertEquals(EyeColour.GRAY, result);
@@ -86,7 +86,7 @@ public class EyeColourTest {
      * Tests fromValue method with valid green value
      */
     @Test
-    public void fromValue_validGreenValue_returnsValue() {
+    public void fromValueWithGreen() {
         int result = EyeColour.fromValue(EyeColour.GREEN);
 
         assertEquals(EyeColour.GREEN, result);
@@ -96,7 +96,7 @@ public class EyeColourTest {
      * Tests fromValue method with valid multi colour value
      */
     @Test
-    public void fromValue_validMultiColourValue_returnsValue() {
+    public void fromValueWithMultiColour() {
         int result = EyeColour.fromValue(EyeColour.MULTI_COLOUR);
 
         assertEquals(EyeColour.MULTI_COLOUR, result);
@@ -106,7 +106,7 @@ public class EyeColourTest {
      * Tests fromValue method with valid pink value
      */
     @Test
-    public void fromValue_validPinkValue_returnsValue() {
+    public void fromValueWithPink() {
         int result = EyeColour.fromValue(EyeColour.PINK);
 
         assertEquals(EyeColour.PINK, result);
@@ -116,7 +116,7 @@ public class EyeColourTest {
      * Tests fromValue method with valid other or unknown value
      */
     @Test
-    public void fromValue_validOtherOrUnknownValue_returnsValue() {
+    public void fromValueWithOtherOrUnknown() {
         int result = EyeColour.fromValue(EyeColour.OTHER_OR_UNKNOWN);
 
         assertEquals(EyeColour.OTHER_OR_UNKNOWN, result);
@@ -126,7 +126,7 @@ public class EyeColourTest {
      * Tests fromValue method with invalid value throws exception
      */
     @Test(expected = IllegalArgumentException.class)
-    public void fromValue_invalidValue_throwsIllegalArgumentException() {
+    public void fromValueWithInvalidValue() {
         EyeColour.fromValue(0x99);
     }
 
@@ -134,7 +134,7 @@ public class EyeColourTest {
      * Tests toString method returns non-null string
      */
     @Test
-    public void toString_validEyeColour_returnsNonNullString() {
+    public void toStringReturnsNonNullString() {
         EyeColour eyeColour = new EyeColour(EyeColour.BLUE);
 
         String result = eyeColour.toString();
@@ -147,7 +147,7 @@ public class EyeColourTest {
      * Tests all constant values are correct
      */
     @Test
-    public void constants_allValues_areCorrect() {
+    public void constantsAreCorrect() {
         assertEquals(0x00, EyeColour.UNSPECIFIED);
         assertEquals(0x01, EyeColour.BLACK);
         assertEquals(0x02, EyeColour.BLUE);

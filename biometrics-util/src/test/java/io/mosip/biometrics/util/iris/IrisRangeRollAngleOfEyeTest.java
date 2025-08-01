@@ -14,7 +14,7 @@ public class IrisRangeRollAngleOfEyeTest {
      * Test constructor and value() method with valid value.
      */
     @Test
-    public void testConstructorAndValue_Valid() {
+    public void constructorAndValueReturnsCorrectValue() {
         IrisRangeRollAngleOfEye angle = new IrisRangeRollAngleOfEye(IrisRangeRollAngleOfEye.ROLL_ANGLE_0000);
         assertEquals(IrisRangeRollAngleOfEye.ROLL_ANGLE_0000, angle.value());
     }
@@ -23,7 +23,7 @@ public class IrisRangeRollAngleOfEyeTest {
      * Test fromValue() with minimum valid value.
      */
     @Test
-    public void testFromValue_MinValid() {
+    public void fromValueWithMinimumReturnsValue() {
         assertEquals(IrisRangeRollAngleOfEye.ROLL_ANGLE_0000, IrisRangeRollAngleOfEye.fromValue(IrisRangeRollAngleOfEye.ROLL_ANGLE_0000));
     }
 
@@ -31,7 +31,7 @@ public class IrisRangeRollAngleOfEyeTest {
      * Test fromValue() with maximum valid value.
      */
     @Test
-    public void testFromValue_MaxValid() {
+    public void fromValueWithMaximumReturnsValue() {
         assertEquals(IrisRangeRollAngleOfEye.ROLL_ANGLE_UNDEFINIED, IrisRangeRollAngleOfEye.fromValue(IrisRangeRollAngleOfEye.ROLL_ANGLE_UNDEFINIED));
     }
 
@@ -39,7 +39,7 @@ public class IrisRangeRollAngleOfEyeTest {
      * Test fromValue() with a valid middle value.
      */
     @Test
-    public void testFromValue_MiddleValid() {
+    public void fromValueWithMiddleReturnsValue() {
         assertEquals(IrisRangeRollAngleOfEye.ROLL_ANGLE_FFFE, IrisRangeRollAngleOfEye.fromValue(IrisRangeRollAngleOfEye.ROLL_ANGLE_FFFE));
     }
 
@@ -47,7 +47,7 @@ public class IrisRangeRollAngleOfEyeTest {
      * Test fromValue() throws IllegalArgumentException for value below range.
      */
     @Test(expected = IllegalArgumentException.class)
-    public void testFromValue_BelowRange() {
+    public void fromValueBelowRangeThrowsException() {
         IrisRangeRollAngleOfEye.fromValue(-1);
     }
 
@@ -55,7 +55,7 @@ public class IrisRangeRollAngleOfEyeTest {
      * Test fromValue() throws IllegalArgumentException for value above range.
      */
     @Test(expected = IllegalArgumentException.class)
-    public void testFromValue_AboveRange() {
+    public void fromValueAboveRangeThrowsException() {
         IrisRangeRollAngleOfEye.fromValue(0x10000);
     }
 
@@ -63,10 +63,10 @@ public class IrisRangeRollAngleOfEyeTest {
      * Test toString() returns a non-null string containing the value in hex.
      */
     @Test
-    public void testToString() {
+    public void toStringReturnsNonNullHexString() {
         IrisRangeRollAngleOfEye angle = new IrisRangeRollAngleOfEye(IrisRangeRollAngleOfEye.ROLL_ANGLE_FFFE);
         String str = angle.toString();
         assertNotNull(str);
         assertTrue(str.contains(Integer.toHexString(IrisRangeRollAngleOfEye.ROLL_ANGLE_FFFE)));
     }
-} 
+}

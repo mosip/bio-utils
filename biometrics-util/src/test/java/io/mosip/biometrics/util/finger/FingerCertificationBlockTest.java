@@ -15,7 +15,7 @@ public class FingerCertificationBlockTest {
      * Tests default constructor
      */
     @Test
-    public void constructor_default_createsFingerCertificationBlock() {
+    public void constructorDefaultCreatesCertificationBlock() {
         FingerCertificationBlock certificationBlock = new FingerCertificationBlock();
 
         assertNotNull(certificationBlock);
@@ -27,7 +27,7 @@ public class FingerCertificationBlockTest {
      * Tests constructor with parameters
      */
     @Test
-    public void constructor_withParameters_createsFingerCertificationBlock() {
+    public void constructorWithParametersCreatesCertificationBlock() {
         int certificationAuthorityID = FingerCertificationAuthorityID.GREEN_BIT_AMERICAS_INC;
         int certificationSchemeIdentifier = FingerCertificationSchemeIdentifier.IMAGE_QUALITY_SPECIFICATION_FOR_AFIS_SYSTEM;
 
@@ -42,7 +42,7 @@ public class FingerCertificationBlockTest {
      * Tests constructor with DataInputStream
      */
     @Test
-    public void constructor_dataInputStream_createsFingerCertificationBlock() throws Exception {
+    public void constructorDataInputStreamCreatesCertificationBlock() throws Exception {
         byte[] testData = {0x00, 0x40, 0x01};
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
         DataInputStream inputStream = new DataInputStream(bais);
@@ -56,7 +56,7 @@ public class FingerCertificationBlockTest {
      * Tests constructor with DataInputStream and onlyImageInformation flag
      */
     @Test
-    public void constructor_dataInputStreamWithImageInfoFlag_createsFingerCertificationBlock() throws Exception {
+    public void constructorDataInputStreamWithImageInfoFlagCreatesCertificationBlock() throws Exception {
         byte[] testData = {0x00, 0x01, 0x02};
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
         DataInputStream inputStream = new DataInputStream(bais);
@@ -70,7 +70,7 @@ public class FingerCertificationBlockTest {
      * Tests getRecordLength method returns correct length
      */
     @Test
-    public void getRecordLength_validCertificationBlock_returnsCorrectLength() {
+    public void getRecordLengthReturnsCorrectLength() {
         FingerCertificationBlock certificationBlock = new FingerCertificationBlock();
 
         long recordLength = certificationBlock.getRecordLength();
@@ -82,7 +82,7 @@ public class FingerCertificationBlockTest {
      * Tests writeObject method writes data correctly
      */
     @Test
-    public void writeObject_validCertificationBlock_writesDataSuccessfully() throws Exception {
+    public void writeObjectWritesDataSuccessfully() throws Exception {
         FingerCertificationBlock certificationBlock = new FingerCertificationBlock(0x1234, 0x02);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream outputStream = new DataOutputStream(baos);
@@ -98,7 +98,7 @@ public class FingerCertificationBlockTest {
      * Tests setCertificationAuthorityID method sets value correctly
      */
     @Test
-    public void setCertificationAuthorityID_validID_setsValueCorrectly() {
+    public void setCertificationAuthorityIdSetsValueCorrectly() {
         FingerCertificationBlock certificationBlock = new FingerCertificationBlock();
         int newID = 0x5678;
 
@@ -111,7 +111,7 @@ public class FingerCertificationBlockTest {
      * Tests setCertificationSchemeIdentifier method sets value correctly
      */
     @Test
-    public void setCertificationSchemeIdentifier_validIdentifier_setsValueCorrectly() {
+    public void setCertificationSchemeIdentifierSetsValueCorrectly() {
         FingerCertificationBlock certificationBlock = new FingerCertificationBlock();
         int newIdentifier = FingerCertificationSchemeIdentifier.IMAGE_QUALITY_SPECIFICATION_FOR_PERSONAL_VERIFICATION;
 
@@ -124,7 +124,7 @@ public class FingerCertificationBlockTest {
      * Tests toString method returns non-null string
      */
     @Test
-    public void toString_validCertificationBlock_returnsNonNullString() {
+    public void toStringReturnsNonNullString() {
         FingerCertificationBlock certificationBlock = new FingerCertificationBlock(0xABCD, 0x03);
 
         String result = certificationBlock.toString();

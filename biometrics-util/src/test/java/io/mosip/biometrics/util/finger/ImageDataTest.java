@@ -17,7 +17,7 @@ public class ImageDataTest {
      * Tests constructor with image data
      */
     @Test
-    public void constructor_withImageData_createsImageData() {
+    public void constructorWithImageDataCreatesImageData() {
         byte[] image = "Test image data".getBytes();
 
         ImageData imageData = new ImageData(image);
@@ -31,7 +31,7 @@ public class ImageDataTest {
      * Tests constructor with DataInputStream
      */
     @Test
-    public void constructor_dataInputStream_createsImageData() throws Exception {
+    public void constructorDataInputStreamCreatesImageData() throws Exception {
         byte[] testImage = "Sample".getBytes();
         byte[] testData = createTestData(testImage);
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
@@ -47,7 +47,7 @@ public class ImageDataTest {
      * Tests constructor with DataInputStream and onlyImageInformation flag
      */
     @Test
-    public void constructor_dataInputStreamWithImageInfoFlag_createsImageData() throws Exception {
+    public void constructorDataInputStreamWithImageInfoFlagCreatesImageData() throws Exception {
         byte[] testImage = "Test".getBytes();
         byte[] testData = createTestData(testImage);
         ByteArrayInputStream bais = new ByteArrayInputStream(testData);
@@ -62,7 +62,7 @@ public class ImageDataTest {
      * Tests getRecordLength method returns correct length
      */
     @Test
-    public void getRecordLength_validImageData_returnsCorrectLength() {
+    public void getRecordLengthReturnsCorrectLength() {
         byte[] image = "Hello World".getBytes();
         ImageData imageData = new ImageData(image);
 
@@ -75,7 +75,7 @@ public class ImageDataTest {
      * Tests writeObject method writes data correctly
      */
     @Test
-    public void writeObject_validImageData_writesDataSuccessfully() throws Exception {
+    public void writeObjectWritesDataSuccessfully() throws Exception {
         byte[] image = "Test data".getBytes();
         ImageData imageData = new ImageData(image);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -92,7 +92,7 @@ public class ImageDataTest {
      * Tests writeObject method with null image
      */
     @Test
-    public void writeObject_nullImage_writesDataSuccessfully() throws Exception {
+    public void writeObjectNullImageWritesDataSuccessfully() throws Exception {
         ImageData imageData = new ImageData(new byte[0]);
         imageData.setImage(null);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -109,7 +109,7 @@ public class ImageDataTest {
      * Tests setImageLength method sets value correctly
      */
     @Test
-    public void setImageLength_validLength_setsValueCorrectly() {
+    public void setImageLengthSetsValueCorrectly() {
         ImageData imageData = new ImageData("Initial".getBytes());
         long newLength = 100L;
 
@@ -122,7 +122,7 @@ public class ImageDataTest {
      * Tests setImage method sets array correctly
      */
     @Test
-    public void setImage_validArray_setsArrayCorrectly() {
+    public void setImageSetsArrayCorrectly() {
         ImageData imageData = new ImageData("Original".getBytes());
         byte[] newImage = "Updated image".getBytes();
 
@@ -135,7 +135,7 @@ public class ImageDataTest {
      * Tests toString method returns non-null string
      */
     @Test
-    public void toString_validImageData_returnsNonNullString() {
+    public void toStringReturnsNonNullString() {
         byte[] image = "Sample image".getBytes();
         ImageData imageData = new ImageData(image);
 
@@ -147,12 +147,10 @@ public class ImageDataTest {
 
     private byte[] createTestData(byte[] imageData) {
         byte[] result = new byte[4 + imageData.length];
-        // Write length as 4 bytes
         result[0] = (byte) ((imageData.length >> 24) & 0xFF);
         result[1] = (byte) ((imageData.length >> 16) & 0xFF);
         result[2] = (byte) ((imageData.length >> 8) & 0xFF);
         result[3] = (byte) (imageData.length & 0xFF);
-        // Copy image data
         System.arraycopy(imageData, 0, result, 4, imageData.length);
         return result;
     }
