@@ -168,8 +168,6 @@ public class BIR implements Serializable {
 		 * @return this builder instance
 		 */
 		@JsonProperty("bdb")
-		@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
-		@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 		public BIRBuilder withBdb(byte[] bdb) {
 			this.bdb = bdb;
 			return this;
@@ -182,8 +180,6 @@ public class BIR implements Serializable {
 		 * @return this builder instance
 		 */
 		@JsonProperty("sb")
-		@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
-		@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 		public BIRBuilder withSb(byte[] sb) {
 			this.sb = sb == null ? new byte[0] : sb;
 			return this;

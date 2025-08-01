@@ -142,8 +142,6 @@ public class BDBInfo implements Serializable {
 		}
 
 		@JsonProperty("challengeResponse")
-		@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
-		@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 		public BDBInfoBuilder withChallengeResponse(byte[] challengeResponse) {
 			this.challengeResponse = challengeResponse;
 			return this;
