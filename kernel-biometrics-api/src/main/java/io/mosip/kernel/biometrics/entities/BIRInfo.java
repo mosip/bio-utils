@@ -13,7 +13,6 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -56,7 +55,8 @@ public class BIRInfo implements Serializable {
 	private String index;
 
 	@XmlElement(name = "Payload")
-	@JsonFormat(shape = JsonFormat.Shape.ARRAY)
+	@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
+	@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 	private byte[] payload;
 
 	@XmlElement(name = "Integrity")
@@ -144,7 +144,8 @@ public class BIRInfo implements Serializable {
 		 * @return this builder instance
 		 */
 		@JsonProperty("payload")
-		@JsonFormat(shape = JsonFormat.Shape.ARRAY)
+		@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
+		@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 		public BIRInfoBuilder withPayload(byte[] payload) {
 			this.payload = payload;
 			return this;

@@ -36,6 +36,9 @@
 		<!-- git -->
 		<git.commit.id.plugin.version>3.0.1</git.commit.id.plugin.version>
 
+		<!-- gson -->
+		<gson.version>2.8.6</gson.version>
+
 		<!-- Mosip  -->
 		<kernel.bom.version>1.2.1-SNAPSHOT</kernel.bom.version>
 		<kernel.core.version>1.2.1-SNAPSHOT</kernel.core.version>
@@ -71,6 +74,11 @@
 		<dependency>
 			<groupId>org.junit.vintage</groupId>
 			<artifactId>junit-vintage-engine</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.version}</version>
 		</dependency>
 	</dependencies>
 	<distributionManagement>
