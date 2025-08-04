@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -78,8 +79,17 @@ public class IntArrayToByteArrayDeserializer extends StdDeserializer<byte[]> {
 	 */
 	@Override
 	public byte[] deserialize(JsonParser parser, DeserializationContext context) throws IOException {
+		JsonToken token = parser.getCurrentToken();
+		if (token == JsonToken.VALUE_STRING) {
+			// Base64 input
+			String base64 = parser.getText();
+			if (base64 == null || base64.isEmpty()) {
+				return new byte[0]; // return empty array
+			}
+			return Base64.getDecoder().decode(base64);
+		}
 
-		if (parser.getCurrentToken() != JsonToken.START_ARRAY) {
+		if (token != JsonToken.START_ARRAY) {
 			String errorMsg = "Expected JSON array for byte[] deserialization, found: " + parser.getCurrentToken();
 			throw new IOException(errorMsg);
 		}
