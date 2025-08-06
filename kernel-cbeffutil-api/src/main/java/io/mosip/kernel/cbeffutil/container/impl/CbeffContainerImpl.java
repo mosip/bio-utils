@@ -1,5 +1,6 @@
 package io.mosip.kernel.cbeffutil.container.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.mosip.kernel.biometrics.commons.CbeffValidator;
@@ -24,7 +25,9 @@ import io.mosip.kernel.core.cbeffutil.common.CbeffXSDValidator;
  */
 public class CbeffContainerImpl extends CbeffContainerI<BIR, BIR> {
 
-	private BIR bir;
+	/** Shared reusable BIRInfo to avoid recreating metadata every time. */
+	private static final BIRInfo DEFAULT_BIR_INFO = new BIRInfo(new BIRInfoBuilder().withIntegrity(false));
+
 
 	/**
 	 * Initializes the BIR instance with the provided list of BIR data.
@@ -34,18 +37,10 @@ public class CbeffContainerImpl extends CbeffContainerI<BIR, BIR> {
 	 */
 	@Override
 	public BIR createBIRType(List<BIR> birList) {
-		load();
-		bir.setBirs(birList);
+		BIR bir = new BIR();
+		bir.setBirInfo(DEFAULT_BIR_INFO);
+		bir.setBirs(birList != null ? birList : new ArrayList<>());
 		return bir;
-	}
-
-	private void load() {
-		// Creating first version of Cbeff
-		bir = new BIR();
-
-		BIRInfoBuilder infoBuilder = new BIRInfoBuilder().withIntegrity(false);
-		BIRInfo birInfo = new BIRInfo(infoBuilder);
-		bir.setBirInfo(birInfo);
 	}
 
 	/**
