@@ -1,12 +1,6 @@
 package io.mosip.kernel.biosdk.provider.factory;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -54,14 +48,15 @@ public class BioAPIFactory {
 					ErrorCode.NO_PROVIDERS.getErrorMessage());
 		}
 
-		List<String> vendorIds = getVendorIds();
-		for (String vendorId : new HashSet<>(vendorIds)) {
+		Set<String> vendorIds = new HashSet<>(getVendorIds());
+		for (String vendorId : vendorIds) {
 			if (isProviderRegistryFilled()) {
 				logger.info("Provider registry is already filled : {}", providerRegistry.keySet());
 				break;
 			}
 
 			Map<BiometricType, Map<String, String>> params = getParamsForVendorId(vendorId);
+			if (params.isEmpty()) continue;
 
 			// pass params per modality to each provider, each providers will initialize
 			// supported SDK's
@@ -89,7 +84,7 @@ public class BioAPIFactory {
      * @return {@code true} if the list is invalid (null or empty), {@code false} otherwise.
      */
 	private boolean isValidProviderApis(List<iBioProviderApi> providerApis) {
-		return (Objects.isNull(providerApis)|| providerApis.isEmpty());
+		return (providerApis == null|| providerApis.isEmpty());
 	}
 
 	/**
@@ -99,10 +94,9 @@ public class BioAPIFactory {
      */
 	private List<String> getVendorIds() {
 		List<String> vendorIds = new ArrayList<>();
-		vendorIds.addAll(Objects.isNull(this.finger) ? Collections.emptyList() : this.finger.keySet());
-		vendorIds.addAll(Objects.isNull(this.iris) ? Collections.emptyList() : this.iris.keySet());
-		vendorIds.addAll(Objects.isNull(this.face) ? Collections.emptyList() : this.face.keySet());
-
+		if (finger != null) vendorIds.addAll(finger.keySet());
+		if (iris != null) vendorIds.addAll(iris.keySet());
+		if (face != null) vendorIds.addAll(face.keySet());
 		return vendorIds;
 	}
 
@@ -115,15 +109,16 @@ public class BioAPIFactory {
      */
 	private Map<BiometricType, Map<String, String>> getParamsForVendorId(String vendorId) throws BiometricException {
 		Map<BiometricType, Map<String, String>> params = new EnumMap<>(BiometricType.class);
-		params.put(BiometricType.FINGER, getFingerEntry(vendorId));
-		params.put(BiometricType.IRIS, getIrisEntry(vendorId));
-		params.put(BiometricType.FACE, getFaceEntry(vendorId));
+		params.put(BiometricType.FINGER, getEntry(finger, vendorId));
+		params.put(BiometricType.IRIS, getEntry(iris, vendorId));
+		params.put(BiometricType.FACE, getEntry(face, vendorId));
 
 		logger.info("Starting initialization for vendor {} with params >> {}", vendorId, params);
 
-		if (params.isEmpty())
+		if (params.values().stream().allMatch(Map::isEmpty)) {
 			throw new BiometricException(ErrorCode.NO_SDK_CONFIG.getErrorCode(),
 					ErrorCode.NO_SDK_CONFIG.getErrorMessage());
+		}
 
 		return params;
 	}
@@ -138,10 +133,18 @@ public class BioAPIFactory {
      */
 	public iBioProviderApi getBioProvider(BiometricType modality, BiometricFunction biometricFunction)
 			throws BiometricException {
-		if (providerRegistry.get(modality) != null && providerRegistry.get(modality).get(biometricFunction) != null)
-			return providerRegistry.get(modality).get(biometricFunction);
+		Map<BiometricFunction, iBioProviderApi> providers = providerRegistry.get(modality);
+		if (providers != null) {
+			iBioProviderApi provider = providers.get(biometricFunction);
+			if (provider != null) return provider;
+		}
 
 		throw new BiometricException(ErrorCode.NO_PROVIDERS.getErrorCode(), ErrorCode.NO_PROVIDERS.getErrorMessage());
+	}
+
+	/** Helper to get map entries safely. */
+	private Map<String, String> getEntry(Map<String, Map<String, String>> source, String key) {
+		return (source != null) ? source.getOrDefault(key, Collections.emptyMap()) : Collections.emptyMap();
 	}
 
 	/**
@@ -152,8 +155,8 @@ public class BioAPIFactory {
      * @param provider   The BioAPI provider implementing the modality and function.
      */
 	private void addToRegistry(BiometricType modality, BiometricFunction function, iBioProviderApi provider) {
-		providerRegistry.computeIfAbsent(modality, k -> new EnumMap<>(BiometricFunction.class));
-		providerRegistry.get(modality).put(function, provider);
+		providerRegistry.computeIfAbsent(modality, k -> new EnumMap<>(BiometricFunction.class))
+				.putIfAbsent(function, provider);
 	}
 
 	/**
@@ -178,45 +181,11 @@ public class BioAPIFactory {
      * @return {@code true} if the modality is configured, {@code false} otherwise.
      */
 	private boolean isModalityConfigured(BiometricType modality) {
-		switch (modality) {
-		case FINGER:
-			return this.finger != null && !this.finger.isEmpty();
-		case IRIS:
-			return this.iris != null && !this.iris.isEmpty();
-		case FACE:
-			return this.face != null && !this.face.isEmpty();
-		default:
-			return false;
-		}
-	}
-
-	 /**
-     * Retrieves the configuration entry for the 'finger' modality based on a specific vendor ID.
-     *
-     * @param key The vendor ID for which the configuration entry is retrieved.
-     * @return The configuration entry for the 'finger' modality associated with the vendor ID.
-     */
-	private Map<String, String> getFingerEntry(String key) {
-		return this.finger == null ? Collections.emptyMap() : this.finger.getOrDefault(key, Collections.emptyMap());
-	}
-
-	/**
-     * Retrieves the configuration entry for the 'iris' modality based on a specific vendor ID.
-     *
-     * @param key The vendor ID for which the configuration entry is retrieved.
-     * @return The configuration entry for the 'iris' modality associated with the vendor ID.
-     */
-	private Map<String, String> getIrisEntry(String key) {
-		return this.iris == null ? Collections.emptyMap() : this.iris.getOrDefault(key, Collections.emptyMap());
-	}
-
-	/**
-     * Retrieves the configuration entry for the 'face' modality based on a specific vendor ID.
-     *
-     * @param key The vendor ID for which the configuration entry is retrieved.
-     * @return The configuration entry for the 'face' modality associated with the vendor ID.
-     */
-	private Map<String, String> getFaceEntry(String key) {
-		return this.face == null ? Collections.emptyMap() : this.face.getOrDefault(key, Collections.emptyMap());
+        return switch (modality) {
+            case FINGER -> this.finger != null && !this.finger.isEmpty();
+            case IRIS -> this.iris != null && !this.iris.isEmpty();
+            case FACE -> this.face != null && !this.face.isEmpty();
+            default -> false;
+        };
 	}
 }
