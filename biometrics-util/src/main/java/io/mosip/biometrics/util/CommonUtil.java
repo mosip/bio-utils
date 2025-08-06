@@ -2,11 +2,9 @@ package io.mosip.biometrics.util;
 
 import org.jnbis.api.model.Bitmap;
 import org.jnbis.internal.WsqDecoder;
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfByte;
-import org.opencv.core.MatOfInt;
+import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -357,6 +355,46 @@ public class CommonUtil {
 		ImageIO.write(image, "jpg", byteArrayOutputStream);
 		byteArrayOutputStream.flush();
 		return Imgcodecs.imdecode(new MatOfByte(byteArrayOutputStream.toByteArray()), Imgcodecs.IMREAD_UNCHANGED);
+	}
+
+	/**
+	 * Check if the image (from byte array) is in RGB format.
+	 *
+	 * @param imageBytes Image data in bytes (e.g. JP2, PNG, etc.)
+	 * @return true if RGB, false otherwise
+	 */
+	public static boolean isRGBFormat(byte[] imageBytes) {
+		if (imageBytes == null || imageBytes.length == 0) {
+			return false;
+		}
+
+		// Decode image (loaded by OpenCV in BGR format)
+		Mat image = Imgcodecs.imdecode(new MatOfByte(imageBytes), Imgcodecs.IMREAD_UNCHANGED);
+		if (image.empty() || image.channels() != 3 || image.depth() != CvType.CV_8U) {
+			return false;
+		}
+
+		// Get original pixel at (0, 0)
+		double[] pixelOriginal = image.get(0, 0);
+		if (pixelOriginal == null || pixelOriginal.length != 3) {
+			return false;
+		}
+
+		int origB = (int) pixelOriginal[0];
+		int origG = (int) pixelOriginal[1];
+		int origR = (int) pixelOriginal[2];
+
+		// Convert BGR to RGB
+		Mat converted = new Mat();
+		Imgproc.cvtColor(image, converted, Imgproc.COLOR_BGR2RGB);
+		double[] pixelConverted = converted.get(0, 0);
+
+		int convR = (int) pixelConverted[0];
+		int convG = (int) pixelConverted[1];
+		int convB = (int) pixelConverted[2];
+
+		// If conversion had no effect, it was already RGB
+		return origR == convR && origG == convG && origB == convB;
 	}
 
 	/**

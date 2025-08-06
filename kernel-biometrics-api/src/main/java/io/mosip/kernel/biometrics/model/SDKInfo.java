@@ -21,24 +21,16 @@ import lombok.Data;
  * categorized by {@link BiometricFunction}, additional information stored as
  * key-value pairs, and ownership details represented by {@link RegistryIDType}.
  * </p>
- * 
+ *
  * <p>
- * Use the constructor {@link #SDKInfo(String, String, String, String)} to
- * instantiate the SDK information with API version, SDK version, organization,
- * and type of the product owner.
+ * Example usage:
  * </p>
- * 
- * <p>
- * To specify supported methods for specific {@link BiometricFunction}, use the
- * method {@link #withSupportedMethod(BiometricFunction, BiometricType)}.
- * </p>
- * 
- * <p>
- * The {@link #otherInfo} field can be utilized to store additional information
- * such as license expiry details, represented as a {@link Map} of
- * {@link String} keys to {@link String} values.
- * </p>
- * 
+ * <pre>{@code
+ * SDKInfo sdkInfo = new SDKInfo("1.0", "2.5", "MOSIP", "BiometricModule")
+ *      .withSupportedMethod(BiometricFunction.CAPTURE, BiometricType.FINGERPRINT)
+ *      .withSupportedMethod(BiometricFunction.MATCH, BiometricType.IRIS);
+ * }</pre>
+ *
  * @see BiometricFunction
  * @see BiometricType
  * @see RegistryIDType
@@ -46,6 +38,7 @@ import lombok.Data;
  */
 @Data
 public class SDKInfo {
+
 	/**
 	 * The API version of the SDK.
 	 */
@@ -79,13 +72,30 @@ public class SDKInfo {
 	private RegistryIDType productOwner;
 
 	/**
+	 * Default constructor for {@link SDKInfo}.
+	 * <p>
+	 * Initializes all string fields as empty strings, supported modalities and
+	 * methods as empty collections, and product owner as a new
+	 * {@link RegistryIDType} with empty attributes.
+	 * </p>
+	 */
+	public SDKInfo() {
+		this.apiVersion = "";
+		this.sdkVersion = "";
+		this.supportedModalities = new ArrayList<>();
+		this.supportedMethods = new HashMap<>();
+		this.otherInfo = new HashMap<>();
+		this.productOwner = new RegistryIDType("", "");
+	}
+
+	/**
 	 * Constructs an instance of {@link SDKInfo} with specified API version, SDK
 	 * version, organization, and type of the product owner.
-	 * 
+	 *
 	 * @param apiVersion   the API version of the SDK
 	 * @param sdkVersion   the version of the SDK
-	 * @param organization the organization owning the product
-	 * @param type         the type of product within the organization
+	 * @param organization the name of the organization owning the product
+	 * @param type         the type of product or module within the organization
 	 */
 	public SDKInfo(String apiVersion, String sdkVersion, String organization, String type) {
 		this.apiVersion = apiVersion;
@@ -99,11 +109,16 @@ public class SDKInfo {
 	/**
 	 * Adds a supported {@link BiometricType} under a specific
 	 * {@link BiometricFunction}.
-	 * 
+	 * <p>
+	 * If the provided function does not exist in the {@link #supportedMethods}
+	 * map, a new entry will be created before adding the biometric type.
+	 * </p>
+	 *
 	 * @param function      the {@link BiometricFunction} for which the biometric
 	 *                      type is supported
 	 * @param biometricType the {@link BiometricType} that is supported
-	 * @return the {@link SDKInfo} instance with updated supported methods
+	 * @return the current {@link SDKInfo} instance with the updated supported
+	 *         methods list for method chaining
 	 */
 	@SuppressWarnings({ "java:S3824" })
 	public SDKInfo withSupportedMethod(BiometricFunction function, BiometricType biometricType) {

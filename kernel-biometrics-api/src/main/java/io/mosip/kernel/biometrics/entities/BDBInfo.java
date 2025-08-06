@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package io.mosip.kernel.biometrics.entities;
 
@@ -15,8 +15,11 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.mosip.kernel.biometrics.constant.BiometricType;
 import io.mosip.kernel.biometrics.constant.ProcessedLevelType;
 import io.mosip.kernel.biometrics.constant.PurposeType;
@@ -35,36 +38,36 @@ import lombok.NoArgsConstructor;
  * <p>
  * This class supports XML and JSON serialization/deserialization.
  * </p>
- * 
+ *
  * <p>
  * Serialization of dates (creationDate, notValidBefore, notValidAfter) is
  * handled using {@link XmlSchemaType} and {@link XmlJavaTypeAdapter}
  * annotations with {@link DateAdapter}.
  * </p>
- * 
+ *
  * <p>
  * Biometric type and subtype are represented as lists of {@link BiometricType}
  * and {@link String} respectively. Processed level, purpose, and quality are
  * enums represented by {@link ProcessedLevelType}, {@link PurposeType}, and
  * {@link QualityType}.
  * </p>
- * 
+ *
  * <p>
  * This class uses Lombok's {@code @Data} annotation for automatic generation of
  * getters, setters, toString, equals, and hashCode methods.
  * </p>
- * 
+ *
  * <p>
  * The builder pattern ({@link BDBInfo.BDBInfoBuilder}) is used for constructing
  * instances of {@code BDBInfo}.
  * </p>
- * 
+ *
  * <p>
  * Note: This class assumes that {@link RegistryIDType}, {@link DateAdapter},
  * {@link BiometricType}, {@link ProcessedLevelType}, {@link PurposeType}, and
  * {@link QualityType} are properly defined and imported.
  * </p>
- * 
+ *
  * @author Ramadurai Pandian
  * @version 1.0
  * @since 1.0
@@ -86,6 +89,8 @@ public class BDBInfo implements Serializable {
 	 * Challenge response associated with the BDB.
 	 */
 	@XmlElement(name = "ChallengeResponse")
+	@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
+	@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 	private byte[] challengeResponse;
 
 	/**
@@ -112,6 +117,8 @@ public class BDBInfo implements Serializable {
 	@XmlElement(name = "CreationDate")
 	@XmlSchemaType(name = "dateTime")
 	@XmlJavaTypeAdapter(DateAdapter.class)
+	@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 	private LocalDateTime creationDate;
 
 	/**
@@ -120,6 +127,8 @@ public class BDBInfo implements Serializable {
 	@XmlElement(name = "NotValidBefore")
 	@XmlSchemaType(name = "dateTime")
 	@XmlJavaTypeAdapter(DateAdapter.class)
+	@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 	private LocalDateTime notValidBefore;
 
 	/**
@@ -128,6 +137,8 @@ public class BDBInfo implements Serializable {
 	@XmlElement(name = "NotValidAfter")
 	@XmlSchemaType(name = "dateTime")
 	@XmlJavaTypeAdapter(DateAdapter.class)
+	@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 	private LocalDateTime notValidAfter;
 
 	/**
@@ -196,7 +207,7 @@ public class BDBInfo implements Serializable {
 
 	/**
 	 * Constructs a new BDBInfo instance using the provided builder.
-	 * 
+	 *
 	 * @param bDBInfoBuilder the builder used to construct this BDBInfo object
 	 */
 	public BDBInfo(BDBInfoBuilder bDBInfoBuilder) {
@@ -222,13 +233,21 @@ public class BDBInfo implements Serializable {
 	/**
 	 * Builder class for constructing instances of {@code BDBInfo}.
 	 */
+	@JsonPOJOBuilder(withPrefix = "with")
 	public static class BDBInfoBuilder {
 		private byte[] challengeResponse;
 		private String index;
 		private RegistryIDType format;
 		private Boolean encryption;
+
+		@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+		@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 		private LocalDateTime creationDate;
+		@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+		@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 		private LocalDateTime notValidBefore;
+		@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+		@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 		private LocalDateTime notValidAfter;
 		private List<BiometricType> type;
 		private List<String> subtype;
@@ -241,12 +260,18 @@ public class BDBInfo implements Serializable {
 		private RegistryIDType comparisonAlgorithm;
 		private RegistryIDType compressionAlgorithm;
 
+		public BDBInfoBuilder(){
+		}
+
 		/**
 		 * Sets the challenge response associated with the BDB.
-		 * 
+		 *
 		 * @param challengeResponse the challenge response
 		 * @return this builder instance
 		 */
+		@JsonProperty("challengeResponse")
+		@JsonDeserialize(using = IntArrayToByteArrayDeserializer.class)
+		@JsonSerialize(using = ByteArrayToIntArraySerializer.class)
 		public BDBInfoBuilder withChallengeResponse(byte[] challengeResponse) {
 			this.challengeResponse = challengeResponse;
 			return this;
@@ -254,10 +279,11 @@ public class BDBInfo implements Serializable {
 
 		/**
 		 * Sets the index identifier of the BDB.
-		 * 
+		 *
 		 * @param index the index identifier
 		 * @return this builder instance
 		 */
+		@JsonProperty("index")
 		public BDBInfoBuilder withIndex(String index) {
 			this.index = index;
 			return this;
@@ -265,10 +291,11 @@ public class BDBInfo implements Serializable {
 
 		/**
 		 * Sets the format of the BDB represented by a registry ID type.
-		 * 
+		 *
 		 * @param format the format of the BDB
 		 * @return this builder instance
 		 */
+		@JsonProperty("format")
 		public BDBInfoBuilder withFormat(RegistryIDType format) {
 			this.format = format;
 			return this;
@@ -276,10 +303,11 @@ public class BDBInfo implements Serializable {
 
 		/**
 		 * Sets whether the BDB is encrypted.
-		 * 
+		 *
 		 * @param encryption true if encrypted, false otherwise
 		 * @return this builder instance
 		 */
+		@JsonProperty("encryption")
 		public BDBInfoBuilder withEncryption(Boolean encryption) {
 			this.encryption = encryption;
 			return this;
@@ -287,10 +315,13 @@ public class BDBInfo implements Serializable {
 
 		/**
 		 * Sets the creation date and time of the BDB.
-		 * 
+		 *
 		 * @param creationDate the creation date and time
 		 * @return this builder instance
 		 */
+		@JsonProperty("creationDate")
+		@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+		@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 		public BDBInfoBuilder withCreationDate(LocalDateTime creationDate) {
 			this.creationDate = creationDate;
 			return this;
@@ -298,10 +329,13 @@ public class BDBInfo implements Serializable {
 
 		/**
 		 * Sets the not valid before date and time of the BDB.
-		 * 
+		 *
 		 * @param notValidBefore the not valid before date and time
 		 * @return this builder instance
 		 */
+		@JsonProperty("notValidBefore")
+		@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+		@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 		public BDBInfoBuilder withNotValidBefore(LocalDateTime notValidBefore) {
 			this.notValidBefore = notValidBefore;
 			return this;
@@ -309,10 +343,13 @@ public class BDBInfo implements Serializable {
 
 		/**
 		 * Sets the not valid after date and time of the BDB.
-		 * 
+		 *
 		 * @param notValidAfter the not valid after date and time
 		 * @return this builder instance
 		 */
+		@JsonProperty("notValidAfter")
+		@JsonDeserialize(using = DateTimeObjectToLocalDateTimeDeserializer.class)
+		@JsonSerialize(using = LocalDateTimeToDateTimeObjectSerializer.class)
 		public BDBInfoBuilder withNotValidAfter(LocalDateTime notValidAfter) {
 			this.notValidAfter = notValidAfter;
 			return this;
@@ -320,10 +357,11 @@ public class BDBInfo implements Serializable {
 
 		/**
 		 * Sets the list of biometric types associated with the BDB.
-		 * 
+		 *
 		 * @param type the list of biometric types
 		 * @return this builder instance
 		 */
+		@JsonProperty("type")
 		public BDBInfoBuilder withType(List<BiometricType> type) {
 			this.type = type;
 			return this;
@@ -331,10 +369,11 @@ public class BDBInfo implements Serializable {
 
 		/**
 		 * Sets the list of biometric subtypes associated with the BDB.
-		 * 
+		 *
 		 * @param subtype the list of biometric subtypes
 		 * @return this builder instance
 		 */
+		@JsonProperty("subtype")
 		public BDBInfoBuilder withSubtype(List<String> subtype) {
 			this.subtype = subtype;
 			return this;
@@ -342,10 +381,11 @@ public class BDBInfo implements Serializable {
 
 		/**
 		 * Sets the processed level type of the BDB.
-		 * 
+		 *
 		 * @param level the processed level type
 		 * @return this builder instance
 		 */
+		@JsonProperty("level")
 		public BDBInfoBuilder withLevel(ProcessedLevelType level) {
 			this.level = level;
 			return this;
@@ -353,10 +393,11 @@ public class BDBInfo implements Serializable {
 
 		/**
 		 * Sets the product information associated with the BDB.
-		 * 
+		 *
 		 * @param product the product information
 		 * @return this builder instance
 		 */
+		@JsonProperty("product")
 		public BDBInfoBuilder withProduct(RegistryIDType product) {
 			this.product = product;
 			return this;
@@ -364,10 +405,11 @@ public class BDBInfo implements Serializable {
 
 		/**
 		 * Sets the purpose type of the BDB.
-		 * 
+		 *
 		 * @param purpose the purpose type
 		 * @return this builder instance
 		 */
+		@JsonProperty("purpose")
 		public BDBInfoBuilder withPurpose(PurposeType purpose) {
 			this.purpose = purpose;
 			return this;
@@ -375,10 +417,11 @@ public class BDBInfo implements Serializable {
 
 		/**
 		 * Sets the quality type associated with the BDB.
-		 * 
+		 *
 		 * @param quality the quality type
 		 * @return this builder instance
 		 */
+		@JsonProperty("quality")
 		public BDBInfoBuilder withQuality(QualityType quality) {
 			this.quality = quality;
 			return this;
@@ -386,10 +429,11 @@ public class BDBInfo implements Serializable {
 
 		/**
 		 * Sets the capture device information associated with the BDB.
-		 * 
+		 *
 		 * @param captureDevice the capture device information
 		 * @return this builder instance
 		 */
+		@JsonProperty("captureDevice")
 		public BDBInfoBuilder withCaptureDevice(RegistryIDType captureDevice) {
 			this.captureDevice = captureDevice;
 			return this;
@@ -397,10 +441,11 @@ public class BDBInfo implements Serializable {
 
 		/**
 		 * Sets the feature extraction algorithm associated with the BDB.
-		 * 
+		 *
 		 * @param featureExtractionAlgorithm the feature extraction algorithm
 		 * @return this builder instance
 		 */
+		@JsonProperty("featureExtractionAlgorithm")
 		public BDBInfoBuilder withFeatureExtractionAlgorithm(RegistryIDType featureExtractionAlgorithm) {
 			this.featureExtractionAlgorithm = featureExtractionAlgorithm;
 			return this;
@@ -408,10 +453,11 @@ public class BDBInfo implements Serializable {
 
 		/**
 		 * Sets the comparison algorithm associated with the BDB.
-		 * 
+		 *
 		 * @param comparisonAlgorithm the comparison algorithm
 		 * @return this builder instance
 		 */
+		@JsonProperty("comparisonAlgorithm")
 		public BDBInfoBuilder withComparisonAlgorithm(RegistryIDType comparisonAlgorithm) {
 			this.comparisonAlgorithm = comparisonAlgorithm;
 			return this;
@@ -419,10 +465,11 @@ public class BDBInfo implements Serializable {
 
 		/**
 		 * Sets the compression algorithm associated with the BDB.
-		 * 
+		 *
 		 * @param compressionAlgorithm the compression algorithm
 		 * @return this builder instance
 		 */
+		@JsonProperty("compressionAlgorithm")
 		public BDBInfoBuilder withCompressionAlgorithm(RegistryIDType compressionAlgorithm) {
 			this.compressionAlgorithm = compressionAlgorithm;
 			return this;
@@ -431,7 +478,7 @@ public class BDBInfo implements Serializable {
 		/**
 		 * Constructs a new {@link BDBInfo} instance based on the builder's current
 		 * state.
-		 * 
+		 *
 		 * @return a new {@link BDBInfo} instance
 		 */
 		public BDBInfo build() {

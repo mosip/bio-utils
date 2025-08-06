@@ -1,8 +1,7 @@
 package io.mosip.kernel.biometrics.commons;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,6 +21,7 @@ import io.mosip.kernel.core.util.CryptoUtil;
  *
  */
 public class BiometricsSignatureHelper {
+
 	private BiometricsSignatureHelper() {
 		throw new IllegalStateException("BiometricsSignatureHelper class");
 	}
@@ -61,15 +61,20 @@ public class BiometricsSignatureHelper {
 		String bdb = CryptoUtil.encodeToURLSafeBase64(bir.getBdb());
 
 		for (Map.Entry<String, String> entry : othersInfo.entrySet()) {
-			if (entry.getKey().equals("PAYLOAD")) {
+			if ("PAYLOAD".equals(entry.getKey())) {
 				String value = entry.getValue().replace("<bioValue>", bdb);
-				String encodedPayloadValue = CryptoUtil.encodeToURLSafeBase64(value.getBytes());
+				String encodedPayloadValue = CryptoUtil.encodeToURLSafeBase64(value.getBytes(StandardCharsets.UTF_8));
 				constructedJWTToken = constructJWTToken(sb, encodedPayloadValue);
+
 				JSONObject jsonObject = new JSONObject(value);
-				String digitalID = jsonObject.getString("digitalId");
-				compareJWTForSameCertificates(constructedJWTToken, digitalID);
+				String digitalID = jsonObject.optString("digitalId", null);
+				if (digitalID != null) {
+					compareJWTForSameCertificates(constructedJWTToken, digitalID);
+				}
+				//break; // Stop iterating once found
 			}
 		}
+
 		return constructedJWTToken;
 	}
 
@@ -90,29 +95,53 @@ public class BiometricsSignatureHelper {
 	 */
 	private static void compareJWTForSameCertificates(String jwtString1, String jwtString2)
 			throws JSONException, BiometricSignatureValidationException {
-		String jwtString1Header = new String(CryptoUtil.decodeURLSafeBase64(jwtString1.split("\\.")[0]));
-		JSONObject jwtString1HeaderCertificate = new JSONObject(jwtString1Header);
-		JSONArray jwtString1HeadercertificateJsonArray = jwtString1HeaderCertificate.getJSONArray("x5c");
-		ArrayList<String> jwtString1Certificates = new ArrayList<>();
-		if (jwtString1HeadercertificateJsonArray != null) {
-			for (int i = 0; i < jwtString1HeadercertificateJsonArray.length(); i++) {
-				jwtString1Certificates.add(jwtString1HeadercertificateJsonArray.getString(i));
-			}
-		}
+		Set<String> jwt1Certs = extractCertificatesFromJWT(jwtString1);
+		Set<String> jwt2Certs = extractCertificatesFromJWT(jwtString2);
 
-		String jwtString2Header = new String(CryptoUtil.decodeURLSafeBase64(jwtString2.split("\\.")[0]));
-		JSONObject jwtString2HeaderCertificate = new JSONObject(jwtString2Header);
-		JSONArray jwtString2HeadercertificateJsonArray = jwtString2HeaderCertificate.getJSONArray("x5c");
-		ArrayList<String> jwtString2Certificates = new ArrayList<>();
-		if (jwtString2HeadercertificateJsonArray != null) {
-			for (int i = 0; i < jwtString2HeadercertificateJsonArray.length(); i++) {
-				jwtString2Certificates.add(jwtString2HeadercertificateJsonArray.getString(i));
-			}
-		}
-
-		if (!jwtString1Certificates.containsAll(jwtString2Certificates)) {
+		if (!jwt1Certs.containsAll(jwt2Certs)) {
 			throw new BiometricSignatureValidationException("Header Certificate mismatch");
 		}
+	}
+
+	/**
+	 * Extracts the X.509 certificate chain ("x5c") from the header of a JWT string.
+	 * <p>
+	 * This method:
+	 * <ol>
+	 *   <li>Validates that the JWT string is not null and contains the expected '.' delimiters.</li>
+	 *   <li>Splits the JWT into its parts (header, payload, signature).</li>
+	 *   <li>Decodes the JWT header from Base64 URL-safe encoding into a JSON object.</li>
+	 *   <li>Extracts the "x5c" array from the header if present.</li>
+	 *   <li>Returns the certificates as a {@link Set} of strings for fast lookup and comparison.</li>
+	 * </ol>
+	 * If the JWT is malformed or the "x5c" array is missing, an empty set is returned.
+	 *
+	 * @param jwtString The JWT token string containing the header, payload, and signature, separated by dots.
+	 * @return A {@link Set} of certificate strings extracted from the "x5c" array in the JWT header,
+	 *         or an empty set if none are found or the token is invalid.
+	 * @throws JSONException If the JWT header cannot be parsed as valid JSON or the "x5c" field is malformed.
+	 */
+	private static Set<String> extractCertificatesFromJWT(String jwtString) throws JSONException {
+		if (jwtString == null || !jwtString.contains(".")) {
+			return Collections.emptySet();
+		}
+
+		String[] parts = jwtString.split("\\.");
+		if (parts.length < 1) {
+			return Collections.emptySet();
+		}
+
+		String headerJson = new String(CryptoUtil.decodeURLSafeBase64(parts[0]), StandardCharsets.UTF_8);
+		JSONObject headerObject = new JSONObject(headerJson);
+		JSONArray certArray = headerObject.optJSONArray("x5c");
+
+		if (certArray == null) return Collections.emptySet();
+
+		Set<String> certificates = new HashSet<>(certArray.length());
+		for (int i = 0; i < certArray.length(); i++) {
+			certificates.add(certArray.getString(i));
+		}
+		return certificates;
 	}
 
 	/**
