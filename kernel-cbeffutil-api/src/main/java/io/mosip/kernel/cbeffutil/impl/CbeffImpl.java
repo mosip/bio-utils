@@ -6,6 +6,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,6 +58,9 @@ public class CbeffImpl implements CbeffUtil {
 	/** The byte array representation of the XSD schema. */
 	private byte[] xsd;
 
+	/** Reusable container instance for creating and updating CBEFF BIR types. */
+	private final CbeffContainerImpl cbeffContainer = new CbeffContainerImpl();
+
 	/**
 	 * Initializes the XSD schema by loading it from the configured server URL.
 	 *
@@ -80,9 +84,7 @@ public class CbeffImpl implements CbeffUtil {
 	 */
 	@Override
 	public byte[] createXML(List<BIR> birList) throws Exception {
-		CbeffContainerImpl cbeffContainer = new CbeffContainerImpl();
-		BIR bir = cbeffContainer.createBIRType(birList);
-		return CbeffValidator.createXMLBytes(bir, xsd);
+		return CbeffValidator.createXMLBytes(cbeffContainer.createBIRType(birList), xsd);
 	}
 
 	/**
@@ -96,9 +98,7 @@ public class CbeffImpl implements CbeffUtil {
 	 */
 	@Override
 	public byte[] createXML(List<BIR> birList, byte[] xsd) throws Exception {
-		CbeffContainerImpl cbeffContainer = new CbeffContainerImpl();
-		BIR bir = cbeffContainer.createBIRType(birList);
-		return CbeffValidator.createXMLBytes(bir, xsd);
+		return CbeffValidator.createXMLBytes(cbeffContainer.createBIRType(birList), xsd);
 	}
 
 	/**
@@ -112,9 +112,7 @@ public class CbeffImpl implements CbeffUtil {
 	 */
 	@Override
 	public byte[] updateXML(List<BIR> birList, byte[] fileBytes) throws Exception {
-		CbeffContainerImpl cbeffContainer = new CbeffContainerImpl();
-		BIR bir = cbeffContainer.updateBIRType(birList, fileBytes);
-		return CbeffValidator.createXMLBytes(bir, xsd);
+		return CbeffValidator.createXMLBytes(cbeffContainer.updateBIRType(birList, fileBytes), xsd);
 	}
 
 	/**
@@ -128,7 +126,6 @@ public class CbeffImpl implements CbeffUtil {
 	 */
 	@Override
 	public boolean validateXML(byte[] xmlBytes, byte[] xsdBytes) throws Exception {
-		CbeffContainerImpl cbeffContainer = new CbeffContainerImpl();
 		return cbeffContainer.validateXML(xmlBytes, xsdBytes);
 	}
 

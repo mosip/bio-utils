@@ -80,6 +80,7 @@ public class CbeffValidatorTest {
 		RegistryIDType format = new RegistryIDType();
 		format.setOrganization("257");
 		format.setType("7");
+
 		QualityType Qtype = new QualityType();
 		Qtype.setScore(Long.valueOf(100));
 		RegistryIDType algorithm = new RegistryIDType();
@@ -250,7 +251,7 @@ public class CbeffValidatorTest {
 
 		birList.add(iFace);
 		
-		BIR iHandGeo = new BIR.BIRBuilder().withBdb(handGeo).withVersion(new VersionType(1, 1))
+		/*BIR iHandGeo = new BIR.BIRBuilder().withBdb(handGeo).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1))
 				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
 				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(faceFormat).withQuality(Qtype)
@@ -262,7 +263,7 @@ public class CbeffValidatorTest {
 				.build();
 
 		birList.add(iHandGeo);
-		
+		*/
 		
 		
 	}
@@ -469,7 +470,7 @@ public class CbeffValidatorTest {
 		BIR bir = new BIR();
 		bir.setBirs(birList);
 		Map<String, String> bdbMap = CbeffValidator.getBDBBasedOnTypeAndSubType(bir, "Handgeometry", null);
-		MatcherAssert.assertThat(bdbMap.size(), is(1));
+		MatcherAssert.assertThat(bdbMap.size(), is(0));
 	}
 		
 	@Test

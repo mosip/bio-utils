@@ -41,6 +41,10 @@ public class BioProviderUtil {
 	 */
 	private static Map<String, Object> sdkInstances = new HashMap<>();
 
+	private static final Map<String, Class<?>> CLASS_CACHE = new java.util.concurrent.ConcurrentHashMap<>();
+	private static final Map<String, Constructor<?>> CONSTRUCTOR_CACHE = new java.util.concurrent.ConcurrentHashMap<>();
+	private static final Map<String, Method> METHOD_CACHE = new java.util.concurrent.ConcurrentHashMap<>();
+
 	/**
 	 * Retrieves an instance of the Biometric SDK based on the provided modality
 	 * parameters.
@@ -70,33 +74,55 @@ public class BioProviderUtil {
 	@SuppressWarnings({ "java:S3011" })
 	public static Object getSDKInstance(Map<String, String> modalityParams) throws BiometricException {
 		try {
-			String instanceKey = modalityParams.entrySet().stream().sorted(Map.Entry.comparingByKey())
-					.map(entry -> entry.getKey() + "=" + entry.getValue()).collect(Collectors.joining("-"));
-			if (sdkInstances.containsKey(instanceKey)) {
+			StringBuilder sb = new StringBuilder();
+			modalityParams.entrySet().stream()
+					.sorted(Map.Entry.comparingByKey())
+					.forEach(entry -> sb.append(entry.getKey()).append('=').append(entry.getValue()).append('-'));
+			String instanceKey = sb.toString();
+
+			Object cachedInstance = sdkInstances.get(instanceKey);
+			if (cachedInstance != null) {
 				logger.debug("SDK instance reused for modality class : {}",
 						modalityParams.get(ProviderConstants.CLASSNAME));
-				return sdkInstances.get(instanceKey);
+				return cachedInstance;
 			}
-			Class<?> object = Class.forName(modalityParams.get(ProviderConstants.CLASSNAME));
-			Object[] args = new Object[0];
-			if (modalityParams.get(ProviderConstants.ARGUMENTS) != null
-					&& !modalityParams.get(ProviderConstants.ARGUMENTS).isEmpty())
-				args = modalityParams.get(ProviderConstants.ARGUMENTS).split(",");
 
-			Optional<Constructor<?>> result = ReflectionUtils.findConstructor(object, args);
-			if (result.isPresent()) {
-				Constructor<?> constructor = result.get();
-				constructor.setAccessible(true);
-				logger.debug("SDK instance created with params : {}", modalityParams);
-				Object newInstance = constructor.newInstance(args);
-				sdkInstances.put(instanceKey, newInstance);
-				return newInstance;
-			} else {
-				throw new BiometricException(ErrorCode.NO_CONSTRUCTOR_FOUND.getErrorCode(),
-						String.format(ErrorCode.NO_CONSTRUCTOR_FOUND.getErrorMessage(),
-								modalityParams.get(ProviderConstants.CLASSNAME),
-								modalityParams.get(ProviderConstants.ARGUMENTS)));
+			String className = modalityParams.get(ProviderConstants.CLASSNAME);
+			if (className == null || className.isEmpty()) {
+				throw new BiometricException(ErrorCode.SDK_INITIALIZATION_FAILED.getErrorCode(),
+						"Class name for SDK is missing in modality parameters");
 			}
+
+			Class<?> clazz = CLASS_CACHE.computeIfAbsent(className, key -> {
+				try {
+					return Class.forName(key);
+				} catch (ClassNotFoundException e) {
+					throw new RuntimeException(e);
+				}
+			});
+
+			String argsStr = modalityParams.get(ProviderConstants.ARGUMENTS);
+			Object[] args = (argsStr == null || argsStr.isEmpty()) ? new Object[0] : argsStr.split(",");
+
+			String ctorKey = className + "|" + args.length;
+			Constructor<?> constructor = CONSTRUCTOR_CACHE.computeIfAbsent(ctorKey, key -> {
+				try {
+					if (args.length == 0) {
+						return clazz.getDeclaredConstructor();
+					} else {
+						// Assuming single String[] constructor fallback
+						return clazz.getDeclaredConstructor(String[].class);
+					}
+				} catch (Exception e) {
+					return null;
+				}
+			});
+
+			constructor.setAccessible(true);
+			Object newInstance = (args.length == 0) ? constructor.newInstance() : constructor.newInstance((Object) args);
+
+			sdkInstances.put(instanceKey, newInstance);
+			return newInstance;
 		} catch (Exception e) {
 			throw new BiometricException(ErrorCode.SDK_INITIALIZATION_FAILED.getErrorCode(),
 					String.format(ErrorCode.SDK_INITIALIZATION_FAILED.getErrorMessage(),
@@ -123,14 +149,25 @@ public class BioProviderUtil {
 		Assert.notNull(type, "Class must not be null");
 		Assert.notNull(name, "Method name must not be null");
 
+		String key = buildMethodKey(type, name, parameterTypes);
+		Method cachedMethod = METHOD_CACHE.get(key);
+		if (cachedMethod != null) {
+			return cachedMethod;
+		}
+
 		Method result = null;
 		Class<?> searchType = type;
+
 		while (searchType != null) {
 			Method[] methods = (searchType.isInterface() ? searchType.getMethods() : getDeclaredMethods(searchType));
 			for (Method method : methods) {
 				if (name.equals(method.getName()) && hasSameParams(method, parameterTypes)
 						&& (result == null || result.isSynthetic() || result.isBridge())) {
 					result = method;
+					if (!result.isSynthetic() && !result.isBridge()) {
+						METHOD_CACHE.put(key, result);
+						return result;
+					}
 				}
 			}
 			searchType = searchType.getSuperclass();
@@ -148,17 +185,54 @@ public class BioProviderUtil {
 	}
 
 	/**
-	 * Checks if a method has the same parameter types as the provided array of
-	 * parameter types.
+	 * Builds a unique cache key for identifying a method based on its declaring class,
+	 * method name, and parameter types.
+	 * <p>
+	 * This key is used in caching mechanisms to avoid repeated reflection lookups
+	 * for the same method. The generated key format is:
+	 * <pre>
+	 *     ClassName|methodName|paramType1|paramType2|...|paramTypeN
+	 * </pre>
+	 * Example:
+	 * <pre>
+	 *     buildMethodKey(MyClass.class, "doSomething", new Class<?>[]{String.class, int.class})
+	 *     // Result: "com.example.MyClass|doSomething|java.lang.String|int"
+	 * </pre>
 	 *
-	 * This method compares the number of parameters in the method and the length of
-	 * the `paramTypes` array. It then uses `Arrays.equals` to ensure the
-	 * element-wise types of parameters in both sources are identical.
+	 * @param type           The class in which the method is declared. Must not be {@code null}.
+	 * @param name           The name of the method. Must not be {@code null}.
+	 * @param parameterTypes The parameter types of the method. If no parameters, an empty array can be provided.
+	 * @return A unique string key representing the combination of class, method name, and parameter types.
+	 */
+	private static String buildMethodKey(Class<?> type, String name, Class<?>[] parameterTypes) {
+		StringBuilder sb = new StringBuilder(type.getName()).append('|').append(name);
+		for (Class<?> paramType : parameterTypes) {
+			sb.append('|').append(paramType.getName());
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * Checks whether a given {@link Method} has the same parameter types as the provided array of parameter types.
+	 * <p>
+	 * This utility method is primarily used during reflection-based method lookups to ensure that
+	 * the discovered method matches the expected method signature exactly. The comparison considers:
+	 * <ul>
+	 *     <li>The number of parameters in the method and in the provided parameter type array.</li>
+	 *     <li>The type and order of parameters using {@link Arrays#equals(Object[], Object[])}.</li>
+	 * </ul>
+	 * <p>
+	 * Example:
+	 * <pre>
+	 *     Method m = MyClass.class.getMethod("processData", String.class, int.class);
+	 *     boolean matches = hasSameParams(m, new Class<?>[]{String.class, int.class});
+	 *     // matches = true
+	 * </pre>
 	 *
-	 * @param method     The method object to be inspected.
-	 * @param paramTypes The expected parameter types of the method.
-	 * @return True if the method has the same parameter types as specified, false
-	 *         otherwise.
+	 * @param method      The {@link Method} to check. Must not be {@code null}.
+	 * @param paramTypes  The expected parameter types to match against. Must not be {@code null}.
+	 * @return {@code true} if the method has the same parameter count and parameter types (in order),
+	 *         {@code false} otherwise.
 	 */
 	private static boolean hasSameParams(Method method, Class<?>[] paramTypes) {
 		return (paramTypes.length == method.getParameterCount()
@@ -185,25 +259,42 @@ public class BioProviderUtil {
 	private static final Method[] NO_METHODS = {};
 
 	/**
-	 * Retrieves the declared methods (including public, private, protected) for a
-	 * given class.
+	 * Retrieves all declared methods of the specified class, including any concrete methods
+	 * defined in its implemented interfaces, and caches the result for improved performance.
+	 * <p>
+	 * This method:
+	 * <ul>
+	 *     <li>Validates that the input {@code clazz} is not null.</li>
+	 *     <li>Checks if the declared methods for the given class are already cached in
+	 *     {@code declaredMethodsCache} to avoid repeated reflection lookups.</li>
+	 *     <li>If not cached:
+	 *         <ul>
+	 *             <li>Uses {@link Class#getDeclaredMethods()} to retrieve all declared methods
+	 *             (including private, protected, and public methods, excluding inherited ones).</li>
+	 *             <li>Additionally retrieves concrete (non-abstract) methods from all interfaces
+	 *             implemented by the class using {@link #findConcreteMethodsOnInterfaces(Class)}.</li>
+	 *             <li>Combines both sets of methods into a single array and stores it in the cache
+	 *             for future lookups.</li>
+	 *         </ul>
+	 *     </li>
+	 * </ul>
+	 * <p>
+	 * This approach ensures that method lookups using reflection are performed only once per class,
+	 * significantly improving efficiency in repeated calls.
+	 * </p>
 	 *
-	 * This method first checks the `declaredMethodsCache` for the methods
-	 * associated with the provided `clazz`. - If found in the cache, the cached
-	 * methods are returned directly. - If not found: 1. Calls
-	 * `clazz.getDeclaredMethods()` to retrieve all declared methods. 2. Optionally
-	 * calls `findConcreteMethodsOnInterfaces` (not shown here) to get concrete
-	 * methods from implemented interfaces. 3. Combines the declared methods and
-	 * concrete methods from interfaces into a single array `result`. 4. Stores the
-	 * `result` in the cache for `clazz`. 5. Returns the `result` array containing
-	 * all methods for the class and its implemented interfaces. In case of
-	 * exceptions during reflection, it throws an `IllegalStateException` with
-	 * details.
+	 * <pre>
+	 * Example:
+	 *   Method[] methods = getDeclaredMethods(MyService.class);
+	 *   for (Method method : methods) {
+	 *       System.out.println("Method: " + method.getName());
+	 *   }
+	 * </pre>
 	 *
-	 * @param clazz The class for which to retrieve declared methods.
-	 * @return An array of `Method` objects representing all declared methods
-	 *         (including those from implemented interfaces).
-	 * @throws IllegalStateException If there's an issue during reflection.
+	 * @param clazz The class for which declared methods need to be retrieved. Must not be {@code null}.
+	 * @return An array of {@link Method} objects representing all declared methods of the class,
+	 *         including concrete interface methods. Returns an empty array if no methods are found.
+	 * @throws IllegalStateException If reflection fails to retrieve the declared methods of the class.
 	 */
 	private static Method[] getDeclaredMethods(Class<?> clazz) {
 		Assert.notNull(clazz, "Class must not be null");
@@ -233,19 +324,39 @@ public class BioProviderUtil {
 	}
 
 	/**
-	 * Finds concrete methods declared in implemented interfaces of a class.
+	 * Retrieves all concrete (non-abstract) methods defined in the interfaces
+	 * implemented by the specified class.
+	 * <p>
+	 * This method iterates over each interface implemented by the given class
+	 * and inspects its methods using {@link Class#getMethods()}.
+	 * Any method that is not abstract (i.e., has an implementation, such as
+	 * a default method in an interface) is collected into a result list.
+	 * <p>
+	 * This utility is particularly useful for reflection-based operations
+	 * where default interface methods should be considered along with the
+	 * class's declared methods.
+	 * <p>
+	 * Steps performed:
+	 * <ul>
+	 *     <li>Retrieve all interfaces implemented by the given class.</li>
+	 *     <li>Inspect each method in these interfaces.</li>
+	 *     <li>Check if the method is non-abstract using
+	 *     {@link Modifier#isAbstract(int)}.</li>
+	 *     <li>Add concrete methods to the result list.</li>
+	 * </ul>
 	 *
-	 * This method iterates through all implemented interfaces
-	 * (`clazz.getInterfaces()`) of the provided `clazz`. For each interface
-	 * (`ifc`), it examines all its methods (`ifc.getMethods()`) and checks if they
-	 * are concrete (not abstract) using
-	 * `Modifier.isAbstract(ifcMethod.getModifiers())`. If a concrete method is
-	 * found, it's added to the `result` list.
+	 * <pre>
+	 * Example:
+	 *   List&lt;Method&gt; methods = findConcreteMethodsOnInterfaces(MyClass.class);
+	 *   for (Method method : methods) {
+	 *       System.out.println("Concrete interface method: " + method.getName());
+	 *   }
+	 * </pre>
 	 *
-	 * @param clazz The class for which to find concrete methods from implemented
-	 *              interfaces.
-	 * @return A list of `Method` objects representing concrete methods declared in
-	 *         implemented interfaces, or null if no concrete methods are found.
+	 * @param clazz the class whose implemented interfaces should be scanned
+	 *              for concrete (default) methods; must not be {@code null}.
+	 * @return a list of {@link Method} objects representing all concrete
+	 *         methods from implemented interfaces, or {@code null} if none are found.
 	 */
 	@Nullable
 	private static List<Method> findConcreteMethodsOnInterfaces(Class<?> clazz) {
