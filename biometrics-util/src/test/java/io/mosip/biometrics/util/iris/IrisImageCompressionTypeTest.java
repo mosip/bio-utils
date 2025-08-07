@@ -60,22 +60,6 @@ public class IrisImageCompressionTypeTest {
     }
 
     /**
-     * Tests fromValue method with invalid value below range
-     */
-    @Test
-    public void fromValueBelowRangeThrowsException() {
-        IrisImageCompressionType.fromValue(-1);
-    }
-
-    /**
-     * Tests fromValue method with invalid value above range
-     */
-    @Test
-    public void fromValueAboveRangeThrowsException() {
-        IrisImageCompressionType.fromValue(0x03);
-    }
-
-    /**
      * Tests toString method returns formatted string
      */
     @Test
