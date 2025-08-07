@@ -80,6 +80,7 @@ public class IntArrayToByteArrayDeserializer extends StdDeserializer<byte[]> {
 	@Override
 	public byte[] deserialize(JsonParser parser, DeserializationContext context) throws IOException {
 		JsonToken token = parser.getCurrentToken();
+		System.out.println("IntArrayToByteArrayDeserializer::deserialize>>>" + token);
 		if (token == JsonToken.VALUE_STRING) {
 			// Base64 input
 			String base64 = parser.getText();
