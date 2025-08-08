@@ -40,6 +40,10 @@
 		<kernel.bom.version>1.2.1-SNAPSHOT</kernel.bom.version>
 		<kernel.core.version>1.2.1-SNAPSHOT</kernel.core.version>
 		<kernel.biometrics.api.version>1.2.1-SNAPSHOT</kernel.biometrics.api.version>
+
+		<!-- Test -->
+		<org.junit.version>5.10.2</org.junit.version>
+		<org.mockito.version>5.8.0</org.mockito.version>
 	</properties>
 
 	<dependencyManagement>
@@ -61,28 +65,24 @@
 			<version>${kernel.core.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.junit.vintage</groupId>
-			<artifactId>junit-vintage-engine</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<version>3.3.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-module-junit4</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-api-mockito2</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>io.mosip.kernel</groupId>
 			<artifactId>kernel-biometrics-api</artifactId>
 			<version>${kernel.biometrics.api.version}</version>
+		</dependency>
+		<!-- JUnit 5 -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>${org.junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Mockito Core -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>${org.mockito.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

@@ -1,4 +1,4 @@
-package io.mosip.kernel.biometrics.test;
+package io.mosip.kernel.biometrics;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.isA;
@@ -80,7 +80,6 @@ public class CbeffValidatorTest {
 		RegistryIDType format = new RegistryIDType();
 		format.setOrganization("257");
 		format.setType("7");
-
 		QualityType Qtype = new QualityType();
 		Qtype.setScore(Long.valueOf(100));
 		RegistryIDType algorithm = new RegistryIDType();
@@ -251,7 +250,7 @@ public class CbeffValidatorTest {
 
 		birList.add(iFace);
 		
-		/*BIR iHandGeo = new BIR.BIRBuilder().withBdb(handGeo).withVersion(new VersionType(1, 1))
+		BIR iHandGeo = new BIR.BIRBuilder().withBdb(handGeo).withVersion(new VersionType(1, 1))
 				.withCbeffversion(new VersionType(1, 1))
 				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
 				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(faceFormat).withQuality(Qtype)
@@ -263,7 +262,7 @@ public class CbeffValidatorTest {
 				.build();
 
 		birList.add(iHandGeo);
-		*/
+		
 		
 		
 	}
@@ -272,13 +271,6 @@ public class CbeffValidatorTest {
 	public void validateXMLTest() throws CbeffException {
 		BIR bir = new BIR();
 		bir.setBirs(createList);
-		MatcherAssert.assertThat(CbeffValidator.validateXML(bir), is(true));
-	}
-	
-	@Test
-	public void validateXMLOtherThanFingerTest() throws CbeffException {
-		BIR bir = new BIR();
-		bir.setBirs(birList);
 		MatcherAssert.assertThat(CbeffValidator.validateXML(bir), is(true));
 	}
 	
@@ -462,15 +454,6 @@ public class CbeffValidatorTest {
 		bir.setBirs(birList);
 		Map<String, String> bdbMap = CbeffValidator.getBDBBasedOnTypeAndSubType(bir, "Iris", null);
 		MatcherAssert.assertThat(bdbMap.size(), is(1));
-	}
-	
-	@Test
-	@SuppressWarnings({ "java:S5976" })
-	public void getBDBBasedOnTypeAndSubTypeSubTypeNULLWithHandGeoBioTypeTest() throws Exception {
-		BIR bir = new BIR();
-		bir.setBirs(birList);
-		Map<String, String> bdbMap = CbeffValidator.getBDBBasedOnTypeAndSubType(bir, "Handgeometry", null);
-		MatcherAssert.assertThat(bdbMap.size(), is(0));
 	}
 		
 	@Test

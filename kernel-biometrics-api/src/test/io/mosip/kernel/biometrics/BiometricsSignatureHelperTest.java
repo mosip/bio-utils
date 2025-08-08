@@ -1,4 +1,4 @@
-package io.mosip.kernel.biometrics.test;
+package io.mosip.kernel.biometrics;
 
 import static org.hamcrest.CoreMatchers.isA;
 
