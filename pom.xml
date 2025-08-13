@@ -50,8 +50,8 @@
 		<central.publishing.maven.plugin.version>0.7.0</central.publishing.maven.plugin.version>
 
 		<!-- Mosip -->
-		<kernel.bom.version>1.2-2-SNAPSHOT</kernel.bom.version>
-		<kernel.core.version>1.2-2-SNAPSHOT</kernel.core.version>
+		<kernel.bom.version>1.2.2-SNAPSHOT</kernel.bom.version>
+		<kernel.core.version>1.2.2-SNAPSHOT</kernel.core.version>
 	</properties>
 
 	<modules>
