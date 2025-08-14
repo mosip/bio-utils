@@ -206,9 +206,6 @@ public class CbeffValidator {
 		}
 
 		try {
-			System.out.println("XML :::::::::::" + new String(savedData, StandardCharsets.UTF_8));
-			System.out.println("XSD :::::::::::" + new String(xsd, StandardCharsets.UTF_8));
-
 			CbeffXSDValidator.validateXML(xsd, savedData);
 		} catch (SAXException sax) {
 			sax.printStackTrace();
