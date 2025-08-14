@@ -208,7 +208,6 @@ public class CbeffValidator {
 		try {
 			CbeffXSDValidator.validateXML(xsd, savedData);
 		} catch (SAXException sax) {
-			sax.printStackTrace();
 			String message = sax.getMessage();
 			if (message != null && message.contains(":")) {
 				message = message.substring(message.indexOf(":"));
