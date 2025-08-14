@@ -35,9 +35,9 @@
 			<xs:element name="SBInfo" type="SBInfoType" minOccurs="0" />
 			<xs:element name="BIR" type="BIRType" minOccurs="0"
 				maxOccurs="unbounded" />
-			<xs:element name="BDB" type="xs:base64Binary"
+			<xs:element name="BDB" type="base64BinaryOrUrl"
 				minOccurs="0" />
-			<xs:element name="SB" type="xs:base64Binary" minOccurs="0" />
+			<xs:element name="SB" type="base64BinaryOrUrl" minOccurs="0" />
 			<xs:element name="Others" type="Entry" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
 		</xs:sequence>
 	</xs:complexType>
@@ -51,7 +51,7 @@
 		<xs:sequence>
 			<xs:element name="Creator" type="xs:string" minOccurs="0" />
 			<xs:element name="Index" type="UUIDType" minOccurs="0" />
-			<xs:element name="Payload" type="xs:base64Binary"
+			<xs:element name="Payload" type="base64BinaryOrUrl"
 				minOccurs="0" />
 			<xs:element name="Integrity" type="xs:boolean" />
 			<xs:element name="CreationDate" type="xs:dateTime"
@@ -65,7 +65,7 @@
 	<xs:complexType name="BDBInfoType">
 		<xs:sequence>
 			<xs:element name="ChallengeResponse"
-				type="xs:base64Binary" minOccurs="0" />
+				type="base64BinaryOrUrl" minOccurs="0" />
 			<xs:element name="Index" type="UUIDType" minOccurs="0" />
 			<xs:element name="FormatOwner" type="xs:positiveInteger"
 				minOccurs="0" />
