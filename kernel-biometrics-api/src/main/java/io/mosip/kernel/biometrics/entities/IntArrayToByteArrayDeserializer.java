@@ -3,13 +3,12 @@ package io.mosip.kernel.biometrics.entities;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Base64;
-import java.util.List;
 
 /**
  * A custom Jackson {@link StdDeserializer} that converts a JSON array of integers
@@ -48,7 +47,9 @@ import java.util.List;
  */
 public class IntArrayToByteArrayDeserializer extends StdDeserializer<byte[]> {
 
-    private static final ObjectMapper MAPPER = new ObjectMapper();
+    private static final ObjectMapper MAPPER = new ObjectMapper()
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            .disable(JsonParser.Feature.STRICT_DUPLICATE_DETECTION);
 
     private final boolean useUnsigned;
 
