@@ -52,6 +52,7 @@
 		<!-- Mosip -->
 		<kernel.bom.version>1.2.2-SNAPSHOT</kernel.bom.version>
 		<kernel.core.version>1.2.2-SNAPSHOT</kernel.core.version>
+        
 	</properties>
 
 	<modules>
