@@ -2,7 +2,6 @@ package io.mosip.kernel.biometrics.commons;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.ZoneOffset;
@@ -11,7 +10,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
@@ -27,6 +25,7 @@ import io.mosip.kernel.core.cbeffutil.common.CbeffXSDValidator;
 import io.mosip.kernel.core.cbeffutil.constant.CbeffConstant;
 import io.mosip.kernel.core.cbeffutil.exception.CbeffException;
 import io.mosip.kernel.core.util.CryptoUtil;
+import io.mosip.kernel.biometrics.entities.*;
 
 /**
  * Utility class for Cbeff (Common Biometric Exchange File Format) data
@@ -49,7 +48,11 @@ public class CbeffValidator {
 
 	static {
 		try {
-			BIR_CONTEXT = JAXBContext.newInstance(BIR.class);
+			BIR_CONTEXT = JAXBContext.newInstance(BIR.class,
+					BIRInfo.class,
+					BDBInfo.class,
+					SBInfo.class,
+					VersionType.class);
 		} catch (Exception e) {
 			throw new ExceptionInInitializerError("Failed to initialize JAXBContext for BIR: " + e.getMessage());
 		}
@@ -184,24 +187,28 @@ public class CbeffValidator {
 	 * @param xsd The XSD (XML Schema Definition) used for validation as a byte
 	 *            array.
 	 * @return A byte array containing the generated and validated XML data.
-	 * @throws CbeffValidationException If XSD validation fails.
-	 * @throws CbeffException           If any other error occurs during the
-	 *                                  process.
+	 * @throws Exception  If XSD validation fails
 	 */
 	public static byte[] createXMLBytes(BIR bir, byte[] xsd) throws Exception {
 		CbeffValidator.validateXML(bir);
 
 		Marshaller jaxbMarshaller = BIR_CONTEXT.createMarshaller();
 		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		jaxbMarshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+
 		byte[] savedData;
-		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-			jaxbMarshaller.marshal(bir, baos);
+		try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			 OutputStreamWriter writer = new OutputStreamWriter(baos, StandardCharsets.UTF_8)) {
+
+			jaxbMarshaller.marshal(bir, writer);
+			writer.flush(); // ensure all characters are written to baos
 			savedData = baos.toByteArray();
 		}
 
 		try {
 			CbeffXSDValidator.validateXML(xsd, savedData);
 		} catch (SAXException sax) {
+			sax.printStackTrace();
 			String message = sax.getMessage();
 			if (message != null && message.contains(":")) {
 				message = message.substring(message.indexOf(":"));
