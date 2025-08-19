@@ -284,7 +284,7 @@ public class CbeffImplTest {
         // this is storage overwritten on each iteration with bytes
         int bufferSize = 1024;
         byte[] buffer = new byte[bufferSize];
-        // we need to know how may bytes were read to write them to the byteBuffer
+        // we need to know how may  bytes were read to write them to the byteBuffer
         int len = 0;
         while ((len = inputStream.read(buffer)) != -1) {
             byteBuffer.write(buffer, 0, len);
