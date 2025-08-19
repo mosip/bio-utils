@@ -36,6 +36,10 @@
 		<!-- git -->
 		<git.commit.id.plugin.version>3.0.1</git.commit.id.plugin.version>
 
+		<!-- Test -->
+		<org.junit.version>5.10.2</org.junit.version>
+		<org.mockito.version>5.8.0</org.mockito.version>
+
 		<!-- Mosip kernel -->
 		<kernel.bom.version>1.2.2-SNAPSHOT</kernel.bom.version>
 		<kernel.core.version>1.2.2-SNAPSHOT</kernel.core.version>
@@ -83,6 +87,21 @@
 			<groupId>io.mosip.kernel</groupId>
 			<artifactId>kernel-biometrics-api</artifactId>
 			<version>${kernel.biometrics.api.version}</version>
+		</dependency>
+		<!-- JUnit 5 -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>${org.junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Mockito Core -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>${org.mockito.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
