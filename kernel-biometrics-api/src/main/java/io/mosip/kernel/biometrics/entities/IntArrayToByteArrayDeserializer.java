@@ -51,6 +51,8 @@ public class IntArrayToByteArrayDeserializer extends StdDeserializer<byte[]> {
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
             .disable(JsonParser.Feature.STRICT_DUPLICATE_DETECTION);
 
+    private static final Base64.Decoder STD_DECODER = Base64.getDecoder();
+
     private final boolean useUnsigned;
 
     /**
@@ -90,7 +92,7 @@ public class IntArrayToByteArrayDeserializer extends StdDeserializer<byte[]> {
             if (base64 == null || base64.isEmpty()) {
                 return new byte[0]; // return empty array
             }
-            return Base64.getDecoder().decode(base64);
+            return STD_DECODER.decode(base64);
         }
 
         else if (token != JsonToken.START_ARRAY) {
