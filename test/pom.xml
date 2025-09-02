@@ -25,7 +25,7 @@
 		<kernel.core.version>1.2.0.1</kernel.core.version>
 		<fasterxml.jackson.version>2.15.0</fasterxml.jackson.version>
 		<hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
-		<biometrics-util.version>1.2.0.4-SNAPSHOT</biometrics-util.version>
+		<biometrics-util.version>1.2.0.4</biometrics-util.version>
 		<!-- fasterxml jackson-->
 		<com.fasterxml.jackson.version>2.15.0</com.fasterxml.jackson.version>
         <okhttp.version>2.7.5</okhttp.version>
