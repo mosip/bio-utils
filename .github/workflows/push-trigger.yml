@@ -52,7 +52,7 @@ jobs:
   sonar-analysis:
     if: "${{ github.event_name != 'pull_request' }}"
     needs: build-bio-utils
-    uses: mosip/kattu/.github/workflows/maven-sonar-analysis.yml@master-java21
+    uses: mosip/kattu/.github/workflows/maven-sonar-analysis-new.yml@develop
     with:
       SERVICE_LOCATION: ./
       PROJECT_KEY: 'mosip_biometrics-util'
