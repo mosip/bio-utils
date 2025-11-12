@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.mosip.biometric.util</groupId>
 	<artifactId>biometrics-util</artifactId>
-	<version>1.3.1-SNAPSHOT</version>
+	<version>1.3.0-SNAPSHOT</version>
 	<name>biometrics-util</name>
 	<url>https://github.com/mosip/bio-utils</url>
 	<description>This utility is used to convert ISO to Image and Image to ISO</description>
@@ -41,8 +41,8 @@
 		<openpnp.opencv.version>4.5.3-4</openpnp.opencv.version>
 
 		<!-- Mosip -->
-		<kernel.bom.version>1.3.1-SNAPSHOT</kernel.bom.version>
-		<kernel.core.version>1.3.1-SNAPSHOT</kernel.core.version>
+		<kernel.bom.version>1.3.0-SNAPSHOT</kernel.bom.version>
+		<kernel.core.version>1.3.0-SNAPSHOT</kernel.core.version>
 	</properties>
 
 	<dependencyManagement>
