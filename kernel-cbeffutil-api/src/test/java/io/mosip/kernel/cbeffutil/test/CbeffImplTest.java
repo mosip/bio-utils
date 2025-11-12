@@ -49,248 +49,248 @@ import io.mosip.kernel.core.cbeffutil.common.CbeffISOReader;
 @PrepareForTest({ URL.class, CbeffValidator.class })
 public class CbeffImplTest {
 
-	@InjectMocks
-	private CbeffUtil cbeffUtilImpl = new CbeffImpl();
+    @InjectMocks
+    private CbeffUtil cbeffUtilImpl = new CbeffImpl();
 
-	@Mock
-	private InputStream inputStream;
+    @Mock
+    private InputStream inputStream;
 
-	@Mock
-	private URL mockURL;
+    @Mock
+    private URL mockURL;
 
-	private List<BIR> createList;
-	private List<BIR> updateList;
-	private List<BIR> exceptionList;
-	private static final String localpath = "./src/main/resources";
+    private List<BIR> createList;
+    private List<BIR> updateList;
+    private List<BIR> exceptionList;
+    private static final String localpath = "./src/main/resources";
 
-	@SuppressWarnings("unused")
-	@Before
-	public void setUp() throws Exception {
-		PowerMockito.whenNew(URL.class).withArguments(Mockito.anyString()).thenReturn(mockURL);
-		when(mockURL.openStream()).thenReturn(inputStream);
+    @SuppressWarnings("unused")
+    @Before
+    public void setUp() throws Exception {
+        PowerMockito.whenNew(URL.class).withArguments(Mockito.anyString()).thenReturn(mockURL);
+        when(mockURL.openStream()).thenReturn(inputStream);
 
-		byte[] rindexFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintRight_Index.iso",
-				"Finger");
-		byte[] rmiddleFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintRight_Middle.iso",
-				"Finger");
-		byte[] rringFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintRight_Ring.iso",
-				"Finger");
-		byte[] rlittleFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintRight_Little.iso",
-				"Finger");
-		byte[] rightthumb = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintRight_Thumb.iso",
-				"Finger");
-		byte[] lindexFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintLeft_Index.iso",
-				"Finger");
-		byte[] lmiddleFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintLeft_Middle.iso",
-				"Finger");
-		byte[] lringFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintLeft_Ring.iso", "Finger");
-		byte[] llittleFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintLeft_Little.iso",
-				"Finger");
-		byte[] leftthumb = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintLeft_Thumb.iso", "Finger");
+        byte[] rindexFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintRight_Index.iso",
+                "Finger");
+        byte[] rmiddleFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintRight_Middle.iso",
+                "Finger");
+        byte[] rringFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintRight_Ring.iso",
+                "Finger");
+        byte[] rlittleFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintRight_Little.iso",
+                "Finger");
+        byte[] rightthumb = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintRight_Thumb.iso",
+                "Finger");
+        byte[] lindexFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintLeft_Index.iso",
+                "Finger");
+        byte[] lmiddleFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintLeft_Middle.iso",
+                "Finger");
+        byte[] lringFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintLeft_Ring.iso", "Finger");
+        byte[] llittleFinger = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintLeft_Little.iso",
+                "Finger");
+        byte[] leftthumb = CbeffISOReader.readISOImage(localpath + "/images/" + "FingerPrintLeft_Thumb.iso", "Finger");
 
-		RegistryIDType format = new RegistryIDType();
-		format.setOrganization("257");
-		format.setType("7");
-		QualityType Qtype = new QualityType();
-		Qtype.setScore(Long.valueOf(100));
-		RegistryIDType algorithm = new RegistryIDType();
-		algorithm.setOrganization("HMAC");
-		algorithm.setType("SHA-256");
-		Qtype.setAlgorithm(algorithm);
-		createList = new ArrayList<>();
-		BIR rIndexFinger = new BIR.BIRBuilder().withBdb(rindexFinger).withVersion(new VersionType(1, 1))
-				.withCbeffversion(new VersionType(1, 1))
-				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
-				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
-						.withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Right IndexFinger"))
-						.withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
-						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
-				.build();
+        RegistryIDType format = new RegistryIDType();
+        format.setOrganization("257");
+        format.setType("7");
+        QualityType Qtype = new QualityType();
+        Qtype.setScore(Long.valueOf(100));
+        RegistryIDType algorithm = new RegistryIDType();
+        algorithm.setOrganization("HMAC");
+        algorithm.setType("SHA-256");
+        Qtype.setAlgorithm(algorithm);
+        createList = new ArrayList<>();
+        BIR rIndexFinger = new BIR.BIRBuilder().withBdb(rindexFinger).withVersion(new VersionType(1, 1))
+                .withCbeffversion(new VersionType(1, 1))
+                .withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
+                .withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
+                        .withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Right IndexFinger"))
+                        .withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
+                        .withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
+                .build();
 
-		createList.add(rIndexFinger);
+        createList.add(rIndexFinger);
 
-		BIR rMiddleFinger = new BIR.BIRBuilder().withBdb(rmiddleFinger).withVersion(new VersionType(1, 1))
-				.withCbeffversion(new VersionType(1, 1))
-				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
-				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
-						.withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Right MiddleFinger"))
-						.withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
-						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
-				.build();
+        BIR rMiddleFinger = new BIR.BIRBuilder().withBdb(rmiddleFinger).withVersion(new VersionType(1, 1))
+                .withCbeffversion(new VersionType(1, 1))
+                .withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
+                .withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
+                        .withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Right MiddleFinger"))
+                        .withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
+                        .withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
+                .build();
 
-		createList.add(rMiddleFinger);
+        createList.add(rMiddleFinger);
 
-		BIR rRingFinger = new BIR.BIRBuilder().withBdb(rringFinger).withVersion(new VersionType(1, 1))
-				.withCbeffversion(new VersionType(1, 1))
-				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
-				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
-						.withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Right RingFinger"))
-						.withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
-						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
-				.build();
+        BIR rRingFinger = new BIR.BIRBuilder().withBdb(rringFinger).withVersion(new VersionType(1, 1))
+                .withCbeffversion(new VersionType(1, 1))
+                .withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
+                .withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
+                        .withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Right RingFinger"))
+                        .withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
+                        .withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
+                .build();
 
-		createList.add(rRingFinger);
+        createList.add(rRingFinger);
 
-		BIR rLittleFinger = new BIR.BIRBuilder().withBdb(rlittleFinger).withVersion(new VersionType(1, 1))
-				.withCbeffversion(new VersionType(1, 1))
-				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
-				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
-						.withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Right LittleFinger"))
-						.withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
-						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
-				.build();
+        BIR rLittleFinger = new BIR.BIRBuilder().withBdb(rlittleFinger).withVersion(new VersionType(1, 1))
+                .withCbeffversion(new VersionType(1, 1))
+                .withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
+                .withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
+                        .withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Right LittleFinger"))
+                        .withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
+                        .withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
+                .build();
 
-		createList.add(rLittleFinger);
+        createList.add(rLittleFinger);
 
-		BIR lIndexFinger = new BIR.BIRBuilder().withBdb(lindexFinger).withVersion(new VersionType(1, 1))
-				.withCbeffversion(new VersionType(1, 1))
-				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
-				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
-						.withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Left IndexFinger"))
-						.withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
-						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
-				.build();
+        BIR lIndexFinger = new BIR.BIRBuilder().withBdb(lindexFinger).withVersion(new VersionType(1, 1))
+                .withCbeffversion(new VersionType(1, 1))
+                .withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
+                .withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
+                        .withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Left IndexFinger"))
+                        .withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
+                        .withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
+                .build();
 
-		createList.add(lIndexFinger);
+        createList.add(lIndexFinger);
 
-		BIR lMiddleFinger = new BIR.BIRBuilder().withBdb(lmiddleFinger).withVersion(new VersionType(1, 1))
-				.withCbeffversion(new VersionType(1, 1))
-				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
-				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
-						.withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Left MiddleFinger"))
-						.withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
-						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
-				.build();
+        BIR lMiddleFinger = new BIR.BIRBuilder().withBdb(lmiddleFinger).withVersion(new VersionType(1, 1))
+                .withCbeffversion(new VersionType(1, 1))
+                .withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
+                .withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
+                        .withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Left MiddleFinger"))
+                        .withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
+                        .withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
+                .build();
 
-		createList.add(lMiddleFinger);
+        createList.add(lMiddleFinger);
 
-		BIR lRightFinger = new BIR.BIRBuilder().withBdb(lringFinger).withVersion(new VersionType(1, 1))
-				.withCbeffversion(new VersionType(1, 1))
-				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
-				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
-						.withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Left RingFinger"))
-						.withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
-						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
-				.build();
+        BIR lRightFinger = new BIR.BIRBuilder().withBdb(lringFinger).withVersion(new VersionType(1, 1))
+                .withCbeffversion(new VersionType(1, 1))
+                .withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
+                .withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
+                        .withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Left RingFinger"))
+                        .withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
+                        .withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
+                .build();
 
-		createList.add(lRightFinger);
+        createList.add(lRightFinger);
 
-		BIR lLittleFinger = new BIR.BIRBuilder().withBdb(llittleFinger).withVersion(new VersionType(1, 1))
-				.withCbeffversion(new VersionType(1, 1))
-				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
-				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
-						.withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Left LittleFinger"))
-						.withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
-						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
-				.build();
+        BIR lLittleFinger = new BIR.BIRBuilder().withBdb(llittleFinger).withVersion(new VersionType(1, 1))
+                .withCbeffversion(new VersionType(1, 1))
+                .withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
+                .withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
+                        .withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Left LittleFinger"))
+                        .withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
+                        .withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
+                .build();
 
-		createList.add(lLittleFinger);
+        createList.add(lLittleFinger);
 
-		BIR rightThumb = new BIR.BIRBuilder().withBdb(rightthumb).withVersion(new VersionType(1, 1))
-				.withCbeffversion(new VersionType(1, 1))
-				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
-				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
-						.withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Right Thumb"))
-						.withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
-						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
-				.build();
+        BIR rightThumb = new BIR.BIRBuilder().withBdb(rightthumb).withVersion(new VersionType(1, 1))
+                .withCbeffversion(new VersionType(1, 1))
+                .withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
+                .withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
+                        .withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Right Thumb"))
+                        .withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
+                        .withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
+                .build();
 
-		createList.add(rightThumb);
+        createList.add(rightThumb);
 
-		BIR leftThumb = new BIR.BIRBuilder().withBdb(leftthumb).withVersion(new VersionType(1, 1))
-				.withCbeffversion(new VersionType(1, 1))
-				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
-				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
-						.withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Left Thumb"))
-						.withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
-						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
-				.build();
+        BIR leftThumb = new BIR.BIRBuilder().withBdb(leftthumb).withVersion(new VersionType(1, 1))
+                .withCbeffversion(new VersionType(1, 1))
+                .withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
+                .withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
+                        .withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Left Thumb"))
+                        .withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
+                        .withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
+                .build();
 
-		createList.add(leftThumb);
+        createList.add(leftThumb);
 
-		exceptionList = new ArrayList<>();
-		BIR validThumb = new BIR.BIRBuilder().withBdb(leftthumb).withVersion(new VersionType(1, 1))
-				.withCbeffversion(new VersionType(1, 1))
-				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
-				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
-						.withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Left Thumb"))
-						.withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
-						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
-				.build();
+        exceptionList = new ArrayList<>();
+        BIR validThumb = new BIR.BIRBuilder().withBdb(leftthumb).withVersion(new VersionType(1, 1))
+                .withCbeffversion(new VersionType(1, 1))
+                .withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
+                .withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
+                        .withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Left Thumb"))
+                        .withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
+                        .withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
+                .build();
 
-		Entry entryInfo = new Entry(OtherKey.EXCEPTION, "true");
-		BIR exceptionThumb = new BIR.BIRBuilder().withBdb(new byte[0]).withVersion(new VersionType(1, 1))
-				.withCbeffversion(new VersionType(1, 1))
-				.withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
-				.withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
-						.withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Left Thumb"))
-						.withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
-						.withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
-				.withOthers(OtherKey.EXCEPTION, "true").build();
-		exceptionList.add(validThumb);
-		exceptionList.add(exceptionThumb);
-	}
+        Entry entryInfo = new Entry(OtherKey.EXCEPTION, "true");
+        BIR exceptionThumb = new BIR.BIRBuilder().withBdb(new byte[0]).withVersion(new VersionType(1, 1))
+                .withCbeffversion(new VersionType(1, 1))
+                .withBirInfo(new BIRInfo.BIRInfoBuilder().withIntegrity(false).build())
+                .withBdbInfo(new BDBInfo.BDBInfoBuilder().withFormat(format).withQuality(Qtype)
+                        .withType(Arrays.asList(BiometricType.FINGER)).withSubtype(Arrays.asList("Left Thumb"))
+                        .withPurpose(PurposeType.ENROLL).withLevel(ProcessedLevelType.RAW)
+                        .withCreationDate(LocalDateTime.now(ZoneId.of("UTC"))).build())
+                .withOthers(OtherKey.EXCEPTION, "true").build();
+        exceptionList.add(validThumb);
+        exceptionList.add(exceptionThumb);
+    }
 
-	// @Test
-	public void testCreateXML() throws Exception {
-		byte[] createXml = cbeffUtilImpl.createXML(createList);
-		createXMLFile(createXml, "createCbeffLatest");
-		assertEquals(new String(createXml), new String(readCreatedXML("createCbeffLatest")));
-	}
+    // @Test
+    public void testCreateXML() throws Exception {
+        byte[] createXml = cbeffUtilImpl.createXML(createList);
+        createXMLFile(createXml, "createCbeffLatest");
+        assertEquals(new String(createXml), new String(readCreatedXML("createCbeffLatest")));
+    }
 
-	@Test
-	public void testCreateXMLFromLocal() throws Exception {
-		PowerMockito.mockStatic(CbeffValidator.class);
-		when(CbeffValidator.createXMLBytes(any(), any())).thenReturn(readCreatedXML("createCbeffLatest2"));
-		byte[] createXml = cbeffUtilImpl.createXML(createList, readXSD("updatedcbeff"));
-		createXMLFile(createXml, "createCbeffLatest2");
-		assertEquals(new String(createXml), new String(readCreatedXML("createCbeffLatest2")));
-	}
+    @Test
+    public void testCreateXMLFromLocal() throws Exception {
+        PowerMockito.mockStatic(CbeffValidator.class);
+        when(CbeffValidator.createXMLBytes(any(), any())).thenReturn(readCreatedXML("createCbeffLatest2"));
+        byte[] createXml = cbeffUtilImpl.createXML(createList, readXSD("updatedcbeff"));
+        createXMLFile(createXml, "createCbeffLatest2");
+        assertEquals(new String(createXml), new String(readCreatedXML("createCbeffLatest2")));
+    }
 
-	@Test
-	public void testCreateExceptionXMLFromLocal() throws Exception {
-		PowerMockito.mockStatic(CbeffValidator.class);
-		byte[] result = cbeffUtilImpl.createXML(exceptionList, readXSD("cbeff"));
-		assertArrayEquals(null, result);
-	}
+    @Test
+    public void testCreateExceptionXMLFromLocal() throws Exception {
+        PowerMockito.mockStatic(CbeffValidator.class);
+        byte[] result = cbeffUtilImpl.createXML(exceptionList, readXSD("cbeff"));
+        assertArrayEquals(null, result);
+    }
 
-	private byte[] readCreatedXML(String name) throws IOException {
-		byte[] fileContent = Files.readAllBytes(Paths.get(localpath + "/schema/" + name + ".xml"));
-		return fileContent;
-	}
+    private byte[] readCreatedXML(String name) throws IOException {
+        byte[] fileContent = Files.readAllBytes(Paths.get(localpath + "/schema/" + name + ".xml"));
+        return fileContent;
+    }
 
-	private byte[] readXSD(String name) throws IOException {
-		byte[] fileContent = Files.readAllBytes(Paths.get(localpath + "/schema/" + name + ".xsd"));
-		return fileContent;
-	}
+    private byte[] readXSD(String name) throws IOException {
+        byte[] fileContent = Files.readAllBytes(Paths.get(localpath + "/schema/" + name + ".xsd"));
+        return fileContent;
+    }
 
-	private static void createXMLFile(byte[] updatedXmlBytes, String name) throws Exception {
-		File tempFile = new File(localpath + "/schema/" + name + ".xml");
-		FileOutputStream fos = new FileOutputStream(tempFile);
-		fos.write(updatedXmlBytes);
-		fos.close();
-	}
+    private static void createXMLFile(byte[] updatedXmlBytes, String name) throws Exception {
+        File tempFile = new File(localpath + "/schema/" + name + ".xml");
+        FileOutputStream fos = new FileOutputStream(tempFile);
+        fos.write(updatedXmlBytes);
+        fos.close();
+    }
 
-	// @Test
-	public void testUpdateXML() throws Exception {
-		byte[] updateXml = cbeffUtilImpl.updateXML(updateList, readCreatedXML("createCbeff"));
-		createXMLFile(updateXml, "updateCbeff");
-		assertEquals(new String(updateXml), new String(readCreatedXML("updateCbeff")));
-	}
+    // @Test
+    public void testUpdateXML() throws Exception {
+        byte[] updateXml = cbeffUtilImpl.updateXML(updateList, readCreatedXML("createCbeff"));
+        createXMLFile(updateXml, "updateCbeff");
+        assertEquals(new String(updateXml), new String(readCreatedXML("updateCbeff")));
+    }
 
-	@SuppressWarnings("unused")
-	private byte[] readbytesFromStream(InputStream inputStream) throws IOException {
-		ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
-		// this is storage overwritten on each iteration with bytes
-		int bufferSize = 1024;
-		byte[] buffer = new byte[bufferSize];
-		// we need to know how may bytes were read to write them to the byteBuffer
-		int len = 0;
-		while ((len = inputStream.read(buffer)) != -1) {
-			byteBuffer.write(buffer, 0, len);
-		}
-		// and then we can return your byte array.
-		return byteBuffer.toByteArray();
+    @SuppressWarnings("unused")
+    private byte[] readbytesFromStream(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        // this is storage overwritten on each iteration with bytes
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+        // we need to know how may  bytes were read to write them to the byteBuffer
+        int len = 0;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        // and then we can return your byte array.
+        return byteBuffer.toByteArray();
 
-	}
+    }
 }
