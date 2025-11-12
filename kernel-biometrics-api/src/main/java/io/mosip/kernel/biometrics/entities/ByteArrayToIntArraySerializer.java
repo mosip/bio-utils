@@ -47,49 +47,49 @@ import java.io.IOException;
  */
 public class ByteArrayToIntArraySerializer extends StdSerializer<byte[]> {
 
-	private final boolean useUnsigned;
+    private final boolean useUnsigned;
 
-	/**
-	 * Default constructor using signed integer conversion (-128 to 127).
-	 */
-	public ByteArrayToIntArraySerializer() {
-		this(byte[].class, false);
-	}
+    /**
+     * Default constructor using signed integer conversion (-128 to 127).
+     */
+    public ByteArrayToIntArraySerializer() {
+        this(byte[].class, false);
+    }
 
-	/**
-	 * Constructs a serializer for byte arrays with configurable signed/unsigned conversion.
-	 *
-	 * @param t           the class type (byte[])
-	 * @param useUnsigned true to treat bytes as unsigned (0 to 255),
-	 *                    false for signed (-128 to 127)
-	 */
-	protected ByteArrayToIntArraySerializer(Class<byte[]> t, boolean useUnsigned) {
-		super(t);
-		this.useUnsigned = useUnsigned;
-	}
+    /**
+     * Constructs a serializer for byte arrays with configurable signed/unsigned conversion.
+     *
+     * @param t           the class type (byte[])
+     * @param useUnsigned true to treat bytes as unsigned (0 to 255),
+     *                    false for signed (-128 to 127)
+     */
+    protected ByteArrayToIntArraySerializer(Class<byte[]> t, boolean useUnsigned) {
+        super(t);
+        this.useUnsigned = useUnsigned;
+    }
 
-	/**
-	 * Serializes a byte array to a JSON array of integers.
-	 * <p>
-	 * Writes {@code null} to the output if the byte array itself is null.
-	 *
-	 * @param value    the byte array to serialize
-	 * @param gen      the JSON generator
-	 * @param provider the serializer provider
-	 * @throws IOException if serialization fails
-	 */
-	@Override
-	public void serialize(byte[] value, JsonGenerator gen, SerializerProvider provider) throws IOException {
-		if (value == null) {
-			gen.writeNull();
-			return;
-		}
+    /**
+     * Serializes a byte array to a JSON array of integers.
+     * <p>
+     * Writes {@code null} to the output if the byte array itself is null.
+     *
+     * @param value    the byte array to serialize
+     * @param gen      the JSON generator
+     * @param provider the serializer provider
+     * @throws IOException if serialization fails
+     */
+    @Override
+    public void serialize(byte[] value, JsonGenerator gen, SerializerProvider provider) throws IOException {
+        if (value == null) {
+            gen.writeNull();
+            return;
+        }
 
-		gen.writeStartArray();
-		for (byte b : value) {
-			int intValue = useUnsigned ? Byte.toUnsignedInt(b) : b;
-			gen.writeNumber(intValue);
-		}
-		gen.writeEndArray();
-	}
+        // Convert byte[] to int[] for writing
+        int[] intArray = new int[value.length];
+        for (int i = 0; i < value.length; i++) {
+            intArray[i] = useUnsigned ? Byte.toUnsignedInt(value[i]) : value[i];
+        }
+        gen.writeArray(intArray, 0, intArray.length);
+    }
 }
