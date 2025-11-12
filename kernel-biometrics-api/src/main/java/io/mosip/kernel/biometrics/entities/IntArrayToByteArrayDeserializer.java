@@ -3,12 +3,12 @@ package io.mosip.kernel.biometrics.entities;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Base64;
-import java.util.List;
 
 /**
  * A custom Jackson {@link StdDeserializer} that converts a JSON array of integers
@@ -47,77 +47,79 @@ import java.util.List;
  */
 public class IntArrayToByteArrayDeserializer extends StdDeserializer<byte[]> {
 
-	private final boolean useUnsigned;
+    private static final ObjectMapper MAPPER = new ObjectMapper()
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            .disable(JsonParser.Feature.STRICT_DUPLICATE_DETECTION);
 
-	/**
-	 * Default constructor using signed byte conversion (-128 to 127).
-	 */
-	public IntArrayToByteArrayDeserializer() {
-		this(byte[].class, false);
-	}
+    private static final Base64.Decoder STD_DECODER = Base64.getDecoder();
 
-	/**
-	 * Constructs a deserializer with configurable signed/unsigned conversion.
-	 *
-	 * @param t           the class type handled by this deserializer
-	 * @param useUnsigned {@code true} to interpret integers as unsigned (0 to 255),
-	 *                    {@code false} for signed (-128 to 127)
-	 */
-	protected IntArrayToByteArrayDeserializer(Class<byte[]> t, boolean useUnsigned) {
-		super(t);
-		this.useUnsigned = useUnsigned;
-	}
+    private final boolean useUnsigned;
 
-	/**
-	 * Deserializes a JSON array of integers into a byte array.
-	 *
-	 * @param parser  the JSON parser
-	 * @param context the deserialization context
-	 * @return a byte array corresponding to the numeric JSON input
-	 * @throws IOException if the JSON is invalid, not an array, or contains values outside
-	 *                     the expected signed/unsigned byte range
-	 */
-	@Override
-	public byte[] deserialize(JsonParser parser, DeserializationContext context) throws IOException {
-		JsonToken token = parser.getCurrentToken();
-		System.out.println("IntArrayToByteArrayDeserializer::deserialize>>>" + token);
-		if (token == JsonToken.VALUE_STRING) {
-			// Base64 input
-			String base64 = parser.getText();
-			if (base64 == null || base64.isEmpty()) {
-				return new byte[0]; // return empty array
-			}
-			return Base64.getDecoder().decode(base64);
-		}
+    /**
+     * Default constructor using signed byte conversion (-128 to 127).
+     */
+    public IntArrayToByteArrayDeserializer() {
+        this(byte[].class, false);
+    }
 
-		if (token != JsonToken.START_ARRAY) {
-			String errorMsg = "Expected JSON array for byte[] deserialization, found: " + parser.getCurrentToken();
-			throw new IOException(errorMsg);
-		}
+    /**
+     * Constructs a deserializer with configurable signed/unsigned conversion.
+     *
+     * @param t           the class type handled by this deserializer
+     * @param useUnsigned {@code true} to interpret integers as unsigned (0 to 255),
+     *                    {@code false} for signed (-128 to 127)
+     */
+    protected IntArrayToByteArrayDeserializer(Class<byte[]> t, boolean useUnsigned) {
+        super(t);
+        this.useUnsigned = useUnsigned;
+    }
 
-		List<Byte> byteList = new ArrayList<>();
-		while (parser.nextToken() != JsonToken.END_ARRAY) {
-			if (parser.getCurrentToken() != JsonToken.VALUE_NUMBER_INT) {
-				throw new IOException("Expected integer value in JSON array, found: " + parser.getCurrentToken());
-			}
+    /**
+     * Deserializes a JSON array of integers into a byte array.
+     *
+     * @param parser  the JSON parser
+     * @param context the deserialization context
+     * @return a byte array corresponding to the numeric JSON input
+     * @throws IOException if the JSON is invalid, not an array, or contains values outside
+     *                     the expected signed/unsigned byte range
+     */
+    @Override
+    public byte[] deserialize(JsonParser parser, DeserializationContext context) throws IOException {
+        JsonToken token = parser.getCurrentToken();
+        if (token == JsonToken.VALUE_STRING) {
+            // Base64 input
+            String base64 = parser.getText();
+            if (base64 == null || base64.isEmpty()) {
+                return new byte[0]; // return empty array
+            }
+            return STD_DECODER.decode(base64);
+        }
 
-			int value = parser.getIntValue();
-			if (useUnsigned) {
-				if (value < 0 || value > 255) {
-					throw new IOException("Unsigned byte value out of range (0 to 255): " + value);
-				}
-			} else {
-				if (value < -128 || value > 127) {
-					throw new IOException("Signed byte value out of range (-128 to 127): " + value);
-				}
-			}
-			byteList.add((byte) value);
-		}
+        else if (token != JsonToken.START_ARRAY) {
+            String errorMsg = "Expected JSON array for byte[] deserialization, found: " + parser.getCurrentToken();
+            throw new IOException(errorMsg);
+        }
+        else {
+            // Read the entire array as int[] to avoid manual token iteration
+            int[] intArray = MAPPER.readValue(parser, int[].class);
 
-		byte[] result = new byte[byteList.size()];
-		for (int i = 0; i < byteList.size(); i++) {
-			result[i] = byteList.get(i);
-		}
-		return result;
-	}
+            // Validate range and convert to byte[]
+            byte[] result = new byte[intArray.length];
+            for (int i = 0; i < intArray.length; i++) {
+                int value = intArray[i];
+                if (useUnsigned) {
+                    if (value < 0 || value > 255) {
+                        throw new IOException("Unsigned byte value out of range (0 to 255): " + value);
+                    }
+                } else {
+                    if (value < -128 || value > 127) {
+                        throw new IOException("Signed byte value out of range (-128 to 127): " + value);
+                    }
+                }
+                result[i] = (byte) value;
+            }
+
+            return result;
+        }
+    }
 }
