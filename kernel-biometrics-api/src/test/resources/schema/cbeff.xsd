@@ -18,9 +18,9 @@
 			<xs:element name="SBInfo" type="SBInfoType" minOccurs="0" />
 			<xs:element name="BIR" type="BIRType" minOccurs="0"
 				maxOccurs="unbounded" />
-			<xs:element name="BDB" type="base64BinaryOrUrl"
+			<xs:element name="BDB" type="xs:base64Binary"
 				minOccurs="0" />
-			<xs:element name="SB" type="base64BinaryOrUrl" minOccurs="0" />
+			<xs:element name="SB" type="xs:base64Binary" minOccurs="0" />
 			<xs:element name="Others" type="Entry" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
 		</xs:sequence>
 	</xs:complexType>
