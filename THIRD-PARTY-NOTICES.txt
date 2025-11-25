@@ -10,13 +10,6 @@ Homepage: https://github.com/Rakshithasai123/bio-utils
 ================================================================================
 
 ================================================================================
-Package: JaCoCo Maven Plugin (org.jacoco:jacoco-maven-plugin)
-Version: 0.8.11
-License: Eclipse Public License 2.0
-Homepage: https://www.eclemma.org/jacoco/
-================================================================================
-
-================================================================================
 Package: Apache Maven Plugins
 (maven-compiler-plugin, maven-gpg-plugin, maven-javadoc-plugin, maven-source-plugin, maven-jar-plugin, maven-resources-plugin, maven-shade-plugin, maven-surefire-plugin, maven-war-plugin, maven-antrun-plugin, maven-dependency-plugin)
 Version:
