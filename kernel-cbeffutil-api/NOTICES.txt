@@ -1,0 +1,55 @@
+MOSIP
+Copyright (c) 2022
+Modular Open Source Identity Platform
+
+This product includes software developed at
+The Apache Software Foundation (https://www.apache.org/).
+
+The following third-party components are licensed under the Apache
+License 2.0 and require attribution. Original NOTICE contents from
+these components are retained as required by their licenses.
+
+
+===============================================================================
+Apache License 2.0 Components
+===============================================================================
+
+ • Spring Boot Starter Web
+ • Spring Boot Starter Test
+ • Spring Boot Starter Data JPA
+ • Hibernate Validator
+ • Jackson Core
+ • Jackson Databind
+ • Jackson Annotations
+ • Jackson Dataformat XML
+ • Jackson Dataformat CSV
+ • Jackson JAXB Annotations Module
+ • Gson
+ • JNBIS (Fingerprint Image Decoder)
+ • imgscalr-lib
+ • OkHttp
+ • PowerMock API Mockito2
+ • PowerMock Module JUnit4
+ • Apache Commons Lang3
+
+ • Apache Maven Compiler Plugin
+ • Apache Maven GPG Plugin (1.5 and 3.2.3)
+ • Apache Maven Javadoc Plugin
+ • Apache Maven Surefire Plugin (2.22.0 and 3.1.2)
+ • Apache Maven Source Plugin
+ • Apache Maven JAR Plugin
+ • Apache Maven Dependency Plugin
+ • Git Commit ID Maven Plugin
+
+===============================================================================
+Notes
+===============================================================================
+
+All MPL-2.0, EPL, MIT, BSD-3-Clause, and related permissive-licensed
+components used in this project do not require inclusion in this
+NOTICE file. Their respective license texts are available in the
+LICENSE directory.
+
+Full license texts for all third-party components are provided in the
+`license/` directory or may be obtained from their original sources.
+
