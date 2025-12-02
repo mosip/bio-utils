@@ -1,0 +1,80 @@
+package io.mosip.biometrics.util.face;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+
+public class CrossReferenceTest {
+
+    /**
+     * Tests constructor with valid value creates CrossReference instance
+     */
+    @Test
+    public void constructorWithValidValueCreatesCrossReference() {
+        CrossReference crossReference = new CrossReference(CrossReference.BASIC);
+
+        assertEquals(CrossReference.BASIC, crossReference.value());
+    }
+
+    /**
+     * Tests value method returns correct value
+     */
+    @Test
+    public void valueWithValidCrossReferenceReturnsCorrectValue() {
+        CrossReference crossReference = new CrossReference(0x50);
+
+        int result = crossReference.value();
+
+        assertEquals(0x50, result);
+    }
+
+    /**
+     * Tests fromValue method with valid minimum value
+     */
+    @Test
+    public void fromValueWithValidMinimumValueReturnsCorrectValue() {
+        int result = CrossReference.fromValue(CrossReference.BASIC);
+
+        assertEquals(CrossReference.BASIC, result);
+    }
+
+    /**
+     * Tests fromValue method with valid maximum value
+     */
+    @Test
+    public void fromValueWithValidMaximumValueReturnsCorrectValue() {
+        int result = CrossReference.fromValue(CrossReference.CROSSREFERENCE_FF);
+
+        assertEquals(CrossReference.CROSSREFERENCE_FF, result);
+    }
+
+    /**
+     * Tests fromValue method with invalid value below valid range
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void fromValueWithInvalidValueBelowRangeThrowsIllegalArgumentException() {
+        CrossReference.fromValue(-1);
+    }
+
+    /**
+     * Tests fromValue method with invalid value above valid range
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void fromValueWithInvalidValueAboveRangeThrowsIllegalArgumentException() {
+        CrossReference.fromValue(0x100);
+    }
+
+    /**
+     * Tests toString method returns properly formatted string representation
+     */
+    @Test
+    public void toStringWithValidCrossReferenceReturnsFormattedString() {
+        CrossReference crossReference = new CrossReference(0xAB);
+
+        String result = crossReference.toString();
+
+        assertNotNull(result);
+        assertTrue(result.contains("ab"));
+    }
+}
