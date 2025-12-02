@@ -1,0 +1,33 @@
+THIRD-PARTY NOTICES
+
+This project includes third-party components whose licenses require attribution.
+Only components with NOTICE obligations are listed below.
+
+=====================================================
+ Mozilla Public License 2.0 (MPL-2.0)
+=====================================================
+• MOSIP Kernel BOM  
+• MOSIP Kernel Core  
+• MOSIP Kernel Logger Logback  
+• MOSIP Biometrics API  
+• MOSIP Biometrics Util  
+
+=====================================================
+ MIT License
+=====================================================
+• SLF4J API  
+• Mockito Core (all versions used)
+
+=====================================================
+ Eclipse Public License (EPL-1.0 / EPL-2.0)
+=====================================================
+• H2 Database (dual-licensed: EPL-1.0 or MPL-2.0)  
+• JUnit 4 (EPL-1.0)  
+• JUnit Vintage Engine (EPL-2.0)  
+• JUnit Jupiter (EPL-2.0)
+
+=====================================================
+
+Full license texts for the above components are available in the `license/`
+directory of this repository.
+
