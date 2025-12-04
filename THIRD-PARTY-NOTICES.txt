@@ -159,7 +159,7 @@ Homepage: https://github.com/mhshams/jnbis
 
 ================================================================================
 Package: H2 Database
-License: EPL-1.0 OR Modified MPL 1.1
+License: EPL-1.0 OR MPL-2.0
 Homepage: https://www.h2database.com
 ================================================================================
 
