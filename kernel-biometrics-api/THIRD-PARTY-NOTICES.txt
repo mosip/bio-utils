@@ -273,12 +273,4 @@ License: Apache License 2.0
 Homepage: https://maven.apache.org/plugins/maven-dependency-plugin/
 ================================================================================
 
-================================================================================
-Package: Git Commit ID Plugin
-Version: 3.0.1
-License: Apache License 2.0
-Homepage: https://github.com/git-commit-id/git-commit-id-maven-plugin
-================================================================================
-
-
 Full license texts and additional details for each of the above packages are available in the license/ directory of this repository. Please refer to those files or the original source of each package for complete legal terms and conditions.
