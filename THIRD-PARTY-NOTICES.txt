@@ -36,20 +36,6 @@ Homepage: https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-maven
 ================================================================================
 
 ================================================================================
-Package: Central Publishing Maven Plugin (org.sonatype.central:central-publishing-maven-plugin)
-Version: 0.7.0
-License: Apache License 2.0
-Homepage: https://github.com/sonatype-nexus-community/central-publishing
-================================================================================
-
-================================================================================
-Package: Git Commit ID Maven Plugin (pl.project13.maven:git-commit-id-plugin)
-Version: 3.0.1
-License: GNU Lesser General Public License v3.0 (LGPL-3.0)
-Homepage: https://github.com/git-commit-id/git-commit-id-maven-plugin
-================================================================================
-
-================================================================================
 Package: Apache Commons Lang (org.apache.commons:commons-lang3)
 Version: (Not specified)
 License: Apache License 2.0 (Inferred from project’s official repository)
