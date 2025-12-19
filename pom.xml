@@ -6,7 +6,7 @@
 	<groupId>io.mosip.biometrics</groupId>
 	<artifactId>biometrics</artifactId>
 	<packaging>pom</packaging>
-	<version>1.3.0-SNAPSHOT</version>
+	<version>1.3.0</version>
 	<name>biometric</name>
 	<url>https://github.com/mosip/bio-utils</url>
 	<description>This Pom builds all the Biometric related dependencies.</description>
@@ -50,8 +50,8 @@
 		<central.publishing.maven.plugin.version>0.7.0</central.publishing.maven.plugin.version>
 
 		<!-- Mosip -->
-		<kernel.bom.version>1.3.0-SNAPSHOT</kernel.bom.version>
-		<kernel.core.version>1.3.0-SNAPSHOT</kernel.core.version>
+		<kernel.bom.version>1.3.0</kernel.bom.version>
+		<kernel.core.version>1.3.0</kernel.core.version>
         
 	</properties>
 
