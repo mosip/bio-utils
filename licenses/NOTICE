@@ -1,0 +1,234 @@
+COPYRIGHT NOTICES
+================================================================================
+
+MOSIP Packages
+MOSIP Kernel Core
+Copyright © 2018-present MOSIP
+Licensed under the Mozilla Public License 2.0
+
+MOSIP Kernel BOM
+Copyright © 2018-present MOSIP
+Licensed under the Mozilla Public License 2.0
+
+MOSIP Kernel Biometrics API
+Copyright © 2018-present MOSIP
+Licensed under the Mozilla Public License 2.0
+
+MOSIP Biometrics Util
+Copyright © 2018-present MOSIP
+Licensed under the Mozilla Public License 2.0
+
+MOSIP Kernel Logger Logback
+Copyright © 2018-present MOSIP
+Licensed under the Mozilla Public License 2.0
+
+================================================================================
+
+Apache Maven Build Plugins
+Apache Maven Compiler Plugin
+Copyright © 2001-2023 The Apache Software Foundation
+Licensed under the Apache License 2.0
+
+Apache Maven GPG Plugin (v3.2.3)
+Copyright © 2002-2024 The Apache Software Foundation
+Licensed under the Apache License 2.0
+
+Apache Maven GPG Plugin (v1.5)
+Copyright © 2002-2014 The Apache Software Foundation
+Licensed under the Apache License 2.0
+
+Apache Maven JAR Plugin
+Copyright © 2002-2024 The Apache Software Foundation
+Licensed under the Apache License 2.0
+
+Apache Maven Javadoc Plugin
+Copyright © 2005-2020 The Apache Software Foundation
+Licensed under the Apache License 2.0
+
+Apache Maven Source Plugin
+Copyright © 2002-2024 The Apache Software Foundation
+Licensed under the Apache License 2.0
+
+Apache Maven Surefire Plugin (v3.1.2)
+Copyright © 2004-2023 The Apache Software Foundation
+Licensed under the Apache License 2.0
+
+Apache Maven Surefire Plugin (v2.22.0)
+Copyright © 2004-2018 The Apache Software Foundation
+Licensed under the Apache License 2.0
+
+Apache Maven Dependency Plugin
+Copyright © 2002-2023 The Apache Software Foundation
+Licensed under the Apache License 2.0
+
+================================================================================
+
+Other Build Plugins
+Jacoco Maven Plugin
+Copyright © 2009-2023 Mountainminds GmbH & Co. KG and Contributors
+Licensed under the Eclipse Public License 2.0
+
+Git Commit ID Maven Plugin
+Copyright © 2012-present the original author or authors
+Licensed under the GNU Lesser General Public License 3.0
+
+Sonatype Central Publishing Maven Plugin
+Copyright © 2022-present Sonatype, Inc.
+Licensed under the Apache License 2.0
+
+SonarQube Maven Plugin
+Copyright © 2011-2025 SonarSource SA
+Licensed under the GNU Lesser General Public License 3.0
+
+================================================================================
+
+Testing Frameworks
+JUnit Jupiter (JUnit 5)
+Copyright © 2015-2022 the original author or authors (JUnit Team)
+Licensed under the Eclipse Public License 2.0
+
+JUnit Vintage Engine
+Copyright © 2015-2025 the original author or authors
+Licensed under the Eclipse Public License 2.0
+
+JUnit 4
+Copyright © JUnit Team
+Licensed under the Eclipse Public License 1.0
+
+Mockito Core
+Copyright © 2007-present Mockito contributors
+Licensed under the MIT License
+
+PowerMock Module JUnit4
+Copyright © the original author or authors
+Licensed under the Apache License 2.0
+
+PowerMock API Mockito2
+Copyright © the original author or authors
+Licensed under the Apache License 2.0
+
+================================================================================
+
+Spring Framework & Spring Boot
+Spring Framework & Spring Boot
+Copyright © 2002-2024 Pivotal Software, Inc.
+Copyright © 2002-2024 VMware, Inc.
+Licensed under the Apache License 2.0
+
+Spring Boot Starter Web
+Copyright © 2002-2024 Pivotal Software, Inc.
+Copyright © 2002-2024 VMware, Inc.
+Licensed under the Apache License 2.0
+
+Spring Boot Starter Test
+Copyright © 2002-2024 Pivotal Software, Inc.
+Copyright © 2002-2024 VMware, Inc.
+Licensed under the Apache License 2.0
+
+Spring Boot Starter Data JPA
+Copyright © 2002-2024 Pivotal Software, Inc.
+Copyright © 2002-2024 VMware, Inc.
+Licensed under the Apache License 2.0
+
+================================================================================
+
+Jackson JSON Libraries
+Jackson Core
+Copyright © 2007-present Tatu Saloranta
+Copyright © 2008-2019 FasterXML, LLC
+Licensed under the Apache License 2.0
+
+Jackson Databind
+Copyright © 2007-present Tatu Saloranta
+Copyright © 2008-2019 FasterXML, LLC
+Licensed under the Apache License 2.0
+
+Jackson Annotations
+Copyright © 2007-present Tatu Saloranta
+Copyright © 2008-2019 FasterXML, LLC
+Licensed under the Apache License 2.0
+
+Jackson Dataformat XML
+Copyright © 2007-present Tatu Saloranta
+Copyright © 2008-2019 FasterXML, LLC
+Licensed under the Apache License 2.0
+
+Jackson Dataformat CSV
+Copyright © 2007-present Tatu Saloranta
+Copyright © 2008-2019 FasterXML, LLC
+Licensed under the Apache License 2.0
+
+Jackson Module JAXB Annotations
+Copyright © 2007-present Tatu Saloranta
+Copyright © 2008-2019 FasterXML, LLC
+Licensed under the Apache License 2.0
+
+================================================================================
+
+Apache Commons Libraries
+Apache Commons Lang3
+Copyright © 2001-present The Apache Software Foundation
+Licensed under the Apache License 2.0
+
+Apache Commons IO
+Copyright © 2002-2025 The Apache Software Foundation
+Licensed under the Apache License 2.0
+
+================================================================================
+
+Logging Frameworks
+SLF4J API
+Copyright © 2004-2025 QOS.ch
+Licensed under the MIT License
+
+================================================================================
+
+Google Libraries
+Google Gson
+Copyright © 2008-present Google Inc.
+Licensed under the Apache License 2.0
+
+Protocol Buffers (Protobuf Java)
+Copyright © 2008-present Google Inc.
+Licensed under the BSD 3-Clause License
+
+================================================================================
+
+Other Runtime Dependencies
+Hibernate Validator
+Copyright © 2009-2013 Red Hat, Inc. & Gunnar Morling
+Licensed under the Apache License 2.0
+
+H2 Database
+Copyright © 2004-2018 H2 Group
+Licensed under the Eclipse Public License 1.0 or Mozilla Public License 2.0 (dual license)
+
+Project Lombok
+Copyright © 2009-2024 The Project Lombok Authors
+Licensed under the MIT License
+
+OkHttp
+Copyright © 2013-present Square, Inc.
+Licensed under the Apache License 2.0
+
+================================================================================
+
+Biometrics & Image Processing Libraries
+JNBIS (Java NIST Biometric Image Software)
+Copyright © 2011-present Mohammad Haji Shams
+Licensed under the Apache License 2.0
+
+imgscalr (Java Image Scaling Library)
+Copyright © 2011-2014 The Buzz Media, LLC
+Licensed under the Apache License 2.0
+
+JAI ImageIO JPEG2000
+Copyright © 1999-2000 JJ2000
+Copyright © 2005 Sun Microsystems, Inc.
+Licensed under the BSD 3-Clause License with No-Nuclear Disclaimer
+
+OpenCV (Open Source Computer Vision Library)
+Copyright © 1991-2021 The libjpeg-turbo Project and various contributors
+Licensed under the BSD 3-Clause License
+
+================================================================================
