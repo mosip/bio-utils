@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.mosip.biometric.util</groupId>
 	<artifactId>biometrics-util</artifactId>
-	<version>1.3.0-SNAPSHOT</version>
+	<version>1.3.0</version>
 	<name>biometrics-util</name>
 	<url>https://github.com/mosip/bio-utils</url>
 	<description>This utility is used to convert ISO to Image and Image to ISO</description>
@@ -24,6 +24,7 @@
 		<maven.gpg.plugin.version>3.2.3</maven.gpg.plugin.version>
 		<maven.jar.plugin.version>3.0.2</maven.jar.plugin.version>
 		<maven.war.plugin.version>3.1.0</maven.war.plugin.version>
+		<maven.sonar.plugin.version>3.7.0.1746</maven.sonar.plugin.version>
 		<central.publishing.maven.plugin.version>0.7.0</central.publishing.maven.plugin.version>
 
 		<!-- git -->
@@ -41,8 +42,16 @@
 		<openpnp.opencv.version>4.5.3-4</openpnp.opencv.version>
 
 		<!-- Mosip -->
-		<kernel.bom.version>1.3.0-SNAPSHOT</kernel.bom.version>
-		<kernel.core.version>1.3.0-SNAPSHOT</kernel.core.version>
+		<kernel.bom.version>1.3.0</kernel.bom.version>
+		<kernel.core.version>1.3.0</kernel.core.version>
+
+        <!-- Testing -->
+        <org.junit.version>5.8.2</org.junit.version>
+        <org.mockito.inline.version>4.11.0</org.mockito.inline.version>
+        <org.mockito.jupiter.version>4.5.1</org.mockito.jupiter.version>
+
+        <!-- Sonar coverage -->
+        <sonar.coverage.exclusions>**/constant/**,**/exception/**,**/nist/parser/v2011/**,**/AbstractImageInfo.java,**/ConvertRequestDto.java,**/ImageDecoderRequestDto.java,**/NistRequestDto.java,**/FaceBDIR.java,**/FeaturePoint.java,**/ImageDataType.java,**/LandmarkPointType.java,**/io/mosip/biometrics/util/finger/Representation.java,**/io/mosip/biometrics/util/finger/SegmentationBlock.java,**/io/mosip/biometrics/util/finger/ExtendedDataBlock.java,**/IrisBDIR.java,**/FingerBDIR.java,**/io/mosip/biometrics/util/iris/Representation.java,**/io/mosip/biometrics/util/iris/ImageInformation.java,**/io/mosip/biometrics/util/iris/ImageData.java,**/io/mosip/biometrics/util/iris/RepresentationData.java</sonar.coverage.exclusions>
 	</properties>
 
 	<dependencyManagement>
@@ -142,6 +151,28 @@
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
+		</dependency>
+		<!-- JUnit 5 (Jupiter) BOM for dependency management -->
+		<dependency>
+			<groupId>org.junit</groupId>
+			<artifactId>junit-bom</artifactId>
+			<version>${org.junit.version}</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
+
+		<!-- Mockito for testing -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-inline</artifactId>
+			<version>${org.mockito.inline.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>${org.mockito.jupiter.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<distributionManagement>
@@ -286,6 +317,37 @@
 			</plugin>
 		</plugins>
 	</build>
+	<profiles>
+		<profile>
+			<id>sonar</id>
+			<properties>
+				<sonar.sources>.</sonar.sources>
+				<sonar.inclusions>src/main/java/**,src/main/resources/**</sonar.inclusions>
+				<sonar.exclusions>${sonar.coverage.exclusions}</sonar.exclusions>
+				<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+			</properties>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.sonarsource.scanner.maven</groupId>
+						<artifactId>sonar-maven-plugin</artifactId>
+						<version>${maven.sonar.plugin.version}</version>
+						<executions>
+							<execution>
+								<phase>verify</phase>
+								<goals>
+									<goal>sonar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 	<scm>
 		<connection>scm:git:git://github.com/mosip/bio-utils.git</connection>
 		<developerConnection>scm:git:ssh://github.com:mosip/bio-utils.git</developerConnection>

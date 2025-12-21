@@ -1,0 +1,164 @@
+THIRD-PARTY-NOTICES
+
+This project includes third-party packages that are distributed under various open-source licenses. Below is a list of packages and their associated licenses.
+
+================================================================================
+Package: MOSIP Bio Utils
+Version: 1.3.0-SNAPSHOT
+License: Mozilla Public License 2.0 (Inferred from project’s official repository)
+Homepage: https://github.com/mosip/bio-utils
+================================================================================
+
+================================================================================
+Package: Apache Maven Plugins
+(maven-compiler-plugin, maven-gpg-plugin, maven-javadoc-plugin, maven-source-plugin, maven-jar-plugin, maven-resources-plugin, maven-shade-plugin, maven-surefire-plugin, maven-war-plugin, maven-antrun-plugin, maven-dependency-plugin)
+Version:
+  - maven-compiler-plugin: 3.11.0
+  - maven-gpg-plugin: 3.2.3
+  - maven-javadoc-plugin: 3.2.0
+  - maven-source-plugin: 3.3.1
+  - maven-jar-plugin: 3.4.0
+  - maven-resources-plugin: 3.3.1
+  - maven-shade-plugin: 3.2.4
+  - maven-surefire-plugin: 3.1.2
+  - maven-war-plugin: 3.1.0
+  - maven-antrun-plugin: 3.0.0
+  - maven-dependency-plugin: 2.10
+License: Apache License 2.0
+Homepage: https://maven.apache.org/plugins/
+================================================================================
+
+================================================================================
+Package: Sonar Maven Plugin (org.sonarsource.scanner.maven:sonar-maven-plugin)
+Version: 3.7.0.1746
+License: LGPL 3.0
+Homepage: https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-maven/
+================================================================================
+
+================================================================================
+Package: Apache Commons Lang (org.apache.commons:commons-lang3)
+Version: (Not specified)
+License: Apache License 2.0 (Inferred from project’s official repository)
+Homepage: https://commons.apache.org/proper/commons-lang/
+================================================================================
+
+================================================================================
+Package: Jackson Libraries (com.fasterxml.jackson.core, com.fasterxml.jackson.dataformat, com.fasterxml.jackson.module)
+Version: (Not specified)
+License: Apache License 2.0
+Homepage: https://github.com/FasterXML/jackson
+================================================================================
+
+================================================================================
+Package: Google Protobuf (com.google.protobuf:protobuf-java)
+Version: 3.13.0, 3.16.3
+License: BSD-3-Clause (Inferred from project’s official repository)
+Homepage: https://github.com/protocolbuffers/protobuf
+================================================================================
+
+================================================================================
+Package: OpenCV (org.openpnp:opencv)
+Version: 4.5.3-4
+License: Apache License 2.0
+Homepage: https://opencv.org/
+================================================================================
+
+================================================================================
+Package: Lombok (org.projectlombok:lombok)
+Version: (Not specified)
+License: MIT License (Inferred from project’s official repository)
+Homepage: https://projectlombok.org/
+================================================================================
+
+================================================================================
+Package: Hibernate Validator (org.hibernate.validator:hibernate-validator)
+Version: (Not specified)
+License: Apache License 2.0 (Inferred from project’s official repository)
+Homepage: http://hibernate.org/validator/
+================================================================================
+
+================================================================================
+Package: JUnit (junit:junit, org.junit.vintage:junit-vintage-engine, org.junit.jupiter:junit-jupiter)
+Version: Various
+License: Eclipse Public License 1.0/2.0 (Inferred from project’s official repository)
+Homepage: https://junit.org/
+================================================================================
+
+================================================================================
+Package: Mockito (org.mockito:mockito-core, org.mockito:mockito-inline)
+Version: 3.3.3, 5.8.0
+License: MIT License (Inferred from project’s official repository)
+Homepage: https://site.mockito.org/
+================================================================================
+
+================================================================================
+Package: Powermock (org.powermock:powermock-api-mockito2, org.powermock:powermock-module-junit4)
+Version: (Not specified)
+License: Apache License 2.0 (Inferred from project’s official repository)
+Homepage: https://github.com/powermock/powermock
+================================================================================
+
+================================================================================
+Package: Bouncy Castle (org.bouncycastle:bcutil-jdk18on)
+Version: 1.78.1
+License: MIT License (Inferred from project’s official repository)
+Homepage: https://www.bouncycastle.org/
+================================================================================
+
+================================================================================
+Package: Apache POI (org.apache.poi:poi-ooxml)
+Version: 5.2.5
+License: Apache License 2.0
+Homepage: https://poi.apache.org/
+================================================================================
+
+================================================================================
+Package: Google Gson (com.google.code.gson:gson)
+Version: 2.10.1
+License: Apache License 2.0
+Homepage: https://github.com/google/gson
+================================================================================
+
+================================================================================
+Package: Spring Boot
+License: Apache License 2.0
+Homepage: https://spring.io/projects/spring-boot
+================================================================================
+
+================================================================================
+Package: SLF4J (slf4j-api, log4j12)
+License: MIT License
+Homepage: https://www.slf4j.org/
+================================================================================
+
+================================================================================
+Package: JAI ImageIO JPEG2000
+License: Dual License (JJ2000 License AND BSD 3-Clause with Nuclear Disclaimer)
+Homepage: https://github.com/jai-imageio/jai-imageio-core
+================================================================================
+
+================================================================================
+Package: JNBIS
+License: Apache License 2.0
+Homepage: https://github.com/mhshams/jnbis
+================================================================================
+
+================================================================================
+Package: H2 Database
+License: EPL-1.0 OR MPL-2.0
+Homepage: https://www.h2database.com
+================================================================================
+
+================================================================================
+Package: imgscalr-lib
+License: Apache License 2.0
+Homepage: https://github.com/rkalla/imgscalr
+================================================================================
+
+================================================================================
+Package: OkHttp (mockwebserver)
+License: Apache License 2.0
+Homepage: https://square.github.io/okhttp/
+================================================================================
+
+Full license texts and additional details for each of the above packages are available in the license/ directory of this repository. Please refer to those files or the original source of each package for complete legal terms and conditions.

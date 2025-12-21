@@ -5,7 +5,7 @@
 
 	<artifactId>kernel-biosdk-provider</artifactId>
 	<groupId>io.mosip.kernel</groupId>
-	<version>1.3.0-SNAPSHOT</version>
+	<version>1.3.0</version>
 	<name>kernel-biosdk-provider</name>
 	<description>Implementation of biosdk provider</description>
 	<url>https://github.com/mosip/bio-utils</url>
@@ -45,11 +45,11 @@
 		<hibernate.validator.version>6.0.12.Final</hibernate.validator.version>
 
 		<!-- Mosip  -->
-		<kernel.bom.version>1.3.0-SNAPSHOT</kernel.bom.version>
-		<kernel.core.version>1.3.0-SNAPSHOT</kernel.core.version>
-		<kernel.biometricsdk.version>1.3.0-SNAPSHOT</kernel.biometricsdk.version>
-		<kernel.biometrics.api.version>1.3.0-SNAPSHOT</kernel.biometrics.api.version>
-		<kernel.logger.logback.version>1.3.0-SNAPSHOT</kernel.logger.logback.version>
+		<kernel.bom.version>1.3.0</kernel.bom.version>
+		<kernel.core.version>1.3.0</kernel.core.version>
+		<kernel.biometricsdk.version>1.3.0</kernel.biometricsdk.version>
+		<kernel.biometrics.api.version>1.3.0</kernel.biometrics.api.version>
+		<kernel.logger.logback.version>1.3.0</kernel.logger.logback.version>
 	</properties>
 
 	<dependencyManagement>

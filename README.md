@@ -1,52 +1,84 @@
+[![Maven Package upon a push](https://github.com/mosip/bio-utils/actions/workflows/push-trigger.yml/badge.svg?branch=release-1.3.x)](https://github.com/mosip/bio-utils/actions/workflows/push-trigger.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?branch=release-1.3.x&project=mosip_biometrics-util&metric=alert_status)](https://sonarcloud.io/dashboard?branch=release-1.3.x&id=mosip_biometrics-util)
+
 # Bio Utils
 
-## Overview
-Utility to convert ISO format to image and vice-a-versa.
+A shared collection of **biometric utility libraries** for the MOSIP ecosystem. This repository centralizes reusable logic for biometric data handling, ISO format conversions, and biometric SDK integration.
 
-## Supported ISO versions
+---
 
-| Modality    | ISO version     |
-| ----------- | ----------------|
-| Finger      | ISO19794_4_2011 |
-| Iris        | ISO19794_6_2011 |
-| Face        | ISO19794_5_2011 |
+## 📌 Overview
 
-Note: JPEG2000 will be converted to JPEG.
+The **bio-utils** repository provides common utilities and APIs used across MOSIP components for:
 
-## Sample code
+- Processing biometric data (Finger, Iris, Face)
+- Converting between ISO biometric formats and image representations
+- Defining standard biometric APIs
+- Integrating external biometric SDKs
+- Handling CBEFF (Common Biometric Exchange Formats Framework) structures
 
-To convert from ISO format to image:
+This helps ensure **consistency**, **reusability**, and **standardization** across MOSIP biometric implementations.
 
-```
-ConvertRequestDto convertRequestDto = new ConvertRequestDto();
-convertRequestDto.setVersion("ISO19794_4_2011");
-convertRequestDto.setInputBytes(<ISO bytes>); 
-convertRequestDto.setCompressionRatio(95);//For JPEG, it can be a quality from 0 to 100 (the higher is the better). Default value is 95.
-byte[] image = FingerDecoder.convertFingerISOToImageBytes(convertRequestDto);
-BufferedImage image = FingerDecoder.convertFingerISOToBufferedImage(convertRequestDto);
-```
+---
 
-```
-ConvertRequestDto convertRequestDto = new ConvertRequestDto();
-convertRequestDto.setVersion("ISO19794_6_2011");
-convertRequestDto.setInputBytes(<ISO bytes>);
-convertRequestDto.setCompressionRatio(95);//For JPEG, it can be a quality from 0 to 100 (the higher is the better). Default value is 95.
-byte[] image = IrisDecoder.convertIrisISOToImageBytes(convertRequestDto);
-BufferedImage image = IrisDecoder.convertIrisISOToBufferedImage(convertRequestDto);
-```
+## 📦 Modules
 
-```
-ConvertRequestDto convertRequestDto = new ConvertRequestDto();
-convertRequestDto.setVersion("ISO19794_5_2011");
-convertRequestDto.setInputBytes(<ISO bytes>);
-convertRequestDto.setCompressionRatio(95);//For JPEG, it can be a quality from 0 to 100 (the higher is the better). Default value is 95.
-byte[] image = FaceDecoder.convertFaceISOToImageBytes(convertRequestDto);
-BufferedImage image = FaceDecoder.convertFaceISOToBufferedImage(convertRequestDto);
-```
-  
-To convert base64UrlEncoded ISO biometeric(Face, Iris, Finger) image format to given imageType(JPEG, PNG) 
-and create new convert base64UrlEncoded ISO:
+The repository is organized into the following modules:
 
-```
-CommonUtil.convertISOImageType(String inIsoData, Modality modality, ImageType imageType) throws Exception
-```
+### 🔹 biometrics-util
+
+Utilities for converting ISO biometric formats to images and vice versa.
+
+**Key features:**
+- ISO Finger, Iris, and Face format handling
+- Image extraction and generation
+- Helper utilities for biometric processing
+
+📖 Refer to the [README](biometrics-util/README.md) for detailed usage and sample code.
+
+---
+
+### 🔹 kernel-biometrics-api
+
+Core API definitions and interfaces for biometric operations within MOSIP.
+
+**Key features:**
+- Standard biometric operation contracts
+- Interfaces used by kernel and SDK providers
+
+📖 Refer to the [README](kernel-biometrics-api/README.md) for detailed usage and sample code.
+
+---
+
+### 🔹 kernel-biosdk-provider
+
+Implementation of the Biometric SDK provider that bridges the MOSIP kernel with external biometric SDKs.
+
+**Key features:**
+- SDK provider implementation
+- Kernel-to-SDK integration layer
+- Pluggable biometric SDK support
+
+📖 Refer to the [README](kernel-biosdk-provider/README.md) for detailed usage and sample code.
+
+---
+
+### 🔹 kernel-cbeffutil-api
+
+Utilities and APIs for handling CBEFF (Common Biometric Exchange Formats Framework) data structures.
+
+**Key features:**
+- CBEFF structure creation and parsing
+- Standard-compliant biometric data exchange
+
+📖 Refer to the [README](kernel-cbeffutil-api/README.md) for detailed usage and sample code.
+
+---
+
+## 📄 License
+
+![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)
+
+This project is licensed under the **Mozilla Public License 2.0 (MPL 2.0)**.
+
+See the [LICENSE](LICENSE) file for full license details.
