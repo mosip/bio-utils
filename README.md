@@ -1,5 +1,5 @@
-[![Maven Package upon a push](https://github.com/mosip/bio-utils/actions/workflows/push-trigger.yml/badge.svg?branch=release-1.3.x)](https://github.com/mosip/bio-utils/actions/workflows/push-trigger.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?branch=release-1.3.x&project=mosip_biometrics-util&metric=alert_status)](https://sonarcloud.io/dashboard?branch=release-1.3.x&id=mosip_biometrics-util)
+[![Maven Package upon a push](https://github.com/mosip/bio-utils/actions/workflows/push-trigger.yml/badge.svg?branch=master)](https://github.com/mosip/bio-utils/actions/workflows/push-trigger.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?branch=master)](https://sonarcloud.io/dashboard?branch=master)
 
 # Bio Utils
 
