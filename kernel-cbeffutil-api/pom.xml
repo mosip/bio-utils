@@ -84,11 +84,6 @@
 			<version>${org.mockito.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>io.mosip.kernel</groupId>
-			<artifactId>kernel-biometrics-api</artifactId>
-			<version>${kernel.biometrics.api.version}</version>
-		</dependency>
 	</dependencies>
 
 	<distributionManagement>
