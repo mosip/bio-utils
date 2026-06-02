@@ -262,7 +262,7 @@ public class CbeffValidatorTest {
 				.build();
 
 		birList.add(iHandGeo);
-		
+
 		
 		
 	}
@@ -455,7 +455,7 @@ public class CbeffValidatorTest {
 		Map<String, String> bdbMap = CbeffValidator.getBDBBasedOnTypeAndSubType(bir, "Iris", null);
 		MatcherAssert.assertThat(bdbMap.size(), is(1));
 	}
-		
+
 	@Test
 	public void getBDBBasedOnTypeAndSubTypeAllNULLTest() throws Exception {
 		BIR bir = new BIR();

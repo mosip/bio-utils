@@ -1,0 +1,276 @@
+THIRD-PARTY-NOTICES
+
+This project includes third-party packages that are distributed under various open-source licenses. Below is a list of packages and their associated licenses.
+
+================================================================================
+Package: MOSIP Kernel BOM
+Version: 1.3.0-SNAPSHOT
+License: Mozilla Public License 2.0 (Inferred from project’s official repository)
+Homepage: https://mosip.io
+================================================================================
+
+================================================================================
+Package: MOSIP Kernel Core
+Version: 1.3.0-SNAPSHOT
+License: Mozilla Public License 2.0 (Inferred from project’s official repository)
+Homepage: https://mosip.io
+================================================================================
+
+================================================================================
+Package: MOSIP Kernel Logger Logback
+Version: 1.3.0-SNAPSHOT
+License: Mozilla Public License 2.0 (Inferred)
+Homepage: https://mosip.io
+================================================================================
+
+================================================================================
+Package: MOSIP Biometrics API
+Version: 1.3.0-SNAPSHOT
+License: Mozilla Public License 2.0 (Inferred)
+Homepage: https://mosip.io
+================================================================================
+
+================================================================================
+Package: MOSIP Biometrics Util
+Version: 1.3.0-SNAPSHOT
+License: Mozilla Public License 2.0 (Inferred)
+Homepage: https://mosip.io
+================================================================================
+
+================================================================================
+Package: Spring Boot Starter Web
+License: Apache License 2.0 (Inferred)
+Homepage: https://spring.io/projects/spring-boot
+================================================================================
+
+================================================================================
+Package: Spring Boot Starter Test
+License: Apache License 2.0 (Inferred)
+Homepage: https://spring.io/projects/spring-boot
+================================================================================
+
+================================================================================
+Package: Spring Boot Starter Data JPA
+License: Apache License 2.0 (Inferred)
+Homepage: https://spring.io/projects/spring-data-jpa
+================================================================================
+
+================================================================================
+Package: Hibernate Validator
+Version: Not specified
+License: Apache License 2.0 (Inferred)
+Homepage: https://hibernate.org/validator/
+================================================================================
+
+================================================================================
+Package: Jackson Core
+License: Apache License 2.0 (Inferred)
+Homepage: https://github.com/FasterXML/jackson
+================================================================================
+
+================================================================================
+Package: Jackson Databind
+License: Apache License 2.0 (Inferred)
+Homepage: https://github.com/FasterXML/jackson-databind
+================================================================================
+
+================================================================================
+Package: Jackson Annotations
+License: Apache License 2.0 (Inferred)
+Homepage: https://github.com/FasterXML/jackson-annotations
+================================================================================
+
+================================================================================
+Package: Jackson Dataformat XML
+License: Apache License 2.0 (Inferred)
+Homepage: https://github.com/FasterXML/jackson-dataformat-xml
+================================================================================
+
+================================================================================
+Package: Jackson Dataformat CSV
+License: Apache License 2.0 (Inferred)
+Homepage: https://github.com/FasterXML/jackson-dataformat-csv
+================================================================================
+
+================================================================================
+Package: Jackson JAXB Annotations Module
+License: Apache License 2.0 (Inferred)
+Homepage: https://github.com/FasterXML/jackson-module-jaxb-annotations
+================================================================================
+
+================================================================================
+Package: SLF4J API
+License: MIT License (Inferred)
+Homepage: http://www.slf4j.org
+================================================================================
+
+================================================================================
+Package: Gson
+Version: 2.8.6
+License: Apache License 2.0
+Homepage: https://github.com/google/gson
+================================================================================
+
+================================================================================
+Package: JNBIS (Fingerprint Image Decoder)
+Version: 2.0.2
+License: Apache License 2.0
+Homepage: https://github.com/mhshams/jnbis
+================================================================================
+
+================================================================================
+Package: H2 Database
+License: EPL 1.0 
+Homepage: https://www.h2database.com
+================================================================================
+
+================================================================================
+Package: Protobuf Java
+Version: 3.13.0
+License: BSD-3-Clause
+Homepage: https://github.com/protocolbuffers/protobuf
+================================================================================
+
+================================================================================
+Package: Protobuf Java
+Version: 3.16.3
+License: BSD-3-Clause
+Homepage: https://github.com/protocolbuffers/protobuf
+================================================================================
+
+================================================================================
+Package: imgscalr-lib
+Version: 4.2
+License: Apache License 2.0
+Homepage: https://github.com/thebuzzmedia/imgscalr
+================================================================================
+
+================================================================================
+Package: JAI ImageIO JPEG2000
+Version: 1.3.0
+License: BSD-3-Clause-No-Nuclear-License
+Homepage: https://github.com/jai-imageio/jai-imageio-core
+================================================================================
+
+================================================================================
+Package: OkHttp
+Version: 2.7.5
+License: Apache License 2.0
+Homepage: https://square.github.io/okhttp/
+================================================================================
+
+================================================================================
+Package: JUnit 4
+License: Eclipse Public License 1.0 (Inferred)
+Homepage: https://junit.org
+================================================================================
+
+================================================================================
+Package: JUnit Vintage Engine
+License: Eclipse Public License 2.0 (Inferred)
+Homepage: https://junit.org
+================================================================================
+
+================================================================================
+Package: JUnit Jupiter
+Version: 5.10.2
+License: Eclipse Public License 2.0
+Homepage: https://junit.org/junit5/
+================================================================================
+
+================================================================================
+Package: Mockito Core
+Version: 3.3.3
+License: MIT License
+Homepage: https://github.com/mockito/mockito
+================================================================================
+
+================================================================================
+Package: Mockito Core
+Version: 5.8.0
+License: MIT License
+Homepage: https://github.com/mockito/mockito
+================================================================================
+
+================================================================================
+Package: PowerMock API Mockito2
+License: Apache License 2.0
+Homepage: https://github.com/powermock/powermock
+================================================================================
+
+================================================================================
+Package: PowerMock Module JUnit4
+License: Apache License 2.0
+Homepage: https://github.com/powermock/powermock
+================================================================================
+
+================================================================================
+Package: Apache Commons Lang3
+License: Apache License 2.0
+Homepage: https://commons.apache.org/proper/commons-lang/
+================================================================================
+
+================================================================================
+Package: Apache Maven Compiler Plugin
+Version: 3.11.0
+License: Apache License 2.0
+Homepage: https://maven.apache.org/plugins/maven-compiler-plugin/
+================================================================================
+
+================================================================================
+Package: Apache Maven GPG Plugin
+Version: 1.5
+License: Apache License 2.0
+Homepage: https://maven.apache.org/plugins/maven-gpg-plugin/
+================================================================================
+
+================================================================================
+Package: Apache Maven GPG Plugin
+Version: 3.2.3
+License: Apache License 2.0
+Homepage: https://maven.apache.org/plugins/maven-gpg-plugin/
+================================================================================
+
+================================================================================
+Package: Apache Maven Javadoc Plugin
+Version: 3.2.0
+License: Apache License 2.0
+Homepage: https://maven.apache.org/plugins/maven-javadoc-plugin/
+================================================================================
+
+================================================================================
+Package: Apache Maven Surefire Plugin
+Version: 2.22.0
+License: Apache License 2.0
+Homepage: https://maven.apache.org/plugins/maven-surefire-plugin/
+================================================================================
+
+================================================================================
+Package: Apache Maven Surefire Plugin
+Version: 3.1.2
+License: Apache License 2.0
+Homepage: https://maven.apache.org/plugins/maven-surefire-plugin/
+================================================================================
+
+================================================================================
+Package: Apache Maven Source Plugin
+Version: 3.3.1
+License: Apache License 2.0
+Homepage: https://maven.apache.org/plugins/maven-source-plugin/
+================================================================================
+
+================================================================================
+Package: Apache Maven JAR Plugin
+Version: 3.4.0
+License: Apache License 2.0
+Homepage: https://maven.apache.org/plugins/maven-jar-plugin/
+================================================================================
+
+================================================================================
+Package: Apache Maven Dependency Plugin
+Version: 2.10
+License: Apache License 2.0
+Homepage: https://maven.apache.org/plugins/maven-dependency-plugin/
+================================================================================
+
+Full license texts and additional details for each of the above packages are available in the license/ directory of this repository. Please refer to those files or the original source of each package for complete legal terms and conditions.
