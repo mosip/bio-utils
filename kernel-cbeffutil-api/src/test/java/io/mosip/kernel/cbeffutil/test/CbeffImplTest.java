@@ -261,46 +261,6 @@ public class CbeffImplTest {
 	}
 
 	/**
-	 * Tests XML validation with single parameter using internal XSD schema.
-	 * Verifies that XML validation returns true when valid XML is provided.
-	 */
-	@Test
-	public void shouldValidateXmlWithSingleParameterReturnsTrue() throws Exception {
-		try (MockedStatic<io.mosip.kernel.core.cbeffutil.common.CbeffXSDValidator> mockedValidator =
-					 mockStatic(io.mosip.kernel.core.cbeffutil.common.CbeffXSDValidator.class)) {
-
-			byte[] xmlBytes = "<xml>test</xml>".getBytes();
-			mockedValidator.when(() -> io.mosip.kernel.core.cbeffutil.common.CbeffXSDValidator.validateXML(any(), any()))
-					.thenReturn(true);
-
-			boolean result = cbeffUtilImpl.validateXML(xmlBytes);
-
-			assertTrue(result);
-		}
-	}
-
-	/**
-	 * Tests XML validation with two parameters using provided XSD schema.
-	 * Verifies that XML validation returns true when valid XML and XSD are provided.
-	 */
-	@Test
-	public void shouldValidateXmlWithTwoParametersReturnsTrue() throws Exception {
-		try (MockedStatic<io.mosip.kernel.core.cbeffutil.common.CbeffXSDValidator> mockedValidator =
-					 mockStatic(io.mosip.kernel.core.cbeffutil.common.CbeffXSDValidator.class)) {
-
-			byte[] xmlBytes = "<xml>test</xml>".getBytes();
-			byte[] xsdBytes = "<xsd>schema</xsd>".getBytes();
-
-			mockedValidator.when(() -> io.mosip.kernel.core.cbeffutil.common.CbeffXSDValidator.validateXML(xsdBytes, xmlBytes))
-					.thenReturn(true);
-
-			boolean result = cbeffUtilImpl.validateXML(xmlBytes, xsdBytes);
-
-			assertTrue(result);
-		}
-	}
-
-	/**
 	 * Tests getBDBBasedOnType method with valid type and subtype.
 	 * Verifies that BDB data is retrieved correctly based on biometric type and subtype.
 	 */

@@ -15,8 +15,10 @@ SCHEMA.
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
 		   xmlns="http://standards.iso.org/iso-iec/19785/-3/ed-2/" targetNamespace="http://standards.iso.org/iso-iec/19785/-3/ed-2/" elementFormDefault="qualified" attributeFormDefault="unqualified">
-	<xs:element name="BIR" type="BIRType"/>
-	<xs:complexType name="BIRType">
+    
+    <xs:element name="BIR" type="BIRType"/>
+
+    <xs:complexType name="BIRType">
 		<xs:sequence>
 			<xs:element name="Version" type="VersionType" minOccurs="0"/>
 			<xs:element name="CBEFFVersion" type="VersionType" minOccurs="0"/>

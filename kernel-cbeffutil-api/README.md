@@ -4,7 +4,7 @@
 **Kernel CBEFF Util API** provides utilities and interfaces to handle CBEFF (Common Biometric Exchange Formats Framework) data structures. It ensures compliance with CBEFF standards for biometric data exchange within the MOSIP ecosystem.
 
 ## ✨ Features
-- **CBEFF Compliance**: Utilities to create and parse CBEFF compliant data structures.
+- **CBEFF Compliance**: Utilities to create and parse CBEFF-compliant data structures.
 - **Data Encapsulation**: Handles BIR (Biometric Information Record) construction.
 - **Standardization**: Ensures biometric data is exchanged in a standardized format.
 
@@ -84,4 +84,3 @@ If you have questions or encounter issues, feel free to raise them in the [MOSIP
 
 This project is licensed under the **Mozilla Public License 2.0 (MPL 2.0)**.  
 See the [LICENSE](../LICENSE) for full license details.
-
