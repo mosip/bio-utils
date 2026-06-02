@@ -270,7 +270,8 @@ public class CbeffImplTest {
 					 mockStatic(io.mosip.kernel.core.cbeffutil.common.CbeffXSDValidator.class)) {
 
 			byte[] xmlBytes = "<xml>test</xml>".getBytes();
-			mockedValidator.when(() -> io.mosip.kernel.core.cbeffutil.common.CbeffXSDValidator.validateXML(any(), any()))
+			mockedValidator.when(() -> io.mosip.kernel.core.cbeffutil.common.CbeffXSDValidator.validateXML(
+							any(byte[].class), any(byte[].class)))
 					.thenReturn(true);
 
 			boolean result = cbeffUtilImpl.validateXML(xmlBytes);
