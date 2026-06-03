@@ -152,7 +152,7 @@ Homepage: https://www.h2database.com
 ================================================================================
 Package: imgscalr-lib
 License: Apache License 2.0
-Homepage: https://github.com/rkalla/imgscalr
+Homepage: https://github.com/thebuzzmedia/imgscalr
 ================================================================================
 
 ================================================================================
