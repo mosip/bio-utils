@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Mockito.mockStatic;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -270,7 +271,8 @@ public class CbeffImplTest {
 					 mockStatic(io.mosip.kernel.core.cbeffutil.common.CbeffXSDValidator.class)) {
 
 			byte[] xmlBytes = "<xml>test</xml>".getBytes();
-			mockedValidator.when(() -> io.mosip.kernel.core.cbeffutil.common.CbeffXSDValidator.validateXML(any(), any()))
+			mockedValidator.when(() -> io.mosip.kernel.core.cbeffutil.common.CbeffXSDValidator.validateXML(
+							nullable(byte[].class), any(byte[].class)))
 					.thenReturn(true);
 
 			boolean result = cbeffUtilImpl.validateXML(xmlBytes);
