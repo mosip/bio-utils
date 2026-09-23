@@ -92,19 +92,15 @@ class FingerDecoderTest {
 
         FingerBDIR fingerBDIR = createMockFingerBDIR(FingerImageCompressionType.JPEG_2000_LOSSY, imageBytes);
 
-        try (MockedStatic<CommonUtil> commonUtilMock = mockStatic(CommonUtil.class)) {
+        try (MockedStatic<CommonUtil> commonUtilMock = mockStatic(CommonUtil.class);
+             MockedStatic<FingerDecoder> fingerDecoderMock = mockStatic(FingerDecoder.class, Mockito.CALLS_REAL_METHODS)) {
             commonUtilMock.when(() -> CommonUtil.convertJP2ToJPEGUsingOpenCV(any(byte[].class), anyInt()))
                     .thenReturn(jpegBytes);
+            fingerDecoderMock.when(() -> FingerDecoder.getFingerBDIR(any(ConvertRequestDto.class)))
+                    .thenReturn(fingerBDIR);
 
-            try (MockedStatic<FingerDecoder> fingerDecoderMock = mockStatic(FingerDecoder.class, Mockito.CALLS_REAL_METHODS)) {
-                Method method = FingerDecoder.class.getDeclaredMethod("getFingerBDIRISO19794_4_2011", byte[].class, int.class);
-                method.setAccessible(true);
-                fingerDecoderMock.when(() -> method.invoke(null, any(byte[].class), anyInt()))
-                        .thenReturn(fingerBDIR);
-
-                byte[] result = FingerDecoder.convertFingerISOToImageBytes(dto);
-                assertArrayEquals(jpegBytes, result);
-            }
+            byte[] result = FingerDecoder.convertFingerISOToImageBytes(dto);
+            assertArrayEquals(jpegBytes, result);
         }
     }
 
@@ -119,19 +115,15 @@ class FingerDecoderTest {
 
         FingerBDIR fingerBDIR = createMockFingerBDIR(FingerImageCompressionType.JPEG_2000_LOSS_LESS, imageBytes);
 
-        try (MockedStatic<CommonUtil> commonUtilMock = mockStatic(CommonUtil.class)) {
+        try (MockedStatic<CommonUtil> commonUtilMock = mockStatic(CommonUtil.class);
+             MockedStatic<FingerDecoder> fingerDecoderMock = mockStatic(FingerDecoder.class, Mockito.CALLS_REAL_METHODS)) {
             commonUtilMock.when(() -> CommonUtil.convertJP2ToJPEGUsingOpenCV(any(byte[].class), anyInt()))
                     .thenReturn(jpegBytes);
+            fingerDecoderMock.when(() -> FingerDecoder.getFingerBDIR(any(ConvertRequestDto.class)))
+                    .thenReturn(fingerBDIR);
 
-            try (MockedStatic<FingerDecoder> fingerDecoderMock = mockStatic(FingerDecoder.class, Mockito.CALLS_REAL_METHODS)) {
-                Method method = FingerDecoder.class.getDeclaredMethod("getFingerBDIRISO19794_4_2011", byte[].class, int.class);
-                method.setAccessible(true);
-                fingerDecoderMock.when(() -> method.invoke(null, any(byte[].class), anyInt()))
-                        .thenReturn(fingerBDIR);
-
-                byte[] result = FingerDecoder.convertFingerISOToImageBytes(dto);
-                assertArrayEquals(jpegBytes, result);
-            }
+            byte[] result = FingerDecoder.convertFingerISOToImageBytes(dto);
+            assertArrayEquals(jpegBytes, result);
         }
     }
 
@@ -145,9 +137,7 @@ class FingerDecoderTest {
         FingerBDIR fingerBDIR = createMockFingerBDIR(1234, imageBytes);
 
         try (MockedStatic<FingerDecoder> fingerDecoderMock = mockStatic(FingerDecoder.class, Mockito.CALLS_REAL_METHODS)) {
-            Method method = FingerDecoder.class.getDeclaredMethod("getFingerBDIRISO19794_4_2011", byte[].class, int.class);
-            method.setAccessible(true);
-            fingerDecoderMock.when(() -> method.invoke(null, any(byte[].class), anyInt()))
+            fingerDecoderMock.when(() -> FingerDecoder.getFingerBDIR(any(ConvertRequestDto.class)))
                     .thenReturn(fingerBDIR);
 
             byte[] result = FingerDecoder.convertFingerISOToImageBytes(dto);
@@ -174,9 +164,7 @@ class FingerDecoderTest {
         FingerBDIR fingerBDIR = createMockFingerBDIR(1234, validImageBytes);
 
         try (MockedStatic<FingerDecoder> fingerDecoderMock = mockStatic(FingerDecoder.class, Mockito.CALLS_REAL_METHODS)) {
-            Method method = FingerDecoder.class.getDeclaredMethod("getFingerBDIRISO19794_4_2011", byte[].class, int.class);
-            method.setAccessible(true);
-            fingerDecoderMock.when(() -> method.invoke(null, any(byte[].class), anyInt()))
+            fingerDecoderMock.when(() -> FingerDecoder.getFingerBDIR(any(ConvertRequestDto.class)))
                     .thenReturn(fingerBDIR);
 
             BufferedImage result = FingerDecoder.convertFingerISOToBufferedImage(dto);

@@ -246,18 +246,14 @@ public class IntArrayToByteArrayDeserializerTest {
      * Ensures IOException is thrown for negative values in unsigned mode.
      */
     @Test
-    public void shouldThrowExceptionForNegativeValueInUnsignedMode() throws IOException {
-        when(mockJsonParser.getCurrentToken())
-                .thenReturn(JsonToken.START_ARRAY)
-                .thenReturn(JsonToken.VALUE_NUMBER_INT)
-                .thenReturn(JsonToken.END_ARRAY);
-        when(mockJsonParser.nextToken())
-                .thenReturn(JsonToken.VALUE_NUMBER_INT)
-                .thenReturn(JsonToken.END_ARRAY);
-        when(mockJsonParser.getIntValue()).thenReturn(-1);
+    public void shouldThrowExceptionForNegativeValueInUnsignedMode() {
+        ObjectMapper unsignedMapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(byte[].class, unsignedDeserializer);
+        unsignedMapper.registerModule(module);
 
         IOException exception = assertThrows(IOException.class, () ->
-                unsignedDeserializer.deserialize(mockJsonParser, mockDeserializationContext));
+                unsignedMapper.readValue("[-1]", byte[].class));
 
         assertThat(exception.getMessage().contains("Unsigned byte value out of range"), is(true));
     }
@@ -267,18 +263,14 @@ public class IntArrayToByteArrayDeserializerTest {
      * Ensures IOException is thrown for values exceeding unsigned byte range.
      */
     @Test
-    public void shouldThrowExceptionForOutOfRangePositiveValueInUnsignedMode() throws IOException {
-        when(mockJsonParser.getCurrentToken())
-                .thenReturn(JsonToken.START_ARRAY)
-                .thenReturn(JsonToken.VALUE_NUMBER_INT)
-                .thenReturn(JsonToken.END_ARRAY);
-        when(mockJsonParser.nextToken())
-                .thenReturn(JsonToken.VALUE_NUMBER_INT)
-                .thenReturn(JsonToken.END_ARRAY);
-        when(mockJsonParser.getIntValue()).thenReturn(256);
+    public void shouldThrowExceptionForOutOfRangePositiveValueInUnsignedMode() {
+        ObjectMapper unsignedMapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(byte[].class, unsignedDeserializer);
+        unsignedMapper.registerModule(module);
 
         IOException exception = assertThrows(IOException.class, () ->
-                unsignedDeserializer.deserialize(mockJsonParser, mockDeserializationContext));
+                unsignedMapper.readValue("[256]", byte[].class));
 
         assertThat(exception.getMessage().contains("Unsigned byte value out of range"), is(true));
     }

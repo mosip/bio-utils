@@ -1,321 +1,127 @@
-<project
-	xmlns="http://maven.apache.org/POM/4.0.0"
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<!-- Sample CLI apps only — not in the reactor modules list. Do not reintroduce kernel-bom. -->
+	<parent>
+		<groupId>io.mosip.biometrics</groupId>
+		<artifactId>biometrics</artifactId>
+		<version>1.4.1-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
 	<groupId>io.mosip.bio.utils</groupId>
 	<artifactId>bioutils</artifactId>
 	<packaging>jar</packaging>
-	<version>1.4.0-SNAPSHOT</version>
 	<name>biometrics-util-test</name>
+	<description>
+		Sample CLI applications demonstrating biometrics-util (ISO decode/encode, image-type
+		conversion, NIST file reader). Not a published Maven Central artifact.
+	</description>
 	<url>https://github.com/mosip/bio-utils</url>
-	<description>This utility is used to Test the Biomnetric Util Repo
-		functionalties.</description>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>21</java.version>
-
-		<!-- maven -->
-		<maven.compiler.source>${java.version}</maven.compiler.source>
-		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<maven.compiler.version>3.11.0</maven.compiler.version>
-		<maven.jar.plugin.version>3.4.0</maven.jar.plugin.version>
-		<maven.dependency.plugin.version>2.10</maven.dependency.plugin.version>
-		<maven.resources.plugin.version>3.3.1</maven.resources.plugin.version>
-		<maven.sonar.plugin.version>3.7.0.1746</maven.sonar.plugin.version>
-		<jacoco.maven.plugin.version>0.8.11</jacoco.maven.plugin.version>
-		<maven.surefire.plugin.version>3.1.2</maven.surefire.plugin.version>
-		<maven.central.publishing.plugin.version>0.7.0</maven.central.publishing.plugin.version>
-		<!-- spring -->
-		<spring.boot.version>2.0.2.RELEASE</spring.boot.version>
-
-		<!-- opencv -->
-		<openpnp.opencv.version>4.5.3-4</openpnp.opencv.version>
-
-		<!-- utilities -->
-		<okhttp.version>2.7.5</okhttp.version>
-		<google.protobuf.version>3.13.0</google.protobuf.version>
-		<jai.imageio.jpeg2000.version>1.3.0</jai.imageio.jpeg2000.version>
-		<github.mhshams.jnbis.version>2.0.2</github.mhshams.jnbis.version>
-		<imgscalr.lib.version>4.2</imgscalr.lib.version>
-		
-		<!-- fasterxml jackson-->
-		<com.fasterxml.jackson.databind.version>2.15.0</com.fasterxml.jackson.databind.version>
-		<com.fasterxml.jackson.core.version>2.15.0</com.fasterxml.jackson.core.version>
-
-		<!-- Mosip -->
-		<kernel.bom.version>1.3.1-rc.1</kernel.bom.version>
-		<kernel.core.version>1.3.1-rc.1</kernel.core.version>
-		<mosip.biometrics.util.version>1.4.0-SNAPSHOT</mosip.biometrics.util.version>
-
-	</properties>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>io.mosip.kernel</groupId>
-				<artifactId>kernel-bom</artifactId>
-				<version>${kernel.bom.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 
 	<dependencies>
+		<!--
+			biometrics-util: Library under demo — Finger/Iris/FaceEncoder-Decoder, CommonUtil, NIST.
+			Version from parent (${mosip.biometrics.util.version}). MPL-2.0.
+		-->
 		<dependency>
 			<groupId>io.mosip.biometric.util</groupId>
 			<artifactId>biometrics-util</artifactId>
-			<version>${mosip.biometrics.util.version}</version>
 		</dependency>
+		<!--
+			spring-boot-starter-web: Optional Spring context for sample apps that need Boot wiring.
+			Version from Boot parent 4.1.1. License: Apache-2.0.
+		-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<!--
+			spring-boot-jackson2: Jackson 2 under Boot 4 for sample JSON/XML tooling.
+		-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-jackson2</artifactId>
+		</dependency>
+		<!--
+			kernel-core: Shared MOSIP helpers used by sample CLIs. ${kernel.core.version}. MPL-2.0.
+		-->
 		<dependency>
 			<groupId>io.mosip.kernel</groupId>
 			<artifactId>kernel-core</artifactId>
-			<version>${kernel.core.version}</version>
 		</dependency>
+		<!--
+			okhttp (2.x): HTTP client for NistDataQualityAnalyser → external BQAT service.
+			Version ${okhttp.version}. License: Apache-2.0.
+		-->
 		<dependency>
 			<groupId>com.squareup.okhttp</groupId>
 			<artifactId>okhttp</artifactId>
-			<version>${okhttp.version}</version>
 		</dependency>
+		<!--
+			jackson-databind: JSON for sample auth/crypto payloads and BQAT responses.
+			License: Apache-2.0.
+		-->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
-		</dependency>
+		<!--
+			jackson-dataformat-csv: Write NIST quality analysis results to CSV.
+			Version from Boot parent. License: Apache-2.0.
+		-->
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-csv</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
+		<!--
+			commons-lang3: String utilities in sample apps. License: Apache-2.0.
+		-->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
 		<!--
-		https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
+			protobuf-java: Same as biometrics-util (transitive alignment / direct use in samples).
+			Version ${google.protobuf.version}. License: BSD-3-Clause.
+		-->
 		<dependency>
 			<groupId>com.google.protobuf</groupId>
 			<artifactId>protobuf-java</artifactId>
-			<version>${google.protobuf.version}</version>
 		</dependency>
 		<!--
-		https://mvnrepository.com/artifact/com.github.jai-imageio/jai-imageio-jpeg2000 -->
+			jai-imageio-jpeg2000: JP2 handling in BioUtilApplication / convert demos.
+			Version ${jai.imageio.jpeg2000.version}. License: BSD-3-Clause-No-Nuclear.
+		-->
 		<dependency>
 			<groupId>com.github.jai-imageio</groupId>
 			<artifactId>jai-imageio-jpeg2000</artifactId>
-			<version>${jai.imageio.jpeg2000.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.github.mhshams/jnbis -->
+		<!--
+			jnbis: WSQ demos for finger ISO encode/decode samples.
+			Version ${github.mhshams.jnbis.version}. License: Apache-2.0.
+		-->
 		<dependency>
 			<groupId>com.github.mhshams</groupId>
 			<artifactId>jnbis</artifactId>
-			<version>${github.mhshams.jnbis.version}</version>
 		</dependency>
+		<!--
+			imgscalr-lib: Optional image resize in sample pipelines.
+			Version ${imgscalr.lib.version}. License: Apache-2.0.
+		-->
 		<dependency>
 			<groupId>org.imgscalr</groupId>
 			<artifactId>imgscalr-lib</artifactId>
-			<version>${imgscalr.lib.version}</version>
 		</dependency>
+		<!--
+			opencv: Same OpenCV helpers as biometrics-util for sample convert CLIs.
+			Version ${openpnp.opencv.version}. License: BSD-3-Clause.
+		-->
 		<dependency>
 			<groupId>org.openpnp</groupId>
 			<artifactId>opencv</artifactId>
-			<version>${openpnp.opencv.version}</version>
 		</dependency>
 	</dependencies>
-	
-	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://central.sonatype.com/repository/maven-snapshots</url>
-		</snapshotRepository>
-		<repository>
-			<id>ossrh</id>
-			<url>https://central.sonatype.com/api/v1/publisher</url>
-		</repository>
-	</distributionManagement>
-	
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven.compiler.version}</version>
-				<configuration>
-					<release>${java.version}</release>
-					<compilerArgs>
-						<arg>--enable-preview</arg>
-					</compilerArgs>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.sonatype.central</groupId>
-				<artifactId>central-publishing-maven-plugin</artifactId>
-				<version>${maven.central.publishing.plugin.version}</version>
-				<extensions>true</extensions>
-				<configuration>
-					<publishingServerId>ossrh</publishingServerId>
-					<autoPublish>false</autoPublish>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${maven.surefire.plugin.version}</version>
-				<configuration>
-					<skipTests>${skipTests}</skipTests>
-					<skip>false</skip>
-					<argLine>
-						${argLine}
-						--add-modules=ALL-SYSTEM
-						--add-opens java.xml/jdk.xml.internal=ALL-UNNAMED
-						--add-opens java.base/java.lang.reflect=ALL-UNNAMED
-						--add-opens java.base/java.lang.stream=ALL-UNNAMED
-						--add-opens java.base/java.time=ALL-UNNAMED
-						--add-opens java.base/java.time.LocalDate=ALL-UNNAMED
-						--add-opens
-						java.base/java.time.LocalDateTime=ALL-UNNAMED
-						--add-opens
-						java.base/java.time.LocalDateTime.date=ALL-UNNAMED
-						--enable-preview
-					</argLine>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>${maven.jar.plugin.version}</version>
-				<configuration>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-							<mainClass>
-								io.mosip.biometrics.util.test.BioUtilApplication.class</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>${maven.dependency.plugin.version}</version>
-				<executions>
-					<execution>
-						<id>copy</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>
-								${project.build.directory}/lib
-							</outputDirectory>
-							<overWriteReleases>false</overWriteReleases>
-							<overWriteSnapshots>false</overWriteSnapshots>
-							<overWriteIfNewer>true</overWriteIfNewer>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>${maven.resources.plugin.version}</version>
-				<executions>
-					<execution>
-						<id>copy-resources-1</id>
-						<!-- here the phase you need -->
-						<phase>validate</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${basedir}/target/BiometricInfo</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${basedir}/BiometricInfo</directory>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-					<execution>
-						<id>copy-resources-4</id>
-						<!-- here the phase you need -->
-						<phase>validate</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${basedir}/target</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${basedir}</directory>
-									<filtering>true</filtering>
-									<includes>
-										<!-- what -->
-										<include>application.properties</include>
-										<include>run.sh</include>
-										<include>
-											run_convert_face_JP2000_JPEG.bat</include>
-										<include>run_convert_face_JP2000_PNG.bat</include>
-										<include>
-											run_convert_iris_JP2000_JPEG.bat</include>
-										<include>run_convert_iris_JP2000_PNG.bat</include>
-										<include>
-											run_convert_finger_JP2000_JPEG.bat</include>
-										<include>
-											run_convert_finger_JP2000_PNG.bat</include>
-										<include>run_convert_finger_WSQ_JPEG.bat</include>
-										<include>run_convert_finger_WSQ_PNG.bat</include>
-										<include>run_encoder_face_auth.bat</include>
-										<include>
-											run_encoder_face_registration.bat</include>
-										<include>run_decoder_face.bat</include>
-										<include>run_encoder_iris_auth.bat</include>
-										<include>
-											run_encoder_iris_registration.bat</include>
-										<include>run_decoder_iris.bat</include>
-										<include>
-											run_encoder_finger_jp2000_registration.bat</include>
-										<include>
-											run_encoder_finger_jp2000_auth.bat</include>
-										<include>run_encoder_finger_wsq_auth.bat</include>
-										<include>run_decoder_finger_jp2000.bat</include>
-										<include>run_decoder_finger_wsq.bat</include>
-										<include>run_decoder_jp2000.bat</include>
-										<include>run_bio_auth_decoder.bat</include>
-
-										<include>run_nist_file_reader.bat</include>
-										<include>
-											run_nist_data_quality_analyser.bat</include>
-
-										<include>run_rotate_face.bat</include>
-										<include>run_rotate_finger.bat</include>
-										<include>run_rotate_iris.bat</include>
-									</includes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>	
-	
 </project>
-

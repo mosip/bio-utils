@@ -1,86 +1,71 @@
 # Kernel BioSDK Provider
 
-## 📌 Overview
-**Kernel BioSDK Provider** is the implementation module that acts as a bridge between the MOSIP Kernel and various Biometric SDKs. It provides concrete implementations of the biometric interfaces defined in `kernel-biometrics-api`.
+## Overview
 
-## ✨ Features
-- **SDK Integration**: Adapts various biometric SDKs to the MOSIP Kernel API.
-- **Version Support**: Provides implementations for multiple SDK versions.
-- **Spring Integration**: Built with Spring Boot starters for seamless integration.
+Reflection-based **bridge** between MOSIP biometric SPIs and external vendor biometric SDKs. Provider class names and modality settings come from configuration — there is **no compile-time dependency** on vendor SDK JARs.
 
----
+Maven coordinates: `io.mosip.kernel:kernel-biosdk-provider`
 
-## 🧩 Services
+## Standards & contracts
 
-This module provides the following key implementations:
+| Layer | Detail |
+| ----- | ------ |
+| SPI | Implements internal `iBioProviderApi`; consumes `kernel-biometrics-api` types |
+| Protocol versions | `BioProviderImpl_V_0_7`, `_V_0_8`, `_V_0_9` (V0.9 is current) |
+| Modalities | Finger, Iris, Face via `BiometricType` / `BiometricFunction` |
 
-- **BioProviderImpl**: Implementation of the [IBioApiV2](https://github.com/mosip/bio-utils/blob/master/kernel-biometrics-api/src/main/java/io/mosip/kernel/biometrics/spi/IBioApiV2.java) interface, handling biometric operations like extraction, matching, and quality checks using the underlying SDKs.
-  - Supports multiple versions (e.g., 0.9).
+## Features
 
----
+- Pluggable vendor SDKs via `Class.forName` and configured class names
+- Registry of providers per modality and biometric function
+- Spring Boot integration (`BioAPIFactory` with `@ConfigurationProperties`)
+- Logging via APIs packaged in commons `kernel-core` (not a separate logger artifact)
 
-## ⚙️ Local Setup
+## API surface
 
-### 📄 Build Locally
+| Type | Purpose |
+| ---- | ------- |
+| `BioAPIFactory` | Loads `mosip.biometric.sdk.providers.*` and builds the provider registry |
+| `BioProviderImpl_V_0_7` / `_V_0_8` / `_V_0_9` | Versioned SDK protocol adapters |
+| `iBioProviderApi` | Internal provider SPI |
 
-To build the project locally, run:
+## Prerequisites
 
-```bash
-mvn clean install -Dgpg.skip=true
+- JDK 21
+- Maven 3.9+
+- Vendor SDK JAR(s) available on the **runtime** classpath of the host service
+- `kernel-biometrics-api` and `kernel-core`
+
+## Build
+
+```text
+mvn clean install -Dgpg.skip=true -pl kernel-biosdk-provider -am
 ```
 
----
+## Configuration
 
-## 📦 Prerequisites
+Prefix: `mosip.biometric.sdk.providers`
 
-- Java 21
-- Maven 3.11.0 or higher
-- Git
+Typical pattern:
 
----
+```text
+mosip.biometric.sdk.providers.finger.<vendorId>.*
+mosip.biometric.sdk.providers.iris.<vendorId>.*
+mosip.biometric.sdk.providers.face.<vendorId>.*
+```
 
-## 🗄️ Database Setup
+Exact keys (classname, version, etc.) are defined by the host MOSIP service and vendor adapter documentation.
 
-Not applicable. This is a **provider library**. It may use a database (H2/JPA) internally or rely on the host application's datasource, but no standalone setup is required for this module itself.
+## Database / Docker
 
----
+Optional H2 / JPA is declared for the provider framework in library form. No standalone DB setup or Docker image for this module.
 
-## 🛠️ Configuration
+## Contribution & Community
 
-This module acts as a library. Configuration is typically handled by the consuming application (e.g., proper SDK paths or provider properties in `application.properties`).
+- [Code contributions](https://docs.mosip.io/1.2.0/community/code-contributions)
+- [MOSIP Community](https://community.mosip.io/)
+- [Issues](https://github.com/mosip/bio-utils/issues)
 
----
+## License
 
-## 🐳 Docker Support
-
-Not applicable. This is a **library module**.
-
----
-
-## 🚀 Deployment
-
-This module is published as a **Maven artifact**.
-
----
-
-## ⬆️ Upgrade
-
-Standard Maven dependency upgrade process applies.
-
-
-## 🤝 Contribution & Community
-
-We welcome contributions from everyone!
-
-[Check here](https://docs.mosip.io/1.2.0/community/code-contributions) to learn how you can contribute code to this application.
-
-If you have questions or encounter issues, feel free to raise them in the [MOSIP Community](https://docs.mosip.io/1.2.0/community/code-contributions).
-
----
-
-## 📄 License
-
-![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)
-
-This project is licensed under the **Mozilla Public License 2.0 (MPL 2.0)**.  
-See the [LICENSE](../LICENSE) for full license details.
+Licensed under the [Mozilla Public License 2.0](../LICENSE).

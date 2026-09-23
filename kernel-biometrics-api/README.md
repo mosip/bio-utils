@@ -1,88 +1,58 @@
 # Kernel Biometrics API
 
-## 📌 Overview
-**Kernel Biometrics API** provides the core API definitions, interfaces, and data models for biometric operations within the MOSIP ecosystem. It defines the contract that biometric providers and SDKs must adhere to.
+## Overview
 
-## ✨ Features
-- **Biometric SPI**: Standard Service Provider Interfaces for biometric operations.
-- **Data Models**: Common DTOs and entities for biometric data exchange.
-- **Constants**: Standardized error codes and constants.
+Core **SPI contracts**, **entities**, and **constants** for biometric operations in MOSIP. Downstream providers (`kernel-biosdk-provider`, vendor SDKs) and CBEFF utilities implement or consume these types.
 
----
+Maven coordinates: `io.mosip.kernel:kernel-biometrics-api`
 
-## 🧩 Services
+## Standards
 
-This module defines the following key interfaces (SPI):
+| Concept | Mapping |
+| ------- | ------- |
+| BIR / biometric record | Aligns with ISO/IEC 19785 CBEFF structures |
+| Modalities | `BiometricType`: `FINGER`, `IRIS`, `FACE` |
+| SPI functions | `BiometricFunction` (match, extract, quality check, …) |
 
-- **IBioApi** – Core interface for biometric operations such as quality check, matching, and extraction.
-- **IBioApiV2** – Enhanced version of the biometric API interface.
-- **CbeffUtil** – SPI/Contract for CBEFF utility operations.
+## Features
 
----
+- Service Provider Interfaces for quality check, match, extract, segment, and format conversion
+- Shared data model: `BIR`, `BiometricRecord`, `BDBInfo`, `Response<T>`, …
+- CBEFF validation helpers (`CbeffValidator`)
+- Jackson 2 deserializers for biometric payloads (via `spring-boot-jackson2` under Boot 4)
 
-## ⚙️ Local Setup
+## API surface
 
-### 📄 Build Locally
+| Type | Purpose |
+| ---- | ------- |
+| `IBioApi` | Legacy SPI (`convertFormat` deprecated since 1.2.1) |
+| `IBioApiV2` | Preferred SPI — use `convertFormatV2` |
+| `CbeffUtil` | SPI for CBEFF XML create/update/validate/extract |
+| `BiometricType` / `BiometricFunction` | Modality and function enums |
+| `Response<T>` | Status + typed payload wrapper |
 
-To build the project locally, run:
+## Prerequisites
 
-```bash
-mvn clean install -Dgpg.skip=true
+- JDK 21
+- Maven 3.9+
+- `io.mosip.kernel:kernel-core:1.4.1-SNAPSHOT`
+
+## Build
+
+```text
+mvn clean install -Dgpg.skip=true -pl kernel-biometrics-api -am
 ```
 
----
+## Configuration / Database / Docker
 
-## 📦 Prerequisites
+Not applicable — API definition library only.
 
-- Java 21
-- Maven 3.11.0 or higher
-- Git
+## Contribution & Community
 
----
+- [Code contributions](https://docs.mosip.io/1.2.0/community/code-contributions)
+- [MOSIP Community](https://community.mosip.io/)
+- [Issues](https://github.com/mosip/bio-utils/issues)
 
-## 🗄️ Database Setup
+## License
 
-Not applicable. This is an **API definition library** and does not require a database.
-
----
-
-## 🛠️ Configuration
-
-No external configuration is required.
-
----
-
-## 🐳 Docker Support
-
-Not applicable. This is a **library module**, not a deployable service.
-
----
-
-## 🚀 Deployment
-
-This module is published as a **Maven artifact**.
-
----
-
-## ⬆️ Upgrade
-
-Standard Maven dependency upgrade process applies.
-
----
-
-## 🤝 Contribution & Community
-
-We welcome contributions from everyone!
-
-[Check here](https://docs.mosip.io/1.2.0/community/code-contributions) to learn how you can contribute code to this application.
-
-If you have questions or encounter issues, feel free to raise them in the [MOSIP Community](https://docs.mosip.io/1.2.0/community/code-contributions).
-
----
-
-## 📄 License
-
-![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)
-
-This project is licensed under the **Mozilla Public License 2.0 (MPL 2.0)**.  
-See the [LICENSE](../LICENSE) for full license details.
+Licensed under the [Mozilla Public License 2.0](../LICENSE).

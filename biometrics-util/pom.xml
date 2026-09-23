@@ -1,371 +1,139 @@
-<project
-	xmlns="http://maven.apache.org/POM/4.0.0"
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>io.mosip.biometrics</groupId>
+		<artifactId>biometrics</artifactId>
+		<version>1.4.1-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
 	<groupId>io.mosip.biometric.util</groupId>
 	<artifactId>biometrics-util</artifactId>
-	<version>1.4.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>biometrics-util</name>
+	<description>
+		Standalone ISO biometric format converters (no Spring): ISO/IEC 19794-4:2011 Finger,
+		19794-5:2011 Face, 19794-6:2011 Iris encode/decode to JPEG/PNG/BufferedImage; NIST ITL
+		1-2011 XML parser; JPEG2000 (jai-imageio), WSQ (jnbis), and OpenCV helpers.
+	</description>
 	<url>https://github.com/mosip/bio-utils</url>
-	<description>This utility is used to convert ISO to Image and Image to ISO</description>
 
+	<!-- Inherits version properties and plugins from biometrics. Do not reintroduce kernel-bom. -->
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>21</java.version>
-
-		<!-- maven -->
-		<maven.compiler.source>${java.version}</maven.compiler.source>
-		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<maven.compiler.version>3.11.0</maven.compiler.version>
-		<maven.deploy.plugin.version>3.1.1</maven.deploy.plugin.version>
-		<maven.source.plugin.version>3.3.1</maven.source.plugin.version>
-		<maven.javadoc.plugin.version>3.2.0</maven.javadoc.plugin.version>
-		<maven.gpg.plugin.version>3.2.3</maven.gpg.plugin.version>
-		<maven.jar.plugin.version>3.0.2</maven.jar.plugin.version>
-		<maven.war.plugin.version>3.1.0</maven.war.plugin.version>
-		<maven.sonar.plugin.version>3.7.0.1746</maven.sonar.plugin.version>
-		<central.publishing.maven.plugin.version>0.7.0</central.publishing.maven.plugin.version>
-
-		<!-- git -->
-		<git.commit.id.plugin.version>3.0.1</git.commit.id.plugin.version>
-
-		<!-- utilities -->
-		<google.protobuf.version>3.16.3</google.protobuf.version>
-		<jai.imageio.jpeg2000.version>1.3.0</jai.imageio.jpeg2000.version>
-		<github.mhshams.jnbis.version>2.0.2</github.mhshams.jnbis.version>
-
-		<!--Jacoco-->
-		<jacoco.maven.plugin.version>0.8.11</jacoco.maven.plugin.version>
-
-		<!-- opencv -->
-		<openpnp.opencv.version>4.5.3-4</openpnp.opencv.version>
-
-		<!-- Mosip -->
-		<kernel.bom.version>1.3.1-rc.1</kernel.bom.version>
-		<kernel.core.version>1.3.1-rc.1</kernel.core.version>
-
-        <!-- Testing -->
-        <org.junit.version>5.8.2</org.junit.version>
-        <org.mockito.inline.version>4.11.0</org.mockito.inline.version>
-        <org.mockito.jupiter.version>4.5.1</org.mockito.jupiter.version>
-
-        <!-- Sonar coverage -->
-        <sonar.coverage.exclusions>**/constant/**,**/exception/**,**/nist/parser/v2011/**,**/AbstractImageInfo.java,**/ConvertRequestDto.java,**/ImageDecoderRequestDto.java,**/NistRequestDto.java,**/FaceBDIR.java,**/FeaturePoint.java,**/ImageDataType.java,**/LandmarkPointType.java,**/io/mosip/biometrics/util/finger/Representation.java,**/io/mosip/biometrics/util/finger/SegmentationBlock.java,**/io/mosip/biometrics/util/finger/ExtendedDataBlock.java,**/IrisBDIR.java,**/FingerBDIR.java,**/io/mosip/biometrics/util/iris/Representation.java,**/io/mosip/biometrics/util/iris/ImageInformation.java,**/io/mosip/biometrics/util/iris/ImageData.java,**/io/mosip/biometrics/util/iris/RepresentationData.java</sonar.coverage.exclusions>
+		<sonar.coverage.exclusions>
+			**/constant/**,**/exception/**
+		</sonar.coverage.exclusions>
 	</properties>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>io.mosip.kernel</groupId>
-				<artifactId>kernel-bom</artifactId>
-				<version>${kernel.bom.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
 	<dependencies>
+		<!--
+			kernel-core: MOSIP exceptions / logging facades used by converters.
+			Version from parent dependencyManagement (${kernel.core.version}). MPL-2.0.
+		-->
 		<dependency>
 			<groupId>io.mosip.kernel</groupId>
 			<artifactId>kernel-core</artifactId>
-			<version>${kernel.core.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-databind</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-annotations</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-dataformat-xml</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-core</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
+		<!--
+			slf4j-api: Logging API for ISO header/body parsers (LOGGER.error on undefined codes).
+			Version from Boot parent. License: MIT.
+		-->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
+		<!--
+			commons-lang3: String/object helpers in CommonUtil and validation paths.
+			Version from Boot parent. License: Apache-2.0.
+		-->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
 		<!--
-		https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
+			protobuf-java: Protocol Buffer runtime for biometric util binary helpers.
+			Version ${google.protobuf.version}. License: BSD-3-Clause.
+		-->
 		<dependency>
 			<groupId>com.google.protobuf</groupId>
 			<artifactId>protobuf-java</artifactId>
-			<version>${google.protobuf.version}</version>
 		</dependency>
 		<!--
-		https://mvnrepository.com/artifact/com.github.jai-imageio/jai-imageio-jpeg2000 -->
+			jai-imageio-jpeg2000: Read/write JPEG2000 image bytes inside ISO 19794 containers
+			(Face/Iris/Finger JP2 ↔ JPEG/PNG). Version ${jai.imageio.jpeg2000.version}.
+			License: BSD-3-Clause-No-Nuclear.
+		-->
 		<dependency>
 			<groupId>com.github.jai-imageio</groupId>
 			<artifactId>jai-imageio-jpeg2000</artifactId>
-			<version>${jai.imageio.jpeg2000.version}</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.github.mhshams/jnbis -->
+		<!--
+			jnbis: WSQ decoder/encoder for finger AUTH ISO payloads (FingerImageCompressionType.WSQ).
+			Version ${github.mhshams.jnbis.version}. License: Apache-2.0.
+		-->
 		<dependency>
 			<groupId>com.github.mhshams</groupId>
 			<artifactId>jnbis</artifactId>
-			<version>${github.mhshams.jnbis.version}</version>
 		</dependency>
 		<!--
-		https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+			spring-boot-jackson2: Boot 4 defaults to Jackson 3; this module keeps Jackson 2 for
+			NIST XML XmlMapper and existing ObjectMapper usage. Version from Boot parent.
+		-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-jackson2</artifactId>
+		</dependency>
+		<!--
+			jackson-databind: Core ObjectMapper / JSON tree for ConvertRequestDto and helpers.
+			Version from Boot (via jackson2). License: Apache-2.0.
+		-->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
+		<!--
+			jackson-dataformat-xml: XmlMapper for NIST ITL 1-2011 XML parse/serialize
+			(CommonUtil.nistParser / nistXml, NamespaceXmlFactory). License: Apache-2.0.
+		-->
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-xml</artifactId>
 		</dependency>
+		<!--
+			jackson-module-jaxb-annotations: JAXB annotation support on Jackson XML for NIST models.
+			License: Apache-2.0.
+		-->
 		<dependency>
 			<groupId>com.fasterxml.jackson.module</groupId>
 			<artifactId>jackson-module-jaxb-annotations</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
+		<!--
+			opencv (openpnp): Mat-based JP2↔JPEG/PNG/WEBP conversion (CommonUtil.convertJP2*UsingOpenCV).
+			Version ${openpnp.opencv.version}. License: BSD-3-Clause.
+		-->
 		<dependency>
 			<groupId>org.openpnp</groupId>
 			<artifactId>opencv</artifactId>
-			<version>${openpnp.opencv.version}</version>
 		</dependency>
+		<!--
+			hibernate-validator: Bean Validation API for request DTOs where annotated.
+			Version from Boot parent. License: Apache-2.0.
+		-->
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
 		</dependency>
-		<!-- JUnit 5 (Jupiter) BOM for dependency management -->
-		<dependency>
-			<groupId>org.junit</groupId>
-			<artifactId>junit-bom</artifactId>
-			<version>${org.junit.version}</version>
-			<type>pom</type>
-			<scope>import</scope>
-		</dependency>
-
-		<!-- Mockito for testing -->
+		<!--
+			mockito-core: Unit-test mocks (static CommonUtil, JsonGenerator, etc.). Scope: test.
+			Version from Boot parent. License: MIT.
+		-->
 		<dependency>
 			<groupId>org.mockito</groupId>
-			<artifactId>mockito-inline</artifactId>
-			<version>${org.mockito.inline.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-junit-jupiter</artifactId>
-			<version>${org.mockito.jupiter.version}</version>
+			<artifactId>mockito-core</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://central.sonatype.com/repository/maven-snapshots/</url>
-		</snapshotRepository>
-		<repository>
-			<id>ossrh</id>
-			<url>https://central.sonatype.com/api/v1/publisher</url>
-		</repository>
-	</distributionManagement>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven.compiler.version}</version>
-				<configuration>
-					<release>${java.version}</release>
-					<compilerArgs>
-						<arg>--enable-preview</arg>
-					</compilerArgs>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-deploy-plugin</artifactId>
-				<version>${maven.deploy.plugin.version}</version>
-				<executions>
-					<execution>
-						<id>default-deploy</id>
-						<phase>deploy</phase>
-						<goals>
-							<goal>deploy</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.sonatype.central</groupId>
-				<artifactId>central-publishing-maven-plugin</artifactId>
-				<version>${central.publishing.maven.plugin.version}</version>
-				<extensions>true</extensions>
-				<configuration>
-					<publishingServerId>ossrh</publishingServerId>
-					<autoPublish>false</autoPublish>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<inherited>true</inherited>
-				<version>${maven.source.plugin.version}</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar-no-fork</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		    <plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco.maven.plugin.version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>report</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>${maven.javadoc.plugin.version}</version>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<doclint>none</doclint>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-gpg-plugin</artifactId>
-				<version>${maven.gpg.plugin.version}</version>
-				<executions>
-					<execution>
-						<id>sign-artifacts</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>sign</goal>
-						</goals>
-						<configuration>
-							<gpgArguments>
-								<arg>--pinentry-mode</arg>
-								<arg>loopback</arg>
-							</gpgArguments>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>pl.project13.maven</groupId>
-				<artifactId>git-commit-id-plugin</artifactId>
-				<version>${git.commit.id.plugin.version}</version>
-				<executions>
-					<execution>
-						<id>get-the-git-infos</id>
-						<goals>
-							<goal>revision</goal>
-						</goals>
-						<phase>validate</phase>
-					</execution>
-				</executions>
-				<configuration>
-					<generateGitPropertiesFile>true</generateGitPropertiesFile>
-					<generateGitPropertiesFilename>
-						${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
-					<includeOnlyProperties>
-						<includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
-						<includeOnlyProperty>^git.commit.id.(abbrev|full)$</includeOnlyProperty>
-					</includeOnlyProperties>
-					<commitIdGenerationMode>full</commitIdGenerationMode>
-					<dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-	<profiles>
-		<profile>
-			<id>sonar</id>
-			<properties>
-				<sonar.sources>.</sonar.sources>
-				<sonar.inclusions>src/main/java/**,src/main/resources/**</sonar.inclusions>
-				<sonar.exclusions>${sonar.coverage.exclusions}</sonar.exclusions>
-				<sonar.host.url>https://sonarcloud.io</sonar.host.url>
-			</properties>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.sonarsource.scanner.maven</groupId>
-						<artifactId>sonar-maven-plugin</artifactId>
-						<version>${maven.sonar.plugin.version}</version>
-						<executions>
-							<execution>
-								<phase>verify</phase>
-								<goals>
-									<goal>sonar</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-	<scm>
-		<connection>scm:git:git://github.com/mosip/bio-utils.git</connection>
-		<developerConnection>scm:git:ssh://github.com:mosip/bio-utils.git</developerConnection>
-		<url>https://github.com/mosip/bio-utils</url>
-		<tag>HEAD</tag>
-	</scm>
-	<licenses>
-		<license>
-			<name>MPL 2.0</name>
-			<url>https://www.mozilla.org/en-US/MPL/2.0/</url>
-		</license>
-	</licenses>
-	<developers>
-		<developer>
-			<name>Mosip</name>
-			<email>mosip.emailnotifier@gmail.com</email>
-			<organization>io.mosip</organization>
-			<organizationUrl>https://github.com/mosip/bio-utils</organizationUrl>
-		</developer>
-	</developers>
 </project>

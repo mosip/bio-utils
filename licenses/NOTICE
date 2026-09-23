@@ -1,234 +1,115 @@
-COPYRIGHT NOTICES
+================================================================================
+COPYRIGHT NOTICES — bio-utils
 ================================================================================
 
-MOSIP Packages
-MOSIP Kernel Core
-Copyright © 2018-present MOSIP
-Licensed under the Mozilla Public License 2.0
+bio-utils is MPL 2.0 (see ../LICENSE). Spring Boot 4.1.1 / Java 21.
+Versions match the reactor pom.xml (biometrics 1.4.1-SNAPSHOT).
+License texts in this directory.
 
-MOSIP Kernel BOM
-Copyright © 2018-present MOSIP
-Licensed under the Mozilla Public License 2.0
+--------------------------------------------------------------------------------
+MOSIP open-source license matrix (compatible with MPL 2.0)
+--------------------------------------------------------------------------------
 
-MOSIP Kernel Biometrics API
-Copyright © 2018-present MOSIP
-Licensed under the Mozilla Public License 2.0
+License                          Compatible with MPL 2.0?   Use with MOSIP?
+-------------------------------  -------------------------  ---------------
+BSD (2-Clause, 3-Clause)         Yes                        Yes
+MIT                              Yes                        Yes
+Apache-2.0                       Yes                        Yes
+MPL-2.0                          Yes                        Yes
+EPL                              No                         No
+LGPLv3                           Yes                        No
+GPLv2                            No                         No
+GPLv3                            Yes                        No
+AGPLv3                           Yes                        No
+Creative Commons (general)       No                         No
+ISC                              Yes                        Yes
+Python-2.0                       Yes                        Yes
+AFL-2.0                          No                         No
+AFL-2.1                          Yes                        Yes
+ODC-By-1.0                       No                         No
+CDDL-1.0                         Yes                        Yes
+Unicode-DFS-2016                 Yes                        Yes
+BlueOak-1.0.0                    Yes                        Yes
+OFL-1.1                          Yes                        Yes
+CC-BY-4.0                        To be reviewed             To be reviewed
+Zlib                             Yes                        Yes
+0BSD                             Yes                        Yes
 
-MOSIP Biometrics Util
-Copyright © 2018-present MOSIP
-Licensed under the Mozilla Public License 2.0
+Comments (summary):
+- BSD / MIT / Apache-2.0 / MPL-2.0 / ISC / Python-2.0 / AFL-2.1 / CDDL-1.0 /
+  Unicode-DFS-2016 / BlueOak-1.0.0 / OFL-1.1 / Zlib / 0BSD: combine freely;
+  keep attribution, original license text, and (where required) file-level
+  license retention (especially CDDL and Unicode).
+- EPL / GPLv2 / Creative Commons (as software) / AFL-2.0 / ODC-By-1.0:
+  incompatible — do not use as a MOSIP product dependency license.
+- LGPLv3 / GPLv3 / AGPLv3: license-compatible with MPL in some combinations,
+  but MOSIP Use = No (combined work may be forced to LGPL/GPL/AGPL).
+- CDDL-1.1 treated as CDDL-1.0 successor. Unicode-3.0 treated as
+  Unicode-DFS-2016 successor.
 
-MOSIP Kernel Logger Logback
-Copyright © 2018-present MOSIP
-Licensed under the Mozilla Public License 2.0
-
-================================================================================
-
-Apache Maven Build Plugins
-Apache Maven Compiler Plugin
-Copyright © 2001-2023 The Apache Software Foundation
-Licensed under the Apache License 2.0
-
-Apache Maven GPG Plugin (v3.2.3)
-Copyright © 2002-2024 The Apache Software Foundation
-Licensed under the Apache License 2.0
-
-Apache Maven GPG Plugin (v1.5)
-Copyright © 2002-2014 The Apache Software Foundation
-Licensed under the Apache License 2.0
-
-Apache Maven JAR Plugin
-Copyright © 2002-2024 The Apache Software Foundation
-Licensed under the Apache License 2.0
-
-Apache Maven Javadoc Plugin
-Copyright © 2005-2020 The Apache Software Foundation
-Licensed under the Apache License 2.0
-
-Apache Maven Source Plugin
-Copyright © 2002-2024 The Apache Software Foundation
-Licensed under the Apache License 2.0
-
-Apache Maven Surefire Plugin (v3.1.2)
-Copyright © 2004-2023 The Apache Software Foundation
-Licensed under the Apache License 2.0
-
-Apache Maven Surefire Plugin (v2.22.0)
-Copyright © 2004-2018 The Apache Software Foundation
-Licensed under the Apache License 2.0
-
-Apache Maven Dependency Plugin
-Copyright © 2002-2023 The Apache Software Foundation
-Licensed under the Apache License 2.0
+Dual-licensed jars: MOSIP elects an allowed option marked below (never EPL,
+GPL, AGPL, LGPLv3, or Creative Commons as the product license).
 
 ================================================================================
-
-Other Build Plugins
-Jacoco Maven Plugin
-Copyright © 2009-2023 Mountainminds GmbH & Co. KG and Contributors
-Licensed under the Eclipse Public License 2.0
-
-Git Commit ID Maven Plugin
-Copyright © 2012-present the original author or authors
-Licensed under the GNU Lesser General Public License 3.0
-
-Sonatype Central Publishing Maven Plugin
-Copyright © 2022-present Sonatype, Inc.
-Licensed under the Apache License 2.0
-
-SonarQube Maven Plugin
-Copyright © 2011-2025 SonarSource SA
-Licensed under the GNU Lesser General Public License 3.0
-
+ELECTED / ALLOWED (Use with MOSIP = Yes)
 ================================================================================
 
-Testing Frameworks
-JUnit Jupiter (JUnit 5)
-Copyright © 2015-2022 the original author or authors (JUnit Team)
-Licensed under the Eclipse Public License 2.0
+Apache License 2.0 (Apache-2.0.txt)
+  Spring Boot 4.1.1 / Spring Framework 7.x (Boot parent) — attribution required
+  Jackson 2.x via spring-boot-jackson2 (databind, dataformat-xml, jaxb annotations)
+  Gson 2.14.0
+  JNBIS 2.1.2, imgscalr-lib 4.2, OkHttp 2.7.5 (sample CLI only)
+  Commons Lang3, Hibernate Validator
+  Maven build plugins (compiler, surefire, jar, source, javadoc, gpg, deploy)
 
-JUnit Vintage Engine
-Copyright © 2015-2025 the original author or authors
-Licensed under the Eclipse Public License 2.0
+MIT License (MIT.txt)
+  Lombok, SLF4J API, Mockito (test)
+  Keep MIT text and author attribution
 
-JUnit 4
-Copyright © JUnit Team
-Licensed under the Eclipse Public License 1.0
+BSD-3-Clause (BSD-3-Clause.txt)
+  Protocol Buffers (protobuf-java) 4.36.2
+  OpenCV via org.openpnp:opencv 4.9.0-0
+  Code can be combined freely; retain BSD notices
 
-Mockito Core
-Copyright © 2007-present Mockito contributors
-Licensed under the MIT License
+BSD-3-Clause with No Nuclear Disclaimer (BSD-3-Clause-No-Nuclear-License.txt)
+  JAI ImageIO JPEG2000 1.4.0
 
-PowerMock Module JUnit4
-Copyright © the original author or authors
-Licensed under the Apache License 2.0
+EDL 1.0 / BSD-2-Clause (BSD-2-Clause.txt)
+  JAXB API 2.3.1 / JAXB Runtime 2.3.9 (javax — required for CBEFF; not Jakarta 4.x)
 
-PowerMock API Mockito2
-Copyright © the original author or authors
-Licensed under the Apache License 2.0
+Mozilla Public License 2.0 (project LICENSE / MPL-2.0.txt / MOZILLA-2.0.txt)
+  MOSIP bio-utils modules (kernel-biometrics-api, kernel-cbeffutil-api,
+    kernel-biosdk-provider, biometrics-util)
+  MOSIP commons kernel-core 1.4.1-SNAPSHOT
+  H2 Database (EPL-1.0 OR MPL-2.0; MOSIP elects MPL-2.0)
 
-================================================================================
-
-Spring Framework & Spring Boot
-Spring Framework & Spring Boot
-Copyright © 2002-2024 Pivotal Software, Inc.
-Copyright © 2002-2024 VMware, Inc.
-Licensed under the Apache License 2.0
-
-Spring Boot Starter Web
-Copyright © 2002-2024 Pivotal Software, Inc.
-Copyright © 2002-2024 VMware, Inc.
-Licensed under the Apache License 2.0
-
-Spring Boot Starter Test
-Copyright © 2002-2024 Pivotal Software, Inc.
-Copyright © 2002-2024 VMware, Inc.
-Licensed under the Apache License 2.0
-
-Spring Boot Starter Data JPA
-Copyright © 2002-2024 Pivotal Software, Inc.
-Copyright © 2002-2024 VMware, Inc.
-Licensed under the Apache License 2.0
+CDDL-1.1 (COMMON-DEVLOPMENT-AND-DISTRIBUTION-1.1.txt) — successor to CDDL-1.0
+  JavaBeans Activation Framework (transitive via JAXB; CDDL-1.1 OR
+    GPL-2.0-with-CPE; MOSIP elects CDDL-1.1)
+  Files retain CDDL; project code remains MPL-2.0
 
 ================================================================================
-
-Jackson JSON Libraries
-Jackson Core
-Copyright © 2007-present Tatu Saloranta
-Copyright © 2008-2019 FasterXML, LLC
-Licensed under the Apache License 2.0
-
-Jackson Databind
-Copyright © 2007-present Tatu Saloranta
-Copyright © 2008-2019 FasterXML, LLC
-Licensed under the Apache License 2.0
-
-Jackson Annotations
-Copyright © 2007-present Tatu Saloranta
-Copyright © 2008-2019 FasterXML, LLC
-Licensed under the Apache License 2.0
-
-Jackson Dataformat XML
-Copyright © 2007-present Tatu Saloranta
-Copyright © 2008-2019 FasterXML, LLC
-Licensed under the Apache License 2.0
-
-Jackson Dataformat CSV
-Copyright © 2007-present Tatu Saloranta
-Copyright © 2008-2019 FasterXML, LLC
-Licensed under the Apache License 2.0
-
-Jackson Module JAXB Annotations
-Copyright © 2007-present Tatu Saloranta
-Copyright © 2008-2019 FasterXML, LLC
-Licensed under the Apache License 2.0
-
+MOSIP MATRIX: Use = No (still on classpath — exception or replace)
 ================================================================================
 
-Apache Commons Libraries
-Apache Commons Lang3
-Copyright © 2001-present The Apache Software Foundation
-Licensed under the Apache License 2.0
+EPL is incompatible with MPL 2.0 on the MOSIP matrix.
+LGPLv3 is compatible with MPL but MOSIP Use = No.
+LGPL-2.1 is not listed on the matrix; treated like LGPLv3 (Use = No).
+GPLv2 is incompatible. GPLv3 / AGPLv3: Use = No.
 
-Apache Commons IO
-Copyright © 2002-2025 The Apache Software Foundation
-Licensed under the Apache License 2.0
+EPL-2.0 only (test / Boot tooling)
+  org.junit.jupiter / junit-vintage (test)
+  org.aspectj:aspectjweaver (Boot AOP transitive)
 
-================================================================================
+EPL-1.0 only (test)
+  junit:junit 4.x (test; vintage)
 
-Logging Frameworks
-SLF4J API
-Copyright © 2004-2025 QOS.ch
-Licensed under the MIT License
+EPL-2.0 OR LGPL-2.1 (both MOSIP Use = No)
+  ch.qos.logback:logback-classic / logback-core — Boot default logger
 
-================================================================================
-
-Google Libraries
-Google Gson
-Copyright © 2008-present Google Inc.
-Licensed under the Apache License 2.0
-
-Protocol Buffers (Protobuf Java)
-Copyright © 2008-present Google Inc.
-Licensed under the BSD 3-Clause License
+LGPL-3.0.txt is retained for reference only; not used as a product
+dependency license election.
 
 ================================================================================
-
-Other Runtime Dependencies
-Hibernate Validator
-Copyright © 2009-2013 Red Hat, Inc. & Gunnar Morling
-Licensed under the Apache License 2.0
-
-H2 Database
-Copyright © 2004-2018 H2 Group
-Licensed under the Eclipse Public License 1.0 or Mozilla Public License 2.0 (dual license)
-
-Project Lombok
-Copyright © 2009-2024 The Project Lombok Authors
-Licensed under the MIT License
-
-OkHttp
-Copyright © 2013-present Square, Inc.
-Licensed under the Apache License 2.0
-
-================================================================================
-
-Biometrics & Image Processing Libraries
-JNBIS (Java NIST Biometric Image Software)
-Copyright © 2011-present Mohammad Haji Shams
-Licensed under the Apache License 2.0
-
-imgscalr (Java Image Scaling Library)
-Copyright © 2011-2014 The Buzz Media, LLC
-Licensed under the Apache License 2.0
-
-JAI ImageIO JPEG2000
-Copyright © 1999-2000 JJ2000
-Copyright © 2005 Sun Microsystems, Inc.
-Licensed under the BSD 3-Clause License with No-Nuclear Disclaimer
-
-OpenCV (Open Source Computer Vision Library)
-Copyright © 1991-2021 The libjpeg-turbo Project and various contributors
-Licensed under the BSD 3-Clause License
-
+END OF NOTICES
 ================================================================================
