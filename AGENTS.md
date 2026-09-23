@@ -1,9 +1,31 @@
 # bio-utils
 
-JDK21 · Maven3.9+ · Boot **4.1.1**. `mvn clean install "-Dgpg.skip=true"`. No `kernel-bom`. Parent artifact `biometrics`.
+```
+JDK21 · Maven3.9+ · Boot 4.1.1 · parent biometrics · NO kernel-bom
+└─ mvn clean install "-Dgpg.skip=true"
+```
 
-Prerequisite: commons `kernel-core` **1.4.1-SNAPSHOT** (`cd ../commons/kernel && mvn clean install "-Dgpg.skip=true"`). Pin via `kernel.core.version` — do **not** parent `kernel-parent` (its `kernel.core.version=${project.version}` would miss commons).
+```
+prereq
+└─ ../commons/kernel → kernel-core 1.4.1-SNAPSHOT
+   └─ pin kernel.core.version (never parent kernel-parent alone)
+```
 
-Order: `kernel-biometrics-api` → `cbeffutil` / `biosdk-provider`; `biometrics-util` ISO↔image (standalone). Sibling deps omit `<version>`. `test/` = sample CLI only (not in reactor).
+```
+reactor
+├─ kernel-biometrics-api     # SPI IBioApi/V2, BIR, CbeffUtil
+│  ├─ kernel-cbeffutil-api   # CbeffImpl + XSD config
+│  └─ kernel-biosdk-provider # reflect vendor SDK V0.7–0.9
+├─ biometrics-util           # ISO19794 ↔ image (standalone)
+└─ test/                     # sample CLI — NOT in reactor
+```
 
-Ban: `kernel-bom`; separate `kernel-logger-logback` artifact (use `kernel-core`); Boot `repackage` on library modules; Jakarta JAXB for CBEFF (stay `javax.xml.bind` 2.3.x); Jackson 3 without `spring-boot-jackson2`.
+```
+rules
+├─ siblings omit <version>
+├─ libs: no Boot repackage
+├─ CBEFF: javax.xml.bind 2.3.x (not Jakarta 4)
+├─ Jackson2 via spring-boot-jackson2 (not Jackson3 default)
+├─ ban: kernel-bom · kernel-logger-logback (use kernel-core)
+└─ jacoco ≥85%
+```

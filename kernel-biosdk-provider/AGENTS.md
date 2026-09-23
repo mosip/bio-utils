@@ -1,3 +1,13 @@
 # kernel-biosdk-provider
 
-Reflection bridge to vendor SDKs (`BioProviderImpl_V_0_7`…`_V_0_9`); no compile dep on vendor JAR. Config `mosip.biometric.sdk.providers.*`. Logger from `kernel-core` (not `kernel-logger-logback`). Tests: avoid `@EnableAutoConfiguration` (kernel-core AutoConfiguration.imports need remote/DB). No `kernel-bom`.
+```
+reflect vendor SDK (no compile vendor JAR)
+├─ BioProviderImpl_V_0_7 | _0_8 | _0_9
+├─ config: mosip.biometric.sdk.providers.*
+└─ log ← kernel-core (ban kernel-logger-logback)
+```
+
+```
+deps: boot-web · jackson2 · jpa · h2 · kernel-core · biometrics-api
+tests: no @EnableAutoConfiguration (kernel-core AutoConfiguration.imports)
+```

@@ -1,3 +1,13 @@
 # kernel-biometrics-api
 
-Published SPI/entities (`IBioApi`, `IBioApiV2`, `CbeffUtil`, `BIR`). Prefer `IBioApiV2.convertFormatV2`. Jackson 2 via `spring-boot-jackson2`. No `kernel-bom`.
+```
+SPI/entities
+├─ IBioApiV2.convertFormatV2  # prefer (IBioApi.convertFormat deprecated)
+├─ CbeffUtil · BIR · BiometricRecord
+└─ Jackson2 ← spring-boot-jackson2
+```
+
+```
+deps: kernel-core · no kernel-bom
+tests: src/test/java/
+```
