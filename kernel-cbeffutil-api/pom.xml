@@ -12,6 +12,7 @@
 
 	<groupId>io.mosip.kernel</groupId>
 	<artifactId>kernel-cbeffutil-api</artifactId>
+	<version>1.4.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>kernel-cbeffutil-api</name>
 	<description>

@@ -13,6 +13,7 @@
 
 	<groupId>io.mosip.bio.utils</groupId>
 	<artifactId>bioutils</artifactId>
+	<version>1.4.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>biometrics-util-test</name>
 	<description>

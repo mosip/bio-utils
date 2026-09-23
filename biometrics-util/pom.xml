@@ -12,6 +12,7 @@
 
 	<groupId>io.mosip.biometric.util</groupId>
 	<artifactId>biometrics-util</artifactId>
+	<version>1.4.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>biometrics-util</name>
 	<description>
