@@ -1,82 +1,269 @@
-<project
-	xmlns="http://maven.apache.org/POM/4.0.0"
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>4.1.1</version>
+		<relativePath />
+	</parent>
+
 	<groupId>io.mosip.biometrics</groupId>
 	<artifactId>biometrics</artifactId>
+	<version>1.4.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<version>1.4.0-SNAPSHOT</version>
+
 	<name>biometric</name>
+	<description>
+		MOSIP biometric utility libraries: ISO/IEC 19794 encode/decode (finger, face, iris),
+		CBEFF XML (ISO/IEC 19785) helpers, biometric SPI contracts (IBioApi / IBioApiV2), and a
+		reflection-based BioSDK provider bridge. Pure library JARs for Maven Central — Boot 4.1.1,
+		Java 21, no kernel-bom. Depends on commons kernel-core 1.4.1-SNAPSHOT.
+	</description>
 	<url>https://github.com/mosip/bio-utils</url>
-	<description>This Pom builds all the Biometric related dependencies.</description>
-
-	<licenses>
-		<license>
-			<name>MPL 2.0</name>
-			<url>https://www.mozilla.org/en-US/MPL/2.0/</url>
-		</license>
-	</licenses>
-	<scm>
-		<connection>scm:git:git://github.com/mosip/bio-utils.git</connection>
-		<developerConnection>scm:git:ssh://github.com:mosip/bio-utils.git</developerConnection>
-		<url>https://github.com/mosip/bio-utils</url>
-		<tag>HEAD</tag>
-	</scm>
-
-	<developers>
-		<developer>
-			<name>Mosip</name>
-			<email>mosip.emailnotifier@gmail.com</email>
-			<organization>io.mosip</organization>
-			<organizationUrl>https://github.com/mosip/bio-utils</organizationUrl>
-		</developer>
-	</developers>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>21</java.version>
-
-		<!-- maven -->
-		<maven.compiler.source>${java.version}</maven.compiler.source>
-		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<maven.compiler.version>3.11.0</maven.compiler.version>
-		<maven.jar.plugin.version>3.4.0</maven.jar.plugin.version>
-		<maven.dependency.plugin.version>2.10</maven.dependency.plugin.version>
-		<maven.resources.plugin.version>3.3.1</maven.resources.plugin.version>
-		<maven.sonar.plugin.version>3.7.0.1746</maven.sonar.plugin.version>
-		<jacoco.maven.plugin.version>0.8.11</jacoco.maven.plugin.version>
-		<maven.surefire.plugin.version>3.1.2</maven.surefire.plugin.version>
-		<central.publishing.maven.plugin.version>0.7.0</central.publishing.maven.plugin.version>
-
-		<!-- Mosip -->
-		<kernel.bom.version>1.3.1-rc.1</kernel.bom.version>
-		<kernel.core.version>1.3.1-rc.1</kernel.core.version>
-        
-	</properties>
 
 	<modules>
-		<module>biometrics-util</module>
+		<!-- Order: SPI contracts first, then CBEFF / BioSDK impls; biometrics-util is independent -->
 		<module>kernel-biometrics-api</module>
-		<module>kernel-biosdk-provider</module>
 		<module>kernel-cbeffutil-api</module>
+		<module>kernel-biosdk-provider</module>
+		<module>biometrics-util</module>
 	</modules>
-	
+
+	<properties>
+		<!-- ── Java ─────────────────────────────────────────────────────────── -->
+		<java.version>21</java.version>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
+		<!-- Empty default required for Surefire late replacement @{argLine} (JaCoCo agent). -->
+		<argLine />
+		<skipTests>false</skipTests>
+
+		<!-- ── Maven plugins & build tooling (Boot 4.1.1 aligned; latest non-beta) ─ -->
+		<maven.compiler.plugin.version>3.16.0</maven.compiler.plugin.version>
+		<maven.jar.plugin.version>3.5.1</maven.jar.plugin.version>
+		<maven.war.plugin.version>3.5.1</maven.war.plugin.version>
+		<maven.surefire.plugin.version>3.6.0</maven.surefire.plugin.version>
+		<maven.jacoco.version>0.8.15</maven.jacoco.version>
+		<maven.sonar.plugin.version>5.8.0.7211</maven.sonar.plugin.version>
+		<maven.javadoc.version>3.12.0</maven.javadoc.version>
+		<maven.deploy.plugin.version>3.1.4</maven.deploy.plugin.version>
+		<nexus.staging.maven.plugin.version>1.7.0</nexus.staging.maven.plugin.version>
+		<maven.source.plugin.version>3.4.0</maven.source.plugin.version>
+		<maven.gpg.plugin.version>3.2.8</maven.gpg.plugin.version>
+		<!-- kattu CI greps pl.project13.maven:git-commit-id-plugin -->
+		<git.commit.id.plugin.version>4.9.10</git.commit.id.plugin.version>
+		<central.publishing.maven.plugin.version>0.11.0</central.publishing.maven.plugin.version>
+
+		<sonar.coverage.exclusions>
+			**/constant/**,**/config/**,**/httpfilter/**,**/cache/**,**/dto/**,**/entity/**,**/model/**,**/exception/**,**/repository/**,**/security/**,**/*Config.java,**/*BootApplication.java,**/cbeffutil/**
+		</sonar.coverage.exclusions>
+		<sonar.cpd.exclusions>**/dto/**,**/entity/**,**/config/**,**/api/**</sonar.cpd.exclusions>
+
+		<!-- ── MOSIP (external — no kernel-bom) ─────────────────────────────── -->
+		<!-- commons/kernel must be installed locally for this SNAPSHOT. -->
+		<kernel.core.version>1.4.1-SNAPSHOT</kernel.core.version>
+		<!-- Reactor sibling versions follow ${project.version}. -->
+		<kernel.biometrics.api.version>${project.version}</kernel.biometrics.api.version>
+		<kernel.cbeffutil.api.version>${project.version}</kernel.cbeffutil.api.version>
+		<kernel.biosdk.provider.version>${project.version}</kernel.biosdk.provider.version>
+		<mosip.biometrics.util.version>${project.version}</mosip.biometrics.util.version>
+
+		<!-- ── Third-party libraries (Maven Central; latest GA on current line) ─ -->
+		<!-- Source: https://central.sonatype.com/artifact/com.google.code.gson/gson -->
+		<gson.version>2.14.0</gson.version>
+		<!-- Source: https://central.sonatype.com/artifact/com.google.protobuf/protobuf-java -->
+		<google.protobuf.version>4.36.2</google.protobuf.version>
+		<!-- Source: https://central.sonatype.com/artifact/com.github.jai-imageio/jai-imageio-jpeg2000 -->
+		<jai.imageio.jpeg2000.version>1.4.0</jai.imageio.jpeg2000.version>
+		<!-- Source: https://central.sonatype.com/artifact/com.github.mhshams/jnbis -->
+		<github.mhshams.jnbis.version>2.1.2</github.mhshams.jnbis.version>
+		<!-- Source: https://central.sonatype.com/artifact/org.openpnp/opencv -->
+		<openpnp.opencv.version>4.9.0-0</openpnp.opencv.version>
+		<!-- Source: https://central.sonatype.com/artifact/org.imgscalr/imgscalr-lib -->
+		<imgscalr.lib.version>4.2</imgscalr.lib.version>
+		<!-- Last 2.x GAV (okhttp3 is a breaking rewrite for sample CLI only) -->
+		<!-- Source: https://central.sonatype.com/artifact/com.squareup.okhttp/okhttp -->
+		<okhttp.version>2.7.5</okhttp.version>
+		<!-- javax JAXB 2.3.x (JDK 21 has no JAXB; 4.x is Jakarta and breaks CBEFF) — same as commons -->
+		<jaxb.runtime.version>2.3.9</jaxb.runtime.version>
+		<jaxb-api-version>2.3.1</jaxb-api-version>
+	</properties>
+
 	<dependencyManagement>
 		<dependencies>
+			<!-- ── MOSIP commons (external) ───────────────────────────────────── -->
+			<!--
+				kernel-core: Shared MOSIP kernel APIs (exceptions, logging facades, utilities).
+				Pinned explicitly — do NOT import kernel-bom (Boot 4.1.1 is the BOM equivalent).
+				Version property: ${kernel.core.version}. License: MPL-2.0.
+			-->
 			<dependency>
 				<groupId>io.mosip.kernel</groupId>
-				<artifactId>kernel-bom</artifactId>
-				<version>${kernel.bom.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
+				<artifactId>kernel-core</artifactId>
+				<version>${kernel.core.version}</version>
+			</dependency>
+
+			<!-- ── This reactor (sibling modules; versions follow ${project.version}) ─ -->
+			<!--
+				kernel-biometrics-api: Biometric SPI (IBioApi / IBioApiV2), BIR entities,
+				CBEFF validator helpers, modality constants. Prefer convertFormatV2.
+			-->
+			<dependency>
+				<groupId>io.mosip.kernel</groupId>
+				<artifactId>kernel-biometrics-api</artifactId>
+				<version>${kernel.biometrics.api.version}</version>
+			</dependency>
+			<!--
+				kernel-cbeffutil-api: CbeffUtil implementation — create/update/validate BIR XML
+				(ISO/IEC 19785), extract BDB. Loads XSD from mosip.kernel.xsdstorage-uri.
+			-->
+			<dependency>
+				<groupId>io.mosip.kernel</groupId>
+				<artifactId>kernel-cbeffutil-api</artifactId>
+				<version>${kernel.cbeffutil.api.version}</version>
+			</dependency>
+			<!--
+				kernel-biosdk-provider: Reflection bridge to vendor BioSDKs (V0.7–V0.9).
+				No compile-time vendor JAR; SDK class names from mosip.biometric.sdk.providers.*.
+			-->
+			<dependency>
+				<groupId>io.mosip.kernel</groupId>
+				<artifactId>kernel-biosdk-provider</artifactId>
+				<version>${kernel.biosdk.provider.version}</version>
+			</dependency>
+			<!--
+				biometrics-util: Standalone ISO/IEC 19794 finger/face/iris encode↔decode,
+				NIST ITL 1-2011 helpers, JPEG2000/WSQ/OpenCV image conversion (no Spring).
+			-->
+			<dependency>
+				<groupId>io.mosip.biometric.util</groupId>
+				<artifactId>biometrics-util</artifactId>
+				<version>${mosip.biometrics.util.version}</version>
+			</dependency>
+
+			<!-- ── Third-party (not version-managed by Boot parent, or pinned overrides) ─ -->
+			<!--
+				gson: JSON for biometric entity adapters (GSONByteArrayAdapter) and MOSIP payloads.
+				License: Apache-2.0. https://central.sonatype.com/artifact/com.google.code.gson/gson
+			-->
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>${gson.version}</version>
+			</dependency>
+			<!--
+				protobuf-java: Binary serialization used by biometric util image/metadata paths.
+				License: BSD-3-Clause.
+				https://central.sonatype.com/artifact/com.google.protobuf/protobuf-java
+			-->
+			<dependency>
+				<groupId>com.google.protobuf</groupId>
+				<artifactId>protobuf-java</artifactId>
+				<version>${google.protobuf.version}</version>
+			</dependency>
+			<!--
+				jai-imageio-jpeg2000: Decode/encode JPEG2000 (JP2) payloads inside ISO containers.
+				License: BSD-3-Clause-No-Nuclear. Used by CommonUtil / Face/Iris/Finger converters.
+			-->
+			<dependency>
+				<groupId>com.github.jai-imageio</groupId>
+				<artifactId>jai-imageio-jpeg2000</artifactId>
+				<version>${jai.imageio.jpeg2000.version}</version>
+			</dependency>
+			<!--
+				jnbis: WSQ fingerprint compression codec (ISO/IEC 19794-4 AUTH paths).
+				License: Apache-2.0. https://github.com/mhshams/jnbis
+			-->
+			<dependency>
+				<groupId>com.github.mhshams</groupId>
+				<artifactId>jnbis</artifactId>
+				<version>${github.mhshams.jnbis.version}</version>
+			</dependency>
+			<!--
+				opencv (org.openpnp): Native OpenCV bindings for JP2↔JPEG/PNG/WEBP via Mat I/O.
+				License: BSD-3-Clause. Version ${openpnp.opencv.version}.
+			-->
+			<dependency>
+				<groupId>org.openpnp</groupId>
+				<artifactId>opencv</artifactId>
+				<version>${openpnp.opencv.version}</version>
+			</dependency>
+			<!--
+				imgscalr-lib: Simple Java image scaling (sample CLI / optional tooling).
+				License: Apache-2.0. Not required by published library modules at runtime.
+			-->
+			<dependency>
+				<groupId>org.imgscalr</groupId>
+				<artifactId>imgscalr-lib</artifactId>
+				<version>${imgscalr.lib.version}</version>
+			</dependency>
+			<!--
+				okhttp (2.x): HTTP client for sample CLI (e.g. NIST quality analyser → BQAT).
+				Last 2.x GAV kept deliberately; okhttp3 would be a breaking rewrite for samples.
+				License: Apache-2.0.
+			-->
+			<dependency>
+				<groupId>com.squareup.okhttp</groupId>
+				<artifactId>okhttp</artifactId>
+				<version>${okhttp.version}</version>
+			</dependency>
+			<!--
+				jaxb-api (javax): JAXB 2.3 API for CBEFF XML bind (BIR / ObjectFactory).
+				JDK 21 has no JAXB on the classpath; Jakarta 4.x breaks existing CBEFF code —
+				stay on javax.xml.bind 2.3.x. Dual-license CDDL-1.1 OR GPL-2.0-with-CPE;
+				MOSIP elects CDDL-1.1.
+			-->
+			<dependency>
+				<groupId>javax.xml.bind</groupId>
+				<artifactId>jaxb-api</artifactId>
+				<version>${jaxb-api-version}</version>
+			</dependency>
+			<!--
+				jaxb-runtime (Glassfish): JAXB 2.3 RI implementation for marshalling CBEFF XML.
+				License: EDL-1.0 / BSD-2-Clause. Must match javax API line (not Jakarta 4.x).
+			-->
+			<dependency>
+				<groupId>org.glassfish.jaxb</groupId>
+				<artifactId>jaxb-runtime</artifactId>
+				<version>${jaxb.runtime.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<dependencies>
+		<!--
+			spring-boot-starter-test: JUnit 5, Mockito, AssertJ, Spring Test — inherited by all modules.
+			Version from Boot parent 4.1.1. Scope: test. License: Apache-2.0 (starter).
+		-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!--
+			junit-vintage-engine: Runs legacy org.junit.Test (JUnit 4) classes alongside Jupiter.
+			Several biometrics-util tests still use JUnit 4. Scope: test. License: EPL-2.0.
+		-->
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!--
+			lombok: Compile-time codegen (@Data, builders) for entities/DTOs. Scope: provided
+			(not needed at runtime). Version from Boot parent. License: MIT.
+		-->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
-	
+
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>
@@ -87,20 +274,19 @@
 			<url>https://central.sonatype.com/api/v1/publisher</url>
 		</repository>
 	</distributionManagement>
-	
+
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.sonarsource.scanner.maven</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<version>${maven.sonar.plugin.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven.compiler.version}</version>
-				<configuration>
-					<release>${java.version}</release>
-					<compilerArgs>
-						<arg>--enable-preview</arg>
-					</compilerArgs>
-				</configuration>
-			</plugin>
+			<!-- Libraries only — do not bind spring-boot:repackage (no main class). -->
 			<plugin>
 				<groupId>org.sonatype.central</groupId>
 				<artifactId>central-publishing-maven-plugin</artifactId>
@@ -113,8 +299,168 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven.surefire.plugin.version}</version>
+				<configuration>
+					<skipTests>${skipTests}</skipTests>
+					<skip>false</skip>
+					<!-- JDK 21: @{argLine} keeps JaCoCo -->
+					<argLine>@{argLine} --add-opens java.xml/jdk.xml.internal=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.util.concurrent=ALL-UNNAMED --add-opens java.base/java.io=ALL-UNNAMED</argLine>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${maven.jacoco.version}</version>
+				<configuration>
+					<excludes>
+						<exclude>**/constant/**</exclude>
+						<exclude>**/config/**</exclude>
+						<exclude>**/dto/**</exclude>
+						<exclude>**/entity/**</exclude>
+						<exclude>**/repository/**</exclude>
+						<exclude>**/*BootApplication.class</exclude>
+						<exclude>**/httpfilter/**</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>jacoco-check</id>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<rule>
+									<element>BUNDLE</element>
+									<limits>
+										<limit>
+											<counter>INSTRUCTION</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>0.85</minimum>
+										</limit>
+									</limits>
+								</rule>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven.jar.plugin.version}</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+						<manifestEntries>
+							<Project-Name>${project.name}</Project-Name>
+							<Project-Version>${project.version}</Project-Version>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>${maven.war.plugin.version}</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+						<manifestEntries>
+							<Project-Name>${project.name}</Project-Name>
+							<Project-Version>${project.version}</Project-Version>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>${maven.deploy.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>default-deploy</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>${nexus.staging.maven.plugin.version}</version>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<id>default-deploy</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>false</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>${maven.source.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${maven.javadoc.version}</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<doclint>none</doclint>
+					<failOnError>false</failOnError>
+					<failOnWarnings>false</failOnWarnings>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
-				<version>1.5</version>
+				<version>${maven.gpg.plugin.version}</version>
 				<executions>
 					<execution>
 						<id>sign-artifacts</id>
@@ -134,7 +480,7 @@
 			<plugin>
 				<groupId>pl.project13.maven</groupId>
 				<artifactId>git-commit-id-plugin</artifactId>
-				<version>3.0.1</version>
+				<version>${git.commit.id.plugin.version}</version>
 				<executions>
 					<execution>
 						<id>get-the-git-infos</id>
@@ -153,9 +499,91 @@
 					</includeOnlyProperties>
 					<commitIdGenerationMode>full</commitIdGenerationMode>
 					<dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
-					<!-- <format>json</format> -->
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compiler.plugin.version}</version>
+				<configuration>
+					<release>${java.version}</release>
+					<parameters>true</parameters>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version>
+						</path>
+					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
 		</plugins>
-	</build>	
+	</build>
+
+	<profiles>
+		<profile>
+			<id>sonar</id>
+			<properties>
+				<sonar.sources>.</sonar.sources>
+				<sonar.inclusions>src/main/java/**,src/main/resources/**</sonar.inclusions>
+				<sonar.exclusions>${sonar.coverage.exclusions}</sonar.exclusions>
+				<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+			</properties>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.sonarsource.scanner.maven</groupId>
+						<artifactId>sonar-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>verify</phase>
+								<goals>
+									<goal>sonar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<repositories>
+		<repository>
+			<id>ossrh</id>
+			<name>Central Snapshots</name>
+			<url>https://central.sonatype.com/repository/maven-snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<licenses>
+		<license>
+			<name>MPL-2.0</name>
+			<url>https://www.mozilla.org/en-US/MPL/2.0/</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<connection>scm:git:git://github.com/mosip/bio-utils.git</connection>
+		<developerConnection>scm:git:ssh://github.com:mosip/bio-utils.git</developerConnection>
+		<url>https://github.com/mosip/bio-utils</url>
+		<tag>HEAD</tag>
+	</scm>
+	<developers>
+		<developer>
+			<name>MOSIP</name>
+			<email>mosip.emailnotifier@gmail.com</email>
+			<organization>io.mosip</organization>
+			<organizationUrl>https://github.com/mosip</organizationUrl>
+		</developer>
+	</developers>
 </project>

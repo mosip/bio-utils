@@ -3,7 +3,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ContextConfiguration;
@@ -16,7 +16,8 @@ import io.mosip.kernel.biosdk.provider.impl.BioProviderImpl_V_0_9;
 import io.mosip.kernel.biosdk.provider.spi.iBioProviderApi;
 import io.mosip.kernel.core.bioapi.exception.BiometricException;
 
-@EnableAutoConfiguration
+// Avoid @EnableAutoConfiguration — commons kernel-core AutoConfiguration.imports pull in remote/DB beans.
+@EnableConfigurationProperties
 @PropertySource(value = { "application-test.properties" })
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { BioAPIFactory.class, BioProviderImpl_V_0_9.class })

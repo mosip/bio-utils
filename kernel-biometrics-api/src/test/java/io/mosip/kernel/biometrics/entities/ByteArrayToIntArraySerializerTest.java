@@ -80,8 +80,7 @@ public class ByteArrayToIntArraySerializerTest {
 
         signedSerializer.serialize(emptyArray, mockJsonGenerator, mockSerializerProvider);
 
-        verify(mockJsonGenerator).writeStartArray();
-        verify(mockJsonGenerator).writeEndArray();
+        verify(mockJsonGenerator).writeArray(new int[0], 0, 0);
         verifyNoMoreInteractions(mockJsonGenerator);
     }
 
@@ -95,12 +94,7 @@ public class ByteArrayToIntArraySerializerTest {
 
         signedSerializer.serialize(positiveBytes, mockJsonGenerator, mockSerializerProvider);
 
-        verify(mockJsonGenerator).writeStartArray();
-        verify(mockJsonGenerator).writeNumber(1);
-        verify(mockJsonGenerator).writeNumber(50);
-        verify(mockJsonGenerator).writeNumber(100);
-        verify(mockJsonGenerator).writeNumber(127);
-        verify(mockJsonGenerator).writeEndArray();
+        verify(mockJsonGenerator).writeArray(new int[]{1, 50, 100, 127}, 0, 4);
     }
 
     /**
@@ -113,12 +107,7 @@ public class ByteArrayToIntArraySerializerTest {
 
         signedSerializer.serialize(negativeBytes, mockJsonGenerator, mockSerializerProvider);
 
-        verify(mockJsonGenerator).writeStartArray();
-        verify(mockJsonGenerator).writeNumber(-1);
-        verify(mockJsonGenerator).writeNumber(-50);
-        verify(mockJsonGenerator).writeNumber(-100);
-        verify(mockJsonGenerator).writeNumber(-128);
-        verify(mockJsonGenerator).writeEndArray();
+        verify(mockJsonGenerator).writeArray(new int[]{-1, -50, -100, -128}, 0, 4);
     }
 
     /**
@@ -131,12 +120,7 @@ public class ByteArrayToIntArraySerializerTest {
 
         unsignedSerializer.serialize(negativeBytes, mockJsonGenerator, mockSerializerProvider);
 
-        verify(mockJsonGenerator).writeStartArray();
-        verify(mockJsonGenerator).writeNumber(255);   // -1 as unsigned
-        verify(mockJsonGenerator).writeNumber(206);   // -50 as unsigned
-        verify(mockJsonGenerator).writeNumber(156);   // -100 as unsigned
-        verify(mockJsonGenerator).writeNumber(128);   // -128 as unsigned
-        verify(mockJsonGenerator).writeEndArray();
+        verify(mockJsonGenerator).writeArray(new int[]{255, 206, 156, 128}, 0, 4);
     }
 
     /**
@@ -149,13 +133,7 @@ public class ByteArrayToIntArraySerializerTest {
 
         signedSerializer.serialize(mixedBytes, mockJsonGenerator, mockSerializerProvider);
 
-        verify(mockJsonGenerator).writeStartArray();
-        verify(mockJsonGenerator).writeNumber(-128);
-        verify(mockJsonGenerator).writeNumber(-1);
-        verify(mockJsonGenerator).writeNumber(0);
-        verify(mockJsonGenerator).writeNumber(1);
-        verify(mockJsonGenerator).writeNumber(127);
-        verify(mockJsonGenerator).writeEndArray();
+        verify(mockJsonGenerator).writeArray(new int[]{-128, -1, 0, 1, 127}, 0, 5);
     }
 
     /**
@@ -168,13 +146,7 @@ public class ByteArrayToIntArraySerializerTest {
 
         unsignedSerializer.serialize(mixedBytes, mockJsonGenerator, mockSerializerProvider);
 
-        verify(mockJsonGenerator).writeStartArray();
-        verify(mockJsonGenerator).writeNumber(128);   // -128 as unsigned
-        verify(mockJsonGenerator).writeNumber(255);   // -1 as unsigned
-        verify(mockJsonGenerator).writeNumber(0);
-        verify(mockJsonGenerator).writeNumber(1);
-        verify(mockJsonGenerator).writeNumber(127);
-        verify(mockJsonGenerator).writeEndArray();
+        verify(mockJsonGenerator).writeArray(new int[]{128, 255, 0, 1, 127}, 0, 5);
     }
 
     /**
@@ -248,9 +220,7 @@ public class ByteArrayToIntArraySerializerTest {
 
         serializer.serialize(data, mockJsonGenerator, mockSerializerProvider);
 
-        verify(mockJsonGenerator).writeStartArray();
-        verify(mockJsonGenerator).writeNumber(-1);
-        verify(mockJsonGenerator).writeEndArray();
+        verify(mockJsonGenerator).writeArray(new int[]{-1}, 0, 1);
     }
 
     /**

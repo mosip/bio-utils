@@ -1,0 +1,105 @@
+NOTICES
+
+Copyright (c) MOSIP.
+All rights reserved.
+
+This project is MPL 2.0 (see LICENSE). Third-party versions match pom.xml and
+Spring Boot 4.1.1. Full texts and MOSIP dual-license elections: licenses/.
+
+MOSIP open-source license matrix (compatible with MPL 2.0 / Use with MOSIP):
+
+  License                          Compatible?   Use with MOSIP?   Comments
+  -------------------------------  ------------  ----------------  --------
+  BSD (2-Clause, 3-Clause)         Yes           Yes               Combine freely
+  MIT                              Yes           Yes               Combine freely
+  Apache-2.0                       Yes           Yes               Meet attribution
+  MPL-2.0                          Yes           Yes               Combine freely
+  EPL                              No            No                Incompatible with MPL
+  LGPLv3                           Yes           No                May apply to combined work
+  GPLv2                            No            No                No explicit MPL compatibility
+  GPLv3                            Yes           No                Combined work must be GPLv3
+  AGPLv3                           Yes           No                Combined work must be AGPLv3
+  Creative Commons (general)       No            No                Not for software
+  ISC                              Yes           Yes               Keep ISC + attribution
+  Python-2.0                       Yes           Yes               Comply with both licenses
+  AFL-2.0                          No            No                Conflicts with MPL
+  AFL-2.1                          Yes           Yes               Keep AFL notice + attribution
+  ODC-By-1.0                       No            No                Database license
+  CDDL-1.0                         Yes           Yes               Files keep original license
+  Unicode-DFS-2016                 Yes           Yes               Keep Unicode license + notice
+  BlueOak-1.0.0                    Yes           Yes               Keep license text/link
+  OFL-1.1                          Yes           Yes               Fonts; keep full OFL text
+  CC-BY-4.0                        —             —                 To be reviewed
+  Zlib                             Yes           Yes               Keep zlib license text
+  0BSD                             Yes           Yes               Permissive
+
+CDDL-1.1 treated as CDDL-1.0 successor. Unicode-3.0 treated as Unicode-DFS-2016
+successor. Dual-licensed jars: MOSIP elects an allowed option (never EPL, GPL,
+AGPL, LGPLv3, or Creative Commons as the product license).
+
+===========================
+MIT License (licenses/MIT.txt)
+===========
+
+- org.projectlombok:lombok (Boot-managed)
+- org.slf4j:slf4j-api (Boot-managed)
+- org.mockito:mockito-core (Boot-managed; test)
+
+===========================
+Apache-2.0 (licenses/Apache-2.0.txt)
+===========================
+
+- Spring Boot 4.1.1 / Spring Framework (Boot parent)
+- com.fasterxml.jackson.* (Jackson 2 via spring-boot-jackson2)
+- com.google.code.gson:gson 2.14.0
+- com.github.mhshams:jnbis 2.1.2
+- org.imgscalr:imgscalr-lib 4.2
+- com.squareup.okhttp:okhttp 2.7.5 (sample CLI only)
+- org.apache.commons:commons-lang3 (Boot-managed)
+- org.hibernate.validator:hibernate-validator (Boot-managed)
+- Maven build plugins (compiler, surefire, jar, source, javadoc, gpg, deploy)
+
+===========================
+BSD-3-Clause (licenses/BSD-3-Clause.txt)
+===========================
+
+- com.google.protobuf:protobuf-java 4.36.2
+- org.openpnp:opencv 4.9.0-0
+
+===========================
+BSD-3-Clause-No-Nuclear (licenses/BSD-3-Clause-No-Nuclear-License.txt)
+===========================
+
+- com.github.jai-imageio:jai-imageio-jpeg2000 1.4.0
+
+===========================
+EDL 1.0 / BSD (licenses/BSD-2-Clause.txt)
+===========================
+
+- javax.xml.bind:jaxb-api 2.3.1
+- org.glassfish.jaxb:jaxb-runtime 2.3.9
+
+===========================
+Mozilla Public License 2.0 (LICENSE)
+===========================
+
+- This repository (bio-utils modules)
+- io.mosip.kernel:kernel-core 1.4.1-SNAPSHOT (commons)
+- com.h2database:h2 (EPL-1.0 OR MPL-2.0; MOSIP elects MPL-2.0)
+
+===========================
+CDDL-1.1 (licenses/COMMON-DEVLOPMENT-AND-DISTRIBUTION-1.1.txt)
+===========
+
+- javax.activation (transitive via JAXB; CDDL-1.1 OR GPL-2.0-with-CPE;
+  MOSIP elects CDDL-1.1)
+
+===========================
+MOSIP matrix: Use = No (still on classpath — exception or replace)
+===========================
+
+- org.junit.jupiter / junit-vintage / junit:junit (EPL; test only)
+- ch.qos.logback (EPL-2.0 OR LGPL-2.1; Boot default logger)
+- org.aspectj:aspectjweaver (EPL-2.0; Boot AOP transitive)
+
+See licenses/NOTICE for the full election detail.
