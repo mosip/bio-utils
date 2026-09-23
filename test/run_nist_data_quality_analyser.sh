@@ -1,0 +1,13 @@
+#!/bin/sh
+set -e
+cd "$(dirname "$0")"
+VER="${BIOUTILS_VERSION:-1.4.1-SNAPSHOT}"
+if [ -f "target/bioutils-${VER}.jar" ]; then
+  CP="target/bioutils-${VER}.jar:target/lib/*"
+elif [ -f "bioutils-${VER}.jar" ]; then
+  CP="bioutils-${VER}.jar:lib/*"
+else
+  echo "bioutils-${VER}.jar not found. Run: mvn clean package -Dgpg.skip=true && mvn -q dependency:copy-dependencies -DoutputDirectory=target/lib -DincludeScope=runtime" >&2
+  exit 1
+fi
+java -cp "$CP" io.mosip.biometrics.util.test.NistDataQualityAnalyser "mosip.mock.sbi.biometric.type.nist.folder.path=/BiometricInfo/NistDataQualityAnalyser/" "bqat.server.ipaddress=91.203.134.4" "bqat.server.port=:8848" "bqat.server.path=/base64?urlsafe=false" "bqat.content.type=application/json" "bqat.content.charset=utf-8" "bqat.json.results=results"

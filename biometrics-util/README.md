@@ -1,76 +1,84 @@
 # Biometrics Util
 
-## 📌 Overview
-**Biometrics Util** is a utility library to convert biometric data between **ISO formats** and **image formats**, and vice versa.
+## Overview
 
-## ✨ Features
+Standalone utility library to convert biometric data between **ISO/IEC 19794** binary formats and **image** representations (`byte[]` JPEG/PNG or `BufferedImage`). No Spring dependency — pure static helpers for use from any MOSIP service or CLI.
 
-### 📄 Supported ISO Versions
+Maven coordinates: `io.mosip.biometric.util:biometrics-util`
 
-| Modality | ISO Version |
-| -------- | ----------- |
-| Finger   | ISO 19794-4:2011 |
-| Iris    | ISO 19794-6:2011 |
-| Face    | ISO 19794-5:2011 |
+## Standards
 
-> **Note:** JPEG2000 images are automatically converted to JPEG.
+| Modality | Standard | Version string in API |
+| -------- | -------- | --------------------- |
+| Finger | ISO/IEC 19794-4:2011 | `ISO19794_4_2011` |
+| Iris | ISO/IEC 19794-6:2011 | `ISO19794_6_2011` |
+| Face | ISO/IEC 19794-5:2011 | `ISO19794_5_2011` |
 
----
+Supporting libraries:
 
-## 🧩 Services
+- JPEG2000 — `jai-imageio-jpeg2000`
+- WSQ — `jnbis`
+- Image ops — `org.openpnp:opencv`
+- NIST ITL 1-2011 XML — parser under `nist/parser/v2011/`
 
-This module provides the following utility classes:
+JPEG2000 payloads are typically converted to JPEG for interoperability.
 
-- **FingerDecoder** – Utilities for fingerprint ISO conversion
-- **IrisDecoder** – Utilities for iris ISO conversion
-- **FaceDecoder** – Utilities for face ISO conversion
-- **CommonUtil** – Common utilities for ISO image type conversion
+## Features
 
----
+- Encode image → ISO biometric binary
+- Decode ISO binary → image bytes or `BufferedImage`
+- Convert image codec inside an ISO container (JP2000/WSQ → JPEG/PNG) via `CommonUtil`
+- Header / standards validation helpers (`ISOStandardsValidator`)
 
-## 💻 Sample Code
+## API surface
 
-### 🖐️ Convert Finger ISO to Image
+| Class | Purpose |
+| ----- | ------- |
+| `FingerDecoder` / `FingerEncoder` | Finger ISO ↔ image |
+| `IrisDecoder` / `IrisEncoder` | Iris ISO ↔ image |
+| `FaceDecoder` / `FaceEncoder` | Face ISO ↔ image |
+| `CommonUtil` | Base64URL ISO image-type conversion; NIST helpers |
+| `ConvertRequestDto` | Shared input DTO (`version`, `inputBytes`, `compressionRatio`, …) |
+
+## Sample code
+
+### Finger ISO → image
 
 ```java
 ConvertRequestDto convertRequestDto = new ConvertRequestDto();
 convertRequestDto.setVersion("ISO19794_4_2011");
-convertRequestDto.setInputBytes(<ISO bytes>);
-convertRequestDto.setCompressionRatio(95); // JPEG quality (0–100), default is 95
+convertRequestDto.setInputBytes(/* ISO bytes */);
+convertRequestDto.setCompressionRatio(95); // JPEG quality 0–100; default 95
 
 byte[] imageBytes = FingerDecoder.convertFingerISOToImageBytes(convertRequestDto);
 BufferedImage image = FingerDecoder.convertFingerISOToBufferedImage(convertRequestDto);
 ```
 
-### 👁️ Convert Iris ISO to Image
+### Iris ISO → image
 
 ```java
 ConvertRequestDto convertRequestDto = new ConvertRequestDto();
 convertRequestDto.setVersion("ISO19794_6_2011");
-convertRequestDto.setInputBytes(<ISO bytes>);
+convertRequestDto.setInputBytes(/* ISO bytes */);
 convertRequestDto.setCompressionRatio(95);
 
 byte[] imageBytes = IrisDecoder.convertIrisISOToImageBytes(convertRequestDto);
 BufferedImage image = IrisDecoder.convertIrisISOToBufferedImage(convertRequestDto);
 ```
 
-### 🙂 Convert Face ISO to Image
+### Face ISO → image
 
 ```java
 ConvertRequestDto convertRequestDto = new ConvertRequestDto();
 convertRequestDto.setVersion("ISO19794_5_2011");
-convertRequestDto.setInputBytes(<ISO bytes>);
+convertRequestDto.setInputBytes(/* ISO bytes */);
 convertRequestDto.setCompressionRatio(95);
 
 byte[] imageBytes = FaceDecoder.convertFaceISOToImageBytes(convertRequestDto);
 BufferedImage image = FaceDecoder.convertFaceISOToBufferedImage(convertRequestDto);
 ```
 
----
-
-## 🔄 Convert ISO Image Type (Base64URL)
-
-To convert a Base64URL-encoded ISO biometric (Face, Iris, Finger) to a specified image type (JPEG or PNG) and generate a new Base64URL-encoded ISO:
+### Convert ISO image type (Base64URL)
 
 ```java
 CommonUtil.convertISOImageType(
@@ -80,70 +88,34 @@ CommonUtil.convertISOImageType(
 ) throws Exception;
 ```
 
----
+## Prerequisites
 
-## ⚙️ Local Setup
+- JDK 21
+- Maven 3.9+
+- Parent reactor built (or `kernel-core` 1.4.1-SNAPSHOT available)
 
-### 📄 Build Locally
+## Build
 
-```bash
-mvn clean install -Dgpg.skip=true
+From repository root:
+
+```text
+mvn clean install -Dgpg.skip=true -pl biometrics-util -am
 ```
 
----
+## Configuration / Database / Docker
 
-## 📦 Prerequisites
+Not applicable — library module only. No external config, database, or container image.
 
-- Java 21
-- Maven 3.11.0 or higher
-- Git
+## Samples
 
----
+CLI demos live in the [test](../test/README.md) module (not published to Maven Central).
 
-## 🗄️ Database Setup
+## Contribution & Community
 
-Not applicable. This is a **utility library** and does not require a database.
+- [Code contributions](https://docs.mosip.io/1.2.0/community/code-contributions)
+- [MOSIP Community](https://community.mosip.io/)
+- [Issues](https://github.com/mosip/bio-utils/issues)
 
----
+## License
 
-## 🛠️ Configuration
-
-No external configuration is required.
-
----
-
-## 🐳 Docker Support
-
-Not applicable. This is a **library module**, not a deployable service.
-
----
-
-## 🚀 Deployment
-
-This module is published as a **Maven artifact**.
-
----
-
-## ⬆️ Upgrade
-
-Standard Maven dependency upgrade process applies.
-
----
-
-## 🤝 Contribution & Community
-
-We welcome contributions from everyone!
-
-[Check here](https://docs.mosip.io/1.2.0/community/code-contributions) to learn how you can contribute code to this application.
-
-If you have questions or encounter issues, feel free to raise them in the [MOSIP Community](https://docs.mosip.io/1.2.0/community/code-contributions).
-
----
-
-## 📄 License
-
-![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)
-
-This project is licensed under the **Mozilla Public License 2.0 (MPL 2.0)**.  
-See the [LICENSE](LICENSE) file for full license details.
-
+Licensed under the [Mozilla Public License 2.0](../LICENSE).

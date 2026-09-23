@@ -307,4 +307,74 @@ class FaceISOStandardsValidatorTest {
         assertFalse(validator.isValidExpressionMask(-1));
         assertFalse(validator.isValidExpressionMask(0x10000));
     }
+
+    @Test
+    void isValidCaptureDeviceTechnologyIdentifierValidatesCorrectly() {
+        assertTrue(validator.isValidCaptureDeviceTechnologyIdentifier(FaceCaptureDeviceTechnology.UNSPECIFIED));
+        assertTrue(validator.isValidCaptureDeviceTechnologyIdentifier(FaceCaptureDeviceTechnology.VIDEO_FRAME_DIGITAL_CAMERA));
+        assertTrue(validator.isValidCaptureDeviceTechnologyIdentifier(FaceCaptureDeviceTechnology.VENDOR_80));
+        assertTrue(validator.isValidCaptureDeviceTechnologyIdentifier(FaceCaptureDeviceTechnology.VENDOR_FF));
+        assertFalse(validator.isValidCaptureDeviceTechnologyIdentifier(FaceCaptureDeviceTechnology.FUTURE_07));
+        assertFalse(validator.isValidCaptureDeviceTechnologyIdentifier(-1));
+    }
+
+    @Test
+    void isValidCaptureDeviceVendorValidatesCorrectly() {
+        assertTrue(validator.isValidCaptureDeviceVendor(FaceCaptureDeviceVendor.UNSPECIFIED));
+        assertTrue(validator.isValidCaptureDeviceVendor(FaceCaptureDeviceVendor.VENDOR_FFFF));
+        assertFalse(validator.isValidCaptureDeviceVendor(-1));
+        assertFalse(validator.isValidCaptureDeviceVendor(0x10000));
+    }
+
+    @Test
+    void isValidQualityAlgorithmVendorIdentifierValidatesCorrectly() {
+        assertTrue(validator.isValidQualityAlgorithmVendorIdentifier(FaceQualityAlgorithmVendorIdentifier.UNSPECIFIED));
+        assertTrue(validator.isValidQualityAlgorithmVendorIdentifier(FaceQualityAlgorithmVendorIdentifier.VENDOR_FFFF));
+        assertFalse(validator.isValidQualityAlgorithmVendorIdentifier(-1));
+        assertFalse(validator.isValidQualityAlgorithmVendorIdentifier(0x10000));
+    }
+
+    @Test
+    void isValidNoOfLandmarkPointsValidatesCorrectly() {
+        assertTrue(validator.isValidNoOfLandmarkPoints(0));
+        assertTrue(validator.isValidNoOfLandmarkPoints(0xFFFF));
+        assertFalse(validator.isValidNoOfLandmarkPoints(-1));
+        assertFalse(validator.isValidNoOfLandmarkPoints(0x10000));
+    }
+
+    @Test
+    void isValidImageWidthAndHeightMatchDecoderDto() {
+        when(decoderRequestDto.getWidth()).thenReturn(640);
+        when(decoderRequestDto.getHeight()).thenReturn(480);
+        assertTrue(validator.isValidImageWidth("Auth", 640, decoderRequestDto));
+        assertTrue(validator.isValidImageHeight("Auth", 480, decoderRequestDto));
+        assertFalse(validator.isValidImageWidth("Auth", 320, decoderRequestDto));
+        assertFalse(validator.isValidImageHeight("Auth", 240, decoderRequestDto));
+        assertFalse(validator.isValidImageWidth("Auth", 0, decoderRequestDto));
+        assertFalse(validator.isValidImageHeight("Auth", 0, decoderRequestDto));
+    }
+
+    @Test
+    void isValidPostAcquisitionProcessingAndCrossReference() {
+        assertTrue(validator.isValidPostAcquisitionProcessing(0));
+        assertTrue(validator.isValidPostAcquisitionProcessing(0xFFFF));
+        assertFalse(validator.isValidPostAcquisitionProcessing(-1));
+        assertFalse(validator.isValidPostAcquisitionProcessing(0x10000));
+
+        assertTrue(validator.isValidCrossReference(CrossReference.BASIC));
+        assertTrue(validator.isValidCrossReference(CrossReference.CROSSREFERENCE_FF));
+        assertFalse(validator.isValidCrossReference(-1));
+        assertFalse(validator.isValidCrossReference(0x100));
+    }
+
+    @Test
+    void futureStubValidatorsAlwaysTrue() {
+        assertTrue(validator.isValidPoseAngle(new int[]{1, 2, 3}));
+        assertTrue(validator.isValidPoseAngleUncertainty(new int[]{0}));
+        assertTrue(validator.isValidLandmarkPointType(1));
+        assertTrue(validator.isValidLandmarkPointCode(1, 2));
+        assertTrue(validator.isValidLandmarkXCooridinate(1, 2, 3));
+        assertTrue(validator.isValidLandmarkYCooridinate(1, 2, 3));
+        assertTrue(validator.isValidLandmarkZCooridinate(1, 2, 3));
+    }
 }

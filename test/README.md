@@ -1,234 +1,343 @@
-# Biometrics-Util Samples
+# Biometrics Util Samples
 
-The test contains samples to show usage of Biometrics-Util library.
+## Overview
 
-# BioAuthDecoderValueCreaterApplication
-The application shows how to decode the auth biometric value and get the following values Salt, AAD, Encoded Data
+Sample CLI applications demonstrating `biometrics-util`. This module is **not** in the Maven reactor and is **not** published to Maven Central.
 
-```run_bio_auth_decoder.bat
-java -cp bioutils-1.2.1-SNAPSHOT.jar;lib\* io.mosip.biometrics.util.test.BioAuthDecoderValueCreaterApplication
+Local coordinates: `io.mosip.bio.utils:bioutils`
+
+Sample data lives under `BiometricInfo/` (Face, Finger, Iris, NistXmlData, NistDataQualityAnalyser). Paths are resolved as:
+
+```text
+{cwd} + folderPath + fileName
+```
+
+Always run from the **`test/`** directory so `/BiometricInfo/...` resolves correctly.
+
+---
+
+## How to run all samples
+
+### 1. Prerequisites
+
+- JDK 21
+- Maven 3.9+
+- Commons `kernel-core` **1.4.1-SNAPSHOT** installed (or available from your snapshot repo)
+
+### 2. Build dependencies + this module
+
+From repository root:
+
+```text
+mvn clean install -Dgpg.skip=true -pl biometrics-util -am
+cd test
+mvn clean package -Dgpg.skip=true
+```
+
+### 3. Prepare classpath (`target/` + `lib/`)
+
+Still in `test/`:
+
+```text
+mvn -q dependency:copy-dependencies -DoutputDirectory=target/lib -DincludeScope=runtime
+```
+
+Optional: override jar version (default `1.4.1-SNAPSHOT`):
+
+```text
+# Windows
+set BIOUTILS_VERSION=1.4.1-SNAPSHOT
+
+# Linux / macOS
+export BIOUTILS_VERSION=1.4.1-SNAPSHOT
+```
+
+### 4. Run samples via `.bat` (Windows) or `.sh` (Linux / macOS)
+
+Working directory: **`test/`**. Each sample has a matching pair (`run_*.bat` / `run_*.sh`). Classpath prefers `target/bioutils-$VER.jar` + `target/lib/*`, and falls back to flat `bioutils-$VER.jar` + `lib/*`.
+
+On Unix: `chmod +x *.sh` once.
+
+#### Windows
+
+```bat
+REM Face / Iris / Finger — ISO → image
+run_decoder_face.bat
+run_decoder_iris.bat
+run_decoder_finger_jp2000.bat
+run_decoder_finger_wsq.bat
+
+REM Face / Iris / Finger — image → ISO
+run_encoder_face_registration.bat
+run_encoder_face_auth.bat
+run_encoder_iris_registration.bat
+run_encoder_iris_auth.bat
+run_encoder_finger_jp2000_registration.bat
+run_encoder_finger_jp2000_auth.bat
+run_encoder_finger_wsq_auth.bat
+
+REM Convert ISO image codec (JP2000/WSQ → JPEG/PNG)
+run_convert_face_JP2000_JPEG.bat
+run_convert_face_JP2000_PNG.bat
+run_convert_iris_JP2000_JPEG.bat
+run_convert_iris_JP2000_PNG.bat
+run_convert_finger_JP2000_JPEG.bat
+run_convert_finger_JP2000_PNG.bat
+run_convert_finger_WSQ_JPEG.bat
+run_convert_finger_WSQ_PNG.bat
+
+REM NIST / JP2000 / rotate
+run_nist_file_reader.bat
+run_decoder_jp2000.bat
+run_rotate_face.bat
+run_rotate_finger.bat
+run_rotate_iris.bat
+
+REM Legacy sample (face JP2000 → ISO)
+run.bat
+```
+
+Optional (need extra inputs / services):
+
+```bat
+run_bio_auth_decoder.bat
+run_nist_data_quality_analyser.bat
+```
+
+#### Linux / macOS
+
+Same names with `.sh`:
+
+```sh
+./run_decoder_face.sh
+./run_encoder_face_registration.sh
+./run_convert_face_JP2000_JPEG.sh
+./run_nist_file_reader.sh
+./run_decoder_jp2000.sh
+./run_rotate_face.sh
+./run.sh
+# optional:
+./run_bio_auth_decoder.sh
+./run_nist_data_quality_analyser.sh
+```
+
+Run a batch of samples:
+
+```sh
+for s in run_decoder_*.sh run_encoder_*.sh run_convert_*.sh run_nist_file_reader.sh run_decoder_jp2000.sh; do
+  echo "=== $s ==="
+  ./"$s" || exit 1
+done
+```
+
+### 5. Run via Maven `exec:java` (alternative)
+
+From `test/` after `mvn package`:
+
+```text
+mvn -q exec:java -Dexec.classpathScope=runtime ^
+  -Dexec.mainClass=io.mosip.biometrics.util.test.SampleNistFileReader ^
+  -Dexec.args="mosip.mock.sbi.biometric.type.nist.folder.path=/BiometricInfo/NistXmlData/"
+```
+
+Repeat with each `mainClass` / args from the tables below.
+
+---
+
+## Unit tests (reactor libraries — not this module)
+
+This `test/` folder has **no Surefire unit tests**. To run library unit tests (JaCoCo ≥85%):
+
+```text
+cd ..
+mvn clean test -Dgpg.skip=true
+# or one module:
+mvn test -Dgpg.skip=true -pl biometrics-util
+mvn test -Dgpg.skip=true -pl kernel-biometrics-api
+mvn test -Dgpg.skip=true -pl kernel-cbeffutil-api
+mvn test -Dgpg.skip=true -pl kernel-biosdk-provider
+```
+
+---
+
+## Applications
+
+Prefer the `.bat` / `.sh` runners above. Manual `java -cp` examples below use Unix classpath (`:`); on Windows use `;` instead (`target\bioutils-<version>.jar;target\lib\*`).
+
+| Application | Purpose |
+| ----------- | ------- |
+| `BioUtilApplication` | Decode ISO → image or encode image → ISO (Finger / Iris / Face) |
+| `BioUtilConvertApplication` | Convert image codec inside ISO (JP2000/WSQ → JPEG/PNG) |
+| `BioAuthDecoderValueCreaterApplication` | Decode auth biometric payload (Salt, AAD, encoded data) |
+| `SampleNistFileReader` | Parse NIST ITL XML sample files |
+| `NistDataQualityAnalyser` | NIST quality analysis (HTTP BQAT) → CSV |
+| `Jp2000DecodeApplication` | Dump JPEG2000 metadata / byte-wise decode |
+| `ImageRotateApplication` | Rotate JP2 samples |
+
+### Argument key reference
+
+| Key | Values |
+| --- | ------ |
+| `io.mosip.biometrics.util.image.type.jp2000` | `0` |
+| `io.mosip.biometrics.util.image.type.wsq` | `1` |
+| `io.mosip.biometrics.util.image.type.jpeg` | `2` |
+| `io.mosip.biometrics.util.image.type.png` | `3` |
+| `io.mosip.biometrics.util.convert.iso.to.image` | `1` = decode ISO → image |
+| `io.mosip.biometrics.util.convert.image.to.iso` | `0` = encode image → ISO |
+| `io.mosip.biometrics.util.purpose.auth` | `AUTH` |
+| `io.mosip.biometrics.util.purpose.registration` | `REGISTRATION` |
+
+Folder path values must contain `Face`, `Iris`, `Finger`, or `Nist` (substring check in code).
+
+---
+
+## BioAuthDecoderValueCreaterApplication
+
+```text
+java -cp target/bioutils-<version>.jar:target/lib/* io.mosip.biometrics.util.test.BioAuthDecoderValueCreaterApplication
 "mosip.mock.sbi.biometric.transaction.id=SBI1069-208"
 "mosip.mock.sbi.biometric.time.stamp=2023-01-03T05:56:45Z"
 "mosip.mock.sbi.biometric.thumb.print=2F6FB5590B21E9526F8E4A23B5CC961021614C236D517794F0A7F29E5BA32C2C"
-"mosip.mock.sbi.biometric.session.key=eCgWEQpCRs45gVzVW5gsGiGrQtMN567b5qX_NLuEEan2-fDSyK9ppRavASVp-FjdNkAa7fzdoXR7EPh9J3o5IMfQV4S_EGdbi2bON4g3-kOgwbSZ5KR4KjmrZISou6zb7vAUrulkqq0z61qTod8OooIMWNVuMlqEj-WQ1cQS5B2l7B5eJ-i-8eIZLBcBzKx82yjNC4O8IjRvFElwwu0Hk76W9u5gC5X-YKqJOx_hziM7bM7uEa4xBPmpYc3EbKo4FDZ5eTWYS-O8E-JVTgiXkObFFA3U-TkecNcJ7PRNVQzAwBGCzLVa_KpanjgFdesHaXzBEQIF7xfM2TqxT7HuMg"
+"mosip.mock.sbi.biometric.session.key=<session-key>"
 "mosip.mock.sbi.biometric.type.finger.folder.path=/BiometricInfo/Finger/"
-"mosip.mock.sbi.biometric.type.file.iso=info_encyrpted.iso" 
+"mosip.mock.sbi.biometric.type.file.iso=info_encyrpted.iso"
 ```
 
-# BioUtilApplication
-The application shows how to decode a ISO file into jpeg image or encode jp2000 or wsq images into respective ISO file.
+## BioUtilApplication
 
-## Face
-#### Face decoder
-```run_decoder_face.bat
-java -cp bioutils-1.2.1-SNAPSHOT.jar;lib\* 
-io.mosip.biometrics.util.test.BioUtilApplication "io.mosip.biometrics.util.image.type.jp2000=0" 
+Decode ISO → JPEG, or encode JP2000/WSQ → ISO.
+
+### Face — Decoder
+
+```text
+java -cp target/bioutils-<version>.jar:target/lib/* io.mosip.biometrics.util.test.BioUtilApplication
+"io.mosip.biometrics.util.image.type.jp2000=0"
 "io.mosip.biometrics.util.convert.iso.to.image=1"
 "mosip.mock.sbi.biometric.type.face.folder.path=/BiometricInfo/Face/"
-"mosip.mock.sbi.biometric.type.file.iso=info_face_registration.iso" 
-"mosip.mock.sbi.biometric.subtype.unknown=UNKNOWN" 
+"mosip.mock.sbi.biometric.type.file.iso=info_face_registration.iso"
+"mosip.mock.sbi.biometric.subtype.unknown=UNKNOWN"
 "io.mosip.biometrics.util.purpose.registration=REGISTRATION"
 ```
-#### Face encoder for Auth
-```run_encoder_face_auth.bat
-java -cp bioutils-1.2.1-SNAPSHOT.jar;lib\* 
-io.mosip.biometrics.util.test.BioUtilApplication "io.mosip.biometrics.util.image.type.jp2000=0" 
+
+### Face — Encoder (Auth)
+
+```text
+java -cp target/bioutils-<version>.jar:target/lib/* io.mosip.biometrics.util.test.BioUtilApplication
+"io.mosip.biometrics.util.image.type.jp2000=0"
 "io.mosip.biometrics.util.convert.image.to.iso=0"
 "mosip.mock.sbi.biometric.type.face.folder.path=/BiometricInfo/Face/"
 "mosip.mock.sbi.biometric.type.file.image=info_face_auth.jp2"
-"mosip.mock.sbi.biometric.subtype.unknown=UNKNOWN" 
+"mosip.mock.sbi.biometric.subtype.unknown=UNKNOWN"
 "io.mosip.biometrics.util.purpose.auth=AUTH"
 ```
-#### Face encoder for Registration
-```run_encoder_face_registration.bat
-java -cp bioutils-1.2.1-SNAPSHOT.jar;lib\* 
-io.mosip.biometrics.util.test.BioUtilApplication "io.mosip.biometrics.util.image.type.jp2000=0" 
+
+### Face — Encoder (Registration)
+
+```text
+java -cp target/bioutils-<version>.jar:target/lib/* io.mosip.biometrics.util.test.BioUtilApplication
+"io.mosip.biometrics.util.image.type.jp2000=0"
 "io.mosip.biometrics.util.convert.image.to.iso=0"
 "mosip.mock.sbi.biometric.type.face.folder.path=/BiometricInfo/Face/"
-"mosip.mock.sbi.biometric.type.file.image=info_face_registration.jp2" "mosip.mock.sbi.biometric.subtype.unknown=UNKNOWN"
-"io.mosip.biometrics.util.purpose.registration=REGISTRATION"
-```
-
-## Iris
-#### Iris decoder
-```run_decoder_iris.bat
-java -cp bioutils-1.2.1-SNAPSHOT.jar;lib\* 
-io.mosip.biometrics.util.test.BioUtilApplication "io.mosip.biometrics.util.image.type.jp2000=0" 
-"io.mosip.biometrics.util.convert.iso.to.image=1"
-"mosip.mock.sbi.biometric.type.iris.folder.path=/BiometricInfo/Iris/"
-"mosip.mock.sbi.biometric.type.file.iso=info_right_registration.iso" 
+"mosip.mock.sbi.biometric.type.file.image=info_face_registration.jp2"
 "mosip.mock.sbi.biometric.subtype.unknown=UNKNOWN"
 "io.mosip.biometrics.util.purpose.registration=REGISTRATION"
 ```
-#### Iris encoder for Auth
-```run_encoder_iris_auth.bat
-java -cp bioutils-1.2.1-SNAPSHOT.jar;lib\* 
-io.mosip.biometrics.util.test.BioUtilApplication "io.mosip.biometrics.util.image.type.jp2000=0" 
-"io.mosip.biometrics.util.convert.image.to.iso=0"
+
+### Iris — Decoder
+
+```text
+java -cp target/bioutils-<version>.jar:target/lib/* io.mosip.biometrics.util.test.BioUtilApplication
+"io.mosip.biometrics.util.image.type.jp2000=0"
+"io.mosip.biometrics.util.convert.iso.to.image=1"
 "mosip.mock.sbi.biometric.type.iris.folder.path=/BiometricInfo/Iris/"
-"mosip.mock.sbi.biometric.type.file.image=info_left_auth.jp2"
-"mosip.mock.sbi.biometric.subtype.left=Left" 
-"io.mosip.biometrics.util.purpose.auth=AUTH"
-```
-#### Iris encoder for Registration
-```run_encoder_iris_registration.bat
-java -cp bioutils-1.2.1-SNAPSHOT.jar;lib\* 
-io.mosip.biometrics.util.test.BioUtilApplication "io.mosip.biometrics.util.image.type.jp2000=0" 
-"io.mosip.biometrics.util.convert.image.to.iso=0"
-"mosip.mock.sbi.biometric.type.iris.folder.path=/BiometricInfo/Iris/"
-"mosip.mock.sbi.biometric.type.file.image=info_right_registration.jp2"
-"mosip.mock.sbi.biometric.subtype.right=Right"
+"mosip.mock.sbi.biometric.type.file.iso=info_right_registration.iso"
+"mosip.mock.sbi.biometric.subtype.unknown=UNKNOWN"
 "io.mosip.biometrics.util.purpose.registration=REGISTRATION"
 ```
 
-## Finger
-#### Finger decoder for JP2000
-```run_decoder_finger_jp2000.bat
-java -cp bioutils-1.2.1-SNAPSHOT.jar;lib\* 
-io.mosip.biometrics.util.test.BioUtilApplication "io.mosip.biometrics.util.image.type.jp2000=0" 
+Encoder variants: same pattern with iris folder, `info_left_auth.jp2` / `info_right_registration.jp2`, subtypes `Left` / `Right`, purpose `AUTH` or `REGISTRATION`.
+
+### Finger — Decoder (JP2000 / WSQ)
+
+```text
+java -cp target/bioutils-<version>.jar:target/lib/* io.mosip.biometrics.util.test.BioUtilApplication
+"io.mosip.biometrics.util.image.type.jp2000=0"
 "io.mosip.biometrics.util.convert.iso.to.image=1"
 "mosip.mock.sbi.biometric.type.finger.folder.path=/BiometricInfo/Finger/"
 "mosip.mock.sbi.biometric.type.file.iso=info_left_index_registration_jp2000.iso"
 "mosip.mock.sbi.biometric.subtype.unknown=UNKNOWN"
-"io.mosip.biometrics.util.purpose.registration=REGISTRATION" 
+"io.mosip.biometrics.util.purpose.registration=REGISTRATION"
 ```
-#### Finger decoder for WSQ
-```run_decoder_finger_wsq.bat
-java -cp bioutils-1.2.1-SNAPSHOT.jar;lib\* 
-io.mosip.biometrics.util.test.BioUtilApplication "io.mosip.biometrics.util.image.type.wsq=1" 
+
+```text
+java -cp target/bioutils-<version>.jar:target/lib/* io.mosip.biometrics.util.test.BioUtilApplication
+"io.mosip.biometrics.util.image.type.wsq=1"
 "io.mosip.biometrics.util.convert.iso.to.image=1"
 "mosip.mock.sbi.biometric.type.finger.folder.path=/BiometricInfo/Finger/"
-"mosip.mock.sbi.biometric.type.file.iso=info_left_thumb_auth_wsq.iso" 
-"mosip.mock.sbi.biometric.subtype.unknown=UNKNOWN"
-"io.mosip.biometrics.util.purpose.registration=REGISTRATION"
-```
-#### Finger encoder for Auth With JP2000
-```run_encoder_finger_jp2000_auth.bat
-java -cp bioutils-1.2.1-SNAPSHOT.jar;lib\* 
-io.mosip.biometrics.util.test.BioUtilApplication "io.mosip.biometrics.util.image.type.jp2000=0" 
-"io.mosip.biometrics.util.convert.image.to.iso=0"
-"mosip.mock.sbi.biometric.type.finger.folder.path=/BiometricInfo/Finger/"
-"mosip.mock.sbi.biometric.type.file.image=info_left_index_auth.jp2"
-"mosip.mock.sbi.biometric.subtype.unknown=UNKNOWN" "io.mosip.biometrics.util.purpose.auth=AUTH"
-```
-#### Finger encoder for Auth With WSQ
-```run_encoder_finger_wsq_auth.bat
-java -cp bioutils-1.2.1-SNAPSHOT.jar;lib\* 
-io.mosip.biometrics.util.test.BioUtilApplication "io.mosip.biometrics.util.image.type.wsq=1" 
-"io.mosip.biometrics.util.convert.image.to.iso=0"
-"mosip.mock.sbi.biometric.type.finger.folder.path=/BiometricInfo/Finger/"
-"mosip.mock.sbi.biometric.type.file.image=info_left_thumb_auth.wsq"
-"mosip.mock.sbi.biometric.subtype.unknown=UNKNOWN" 
-"io.mosip.biometrics.util.purpose.auth=AUTH"
-```
-#### Finger encoder for Registration with JP2000
-```run_encoder_finger_jp2000_registration.bat
-java -cp bioutils-1.2.1-SNAPSHOT.jar;lib\* 
-io.mosip.biometrics.util.test.BioUtilApplication "io.mosip.biometrics.util.image.type.jp2000=0" 
-"io.mosip.biometrics.util.convert.image.to.iso=0"
-"mosip.mock.sbi.biometric.type.finger.folder.path=/BiometricInfo/Finger/"
-"mosip.mock.sbi.biometric.type.file.image=info_left_index_registration.jp2"
+"mosip.mock.sbi.biometric.type.file.iso=info_left_thumb_auth_wsq.iso"
 "mosip.mock.sbi.biometric.subtype.unknown=UNKNOWN"
 "io.mosip.biometrics.util.purpose.registration=REGISTRATION"
 ```
 
-# BioUtilConvertApplication
-The application shows how to Convert one form of ISO [containing JP2000 or WSQ image] to ISO [containing JPEG or PNG image]
+## BioUtilConvertApplication
 
-## Face
-#### Face convert from JP2000 to JPEG
-```run_convert_face_JP2000_JPEG.bat
-java -cp bioutils-1.2.1-SNAPSHOT.jar;lib\* 
-io.mosip.biometrics.util.test.BioUtilConvertApplication
+```text
+java -cp target/bioutils-<version>.jar:target/lib/* io.mosip.biometrics.util.test.BioUtilConvertApplication
 "io.mosip.biometrics.util.image.type.jpeg=2"
 "mosip.mock.sbi.biometric.type.face.folder.path=/BiometricInfo/Face/"
 "mosip.mock.sbi.biometric.type.file.iso=info_face_registration.iso"
 ```
-#### Face convert from JP2000 to PNG
-```run_convert_face_JP2000_PNG.bat
-java -cp bioutils-1.2.1-SNAPSHOT.jar;lib\* 
-io.mosip.biometrics.util.test.BioUtilConvertApplication
-"io.mosip.biometrics.util.image.type.png=3"
-"mosip.mock.sbi.biometric.type.face.folder.path=/BiometricInfo/Face/"
-"mosip.mock.sbi.biometric.type.file.iso=info_face_registration.iso"
+
+Use `image.type.png=3` for PNG. Same pattern for Iris / Finger.
+
+## SampleNistFileReader
+
+```text
+java -cp target/bioutils-<version>.jar:target/lib/* io.mosip.biometrics.util.test.SampleNistFileReader
+"mosip.mock.sbi.biometric.type.nist.folder.path=/BiometricInfo/NistXmlData/"
 ```
 
-## Iris
-#### Iris convert from JP2000 to JPEG
-```run_convert_iris_JP2000_JPEG.bat
-java -cp bioutils-1.2.1-SNAPSHOT.jar;lib\* 
-io.mosip.biometrics.util.test.BioUtilConvertApplication
-"io.mosip.biometrics.util.image.type.jpeg=2"
-"mosip.mock.sbi.biometric.type.iris.folder.path=/BiometricInfo/Iris/"
-"mosip.mock.sbi.biometric.type.file.iso=info_right_registration.iso"
-```
-#### Iris convert from JP2000 to PNG
-```run_convert_iris_JP2000_PNG.bat
-java -cp bioutils-1.2.1-SNAPSHOT.jar;lib\* 
-io.mosip.biometrics.util.test.BioUtilConvertApplication
-"io.mosip.biometrics.util.image.type.png=3"
-"mosip.mock.sbi.biometric.type.iris.folder.path=/BiometricInfo/Iris/"
-"mosip.mock.sbi.biometric.type.file.iso=info_right_registration.iso"
-```
+## NistDataQualityAnalyser
 
-## Finger
-#### Finger convert from JP2000 to JPEG
-```run_convert_finger_JP2000_JPEG.bat
-java -cp bioutils-1.2.1-SNAPSHOT.jar;lib\* 
-io.mosip.biometrics.util.test.BioUtilConvertApplication
-"io.mosip.biometrics.util.image.type.jpeg=2"
-"mosip.mock.sbi.biometric.type.finger.folder.path=/BiometricInfo/Finger/"
-"mosip.mock.sbi.biometric.type.file.iso=info_left_index_registration_jp2000.iso"
-```
-#### Finger convert from JP2000 to PNG
-```run_convert_finger_JP2000_PNG.bat
-java -cp bioutils-1.2.1-SNAPSHOT.jar;lib\* 
-io.mosip.biometrics.util.test.BioUtilConvertApplication
-"io.mosip.biometrics.util.image.type.png=3"
-"mosip.mock.sbi.biometric.type.finger.folder.path=/BiometricInfo/Finger/"
-"mosip.mock.sbi.biometric.type.file.iso=info_left_index_registration_jp2000.iso" 
-```
-#### Finger convert from WSQ to JPEG
-```run_convert_finger_WSQ_JPEG.bat
-java -cp bioutils-1.2.1-SNAPSHOT.jar;lib\* 
-io.mosip.biometrics.util.test.BioUtilConvertApplication
-"io.mosip.biometrics.util.image.type.jpeg=2"
-"mosip.mock.sbi.biometric.type.finger.folder.path=/BiometricInfo/Finger/"
-"mosip.mock.sbi.biometric.type.file.iso=info_left_thumb_auth_wsq.iso"
-```
-#### Finger convert from WSQ to PNG
-```run_convert_finger_WSQ_PNG.bat
-java -cp bioutils-1.2.1-SNAPSHOT.jar;lib\* 
-io.mosip.biometrics.util.test.BioUtilConvertApplication
-"io.mosip.biometrics.util.image.type.png=3"
-"mosip.mock.sbi.biometric.type.finger.folder.path=/BiometricInfo/Finger/"
-"mosip.mock.sbi.biometric.type.file.iso=info_left_thumb_auth_wsq.iso"
-```
+Requires a reachable BQAT HTTP service.
 
-# SampleNistFileReader
-The application shows how to parse the different types of NIST files.
-
-```run_nist_file_reader.bat
-java -cp bioutils-1.2.1-SNAPSHOT.jar;lib\* 
-io.mosip.biometrics.util.test.SampleNistFileReader
-"mosip.mock.sbi.biometric.type.nist.folder.path=/BiometricInfo/NistXmlData/" 
-```
-
-# NistDataQualityAnalyser
-The application shows how to parse the NIST files read the finger[WSQ], iris[JPEGL], face[JPEGL] base64 encoded biometric images do the quality analysis of each record and save them to csv file.<br>
-
-```run_nist_data_quality_analyser.bat
-java -cp bioutils-1.2.1-SNAPSHOT.jar;lib\* 
-io.mosip.biometrics.util.test.NistDataQualityAnalyser
+```text
+java -cp target/bioutils-<version>.jar:target/lib/* io.mosip.biometrics.util.test.NistDataQualityAnalyser
 "mosip.mock.sbi.biometric.type.nist.folder.path=/BiometricInfo/NistDataQualityAnalyser/"
-"bqat.server.ipaddress=91.203.134.4" 
-"bqat.server.port=:8848" 
-"bqat.server.path=/base64?urlsafe=false" 
-"bqat.content.type=application/json" 
-"bqat.content.charset=utf-8" 
+"bqat.server.ipaddress=<host>"
+"bqat.server.port=:<port>"
+"bqat.server.path=/base64?urlsafe=false"
+"bqat.content.type=application/json"
+"bqat.content.charset=utf-8"
 "bqat.json.results=results"
 ```
 
+## Jp2000DecodeApplication / ImageRotateApplication
+
+```text
+java -cp target/bioutils-<version>.jar:target/lib/* io.mosip.biometrics.util.test.Jp2000DecodeApplication
+"io.mosip.biometrics.util.image.type.jp2000=0"
+"mosip.mock.sbi.biometric.type.face.folder.path=/BiometricInfo/Face/"
+"mosip.mock.sbi.biometric.type.file.image=info_face_registration.jp2"
+```
+
+```text
+java -cp target/bioutils-<version>.jar:target/lib/* io.mosip.biometrics.util.test.ImageRotateApplication
+"io.mosip.biometrics.util.image.type.jp2000=0"
+"mosip.mock.sbi.biometric.type.face.folder.path=/BiometricInfo/Face/"
+"mosip.mock.sbi.biometric.type.file.image=info_face_registration.jp2"
+"io.mosip.biometrics.image.rotation=90"
+```
+
+---
+
+## Standards exercised
+
+| Standard | Used by |
+| -------- | ------- |
+| ISO/IEC 19794-4/5/6:2011 | `BioUtilApplication`, `BioUtilConvertApplication` |
+| NIST ITL 1-2011 | `SampleNistFileReader`, `NistDataQualityAnalyser` |
+
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+[Mozilla Public License 2.0](../LICENSE).

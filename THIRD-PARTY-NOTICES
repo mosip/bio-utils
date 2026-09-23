@@ -2,163 +2,217 @@ THIRD-PARTY-NOTICES
 
 This project includes third-party packages that are distributed under various open-source licenses. Below is a list of packages and their associated licenses.
 
+Reactor: io.mosip.biometrics:biometrics 1.4.1-SNAPSHOT
+Parent: org.springframework.boot:spring-boot-starter-parent 4.1.1 (Java 21)
+Policy: no kernel-bom; commons kernel-core is pinned directly. See licenses/NOTICE for the MOSIP MPL compatibility matrix.
+
 ================================================================================
-Package: MOSIP Bio Utils
-Version: 1.4.0-SNAPSHOT
-License: Mozilla Public License 2.0 (Inferred from project’s official repository)
+Package: MOSIP Bio Utils (this repository)
+Artifacts: biometrics (parent), kernel-biometrics-api, kernel-cbeffutil-api,
+  kernel-biosdk-provider, biometrics-util
+Version: 1.4.1-SNAPSHOT
+License: Mozilla Public License 2.0
 Homepage: https://github.com/mosip/bio-utils
 ================================================================================
 
 ================================================================================
-Package: Apache Maven Plugins
-(maven-compiler-plugin, maven-gpg-plugin, maven-javadoc-plugin, maven-source-plugin, maven-jar-plugin, maven-resources-plugin, maven-shade-plugin, maven-surefire-plugin, maven-war-plugin, maven-antrun-plugin, maven-dependency-plugin)
-Version:
-  - maven-compiler-plugin: 3.11.0
-  - maven-gpg-plugin: 3.2.3
-  - maven-javadoc-plugin: 3.2.0
-  - maven-source-plugin: 3.3.1
-  - maven-jar-plugin: 3.4.0
-  - maven-resources-plugin: 3.3.1
-  - maven-shade-plugin: 3.2.4
-  - maven-surefire-plugin: 3.1.2
-  - maven-war-plugin: 3.1.0
-  - maven-antrun-plugin: 3.0.0
-  - maven-dependency-plugin: 2.10
-License: Apache License 2.0
-Homepage: https://maven.apache.org/plugins/
-================================================================================
-
-================================================================================
-Package: Sonar Maven Plugin (org.sonarsource.scanner.maven:sonar-maven-plugin)
-Version: 3.7.0.1746
-License: LGPL 3.0
-Homepage: https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-maven/
-================================================================================
-
-================================================================================
-Package: Apache Commons Lang (org.apache.commons:commons-lang3)
-Version: (Not specified)
-License: Apache License 2.0 (Inferred from project’s official repository)
-Homepage: https://commons.apache.org/proper/commons-lang/
-================================================================================
-
-================================================================================
-Package: Jackson Libraries (com.fasterxml.jackson.core, com.fasterxml.jackson.dataformat, com.fasterxml.jackson.module)
-Version: (Not specified)
-License: Apache License 2.0
-Homepage: https://github.com/FasterXML/jackson
-================================================================================
-
-================================================================================
-Package: Google Protobuf (com.google.protobuf:protobuf-java)
-Version: 3.13.0, 3.16.3
-License: BSD-3-Clause (Inferred from project’s official repository)
-Homepage: https://github.com/protocolbuffers/protobuf
-================================================================================
-
-================================================================================
-Package: OpenCV (org.openpnp:opencv)
-Version: 4.5.3-4
-License: Apache License 2.0
-Homepage: https://opencv.org/
-================================================================================
-
-================================================================================
-Package: Lombok (org.projectlombok:lombok)
-Version: (Not specified)
-License: MIT License (Inferred from project’s official repository)
-Homepage: https://projectlombok.org/
-================================================================================
-
-================================================================================
-Package: Hibernate Validator (org.hibernate.validator:hibernate-validator)
-Version: (Not specified)
-License: Apache License 2.0 (Inferred from project’s official repository)
-Homepage: http://hibernate.org/validator/
-================================================================================
-
-================================================================================
-Package: JUnit (junit:junit, org.junit.vintage:junit-vintage-engine, org.junit.jupiter:junit-jupiter)
-Version: Various
-License: Eclipse Public License 1.0/2.0 (Inferred from project’s official repository)
-Homepage: https://junit.org/
-================================================================================
-
-================================================================================
-Package: Mockito (org.mockito:mockito-core, org.mockito:mockito-inline)
-Version: 3.3.3, 5.8.0
-License: MIT License (Inferred from project’s official repository)
-Homepage: https://site.mockito.org/
-================================================================================
-
-================================================================================
-Package: Powermock (org.powermock:powermock-api-mockito2, org.powermock:powermock-module-junit4)
-Version: (Not specified)
-License: Apache License 2.0 (Inferred from project’s official repository)
-Homepage: https://github.com/powermock/powermock
-================================================================================
-
-================================================================================
-Package: Bouncy Castle (org.bouncycastle:bcutil-jdk18on)
-Version: 1.78.1
-License: MIT License (Inferred from project’s official repository)
-Homepage: https://www.bouncycastle.org/
-================================================================================
-
-================================================================================
-Package: Apache POI (org.apache.poi:poi-ooxml)
-Version: 5.2.5
-License: Apache License 2.0
-Homepage: https://poi.apache.org/
-================================================================================
-
-================================================================================
-Package: Google Gson (com.google.code.gson:gson)
-Version: 2.10.1
-License: Apache License 2.0
-Homepage: https://github.com/google/gson
+Package: MOSIP Kernel Core (io.mosip.kernel:kernel-core)
+Version: 1.4.1-SNAPSHOT
+License: Mozilla Public License 2.0
+Homepage: https://github.com/mosip/commons
+Note: Pinned via kernel.core.version in the reactor POM — not via kernel-bom.
 ================================================================================
 
 ================================================================================
 Package: Spring Boot
+(spring-boot-starter-parent and Boot starters / jackson2 / autoconfigure)
+Version: 4.1.1
 License: Apache License 2.0
 Homepage: https://spring.io/projects/spring-boot
 ================================================================================
 
 ================================================================================
-Package: SLF4J (slf4j-api, log4j12)
+Package: Spring Framework
+(spring-context, spring-web, spring-webmvc, spring-beans, spring-aop, …)
+Version: 7.0.9 (via Boot 4.1.1)
+License: Apache License 2.0
+Homepage: https://spring.io/projects/spring-framework
+================================================================================
+
+================================================================================
+Package: Spring Security
+(spring-security-core, spring-security-config, spring-security-web — transitive via kernel-core)
+Version: 7.1.1 (via Boot 4.1.1)
+License: Apache License 2.0
+Homepage: https://spring.io/projects/spring-security
+================================================================================
+
+================================================================================
+Package: Spring Boot Jackson 2
+(org.springframework.boot:spring-boot-jackson2 — keeps Jackson 2 under Boot 4)
+Version: 4.1.1
+License: Apache License 2.0
+Homepage: https://spring.io/projects/spring-boot
+================================================================================
+
+================================================================================
+Package: Jackson 2
+(jackson-databind, jackson-core, jackson-annotations, jackson-dataformat-xml,
+ jackson-module-jaxb-annotations, jackson-datatype-jdk8, jackson-datatype-jsr310, …)
+Version: 2.21.5 (databind/core; annotations 2.21)
+License: Apache License 2.0
+Homepage: https://github.com/FasterXML/jackson
+================================================================================
+
+================================================================================
+Package: Google Gson (com.google.code.gson:gson)
+Version: 2.14.0
+License: Apache License 2.0
+Homepage: https://github.com/google/gson
+================================================================================
+
+================================================================================
+Package: Protocol Buffers (com.google.protobuf:protobuf-java)
+Version: 4.36.2
+License: BSD-3-Clause
+Homepage: https://github.com/protocolbuffers/protobuf
+================================================================================
+
+================================================================================
+Package: Apache Commons Lang (org.apache.commons:commons-lang3)
+Version: 3.20.0 (via Boot 4.1.1)
+License: Apache License 2.0
+Homepage: https://commons.apache.org/proper/commons-lang/
+================================================================================
+
+================================================================================
+Package: SLF4J API (org.slf4j:slf4j-api)
+Version: 2.0.18 (via Boot 4.1.1)
 License: MIT License
 Homepage: https://www.slf4j.org/
 ================================================================================
 
 ================================================================================
-Package: JAI ImageIO JPEG2000
-License: Dual License (JJ2000 License AND BSD 3-Clause with Nuclear Disclaimer)
-Homepage: https://github.com/jai-imageio/jai-imageio-core
+Package: Hibernate Validator (org.hibernate.validator:hibernate-validator)
+Version: 9.1.3.Final (via Boot 4.1.1)
+License: Apache License 2.0
+Homepage: https://hibernate.org/validator/
 ================================================================================
 
 ================================================================================
-Package: JNBIS
+Package: Project Lombok (org.projectlombok:lombok)
+Version: 1.18.46 (via Boot 4.1.1 / kernel-core)
+License: MIT License
+Homepage: https://projectlombok.org/
+================================================================================
+
+================================================================================
+Package: JAI ImageIO JPEG2000 (com.github.jai-imageio:jai-imageio-jpeg2000)
+Version: 1.4.0
+License: BSD-3-Clause with Nuclear Disclaimer (see licenses/BSD-3-Clause-No-Nuclear-License.txt)
+Homepage: https://github.com/jai-imageio/jai-imageio-jpeg2000
+================================================================================
+
+================================================================================
+Package: JNBIS (com.github.mhshams:jnbis)
+Version: 2.1.2
 License: Apache License 2.0
 Homepage: https://github.com/mhshams/jnbis
 ================================================================================
 
 ================================================================================
-Package: H2 Database
-License: EPL-1.0 OR MPL-2.0
+Package: OpenCV (org.openpnp:opencv)
+Version: 4.9.0-0
+License: BSD-3-Clause
+Homepage: https://github.com/openpnp/opencv
+================================================================================
+
+================================================================================
+Package: JAXB API (javax.xml.bind:jaxb-api)
+Version: 2.3.1
+License: CDDL 1.1 OR GPL-2.0-with-Classpath-Exception (MOSIP elects CDDL 1.1)
+Homepage: https://javaee.github.io/jaxb-v2/
+Note: javax JAXB 2.3.x required for CBEFF; Jakarta JAXB 4.x is not used.
+================================================================================
+
+================================================================================
+Package: JAXB Runtime (org.glassfish.jaxb:jaxb-runtime)
+Version: 2.3.9
+License: EDL 1.0 / BSD-2-Clause (see licenses/BSD-2-Clause.txt)
+Homepage: https://eclipse-ee4j.github.io/jaxb-ri/
+================================================================================
+
+================================================================================
+Package: H2 Database (com.h2database:h2)
+Version: 2.4.240 (via Boot 4.1.1)
+License: EPL-1.0 OR MPL-2.0 (MOSIP elects MPL-2.0)
 Homepage: https://www.h2database.com
 ================================================================================
 
 ================================================================================
-Package: imgscalr-lib
+Package: imgscalr-lib (org.imgscalr:imgscalr-lib) — sample / optional CLI tooling
+Version: 4.2
 License: Apache License 2.0
 Homepage: https://github.com/thebuzzmedia/imgscalr
 ================================================================================
 
 ================================================================================
-Package: OkHttp (mockwebserver)
+Package: OkHttp (com.squareup.okhttp:okhttp) — sample CLI only
+Version: 2.7.5
 License: Apache License 2.0
 Homepage: https://square.github.io/okhttp/
 ================================================================================
 
-Full license texts and additional details for each of the above packages are available in the license/ directory of this repository. Please refer to those files or the original source of each package for complete legal terms and conditions.
+================================================================================
+Package: Apache Maven Plugins
+(compiler, surefire, jar, war, source, javadoc, gpg, deploy, …)
+Version:
+  - maven-compiler-plugin: 3.16.0
+  - maven-surefire-plugin: 3.6.0
+  - maven-jar-plugin: 3.5.1
+  - maven-war-plugin: 3.5.1
+  - maven-source-plugin: 3.4.0
+  - maven-javadoc-plugin: 3.12.0
+  - maven-gpg-plugin: 3.2.8
+  - maven-deploy-plugin: 3.1.4
+License: Apache License 2.0
+Homepage: https://maven.apache.org/plugins/
+================================================================================
+
+================================================================================
+Package: JaCoCo Maven Plugin (org.jacoco:jacoco-maven-plugin)
+Version: 0.8.15
+License: EPL-2.0
+Homepage: https://www.jacoco.org/jacoco/
+================================================================================
+
+================================================================================
+Package: Sonar Maven Plugin (org.sonarsource.scanner.maven:sonar-maven-plugin)
+Version: 5.8.0.7211
+License: LGPL 3.0
+Homepage: https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-maven/
+================================================================================
+
+================================================================================
+Package: JUnit (org.junit.jupiter / junit-vintage / junit:junit) — test
+Version: JUnit Jupiter 6.0.3; JUnit 4.13.2 (vintage)
+License: Eclipse Public License 2.0 (Jupiter); EPL-1.0 (JUnit 4)
+Homepage: https://junit.org/
+================================================================================
+
+================================================================================
+Package: Mockito (org.mockito:mockito-core) — test
+Version: 5.23.0 (via Boot 4.1.1)
+License: MIT License
+Homepage: https://site.mockito.org/
+================================================================================
+
+================================================================================
+Package: Logback (ch.qos.logback:logback-classic / logback-core) — transitive via Boot
+Version: 1.5.38
+License: EPL-2.0 OR LGPL-2.1
+Homepage: https://logback.qos.ch/
+================================================================================
+
+Full license texts are under licenses/ (and project LICENSE for MPL-2.0).
+See licenses/NOTICE for the MOSIP open-source license compatibility matrix and dual-license elections.

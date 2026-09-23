@@ -44,8 +44,11 @@ public class IrisDecoder {
 
 	@SuppressWarnings({ "java:S100", "unused" })
 	private static byte[] convertIrisISO19794_6_2011ToImage(byte[] isoData) throws Exception {
-		ImageData imageData = getIrisBDIRISO19794_6_2011(isoData, 0).getRepresentation().getRepresentationData()
-				.getImageData();
+		ConvertRequestDto dto = new ConvertRequestDto();
+		dto.setVersion(ISO_VERSION);
+		dto.setInputBytes(isoData);
+		dto.setOnlyImageInformation(0);
+		ImageData imageData = getIrisBDIR(dto).getRepresentation().getRepresentationData().getImageData();
 		try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
 			ImageIO.write(ImageIO.read(new ByteArrayInputStream(imageData.getImage())), "jpg", baos);
 			return baos.toByteArray();
@@ -57,8 +60,7 @@ public class IrisDecoder {
 
 	public static BufferedImage convertIrisISOToBufferedImage(ConvertRequestDto convertRequestDto) throws Exception {
 		if (convertRequestDto.getVersion().equals(ISO_VERSION)) {
-			IrisBDIR irisBDIR = getIrisBDIRISO19794_6_2011(convertRequestDto.getInputBytes(),
-					convertRequestDto.getOnlyImageInformation());
+			IrisBDIR irisBDIR = getIrisBDIR(convertRequestDto);
 			return ImageIO.read(new ByteArrayInputStream(
 					irisBDIR.getRepresentation().getRepresentationData().getImageData().getImage()));
 		}
@@ -67,8 +69,7 @@ public class IrisDecoder {
 
 	public static byte[] convertIrisISOToImageBytes(ConvertRequestDto convertRequestDto) throws Exception {
 		if (convertRequestDto.getVersion().equals(ISO_VERSION)) {
-			IrisBDIR irisBDIR = getIrisBDIRISO19794_6_2011(convertRequestDto.getInputBytes(),
-					convertRequestDto.getOnlyImageInformation());
+			IrisBDIR irisBDIR = getIrisBDIR(convertRequestDto);
 			int imageFormat = irisBDIR.getRepresentation().getRepresentationHeader().getImageInformation()
 					.getImageFormat();
 			if (imageFormat == ImageFormat.MONO_JPEG2000 || imageFormat == ImageFormat.RGB_JPEG2000)

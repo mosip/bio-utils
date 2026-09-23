@@ -39,8 +39,7 @@ public class FingerDecoder {
 
 	public static byte[] convertFingerISOToImageBytes(ConvertRequestDto convertRequestDto) throws Exception {
 		if (convertRequestDto.getVersion().equals(ISO_VERSION)) {
-			FingerBDIR fingerBDIR = getFingerBDIRISO19794_4_2011(convertRequestDto.getInputBytes(),
-					convertRequestDto.getOnlyImageInformation());
+			FingerBDIR fingerBDIR = getFingerBDIR(convertRequestDto);
 			int fingerImageCompressionType = fingerBDIR.getRepresentation().getRepresentationHeader()
 					.getCompressionType();
 			if (fingerImageCompressionType == FingerImageCompressionType.JPEG_2000_LOSSY
@@ -55,10 +54,8 @@ public class FingerDecoder {
 	}
 
 	public static BufferedImage convertFingerISOToBufferedImage(ConvertRequestDto convertRequestDto) throws Exception {
-		ImageData imageData = null;
 		if (convertRequestDto.getVersion().equals(ISO_VERSION)) {
-			imageData = getFingerBDIRISO19794_4_2011(convertRequestDto.getInputBytes(),
-					convertRequestDto.getOnlyImageInformation()).getRepresentation().getRepresentationBody()
+			ImageData imageData = getFingerBDIR(convertRequestDto).getRepresentation().getRepresentationBody()
 					.getImageData();
 			return ImageIO.read(new ByteArrayInputStream(imageData.getImage()));
 		}

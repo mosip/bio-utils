@@ -67,7 +67,7 @@ class IrisDecoderTest {
         when(irisBDIR.getRepresentation()).thenReturn(rep);
         try (org.mockito.MockedStatic<IrisDecoder> irisDecoderMock = org.mockito.Mockito.mockStatic(IrisDecoder.class, org.mockito.Mockito.CALLS_REAL_METHODS);
              org.mockito.MockedStatic<ImageIO> imageIOMock = org.mockito.Mockito.mockStatic(ImageIO.class)) {
-            irisDecoderMock.when(() -> invokeGetIrisBDIRISO19794_6_2011(any(byte[].class), any(Integer.class))).thenReturn(irisBDIR);
+            irisDecoderMock.when(() -> IrisDecoder.getIrisBDIR(any(ConvertRequestDto.class))).thenReturn(irisBDIR);
             imageIOMock.when(() -> ImageIO.read(any(ByteArrayInputStream.class))).thenReturn(expectedImage);
             BufferedImage result = IrisDecoder.convertIrisISOToBufferedImage(dto);
             assertEquals(expectedImage, result);
@@ -110,7 +110,7 @@ class IrisDecoderTest {
         byte[] jpegBytes = new byte[]{9, 8, 7};
         try (org.mockito.MockedStatic<IrisDecoder> irisDecoderMock = org.mockito.Mockito.mockStatic(IrisDecoder.class, org.mockito.Mockito.CALLS_REAL_METHODS);
              org.mockito.MockedStatic<io.mosip.biometrics.util.CommonUtil> commonUtilMock = org.mockito.Mockito.mockStatic(io.mosip.biometrics.util.CommonUtil.class)) {
-            irisDecoderMock.when(() -> invokeGetIrisBDIRISO19794_6_2011(any(byte[].class), any(Integer.class))).thenReturn(irisBDIR);
+            irisDecoderMock.when(() -> IrisDecoder.getIrisBDIR(any(ConvertRequestDto.class))).thenReturn(irisBDIR);
             commonUtilMock.when(() -> io.mosip.biometrics.util.CommonUtil.convertJP2ToJPEGUsingOpenCV(any(byte[].class), anyInt())).thenReturn(jpegBytes);
             byte[] result = IrisDecoder.convertIrisISOToImageBytes(dto);
             assertArrayEquals(jpegBytes, result);
@@ -142,7 +142,7 @@ class IrisDecoderTest {
         when(info.getImageFormat()).thenReturn(0x01);
         when(irisBDIR.getRepresentation()).thenReturn(rep);
         try (org.mockito.MockedStatic<IrisDecoder> irisDecoderMock = org.mockito.Mockito.mockStatic(IrisDecoder.class, org.mockito.Mockito.CALLS_REAL_METHODS)) {
-            irisDecoderMock.when(() -> invokeGetIrisBDIRISO19794_6_2011(any(byte[].class), any(Integer.class))).thenReturn(irisBDIR);
+            irisDecoderMock.when(() -> IrisDecoder.getIrisBDIR(any(ConvertRequestDto.class))).thenReturn(irisBDIR);
             byte[] result = IrisDecoder.convertIrisISOToImageBytes(dto);
             assertArrayEquals(rawBytes, result);
         }
@@ -172,7 +172,7 @@ class IrisDecoderTest {
         when(imageData.getImage()).thenReturn(new byte[]{4, 5, 6});
         when(info.getImageFormat()).thenReturn(ImageFormat.MONO_JPEG);
         try (org.mockito.MockedStatic<IrisDecoder> irisDecoderMock = org.mockito.Mockito.mockStatic(IrisDecoder.class, org.mockito.Mockito.CALLS_REAL_METHODS)) {
-            irisDecoderMock.when(() -> invokeGetIrisBDIRISO19794_6_2011(any(byte[].class), anyInt())).thenReturn(irisBDIR);
+            irisDecoderMock.when(() -> IrisDecoder.getIrisBDIR(any(ConvertRequestDto.class))).thenReturn(irisBDIR);
             byte[] result = IrisDecoder.convertIrisISOToImageBytes(dto);
             assertArrayEquals(new byte[]{4, 5, 6}, result);
         }
@@ -205,8 +205,8 @@ class IrisDecoderTest {
              org.mockito.MockedStatic<ImageIO> imageIOMock = org.mockito.Mockito.mockStatic(ImageIO.class);
              ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
 
-            // Mock the static method call
-            irisDecoderMock.when(() -> invokeGetIrisBDIRISO19794_6_2011(any(byte[].class), anyInt()))
+            // Mock the public getIrisBDIR used by convertIrisISO19794_6_2011ToImage
+            irisDecoderMock.when(() -> IrisDecoder.getIrisBDIR(any(ConvertRequestDto.class)))
                     .thenReturn(irisBDIR);
 
             // Mock ImageIO.read to return our test image
@@ -252,8 +252,8 @@ class IrisDecoderTest {
         try (org.mockito.MockedStatic<IrisDecoder> irisDecoderMock = org.mockito.Mockito.mockStatic(IrisDecoder.class, org.mockito.Mockito.CALLS_REAL_METHODS);
              org.mockito.MockedStatic<ImageIO> imageIOMock = org.mockito.Mockito.mockStatic(ImageIO.class)) {
 
-            // Mock the static method call
-            irisDecoderMock.when(() -> invokeGetIrisBDIRISO19794_6_2011(any(byte[].class), anyInt()))
+            // Mock the public getIrisBDIR used by convertIrisISO19794_6_2011ToImage
+            irisDecoderMock.when(() -> IrisDecoder.getIrisBDIR(any(ConvertRequestDto.class)))
                     .thenReturn(irisBDIR);
 
             // Mock ImageIO.read to return a test image
@@ -298,27 +298,12 @@ class IrisDecoderTest {
         assertThrows(UnsupportedOperationException.class, () -> IrisDecoder.convertIrisISOToImageBytes(dto));
     }
 
-    // Helper method for reflection invocation of getIrisBDIRISO19794_6_2011
-    private static IrisBDIR invokeGetIrisBDIRISO19794_6_2011(byte[] isoData, int onlyImageInformation) throws Exception {
-        try {
-            Method method = IrisDecoder.class.getDeclaredMethod("getIrisBDIRISO19794_6_2011", byte[].class, int.class);
-            method.setAccessible(true);
-            return (IrisBDIR) method.invoke(null, isoData, onlyImageInformation);
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-
     /**
      * Helper method to invoke the private convertIrisISO19794_6_2011ToImage method using reflection.
      */
     private static byte[] invokeConvertIrisISO19794_6_2011ToImage(byte[] isoData) throws Exception {
-        try {
-            Method method = IrisDecoder.class.getDeclaredMethod("convertIrisISO19794_6_2011ToImage", byte[].class);
-            method.setAccessible(true);
-            return (byte[]) method.invoke(null, isoData);
-        } catch (Exception e) {
-            throw e;
-        }
+        Method method = IrisDecoder.class.getDeclaredMethod("convertIrisISO19794_6_2011ToImage", byte[].class);
+        method.setAccessible(true);
+        return (byte[]) method.invoke(null, isoData);
     }
 }

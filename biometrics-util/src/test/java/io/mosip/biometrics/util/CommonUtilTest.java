@@ -441,4 +441,10 @@ class CommonUtilTest {
         assertThrows(BiometricUtilException.class, () ->
                 CommonUtil.convertJP2ToWEBPUsingOpenCV(invalidData, 80));
     }
+
+    @Test
+    void convertISOImageTypeUnsupportedModalityThrows() {
+        assertThrows(BiometricUtilException.class, () ->
+                CommonUtil.convertISOImageType("YQ", Modality.UnSpecified, ImageType.JPEG));
+    }
 }
