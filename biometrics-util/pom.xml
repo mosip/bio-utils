@@ -18,7 +18,7 @@
 	<description>
 		Standalone ISO biometric format converters (no Spring): ISO/IEC 19794-4:2011 Finger,
 		19794-5:2011 Face, 19794-6:2011 Iris encode/decode to JPEG/PNG/BufferedImage; NIST ITL
-		1-2011 XML parser; JPEG2000 (jai-imageio), WSQ (jnbis), and OpenCV helpers.
+		1-2011 XML parser; JPEG2000 (jai-imageio), WSQ decode (jnbis) / encode (NIST NBIS port), and OpenCV helpers.
 	</description>
 	<url>https://github.com/mosip/bio-utils</url>
 

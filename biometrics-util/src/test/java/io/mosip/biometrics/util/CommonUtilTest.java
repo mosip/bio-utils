@@ -1,11 +1,13 @@
 package io.mosip.biometrics.util;
 
 import io.mosip.biometrics.util.exception.BiometricUtilException;
+import io.mosip.biometrics.util.nist.wsq.encoder.WsqEncoder;
 import org.junit.jupiter.api.Test;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import javax.imageio.ImageIO;
@@ -154,6 +156,128 @@ class CommonUtilTest {
         byte[] result = CommonUtil.convertJP2ToPNGBytes(jpegData);
         assertNotNull(result);
         assertTrue(result.length > 0);
+    }
+
+    @Test
+    void convertJP2ToWSQValidDataReturnsWsqBytes() throws Exception {
+        BufferedImage testImage = fingerprintLikeGray(256, 256);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(testImage, "jpg", baos);
+        byte[] jpegData = baos.toByteArray();
+
+        byte[] wsq = CommonUtil.convertJP2ToWSQ(jpegData);
+        assertNotNull(wsq);
+        assertTrue(wsq.length > 8);
+        assertEquals((byte) 0xff, wsq[0]);
+        assertEquals((byte) 0xa0, wsq[1]);
+    }
+
+    @Test
+    void convertJP2ToWSQInvalidDataThrowsException() {
+        assertThrows(BiometricUtilException.class, () -> CommonUtil.convertJP2ToWSQ(new byte[] { 0x00, 0x01 }));
+    }
+
+    @Test
+    void convertBufferedImageToWSQRoundTripDecodableByJnbis() throws Exception {
+        BufferedImage src = fingerprintLikeGray(256, 256);
+        byte[] wsq = CommonUtil.convertBufferedImageToWSQ(src);
+        BufferedImage decoded = CommonUtil.convertWSQToBufferedImage(wsq);
+        assertEquals(256, decoded.getWidth());
+        assertEquals(256, decoded.getHeight());
+        int[] stats = minMaxMean(decoded);
+        assertTrue(stats[1] - stats[0] > 30, "decoded contrast too low: min/max=" + stats[0] + "/" + stats[1]);
+        double mae = meanAbsError(src, decoded);
+        assertTrue(mae < 20.0, "lossy WSQ round-trip MAE too high: " + mae + " decoded min/max/mean="
+                + stats[0] + "/" + stats[1] + "/" + stats[2]);
+        byte[] lossless = CommonUtil.convertBufferedImageToWSQLossless(src);
+        BufferedImage losslessDecoded = CommonUtil.convertWSQToBufferedImage(lossless);
+        assertEquals(256, losslessDecoded.getWidth());
+        double losslessMae = meanAbsError(src, losslessDecoded);
+        assertTrue(losslessMae < mae, "lossless MAE " + losslessMae + " should beat lossy MAE " + mae);
+        byte[] fromJp2 = CommonUtil.convertJP2ToWSQLossless(jpegOf(src));
+        assertEquals((byte) 0xa0, fromJp2[1]);
+    }
+
+    private static byte[] jpegOf(BufferedImage image) throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(image, "jpg", baos);
+        return baos.toByteArray();
+    }
+
+    @Test
+    void convertBufferedImageToWSQRgbSourceIsDecodable() {
+        BufferedImage rgb = new BufferedImage(256, 256, BufferedImage.TYPE_INT_RGB);
+        BufferedImage gray = fingerprintLikeGray(256, 256);
+        Graphics g = rgb.getGraphics();
+        g.drawImage(gray, 0, 0, null);
+        g.dispose();
+        byte[] wsq = CommonUtil.convertBufferedImageToWSQ(rgb);
+        BufferedImage decoded = CommonUtil.convertWSQToBufferedImage(wsq);
+        assertEquals(256, decoded.getWidth());
+        assertEquals(256, decoded.getHeight());
+        assertTrue(minMaxMean(decoded)[1] - minMaxMean(decoded)[0] > 30);
+    }
+
+    @Test
+    void convertBufferedImageToWSQNullThrowsException() {
+        assertThrows(BiometricUtilException.class, () -> CommonUtil.convertBufferedImageToWSQ(null));
+    }
+
+    @Test
+    void wsqEncoderCommentAndInvalidInput() {
+        BufferedImage src = fingerprintLikeGray(128, 128);
+        byte[] gray = new byte[128 * 128];
+        src.getRaster().getDataElements(0, 0, 128, 128, gray);
+
+        byte[] wsq = WsqEncoder.encode(gray, 128, 128, 500, WsqEncoder.DEFAULT_BIT_RATE, "mosip-test");
+        BufferedImage decoded = CommonUtil.convertWSQToBufferedImage(wsq);
+        assertEquals(128, decoded.getWidth());
+        assertEquals(128, decoded.getHeight());
+
+        assertThrows(IllegalArgumentException.class, () -> WsqEncoder.encode(null, 8, 8, 500, 0.75f, null));
+        assertThrows(IllegalArgumentException.class, () -> WsqEncoder.encode(new byte[4], 8, 8, 500, 0.75f, null));
+    }
+
+    private static BufferedImage fingerprintLikeGray(int width, int height) {
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int ridge = (int) (128 + 80 * Math.sin((x + y) / 6.0) + 20 * Math.sin(x / 3.5));
+                int g = Math.max(0, Math.min(255, ridge));
+                int rgb = (g << 16) | (g << 8) | g;
+                image.setRGB(x, y, rgb);
+            }
+        }
+        return image;
+    }
+
+    private static int[] minMaxMean(BufferedImage image) {
+        int min = 255;
+        int max = 0;
+        long sum = 0;
+        int n = image.getWidth() * image.getHeight();
+        for (int y = 0; y < image.getHeight(); y++) {
+            for (int x = 0; x < image.getWidth(); x++) {
+                int g = image.getRGB(x, y) & 0xff;
+                min = Math.min(min, g);
+                max = Math.max(max, g);
+                sum += g;
+            }
+        }
+        return new int[] { min, max, (int) (sum / n) };
+    }
+
+    private static double meanAbsError(BufferedImage a, BufferedImage b) {
+        long sum = 0;
+        int n = a.getWidth() * a.getHeight();
+        for (int y = 0; y < a.getHeight(); y++) {
+            for (int x = 0; x < a.getWidth(); x++) {
+                int ga = a.getRGB(x, y) & 0xff;
+                int gb = b.getRGB(x, y) & 0xff;
+                sum += Math.abs(ga - gb);
+            }
+        }
+        return sum / (double) n;
     }
 
     /**

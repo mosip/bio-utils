@@ -14,9 +14,11 @@ import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 
 import javax.imageio.ImageIO;
 
+import java.awt.Graphics;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -44,6 +46,7 @@ import io.mosip.biometrics.util.iris.ImageFormat;
 import io.mosip.biometrics.util.iris.IrisBDIR;
 import io.mosip.biometrics.util.iris.IrisDecoder;
 import io.mosip.biometrics.util.iris.IrisEncoder;
+import io.mosip.biometrics.util.nist.wsq.encoder.WsqEncoder;
 import io.mosip.biometrics.util.nist.parser.v2011.constant.XmlnsNameSpaceConstant;
 import io.mosip.biometrics.util.nist.parser.v2011.dto.BiometricInformationExchange;
 import io.mosip.biometrics.util.nist.parser.v2011.helper.NamespaceXmlFactory;
@@ -201,6 +204,157 @@ public class CommonUtil {
 		}
 		throw new BiometricUtilException(BiometricUtilErrorCode.CONVERT_EXCEPTION.getErrorCode(),
 				BiometricUtilErrorCode.CONVERT_EXCEPTION.getErrorMessage());
+	}
+
+	/**
+	 * Converts a JP2000 (or other ImageIO-readable) byte array to <strong>lossy</strong>
+	 * WSQ bytes using the default FBI bitrate (0.75).
+	 *
+	 * @param jp2000Bytes the JP2000 byte array
+	 * @return the WSQ byte array
+	 * @throws BiometricUtilException if an error occurs during the conversion
+	 *                                process
+	 */
+	public static byte[] convertJP2ToWSQ(byte[] jp2000Bytes) {
+		return convertJP2ToWSQ(jp2000Bytes, WsqEncoder.DEFAULT_BIT_RATE);
+	}
+
+	/**
+	 * Converts a JP2000 (or other ImageIO-readable) byte array to <strong>lossy</strong>
+	 * WSQ bytes at {@code bitRate} bits per pixel.
+	 *
+	 * @param jp2000Bytes the JP2000 byte array
+	 * @param bitRate     target WSQ bitrate (typical fingerprint value is 0.75)
+	 * @return the WSQ byte array
+	 * @throws BiometricUtilException if an error occurs during the conversion
+	 *                                process
+	 */
+	public static byte[] convertJP2ToWSQ(byte[] jp2000Bytes, float bitRate) {
+		return convertJP2ToWSQ(jp2000Bytes, bitRate, false);
+	}
+
+	/**
+	 * Converts a JP2000 (or other ImageIO-readable) byte array to 8-bit
+	 * lossless WSQ that round-trips to the same pixels.
+	 *
+	 * @param jp2000Bytes the JP2000 byte array
+	 * @return lossless WSQ bytes
+	 * @throws BiometricUtilException if an error occurs during the conversion
+	 *                                process
+	 */
+	public static byte[] convertJP2ToWSQLossless(byte[] jp2000Bytes) {
+		return convertJP2ToWSQ(jp2000Bytes, WsqEncoder.DEFAULT_BIT_RATE, true);
+	}
+
+	/**
+	 * Converts a JP2000 (or other ImageIO-readable) byte array to WSQ bytes.
+	 *
+	 * @param jp2000Bytes the JP2000 byte array
+	 * @param bitRate     used when {@code lossless} is false
+	 * @param lossless    when true, 8-bit lossless WSQ; when false, lossy at
+	 *                    {@code bitRate}
+	 * @return the WSQ byte array
+	 * @throws BiometricUtilException if an error occurs during the conversion
+	 *                                process
+	 */
+	public static byte[] convertJP2ToWSQ(byte[] jp2000Bytes, float bitRate, boolean lossless) {
+		try {
+			BufferedImage image = ImageIO.read(new ByteArrayInputStream(jp2000Bytes));
+			if (image != null) {
+				return convertBufferedImageToWSQ(image, bitRate, lossless);
+			}
+			Mat src = Imgcodecs.imdecode(new MatOfByte(jp2000Bytes), Imgcodecs.IMREAD_GRAYSCALE);
+			if (src != null && !src.empty()) {
+				int width = src.cols();
+				int height = src.rows();
+				byte[] pixels = new byte[width * height];
+				src.get(0, 0, pixels);
+				return lossless ? WsqEncoder.encodeLossless(pixels, width, height, 500, null)
+						: WsqEncoder.encode(pixels, width, height, 500, bitRate, null);
+			}
+			throw new IOException("Could not decode source image as JP2/JPEG");
+		} catch (Exception e) {
+			logger.error("convertJP2ToWSQ::Failed to get wsq image", e);
+		}
+		throw new BiometricUtilException(BiometricUtilErrorCode.CONVERT_EXCEPTION.getErrorCode(),
+				BiometricUtilErrorCode.CONVERT_EXCEPTION.getErrorMessage());
+	}
+
+	/**
+	 * Converts a BufferedImage to <strong>lossy</strong> WSQ bytes using the
+	 * default FBI bitrate (0.75).
+	 *
+	 * @param image the image to convert
+	 * @return the WSQ byte array
+	 */
+	public static byte[] convertBufferedImageToWSQ(BufferedImage image) {
+		return convertBufferedImageToWSQ(image, WsqEncoder.DEFAULT_BIT_RATE, false);
+	}
+
+	/**
+	 * Converts a BufferedImage to <strong>lossy</strong> 8-bit grayscale WSQ
+	 * bytes at {@code bitRate} bits per pixel.
+	 *
+	 * @param image   the image to convert
+	 * @param bitRate target WSQ bitrate (typical fingerprint value is 0.75)
+	 * @return the WSQ byte array
+	 * @throws BiometricUtilException if an error occurs during the conversion
+	 *                                process
+	 */
+	public static byte[] convertBufferedImageToWSQ(BufferedImage image, float bitRate) {
+		return convertBufferedImageToWSQ(image, bitRate, false);
+	}
+
+	/**
+	 * Converts a BufferedImage to 8-bit lossless WSQ that round-trips to the
+	 * same pixels.
+	 *
+	 * @param image the image to convert
+	 * @return lossless WSQ bytes
+	 */
+	public static byte[] convertBufferedImageToWSQLossless(BufferedImage image) {
+		return convertBufferedImageToWSQ(image, WsqEncoder.DEFAULT_BIT_RATE, true);
+	}
+
+	/**
+	 * Converts a BufferedImage to 8-bit grayscale WSQ bytes.
+	 *
+	 * @param image    the image to convert
+	 * @param bitRate  used when {@code lossless} is false
+	 * @param lossless when true, 8-bit lossless WSQ; when false, lossy at
+	 *                 {@code bitRate}
+	 * @return the WSQ byte array
+	 * @throws BiometricUtilException if an error occurs during the conversion
+	 *                                process
+	 */
+	public static byte[] convertBufferedImageToWSQ(BufferedImage image, float bitRate, boolean lossless) {
+		try {
+			if (image == null) {
+				throw new IllegalArgumentException("image is null");
+			}
+			BufferedImage gray = toByteGray(image);
+			int width = gray.getWidth();
+			int height = gray.getHeight();
+			byte[] pixels = new byte[width * height];
+			gray.getRaster().getDataElements(0, 0, width, height, pixels);
+			return lossless ? WsqEncoder.encodeLossless(pixels, width, height, 500, null)
+					: WsqEncoder.encode(pixels, width, height, 500, bitRate, null);
+		} catch (Exception e) {
+			logger.error("convertBufferedImageToWSQ::Failed to get wsq image", e);
+		}
+		throw new BiometricUtilException(BiometricUtilErrorCode.CONVERT_EXCEPTION.getErrorCode(),
+				BiometricUtilErrorCode.CONVERT_EXCEPTION.getErrorMessage());
+	}
+
+	private static BufferedImage toByteGray(BufferedImage source) {
+		if (source.getType() == BufferedImage.TYPE_BYTE_GRAY && source.getRaster().getDataBuffer() instanceof DataBufferByte) {
+			return source;
+		}
+		BufferedImage gray = new BufferedImage(source.getWidth(), source.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
+		Graphics g = gray.getGraphics();
+		g.drawImage(source, 0, 0, null);
+		g.dispose();
+		return gray;
 	}
 
 	/**
