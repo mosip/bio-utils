@@ -342,6 +342,7 @@ After `run_convert_finger_JP2000_WSQ`, wrap the WSQ as AUTH ISO:
 run_encoder_finger_jp2000_wsq_auth.bat
 ```
 
+
 ## Jp2000DecodeApplication / ImageRotateApplication
 
 ```text
