@@ -1,5 +1,5 @@
 .idea
-*/target/
+**/target/
 /.metadata/
 */.classpath
 */.project

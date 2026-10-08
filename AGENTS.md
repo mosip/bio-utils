@@ -29,3 +29,14 @@ rules
 ├─ ban: kernel-bom · kernel-logger-logback (use kernel-core)
 └─ jacoco ≥85%
 ```
+
+```
+agent
+├─ map = this file + nearest module AGENTS.md · never restatedump
+├─ grep|glob → Read ≤80 lines · no crawl · no package dump
+├─ edit = smallest diff · local style
+├─ talk = answer first · trees > prose · no recap · no tool-narration
+├─ mvn -pl <mod> -am "-Dgpg.skip=true"
+├─ skip = extra md/comments/commit · kernel-bom · Jackson3 · Boot-repack libs
+└─ subagent = ≤20-line tree · no transcript
+```

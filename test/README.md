@@ -85,6 +85,9 @@ run_convert_finger_JP2000_JPEG.bat
 run_convert_finger_JP2000_PNG.bat
 run_convert_finger_WSQ_JPEG.bat
 run_convert_finger_WSQ_PNG.bat
+run_convert_finger_JP2000_WSQ.bat
+run_convert_finger_JP2000_ISO_WSQ.bat
+run_encoder_finger_jp2000_wsq_auth.bat
 
 REM NIST / JP2000 / rotate
 run_nist_file_reader.bat
@@ -168,6 +171,7 @@ Prefer the `.bat` / `.sh` runners above. Manual `java -cp` examples below use Un
 | ----------- | ------- |
 | `BioUtilApplication` | Decode ISO → image or encode image → ISO (Finger / Iris / Face) |
 | `BioUtilConvertApplication` | Convert image codec inside ISO (JP2000/WSQ → JPEG/PNG) |
+| `Jp2ToWsqApplication` | Convert finger JP2000 (raw or ISO payload) → WSQ image; decode with jnbis |
 | `BioAuthDecoderValueCreaterApplication` | Decode auth biometric payload (Salt, AAD, encoded data) |
 | `SampleNistFileReader` | Parse NIST ITL XML sample files |
 | `NistDataQualityAnalyser` | NIST quality analysis (HTTP BQAT) → CSV |
@@ -310,6 +314,32 @@ java -cp target/bioutils-<version>.jar:target/lib/* io.mosip.biometrics.util.tes
 "bqat.content.type=application/json"
 "bqat.content.charset=utf-8"
 "bqat.json.results=results"
+```
+
+## Jp2ToWsqApplication
+
+Converts a finger JP2000 image to both **lossy** WSQ (`CommonUtil.convertJP2ToWSQ`, FBI 0.75 bpp) and **8-bit lossless** WSQ (`CommonUtil.convertJP2ToWSQLossless`). Writes `*.wsq` and `*.lossless.wsq` next to the source, and round-trips both with jnbis.
+
+```text
+java -cp target/bioutils-<version>.jar:target/lib/* io.mosip.biometrics.util.test.Jp2ToWsqApplication
+"io.mosip.biometrics.util.image.type.jp2000=0"
+"mosip.mock.sbi.biometric.type.finger.folder.path=/BiometricInfo/Finger/"
+"mosip.mock.sbi.biometric.type.file.image=info_left_index_auth.jp2"
+```
+
+ISO payload (extracts JP2000 from `info_left_index_auth_jp2000.iso`):
+
+```text
+java -cp target/bioutils-<version>.jar:target/lib/* io.mosip.biometrics.util.test.Jp2ToWsqApplication
+"io.mosip.biometrics.util.image.type.jp2000=0"
+"mosip.mock.sbi.biometric.type.finger.folder.path=/BiometricInfo/Finger/"
+"mosip.mock.sbi.biometric.type.file.iso=info_left_index_auth_jp2000.iso"
+```
+
+After `run_convert_finger_JP2000_WSQ`, wrap the WSQ as AUTH ISO:
+
+```bat
+run_encoder_finger_jp2000_wsq_auth.bat
 ```
 
 ## Jp2000DecodeApplication / ImageRotateApplication

@@ -17,7 +17,7 @@ Maven coordinates: `io.mosip.biometric.util:biometrics-util`
 Supporting libraries:
 
 - JPEG2000 — `jai-imageio-jpeg2000`
-- WSQ — `jnbis`
+- WSQ decode — `jnbis`; WSQ encode — NIST NBIS port (`io.mosip.biometrics.util.nist.wsq.encoder`, MPL 2.0)
 - Image ops — `org.openpnp:opencv`
 - NIST ITL 1-2011 XML — parser under `nist/parser/v2011/`
 
@@ -27,7 +27,7 @@ JPEG2000 payloads are typically converted to JPEG for interoperability.
 
 - Encode image → ISO biometric binary
 - Decode ISO binary → image bytes or `BufferedImage`
-- Convert image codec inside an ISO container (JP2000/WSQ → JPEG/PNG) via `CommonUtil`
+- Convert image codec via `CommonUtil` (JP2000/WSQ → JPEG/PNG, JP2000/`BufferedImage` → WSQ)
 - Header / standards validation helpers (`ISOStandardsValidator`)
 
 ## API surface
@@ -76,6 +76,16 @@ convertRequestDto.setCompressionRatio(95);
 
 byte[] imageBytes = FaceDecoder.convertFaceISOToImageBytes(convertRequestDto);
 BufferedImage image = FaceDecoder.convertFaceISOToBufferedImage(convertRequestDto);
+```
+
+### JP2000 / grayscale → WSQ
+
+```java
+byte[] lossy = CommonUtil.convertJP2ToWSQ(jp2Bytes); // FBI bitrate 0.75 (lossy)
+byte[] lossy2 = CommonUtil.convertBufferedImageToWSQ(image, 0.75f);
+byte[] lossless = CommonUtil.convertJP2ToWSQLossless(jp2Bytes); // 8-bit lossless WSQ
+byte[] lossless2 = CommonUtil.convertBufferedImageToWSQLossless(image);
+BufferedImage roundTrip = CommonUtil.convertWSQToBufferedImage(lossy);
 ```
 
 ### Convert ISO image type (Base64URL)
