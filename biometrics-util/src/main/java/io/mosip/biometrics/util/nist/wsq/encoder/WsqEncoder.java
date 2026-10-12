@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
 public final class WsqEncoder {
 
 	/**
-	 * FBI-typical fingerprint WSQ bitrate in bits per pixel (0.75, lossy). Passed
+	 * Default fingerprint WSQ bitrate in bits per pixel (1.5, lossy). Passed
 	 * to {@link #encode(byte[], int, int, int, float, String)} when the caller
 	 * does not specify a rate.
 	 */
@@ -27,7 +27,7 @@ public final class WsqEncoder {
 
 	/**
 	 * Encodes packed 8-bit grayscale pixels to a <strong>lossy</strong> WSQ
-	 * bitstream at the FBI fingerprint bitrate ({@link #DEFAULT_BIT_RATE}).
+	 * bitstream at the default bitrate ({@link #DEFAULT_BIT_RATE}).
 	 *
 	 * @param gray   packed 8-bit pixels
 	 * @param width  image width in pixels
@@ -76,10 +76,10 @@ public final class WsqEncoder {
 	}
 
 	/**
-	 * Encodes packed 8-bit grayscale pixels to an 8-bit lossless WSQ bitstream.
-	 * Every live subband is packed into the Huffman 16-bit extra-bit range so
-	 * reconstructed pixels match the source. The container is still WSQ; this
-	 * is not a bit-identical wavelet dump.
+	 * Encodes packed 8-bit grayscale pixels without a bitrate cap. Every live
+	 * subband is packed into the Huffman 16-bit extra-bit range so reconstructed
+	 * pixels stay sharp. The file is larger than default 1.5 bpp. Still WSQ, not
+	 * a bit-identical wavelet dump.
 	 *
 	 * @param gray    packed 8-bit pixels
 	 * @param width   image width in pixels
@@ -93,15 +93,15 @@ public final class WsqEncoder {
 	}
 
 	/**
-	 * Shared encode pipeline for lossy (FBI bitrate) and 8-bit lossless modes.
+	 * Shared encode pipeline for lossy (FBI bitrate) and lossless (fine bins).
 	 *
-	 * @param gray      packed 8-bit pixels
-	 * @param width     image width
-	 * @param height    image height
-	 * @param ppi       scan resolution
-	 * @param bitRate   used when {@code lossless} is false
-	 * @param comment   optional COM text
-	 * @param lossless  when true, per-subband bins sized for Huffman extras
+	 * @param gray     packed 8-bit pixels
+	 * @param width    image width
+	 * @param height   image height
+	 * @param ppi      scan resolution
+	 * @param bitRate  used when {@code lossless} is false
+	 * @param comment  optional COM text
+	 * @param lossless when true, keep all live subbands (no bitrate size cap)
 	 * @return WSQ bytes
 	 */
 	private static byte[] encodeInternal(byte[] gray, int width, int height, int ppi, float bitRate, String comment,
@@ -167,10 +167,10 @@ public final class WsqEncoder {
 	/**
 	 * Builds the required NIST comment listing geometry, PPI, and bitrate.
 	 *
-	 * @param width    pixel width
-	 * @param height   pixel height
-	 * @param ppi      scan resolution
-	 * @param bitRate  bits per pixel used for quantization (ignored when lossless)
+	 * @param width   pixel width
+	 * @param height  pixel height
+	 * @param ppi     scan resolution
+	 * @param bitRate  bits per pixel (ignored when lossless)
 	 * @param lossless {@code LOSSY 0} and bitrate label {@code lossless}
 	 * @return ASCII NIST_COM payload
 	 */

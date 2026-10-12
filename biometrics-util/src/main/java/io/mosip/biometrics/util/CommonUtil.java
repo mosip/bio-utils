@@ -208,7 +208,7 @@ public class CommonUtil {
 
 	/**
 	 * Converts a JP2000 (or other ImageIO-readable) byte array to <strong>lossy</strong>
-	 * WSQ bytes using the default FBI bitrate (0.75).
+	 * WSQ bytes using the default bitrate (1.5).
 	 *
 	 * @param jp2000Bytes the JP2000 byte array
 	 * @return the WSQ byte array
@@ -224,7 +224,7 @@ public class CommonUtil {
 	 * WSQ bytes at {@code bitRate} bits per pixel.
 	 *
 	 * @param jp2000Bytes the JP2000 byte array
-	 * @param bitRate     target WSQ bitrate (typical fingerprint value is 0.75)
+	 * @param bitRate     target WSQ bitrate (typical fingerprint value is 1.5)
 	 * @return the WSQ byte array
 	 * @throws BiometricUtilException if an error occurs during the conversion
 	 *                                process
@@ -235,7 +235,7 @@ public class CommonUtil {
 
 	/**
 	 * Converts a JP2000 (or other ImageIO-readable) byte array to 8-bit
-	 * lossless WSQ that round-trips to the same pixels.
+	 * lossless WSQ (no bitrate size cap; larger and sharper than default 1.5).
 	 *
 	 * @param jp2000Bytes the JP2000 byte array
 	 * @return lossless WSQ bytes
@@ -251,8 +251,8 @@ public class CommonUtil {
 	 *
 	 * @param jp2000Bytes the JP2000 byte array
 	 * @param bitRate     used when {@code lossless} is false
-	 * @param lossless    when true, 8-bit lossless WSQ; when false, lossy at
-	 *                    {@code bitRate}
+	 * @param lossless    when true, 8-bit lossless (no size cap); when false,
+	 *                    lossy at {@code bitRate}
 	 * @return the WSQ byte array
 	 * @throws BiometricUtilException if an error occurs during the conversion
 	 *                                process
@@ -282,7 +282,7 @@ public class CommonUtil {
 
 	/**
 	 * Converts a BufferedImage to <strong>lossy</strong> WSQ bytes using the
-	 * default FBI bitrate (0.75).
+	 * default bitrate (1.5).
 	 *
 	 * @param image the image to convert
 	 * @return the WSQ byte array
@@ -296,7 +296,7 @@ public class CommonUtil {
 	 * bytes at {@code bitRate} bits per pixel.
 	 *
 	 * @param image   the image to convert
-	 * @param bitRate target WSQ bitrate (typical fingerprint value is 0.75)
+	 * @param bitRate target WSQ bitrate (typical fingerprint value is 1.5)
 	 * @return the WSQ byte array
 	 * @throws BiometricUtilException if an error occurs during the conversion
 	 *                                process
@@ -306,8 +306,7 @@ public class CommonUtil {
 	}
 
 	/**
-	 * Converts a BufferedImage to 8-bit lossless WSQ that round-trips to the
-	 * same pixels.
+	 * Converts a BufferedImage to 8-bit lossless WSQ (no bitrate size cap).
 	 *
 	 * @param image the image to convert
 	 * @return lossless WSQ bytes
@@ -321,8 +320,8 @@ public class CommonUtil {
 	 *
 	 * @param image    the image to convert
 	 * @param bitRate  used when {@code lossless} is false
-	 * @param lossless when true, 8-bit lossless WSQ; when false, lossy at
-	 *                 {@code bitRate}
+	 * @param lossless when true, 8-bit lossless (no size cap); when false, lossy
+	 *                 at {@code bitRate}
 	 * @return the WSQ byte array
 	 * @throws BiometricUtilException if an error occurs during the conversion
 	 *                                process

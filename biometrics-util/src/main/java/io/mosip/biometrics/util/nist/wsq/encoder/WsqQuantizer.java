@@ -342,7 +342,7 @@ final class WsqQuantizer {
 
 	/**
 	 * FBI proportionality constant {@code q}. The exponent is clamped so a high
-	 * lossless bitrate cannot overflow {@code double} and flatten the image.
+	 * bitrate cannot overflow {@code double} and flatten the image.
 	 *
 	 * @param r target bitrate
 	 * @param s weight sum

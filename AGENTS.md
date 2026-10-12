@@ -38,5 +38,6 @@ agent
 ├─ talk = answer first · trees > prose · no recap · no tool-narration
 ├─ mvn -pl <mod> -am "-Dgpg.skip=true"
 ├─ skip = extra md/comments/commit · kernel-bom · Jackson3 · Boot-repack libs
+│         · .cursor/rules · .cursorignore · nested */AGENTS.md
 └─ subagent = ≤20-line tree · no transcript
 ```

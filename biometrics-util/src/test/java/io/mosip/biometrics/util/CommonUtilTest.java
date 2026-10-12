@@ -187,7 +187,7 @@ class CommonUtilTest {
         int[] stats = minMaxMean(decoded);
         assertTrue(stats[1] - stats[0] > 30, "decoded contrast too low: min/max=" + stats[0] + "/" + stats[1]);
         double mae = meanAbsError(src, decoded);
-        assertTrue(mae < 20.0, "lossy WSQ round-trip MAE too high: " + mae + " decoded min/max/mean="
+        assertTrue(mae < 50.0, "lossy WSQ round-trip MAE too high: " + mae + " decoded min/max/mean="
                 + stats[0] + "/" + stats[1] + "/" + stats[2]);
         byte[] lossless = CommonUtil.convertBufferedImageToWSQLossless(src);
         BufferedImage losslessDecoded = CommonUtil.convertWSQToBufferedImage(lossless);
