@@ -318,7 +318,7 @@ java -cp target/bioutils-<version>.jar:target/lib/* io.mosip.biometrics.util.tes
 
 ## Jp2ToWsqApplication
 
-Converts a finger JP2000 image to both **lossy** WSQ (`CommonUtil.convertJP2ToWSQ`, FBI 0.75 bpp) and **8-bit lossless** WSQ (`CommonUtil.convertJP2ToWSQLossless`). Writes `*.wsq` and `*.lossless.wsq` next to the source, and round-trips both with jnbis.
+Converts a finger JP2000 image to both **lossy** WSQ (`CommonUtil.convertJP2ToWSQ`, default 1.5 bpp) and **8-bit lossless** WSQ (`CommonUtil.convertJP2ToWSQLossless`, no bitrate size cap). Writes `*.wsq` and `*.lossless.wsq` next to the source, and round-trips both with jnbis.
 
 ```text
 java -cp target/bioutils-<version>.jar:target/lib/* io.mosip.biometrics.util.test.Jp2ToWsqApplication

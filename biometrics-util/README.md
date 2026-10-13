@@ -81,9 +81,9 @@ BufferedImage image = FaceDecoder.convertFaceISOToBufferedImage(convertRequestDt
 ### JP2000 / grayscale → WSQ
 
 ```java
-byte[] lossy = CommonUtil.convertJP2ToWSQ(jp2Bytes); // FBI bitrate 0.75 (lossy)
-byte[] lossy2 = CommonUtil.convertBufferedImageToWSQ(image, 0.75f);
-byte[] lossless = CommonUtil.convertJP2ToWSQLossless(jp2Bytes); // 8-bit lossless WSQ
+byte[] lossy = CommonUtil.convertJP2ToWSQ(jp2Bytes); // default bitrate 1.5 (lossy)
+byte[] lossy2 = CommonUtil.convertBufferedImageToWSQ(image, 1.5f);
+byte[] lossless = CommonUtil.convertJP2ToWSQLossless(jp2Bytes); // 8-bit lossless (larger file)
 byte[] lossless2 = CommonUtil.convertBufferedImageToWSQLossless(image);
 BufferedImage roundTrip = CommonUtil.convertWSQToBufferedImage(lossy);
 ```

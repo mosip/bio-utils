@@ -65,12 +65,11 @@ final class WsqConstants {
 	/** Longest zero-run encoded with a dedicated Huffman symbol. */
 	static final int MAX_HUFFZRUN = 100;
 
-	/** FBI-typical fingerprint bitrate in bits per pixel (lossy). */
-	static final float DEFAULT_BIT_RATE = 0.75f;
+	/** Default fingerprint bitrate in bits per pixel (lossy). */
+	static final float DEFAULT_BIT_RATE = 1.5f;
 	/**
-	 * Target peak {@code |sip|} for lossless quantization. Huffman extra bits
-	 * are 16-bit, so this stays well inside {@code 65535} and still gives
-	 * sub-gray-level wavelet bins on 8-bit fingerprints.
+	 * Target peak {@code |sip|} for lossless packing. Huffman extra bits are
+	 * 16-bit. Does not target a bitrate, so the file is not size-reduced.
 	 */
 	static final float LOSSLESS_SIP_RANGE = 16384.0f;
 	/** Default scan resolution written into the NIST comment (pixels per inch). */

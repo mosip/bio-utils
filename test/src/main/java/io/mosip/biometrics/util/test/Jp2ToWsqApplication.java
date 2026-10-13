@@ -15,8 +15,8 @@ import io.mosip.biometrics.util.finger.FingerDecoder;
 
 /**
  * Sample CLI: convert a finger JP2000 image (or JP2000 payload inside a finger
- * ISO) to both lossy WSQ ({@link CommonUtil#convertJP2ToWSQ(byte[])}) and 8-bit
- * lossless WSQ ({@link CommonUtil#convertJP2ToWSQLossless(byte[])}). Writes
+ * ISO) to both lossy WSQ ({@link CommonUtil#convertJP2ToWSQ(byte[])}, 1.5 bpp)
+ * and 8-bit lossless WSQ ({@link CommonUtil#convertJP2ToWSQLossless(byte[])}). Writes
  * {@code .wsq} and {@code .lossless.wsq}, and verifies both with jnbis.
  */
 public class Jp2ToWsqApplication {
